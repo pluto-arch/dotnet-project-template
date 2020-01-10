@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>F:\哈哈哈哈哈\GithubCoreDemos\demo\content\src\Pluto.netcoreTemplate.Application\Pluto.netcoreTemplate.Application.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.0" />
+    <PackageReference Include="Serilog" Version="2.9.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Pluto.netcoreTemplate.Domain\Pluto.netcoreTemplate.Domain.csproj" />
+    <ProjectReference Include="..\Pluto.netcoreTemplate.Infrastructure\Pluto.netcoreTemplate.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

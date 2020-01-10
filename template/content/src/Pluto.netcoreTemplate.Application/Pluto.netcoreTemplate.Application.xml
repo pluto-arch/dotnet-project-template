@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Pluto.netcoreTemplate.Application</name>
+    </assembly>
+    <members>
+        <member name="T:Pluto.netcoreTemplate.Application.Behaviors.TransactionBehaviour`2">
+            <summary>
+            涉及事务的所有操作
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.Application.CommandHandlers.IdentityCommand.IdentifiedCommandHandler`2.Handle(Pluto.netcoreTemplate.Application.CommandHandlers.IdentityCommand.IdentifiedCommand{`0,`1},System.Threading.CancellationToken)">
+            <summary>
+            这个方法处理命令。它只是确保不存在具有相同ID的其他请求，如果是这种情况，则只对原始内部命令进行排队。
+            </summary>
+            <param name="request"></param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.Application.CommandHandlers.IdentityCommand.IdentifiedCommandHandler`2.CreateResultForDuplicateRequest">
+            <summary>
+            如果前一个command已经处理了，直接返回
+            防止重复command
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Pluto.netcoreTemplate.Application.Commands.CreateUserCommand">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.Application.Commands.CreateUserCommand.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.Application.Commands.CreateUserCommand.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="userName"></param>
+            <param name="tel"></param>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.Application.Queries.UserQueries.UserQuery.GetByIdAsync(System.Int32)">
+            <summary>
+            获取一个用户
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.Application.Queries.UserQueries.UserQuery.GetListAsync(System.Int32,System.Int32)">
+            <summary>
+            获取列表
+            </summary>
+            <param name="index">页码</param>
+            <param name="size">页大小</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

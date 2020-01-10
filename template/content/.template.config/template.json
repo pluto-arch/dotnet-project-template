@@ -1,0 +1,35 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "zhangyulong",
+  "classifications": [ "api", "project" ],
+  "identity": "pluto.netcoreTemplate.Application",
+  "name": "pluto.netcoreTemplate.Application",
+  "shortName": "pluto",
+  "preferNameDirectory": true,
+  "sourceName":"Pluto.netcoreTemplate",
+  "symbols": {
+	"solution": {
+		"type": "parameter",
+		"fileRename":"template",
+		"isRequired": true,
+		"description": "解决方案名成[solution]",
+		"defaultValue": "template",
+		"replaces": "template"
+	},
+    "namespace": {
+      "type": "parameter",
+      "isRequired": true,
+      "description": "命名空间[namespace]",
+      "defaultValue": "Pluto.netcoreTemplate",
+      "replaces": "Pluto.netcoreTemplate"
+    },
+    "dbcontext": {
+      "type": "parameter",
+	  "fileRename":"PlutonetcoreTemplate",
+      "isRequired": true,
+      "description": "数据库上下文[dbcontext]",
+      "defaultValue": "PlutonetcoreTemplate",
+      "replaces": "PlutonetcoreTemplate"
+    }
+  }
+}

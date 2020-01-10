@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Pluto.netcoreTemplate.API</name>
+    </assembly>
+    <members>
+        <member name="T:Pluto.netcoreTemplate.API.Controllers.DefaultController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.DefaultController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{Pluto.netcoreTemplate.API.Controllers.DefaultController},Pluto.netcoreTemplate.Infrastructure.Providers.EventIdProvider,Pluto.netcoreTemplate.Application.Queries.UserQueries.UserQuery)">
+            <summary>
+            
+            </summary>
+            <param name="mediator"></param>
+            <param name="logger"></param>
+            <param name="eventIdProvider"></param>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.DefaultController.CreateUser(Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest)">
+            <summary>
+            创建用户
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.DefaultController.GetOne(System.Int32)">
+            <summary>
+            获取一个
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.DefaultController.GetList(System.Int32,System.Int32)">
+            <summary>
+            获取列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest">
+            <summary>
+            创建用户http request
+            </summary>
+        </member>
+        <member name="P:Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest.UserName">
+            <summary>
+            用户名称
+            </summary>
+        </member>
+        <member name="P:Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest.Tel">
+            <summary>
+            联系方式
+            </summary>
+        </member>
+    </members>
+</doc>

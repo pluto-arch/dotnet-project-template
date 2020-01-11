@@ -26,6 +26,8 @@ dotnet new
 
 尝试示例：
 ```
-dotnet new pluto -n demo -na demo -s deno -d deno
+dotnet new pluto -n demo -na demo -s demo -d demo
+
+# 参数：-n dotnet命令自带，-na 命名空间名称  -s解决方案名称  -d efcore dbcontext 名称
 
 ```

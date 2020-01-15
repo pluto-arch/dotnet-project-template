@@ -1,9 +1,12 @@
-﻿using System.Reflection;
-using Autofac;
+﻿using Autofac;
+
 using MediatR;
+
 using Pluto.netcoreTemplate.Application.Behaviors;
 using Pluto.netcoreTemplate.Application.Commands;
 using Pluto.netcoreTemplate.Application.DomainEventHandlers.Users;
+
+using System.Reflection;
 
 namespace Pluto.netcoreTemplate.API.Modules
 {

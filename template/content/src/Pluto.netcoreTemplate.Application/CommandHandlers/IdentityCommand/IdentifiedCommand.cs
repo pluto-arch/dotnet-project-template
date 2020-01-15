@@ -1,9 +1,10 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
+
+using System;
 
 namespace Pluto.netcoreTemplate.Application.CommandHandlers.IdentityCommand
 {
-    public class IdentifiedCommand<T, R> : IRequest<R> 
+    public class IdentifiedCommand<T, R> : IRequest<R>
         where T : IRequest<R>
     {
         public T Command { get; }

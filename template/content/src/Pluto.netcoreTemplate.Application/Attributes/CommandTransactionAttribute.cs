@@ -3,8 +3,8 @@
 namespace Pluto.netcoreTemplate.Application.Attributes
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class CommandTransactionAttribute:Attribute
+    public class CommandTransactionAttribute : Attribute
     {
-        
+
     }
 }

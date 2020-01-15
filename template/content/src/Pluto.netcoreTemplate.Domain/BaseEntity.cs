@@ -1,7 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using MediatR;
+﻿using MediatR;
+
 using Pluto.netcoreTemplate.Domain.SeedWork;
+
+using System;
+using System.Collections.Generic;
 
 namespace Pluto.netcoreTemplate.Domain
 {
@@ -31,7 +33,7 @@ namespace Pluto.netcoreTemplate.Domain
     {
         public virtual TKey Id { get; set; }
 
-        
+
         public override int GetHashCode()
         {
             return this.Id.GetHashCode() ^ 31;

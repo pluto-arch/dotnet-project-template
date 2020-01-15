@@ -1,20 +1,17 @@
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using Autofac.Extensions.DependencyInjection;
+
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Options;
-using Pluto.netcoreTemplate.Infrastructure;
+
 using Serilog;
 using Serilog.Events;
+
+using System;
+using System.IO;
+using System.Net;
 
 namespace Pluto.netcoreTemplate.API
 {
@@ -96,7 +93,7 @@ namespace Pluto.netcoreTemplate.API
         }
 
 
-        private static int  GetDefinedPorts(IConfiguration config)
+        private static int GetDefinedPorts(IConfiguration config)
         {
             var port = config.GetValue("PORT", 5000);
             return port;

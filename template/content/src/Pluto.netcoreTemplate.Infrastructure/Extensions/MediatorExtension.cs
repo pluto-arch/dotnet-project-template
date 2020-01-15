@@ -1,7 +1,9 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
+
 using Pluto.netcoreTemplate.Domain;
+
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Pluto.netcoreTemplate.Infrastructure.Extensions
 {

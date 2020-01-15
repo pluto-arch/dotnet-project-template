@@ -1,9 +1,12 @@
 ﻿using MediatR;
+
+using Microsoft.Extensions.Logging;
+
 using Pluto.netcoreTemplate.Domain.Events.UserEvents;
+using Pluto.netcoreTemplate.Infrastructure.Providers;
+
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using Pluto.netcoreTemplate.Infrastructure.Providers;
 
 namespace Pluto.netcoreTemplate.Application.DomainEventHandlers.Users
 {
@@ -19,7 +22,7 @@ namespace Pluto.netcoreTemplate.Application.DomainEventHandlers.Users
 
         public Task Handle(EnableUserEvent notification, CancellationToken cancellationToken)
         {
-            _logger.LogInformation(_eventIdProvider.EventId,"event:{notificationType} 。{@notification}", notification.GetType().Name, notification);
+            _logger.LogInformation(_eventIdProvider.EventId, "event:{notificationType} 。{@notification}", notification.GetType().Name, notification);
             return Task.CompletedTask;
         }
     }

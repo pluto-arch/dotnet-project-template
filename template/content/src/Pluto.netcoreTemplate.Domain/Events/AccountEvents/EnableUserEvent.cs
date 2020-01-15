@@ -2,7 +2,7 @@
 
 namespace Pluto.netcoreTemplate.Domain.Events.UserEvents
 {
-    public class EnableUserEvent: INotification
+    public class EnableUserEvent : INotification
     {
 
         public string Message { get; set; }

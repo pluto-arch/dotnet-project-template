@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Pluto.netcoreTemplate.Infrastructure;
 
 namespace Pluto.netcoreTemplate.API.Migrations
 {
     [DbContext(typeof(PlutonetcoreTemplateDbContext))]
-    partial class PlutonetcoreTemplateDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200114065657_initdb")]
+    partial class initdb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,9 +70,6 @@ namespace Pluto.netcoreTemplate.API.Migrations
 
                     b.Property<bool>("PhoneConfirmed")
                         .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UserName")
                         .IsRequired()

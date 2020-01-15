@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
+
 using Pluto.netcoreTemplate.Infrastructure.Providers;
+
 using Serilog.Context;
+
+using System.Threading.Tasks;
 
 namespace Pluto.netcoreTemplate.API.Middlewares
 {

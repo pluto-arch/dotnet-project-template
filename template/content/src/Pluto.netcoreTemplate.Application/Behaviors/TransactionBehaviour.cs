@@ -1,15 +1,17 @@
-﻿using System;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using Pluto.netcoreTemplate.Application.Attributes;
 using Pluto.netcoreTemplate.Infrastructure;
 using Pluto.netcoreTemplate.Infrastructure.Extensions;
 using Pluto.netcoreTemplate.Infrastructure.Providers;
-using Serilog.Context;
+
+using System;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Pluto.netcoreTemplate.Application.Behaviors
 {
@@ -72,7 +74,7 @@ namespace Pluto.netcoreTemplate.Application.Behaviors
             }
             catch (Exception ex)
             {
-                _logger.LogError( _eventIdProvider.EventId,ex, "为命令：{CommandName} ({@Command})。进行事务处理异常", typeName, request);
+                _logger.LogError(_eventIdProvider.EventId, ex, "为命令：{CommandName} ({@Command})。进行事务处理异常", typeName, request);
                 throw;
             }
         }

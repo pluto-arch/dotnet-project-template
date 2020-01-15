@@ -1,8 +1,11 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using MediatR;
+﻿using MediatR;
+
 using Microsoft.Extensions.Logging;
+
 using Pluto.netcoreTemplate.Infrastructure.Providers;
+
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace Pluto.netcoreTemplate.Application.Behaviors
 {
@@ -19,7 +22,7 @@ namespace Pluto.netcoreTemplate.Application.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            _logger.LogInformation(_eventIdProvider.EventId,"-----处理命令： {CommandName} ({@Command})", request.GetType().Name, request);
+            _logger.LogInformation(_eventIdProvider.EventId, "-----处理命令： {CommandName} ({@Command})", request.GetType().Name, request);
             var response = await next();
             _logger.LogInformation(_eventIdProvider.EventId, "-----命令：{CommandName} 处理完成 - response: {@Response}", request.GetType().Name, response);
             return response;

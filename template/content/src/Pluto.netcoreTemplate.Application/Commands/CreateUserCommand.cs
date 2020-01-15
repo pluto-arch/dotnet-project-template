@@ -1,7 +1,8 @@
-﻿using System.Runtime.Serialization;
-using MediatR;
+﻿using MediatR;
+
 using Pluto.netcoreTemplate.Application.Attributes;
-using Pluto.netcoreTemplate.Domain.Entities.UserAggregate;
+
+using System.Runtime.Serialization;
 
 namespace Pluto.netcoreTemplate.Application.Commands
 {
@@ -31,12 +32,12 @@ namespace Pluto.netcoreTemplate.Application.Commands
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="tel"></param>
-        public CreateUserCommand(string userName,string tel):this()
+        public CreateUserCommand(string userName, string tel) : this()
         {
             UserName = userName;
             Tel = tel;
 
-            
+
         }
 
     }

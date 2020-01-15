@@ -1,16 +1,17 @@
-﻿using System;
+﻿using MediatR;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
+
+using Pluto.netcoreTemplate.Domain.Entities.Account;
+using Pluto.netcoreTemplate.Domain.SeedWork;
+using Pluto.netcoreTemplate.Infrastructure.EntityTypeConfigurations;
+using Pluto.netcoreTemplate.Infrastructure.Extensions;
+
+using System;
 using System.Data;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.EntityFrameworkCore.Storage;
-using Pluto.netcoreTemplate.Domain.Entities.UserAggregate;
-using Pluto.netcoreTemplate.Domain.Events.UserEvents;
-using Pluto.netcoreTemplate.Domain.SeedWork;
-using Pluto.netcoreTemplate.Infrastructure.EntityConfigurations;
-using Pluto.netcoreTemplate.Infrastructure.Extensions;
 
 namespace Pluto.netcoreTemplate.Infrastructure
 {
@@ -34,7 +35,8 @@ namespace Pluto.netcoreTemplate.Infrastructure
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new UserEntityTypeConfig());
-            modelBuilder.ApplyConfiguration(new UserBookItemTypeConfig());
+            modelBuilder.ApplyConfiguration(new RoleEntityTypeConfig());
+            modelBuilder.ApplyConfiguration(new UserRoleEntityTypeConfig());
         }
 
         public async Task<IDbContextTransaction> BeginTransactionAsync()
@@ -85,8 +87,11 @@ namespace Pluto.netcoreTemplate.Infrastructure
         }
 
 
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserBook> UserBooks { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
+        public DbSet<RoleEntity> Roles { get; set; }
+
+        public DbSet<UserRoleEntity> UserRoles { get; set; }
+
         public async Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default(CancellationToken))
         {
             // 根据实际业务确定领域事件的触发，

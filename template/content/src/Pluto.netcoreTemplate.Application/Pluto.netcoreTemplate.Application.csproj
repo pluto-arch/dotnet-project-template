@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Pluto.netcoreTemplate.Infrastructure\Pluto.netcoreTemplate.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Services\" />
+  </ItemGroup>
+
 </Project>

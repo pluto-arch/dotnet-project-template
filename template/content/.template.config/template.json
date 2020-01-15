@@ -12,7 +12,7 @@
 		"type": "parameter",
 		"fileRename":"template",
 		"isRequired": true,
-		"description": "解决方案名成[solution]",
+		"description": "解决方案名称[solution]",
 		"defaultValue": "template",
 		"replaces": "template"
 	},

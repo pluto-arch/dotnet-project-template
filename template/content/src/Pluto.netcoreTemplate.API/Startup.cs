@@ -23,6 +23,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
+using Pluto.netcoreTemplate.API.Filters;
 
 
 namespace Pluto.netcoreTemplate.API
@@ -42,12 +44,20 @@ namespace Pluto.netcoreTemplate.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers()
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add<ModelValidateFilter>();
+                })
                 .AddJsonOptions(options =>
                 {
                     options.JsonSerializerOptions.IgnoreNullValues = true;
                     options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 });
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = true;
+            });
+
 
             #region Identity
 
@@ -82,11 +92,6 @@ namespace Pluto.netcoreTemplate.API
                 #endregion
 
             });
-
-            //services.AddIdentity<object, object>(o =>
-            //{
-            //    o.ClaimsIdentity.SecurityStampClaimType
-            //})
 
             #endregion
 

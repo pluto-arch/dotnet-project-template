@@ -11,9 +11,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Pluto.netcoreTemplate.API.Models;
+using Pluto.netcoreTemplate.API.Models.Responses;
 
 namespace Pluto.netcoreTemplate.API.Controllers
 {
@@ -55,33 +58,33 @@ namespace Pluto.netcoreTemplate.API.Controllers
             var user = await _accountService.GetUserByEmailAsync(request.Email);
             if (user == null)
             {
-                return NotFound(new { IsError = false, Msg = "邮箱不存在" });
+                return NotFound(ApiResponse<AuthResponse>.Fail("邮箱不存在"));
             }
-
             var signResulrt= await _accountService.PasswordSignInAsync(user, request.Password);
             if (!signResulrt.Succeeded)
             {
-                return Ok(new {IsError = true, Msg = "登陆失败"});
+                return Ok(ApiResponse<AuthResponse>.Fail("登陆失败"));
             }
             var userRoles = await _accountService.GetUserRolesAsync(user.Id);
             var tokenHandler = new JwtSecurityTokenHandler();
+
             var key = Encoding.ASCII.GetBytes("demo security key");
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
                     new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName.ToString()),
+                    new Claim(ClaimTypes.Name, user.UserName),
+                    new Claim(ClaimTypes.Version, user.SecurityStamp),
                 }),
-                Expires = DateTime.UtcNow.AddDays(7),
+                Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
             };
-            var roleClaims = userRoles.Select(x => new Claim("Role", x.RoleName));
+            var roleClaims = userRoles.Select(x => new Claim(ClaimTypes.Role, x.RoleName));
             tokenDescriptor.Subject.AddClaims(roleClaims);
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-            var claimPrincipal = new ClaimsPrincipal(tokenDescriptor.Subject);
-            return Ok(new { IsError = false, Msg = "", Data = new { Token = tokenString } });
+            return Ok(ApiResponse<AuthResponse>.Success(new AuthResponse { Token= tokenString }));
         }
 
 

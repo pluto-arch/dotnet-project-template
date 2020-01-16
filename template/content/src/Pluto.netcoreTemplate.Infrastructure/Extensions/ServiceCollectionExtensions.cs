@@ -96,14 +96,6 @@ namespace Pluto.netcoreTemplate.Infrastructure.Extensions
             var userIdentity= userPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
             var securityStemp = userPrincipal.FindFirstValue("securityStemp");
             JwtSecurityToken accessToken = context.SecurityToken as JwtSecurityToken;
-            if (accessToken != null)
-            {
-                // todo 验证通过了 附加到http上下文
-                var identity = context.Result.Principal.Identities;
-                context.HttpContext.User.AddIdentities(identity);
-            }
-            
-            
 
             return Task.CompletedTask;
         }

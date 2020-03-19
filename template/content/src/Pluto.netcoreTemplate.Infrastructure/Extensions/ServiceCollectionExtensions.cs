@@ -52,7 +52,7 @@ namespace Pluto.netcoreTemplate.Infrastructure.Extensions
             #region Auth
             var secret = "demo security key";
             var key = Encoding.ASCII.GetBytes(secret);
-            // Authentication
+            // Authentication  认证  （你是谁）
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -76,7 +76,7 @@ namespace Pluto.netcoreTemplate.Infrastructure.Extensions
                 };
             });
 
-            // Authorization
+            // Authorization  （授权 你能干什么）
             services.AddAuthorization(auth =>
             {
                 // 可以添加各种策咯
@@ -93,10 +93,11 @@ namespace Pluto.netcoreTemplate.Infrastructure.Extensions
         private static Task OnValidateToken(TokenValidatedContext context)
         {
             ClaimsPrincipal userPrincipal = context.Principal;
-            var userIdentity= userPrincipal.FindFirstValue(ClaimTypes.NameIdentifier);
-            var securityStemp = userPrincipal.FindFirstValue("securityStemp");
+            var userIdentity= userPrincipal.FindFirstValue("id");
+            var securityStemp = userPrincipal.FindFirstValue("version"); // 用户信息变更后 这里做校验 令牌失效
+            //context.Fail("");
+            //context.Success();
             JwtSecurityToken accessToken = context.SecurityToken as JwtSecurityToken;
-
             return Task.CompletedTask;
         }
     }

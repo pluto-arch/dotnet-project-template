@@ -28,7 +28,7 @@ namespace Pluto.netcoreTemplate.API.Filters
                         builder.Append("|");
                     }
                 }
-                context.Result = new JsonResult(ApiResponse<object>.Fail(builder.ToString()));
+                context.Result = new JsonResult(ApiResponse.DefaultFail(builder.ToString()));
             }
         }
     }

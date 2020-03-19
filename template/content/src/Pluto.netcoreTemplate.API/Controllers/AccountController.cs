@@ -13,57 +13,58 @@ using System.Security.Claims;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Logging;
 using Pluto.netcoreTemplate.API.Models;
 using Pluto.netcoreTemplate.API.Models.Responses;
+using Pluto.netcoreTemplate.Application.Commands;
+using Pluto.netcoreTemplate.Infrastructure.Providers;
 
 namespace Pluto.netcoreTemplate.API.Controllers
 {
     /// <summary>
     /// account controller
     /// </summary>
-    [Route("api/[controller]")]
+    [Route("api/account")]
     [ApiController]
-    public class AccountController : ControllerBase
+    public class AccountController : ApiBaseController<AccountController>
     {
         private readonly AccountService _accountService;
-
 
         /// <summary>
         /// 
         /// </summary>
-        public AccountController(AccountService accountService)
+        /// <param name="mediator"></param>
+        /// <param name="logger"></param>
+        /// <param name="eventIdProvider"></param>
+        /// <param name="accountService"></param>
+        public AccountController(
+            IMediator mediator, 
+            ILogger<AccountController> logger, 
+            EventIdProvider eventIdProvider, AccountService accountService) : base(mediator, logger, eventIdProvider)
         {
             _accountService = accountService;
         }
-
-
-        [Authorize(Roles = "admin,cus")]
-        [HttpPost("Auth")]
-        public IActionResult Auth()
-        {
-            return Ok("11212");
-        }
-
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("sign-in")]
-        public async Task<IActionResult> SignIn([FromBody]LoginRequest request)
+        [HttpPost("token")]
+        public async Task<ApiResponse> TokenAsync([FromBody]LoginRequest request)
         {
             var user = await _accountService.GetUserByEmailAsync(request.Email);
             if (user == null)
             {
-                return NotFound(ApiResponse<AuthResponse>.Fail("邮箱不存在"));
+                return ApiResponse.DefaultFail("用户不存在");
             }
             var signResulrt= await _accountService.PasswordSignInAsync(user, request.Password);
             if (!signResulrt.Succeeded)
             {
-                return Ok(ApiResponse<AuthResponse>.Fail("登陆失败"));
+                return ApiResponse.DefaultFail("登陆失败");
             }
             var userRoles = await _accountService.GetUserRolesAsync(user.Id);
             var tokenHandler = new JwtSecurityTokenHandler();
@@ -73,9 +74,9 @@ namespace Pluto.netcoreTemplate.API.Controllers
             {
                 Subject = new ClaimsIdentity(new Claim[]
                 {
-                    new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                    new Claim(ClaimTypes.Name, user.UserName),
-                    new Claim(ClaimTypes.Version, user.SecurityStamp),
+                    new Claim("id", user.Id.ToString()),
+                    new Claim("username", user.UserName),
+                    new Claim("version", user.SecurityStamp)
                 }),
                 Expires = DateTime.Now.AddDays(7),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
@@ -84,20 +85,26 @@ namespace Pluto.netcoreTemplate.API.Controllers
             tokenDescriptor.Subject.AddClaims(roleClaims);
             var token = tokenHandler.CreateToken(tokenDescriptor);
             var tokenString = tokenHandler.WriteToken(token);
-            return Ok(ApiResponse<AuthResponse>.Success(new AuthResponse { Token= tokenString }));
+            return ApiResponse.Success(new {Token= tokenString,Expires= tokenDescriptor.Expires });
         }
 
 
         /// <summary>
-        /// 
+        /// 创建账户
         /// </summary>
+        /// <param name="request"></param>
         /// <returns></returns>
-        [HttpPost("sign-up")]
-        public async Task<IActionResult> SignUp()
+        [HttpPost]
+        public async Task<ApiResponse> PostAsync([FromBody]LoginRequest request)
         {
-            return Ok("");
+            var res = await _mediator.Send(new CreateUserCommand(request.Email, request.Password));
+            if (res)
+            {
+                var ress= ApiResponse.DefaultSuccess("创建成功");
+                return ress;
+            }
+            return ApiResponse.DefaultFail("创建失败");
         }
-
 
     }
 }

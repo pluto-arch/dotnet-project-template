@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.ComponentModel.DataAnnotations;
+using MediatR;
 
 using Pluto.netcoreTemplate.Application.Attributes;
 
@@ -7,15 +8,19 @@ using System.Runtime.Serialization;
 namespace Pluto.netcoreTemplate.Application.Commands
 {
     /// <summary>
-    /// 
+    /// 创建账户
     /// </summary>
-    [DataContract, CommandTransaction]
     public class CreateUserCommand : IRequest<bool>
     {
-        [DataMember]
+        /// <summary>
+        /// 用户名
+        /// </summary>
+        [Required]
         public string UserName { get; private set; }
 
-        [DataMember]
+        /// <summary>
+        /// 联系方式
+        /// </summary>
         public string Tel { get; private set; }
 
 
@@ -36,8 +41,6 @@ namespace Pluto.netcoreTemplate.Application.Commands
         {
             UserName = userName;
             Tel = tel;
-
-
         }
 
     }

@@ -23,7 +23,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
 using Pluto.netcoreTemplate.API.Filters;
 
 
@@ -48,11 +51,15 @@ namespace Pluto.netcoreTemplate.API
                 {
                     options.Filters.Add<ModelValidateFilter>();
                 })
-                .AddJsonOptions(options =>
+                .AddNewtonsoftJson(options =>
                 {
-                    options.JsonSerializerOptions.IgnoreNullValues = true;
-                    options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                    options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
+                    //options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
+
+
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
@@ -102,7 +109,11 @@ namespace Pluto.netcoreTemplate.API
 
 
             #region efcore
-            services.AddEntityFrameworkSqlServer()
+            services
+                #if !DEBUG
+                .AddEntityFrameworkInMemoryDatabase();
+                #else
+                .AddEntityFrameworkSqlServer()
                 .AddDbContext<PlutonetcoreTemplateDbContext>(options =>
                     {
                         options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddSerilog()));
@@ -115,6 +126,7 @@ namespace Pluto.netcoreTemplate.API
                     },
                     ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
                 );
+                #endif
             #endregion
 
 
@@ -191,11 +203,11 @@ namespace Pluto.netcoreTemplate.API
         {
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //app.UseExceptionProcess();
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSwagger();
@@ -203,7 +215,6 @@ namespace Pluto.netcoreTemplate.API
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", "Pluto.netcoreTemplate.API");
             });
-            app.UseLogProcess();
             app.UseCors(DefaultCorsName);
             app.UseRouting();
             app.UseAuthentication();

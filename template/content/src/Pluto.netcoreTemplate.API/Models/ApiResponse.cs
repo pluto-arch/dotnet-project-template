@@ -1,51 +1,85 @@
 ﻿using System;
+using Microsoft.AspNetCore.Mvc;
 
 
 namespace Pluto.netcoreTemplate.API.Models
 {
+
     /// <summary>
-    /// 接口统一返回值
+    /// 接口response
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    public class ApiResponse<T> where T:class,new()
+    public class ApiResponse
     {
         /// <summary>
         /// 
         /// </summary>
         /// <param name="success"></param>
         /// <param name="msg"></param>
-        /// <param name="data"></param>
-        public ApiResponse(bool success,string msg="",T data=null)
+
+        public ApiResponse(bool successed, string msg)
         {
-            IsSuccess = success;
-            Message = msg;
-            Data = data;
+            Successed = successed;
+            Msg = msg;
         }
 
         /// <summary>
-        /// 是否成功标识
+        /// 接口调用是否成功
         /// </summary>
-        public bool IsSuccess { get; set; }
+        public bool Successed { get; set; }
 
         /// <summary>
-        /// 提示信息
+        /// 失败的提示信息
         /// </summary>
-        public string Message { get; set; }
+        public string Msg { get; set; }
 
+
+        /// <summary>
+        /// 默认成功
+        /// </summary>
+        /// <returns></returns>
+        public static ApiResponse DefaultSuccess(string msg=null) => new ApiResponse(true, msg);
+
+        /// <summary>
+        /// 默认失败
+        /// </summary>
+        /// <returns></returns>
+        public static ApiResponse DefaultFail(string msg) => new ApiResponse(false, msg);
+
+
+        /// <summary>
+        /// 带数据的成功
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="data"></param>
+        /// <returns></returns>
+        public static ApiResponse Success<T>(T data) => new ApiResponse<T>(true, string.Empty,data);
+
+    }
+
+
+
+
+    /// <summary>
+    /// 接口统一返回值
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    public class ApiResponse<T>:ApiResponse
+    {
+        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="success"></param>
+        /// <param name="msg"></param>
+        public ApiResponse(bool success, string msg,T data) : base(success, msg)
+        {
+            this.Data = data;
+        }
 
         /// <summary>
         /// 数据域
         /// </summary>
         public T Data { get; set; }
 
-        public static ApiResponse<T> Fail(string msg)
-        {
-            return new ApiResponse<T>(false, msg);
-        }
-
-        public static ApiResponse<T> Success(T data)
-        {
-            return new ApiResponse<T>(true, "", data);
-        }
     }
 }

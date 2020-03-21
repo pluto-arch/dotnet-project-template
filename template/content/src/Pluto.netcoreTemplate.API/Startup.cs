@@ -47,59 +47,20 @@ namespace Pluto.netcoreTemplate.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers(options =>
-                {
-                    options.Filters.Add<ModelValidateFilter>();
-                })
+            #region api controller
+            services.AddControllers(options => { options.Filters.Add<ModelValidateFilter>(); })
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
                     options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm:ss";
-                    //options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
+                    options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                     options.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
                 });
-
 
             services.Configure<ApiBehaviorOptions>(options =>
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-
-
-            #region Identity
-
-            services.AddCustomerIdentity(options =>
-            {
-                #region 密码选项
-                options.Password.RequireDigit = false;
-                options.Password.RequireLowercase = false;
-                options.Password.RequiredLength = 6;
-                options.Password.RequireUppercase = false;
-                options.Password.RequireNonAlphanumeric = false;
-                #endregion
-
-                #region 用户选项
-                options.User.RequireUniqueEmail = true;
-                //options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyz";
-                #endregion
-
-
-                #region 账户锁定选项
-                options.Lockout.AllowedForNewUsers = false;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
-                #endregion
-
-                #region 登陆选项
-                options.SignIn = new SignInOptions
-                {
-                    RequireConfirmedAccount = false,
-                    RequireConfirmedEmail = false,
-                    RequireConfirmedPhoneNumber = false
-                };
-                #endregion
-
-            });
-
             #endregion
 
 
@@ -110,9 +71,6 @@ namespace Pluto.netcoreTemplate.API
 
             #region efcore
             services
-                #if !DEBUG
-                .AddEntityFrameworkInMemoryDatabase();
-                #else
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<PlutonetcoreTemplateDbContext>(options =>
                     {
@@ -126,7 +84,6 @@ namespace Pluto.netcoreTemplate.API
                     },
                     ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
                 );
-                #endif
             #endregion
 
 
@@ -203,12 +160,15 @@ namespace Pluto.netcoreTemplate.API
         {
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
-            //if (env.IsDevelopment())
-            //{
-            //    app.UseDeveloperExceptionPage();
-            //}
-            //app.UseExceptionProcess();
-            //app.UseHttpsRedirection();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
+            else
+            {
+                app.UseExceptionProcess();
+            }
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -217,8 +177,7 @@ namespace Pluto.netcoreTemplate.API
             });
             app.UseCors(DefaultCorsName);
             app.UseRouting();
-            app.UseAuthentication();
-            app.UseAuthorization();
+            
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

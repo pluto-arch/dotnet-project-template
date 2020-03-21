@@ -1,43 +1,35 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
-using Pluto.netcoreTemplate.Domain.Entities.Account;
 using Pluto.netcoreTemplate.Domain.SeedWork;
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
 
 
 namespace Pluto.netcoreTemplate.Infrastructure.Repositories.Account
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository :EfRepository<UserEntity>, IUserRepository
     {
-        public IUnitOfWork UnitOfWork
-        {
-            get
-            {
-                return _context;
-            }
-        }
 
-        private readonly PlutonetcoreTemplateDbContext _context;
         private readonly IQueryable<RoleEntity> _roleSet;
         private readonly IQueryable<UserEntity> _userSet;
         private readonly IQueryable<UserRoleEntity> _userRoleSet;
 
-        public UserRepository(PlutonetcoreTemplateDbContext context)
+
+        public UserRepository(PlutonetcoreTemplateDbContext dbContext) : base(dbContext)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _roleSet = _context.Roles.AsNoTracking();
-            _userSet = _context.Users.AsNoTracking();
-            _userRoleSet = _context.UserRoles.AsNoTracking();
+            _roleSet = dbContext.Roles;
+            _userSet = dbContext.Users;
+            _userRoleSet = dbContext.UserRoles;
         }
+
+
 
         public async Task CreateAsync(UserEntity user, CancellationToken cancellationToken)
         {
-            await _context.Users.AddAsync(user, cancellationToken);
+            await dbContext.Users.AddAsync(user, cancellationToken);
         }
 
 
@@ -53,7 +45,7 @@ namespace Pluto.netcoreTemplate.Infrastructure.Repositories.Account
                 await _userRoleSet.SingleOrDefaultAsync(x => x.UserId == user.Id && x.RoleId == role.Id, cancellationToken);
             if (userRole == null)
             {
-                await _context.UserRoles.AddAsync(new UserRoleEntity
+                await dbContext.UserRoles.AddAsync(new UserRoleEntity
                 {
                     UserId = user.Id,
                     User = user,
@@ -67,6 +59,7 @@ namespace Pluto.netcoreTemplate.Infrastructure.Repositories.Account
         {
             cancellationToken.ThrowIfCancellationRequested();
             return await _userSet
+                .Include(x=>x.Roles)
                 .AsTracking()
                 .SingleOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
@@ -75,6 +68,7 @@ namespace Pluto.netcoreTemplate.Infrastructure.Repositories.Account
         {
             cancellationToken.ThrowIfCancellationRequested();
             return await _userSet
+                .Include(x => x.Roles)
                 .AsTracking()
                 .SingleOrDefaultAsync(x => x.Email == email, cancellationToken);
         }
@@ -122,5 +116,7 @@ namespace Pluto.netcoreTemplate.Infrastructure.Repositories.Account
             user.ChangeSecurityStamp(stamp);
             return Task.CompletedTask;
         }
+
+        
     }
 }

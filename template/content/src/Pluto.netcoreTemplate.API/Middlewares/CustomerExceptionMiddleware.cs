@@ -16,6 +16,11 @@ namespace Pluto.netcoreTemplate.API.Middlewares
     /// </summary>
     public static class ApplicationBuilderExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
         public static IApplicationBuilder UseExceptionProcess(this IApplicationBuilder app)
         {
             app.UseMiddleware<CustomerExceptionHandler>();

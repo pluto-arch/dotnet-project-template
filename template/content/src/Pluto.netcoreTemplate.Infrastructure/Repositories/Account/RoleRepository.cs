@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-using Pluto.netcoreTemplate.Domain.Entities.Account;
 using Pluto.netcoreTemplate.Domain.SeedWork;
 
 using System;
@@ -8,54 +7,42 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
 
 
 namespace Pluto.netcoreTemplate.Infrastructure.Repositories.Account
 {
-    public class RoleRepository : IRoleRepository
+    public class RoleRepository :EfRepository<RoleEntity>, IRoleRepository
     {
-        public IUnitOfWork UnitOfWork
-        {
-            get
-            {
-                return _context;
-            }
-        }
 
-        private readonly PlutonetcoreTemplateDbContext _context;
         private readonly IQueryable<RoleEntity> _roleSet;
         private readonly IQueryable<UserRoleEntity> _userRoleSet;
 
 
-        public RoleRepository(PlutonetcoreTemplateDbContext context)
+        public RoleRepository(PlutonetcoreTemplateDbContext context):base(context)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _roleSet = _context.Roles.AsNoTracking();
-            _userRoleSet = _context.UserRoles.AsNoTracking();
+            _roleSet = context.Roles;
+            _userRoleSet = context.UserRoles;
         }
 
+        /// <inheritdoc/>
         public async Task CreateAsync(RoleEntity role, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            await _context.AddAsync(role);
-            ;
+            await base.InsertAsync(role, cancellationToken);
         }
-
+        /// <inheritdoc/>
         public async Task<RoleEntity> GetByIdAsync(int id, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            return await _context.Roles.SingleOrDefaultAsync(x => x.Id == id);
+            return await _roleSet.SingleOrDefaultAsync(x => x.Id == id, cancellationToken: cancellationToken);
         }
-
+        /// <inheritdoc/>
         public async Task<RoleEntity> GetByNameAsync(string name, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-            return await _context.Roles.SingleOrDefaultAsync(x => x.RoleName == name);
+            return await _roleSet.SingleOrDefaultAsync(x => x.RoleName == name, cancellationToken);
         }
-
+        /// <inheritdoc/>
         public async Task<IList<RoleEntity>> GetUserRolesAsync(UserEntity user, CancellationToken cancellationToken)
         {
-            cancellationToken.ThrowIfCancellationRequested();
             if (user == null)
             {
                 throw new InvalidOperationException(nameof(user));

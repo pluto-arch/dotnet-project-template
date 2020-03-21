@@ -1,12 +1,8 @@
-﻿using Pluto.netcoreTemplate.Domain.Events.AccountEvents;
-
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Threading;
-using System.Threading.Tasks;
+using Pluto.netcoreTemplate.Domain.Events.AccountEvents;
 
-
-namespace Pluto.netcoreTemplate.Domain.Entities.Account
+namespace Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate
 {
     public class UserEntity : BaseEntity<int>
     {

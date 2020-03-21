@@ -1,7 +1,6 @@
 ﻿using Pluto.netcoreTemplate.Domain.SeedWork;
 
-
-namespace Pluto.netcoreTemplate.Domain.Entities.Account
+namespace Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate
 {
     public class UserRoleEntity : IAggregateRoot
     {

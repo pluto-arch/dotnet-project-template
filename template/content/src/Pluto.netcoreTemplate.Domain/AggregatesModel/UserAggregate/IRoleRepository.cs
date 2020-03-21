@@ -1,10 +1,9 @@
-﻿using Pluto.netcoreTemplate.Domain.SeedWork;
-
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using Pluto.netcoreTemplate.Domain.SeedWork;
 
-namespace Pluto.netcoreTemplate.Domain.Entities.Account
+namespace Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate
 {
     public interface IRoleRepository : IRepository<RoleEntity>
     {

@@ -33,7 +33,7 @@ namespace Pluto.netcoreTemplate.API.Controllers
 
 
         /// <summary>
-        /// 获取所有用户  GET: api/user
+        /// 获取所有用户  GET: api/users
         /// </summary>
         /// <returns></returns>
         [HttpGet]

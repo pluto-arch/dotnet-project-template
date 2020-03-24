@@ -18,8 +18,8 @@ namespace Pluto.netcoreTemplate.Test.ApiTest
             using (var scope = _Container.BeginLifetimeScope())
             {
                 var _demoController = scope.Resolve<UserController>();
-                var res= _demoController.Get();
-                Assert.IsTrue(res.Any());
+                var res= _demoController.Users();
+                Assert.IsTrue(res.Successed);
             }
         }
     }

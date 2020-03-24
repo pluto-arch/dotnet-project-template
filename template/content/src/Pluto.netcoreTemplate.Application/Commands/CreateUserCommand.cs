@@ -15,13 +15,12 @@ namespace Pluto.netcoreTemplate.Application.Commands
         /// <summary>
         /// 用户名
         /// </summary>
-        [Required]
         public string UserName { get; private set; }
 
         /// <summary>
-        /// 联系方式
+        /// 密码
         /// </summary>
-        public string Tel { get; private set; }
+        public string Password { get; private set; }
 
 
         /// <summary>
@@ -37,10 +36,10 @@ namespace Pluto.netcoreTemplate.Application.Commands
         /// </summary>
         /// <param name="userName"></param>
         /// <param name="tel"></param>
-        public CreateUserCommand(string userName, string tel) : this()
+        public CreateUserCommand(string userName, string password) : this()
         {
             UserName = userName;
-            Tel = tel;
+            Password = password;
         }
 
     }

@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Pluto.netcoreTemplate.API.Models;
 using Pluto.netcoreTemplate.API.Models.Requests;
+using Pluto.netcoreTemplate.Application.Commands;
+using Pluto.netcoreTemplate.Application.Queries.Interfaces;
 using Pluto.netcoreTemplate.Infrastructure.Providers;
 
 namespace Pluto.netcoreTemplate.API.Controllers
@@ -20,6 +21,8 @@ namespace Pluto.netcoreTemplate.API.Controllers
     public class UserController : ApiBaseController<UserController>
     {
 
+        private readonly IUserQueries _userQueries;
+
 
         /// <summary>
         /// 
@@ -27,19 +30,25 @@ namespace Pluto.netcoreTemplate.API.Controllers
         /// <param name="mediator"></param>
         /// <param name="logger"></param>
         /// <param name="eventIdProvider"></param>
-        public UserController(IMediator mediator, ILogger<UserController> logger, EventIdProvider eventIdProvider) : base(mediator, logger, eventIdProvider)
+        public UserController(
+            IMediator mediator, 
+            ILogger<UserController> logger, 
+            EventIdProvider eventIdProvider, 
+            IUserQueries userQueries) : base(mediator, logger, eventIdProvider)
         {
+            _userQueries = userQueries;
         }
 
 
         /// <summary>
-        /// 获取所有用户  GET: api/user
+        /// 获取所有用户  GET: api/users
         /// </summary>
         /// <returns></returns>
         [HttpGet]
         public ApiResponse Users()
         {
-            return ApiResponse.Success(new string[] { "user1", "user2", "user3" });
+            var users= _userQueries.GetUsers();
+            return ApiResponse.Success(users);
         }
 
         /// <summary>
@@ -48,9 +57,10 @@ namespace Pluto.netcoreTemplate.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public ApiResponse User(int id)
+        public ApiResponse Users(int id)
         {
-            return ApiResponse.Success("user1");
+            var users = _userQueries.GetUser(id);
+            return ApiResponse.Success(users);
         }
 
         /// <summary>
@@ -69,23 +79,44 @@ namespace Pluto.netcoreTemplate.API.Controllers
         /// <summary>
         /// 创建用户 POST: api/users
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="request"></param>
+        /// <returns></returns>
         [HttpPost]
-        public ApiResponse Post([FromBody]CreateUserRequest request)
+        public async Task<ApiResponse> Post([FromBody]CreateUserRequest request)
         {
-            return ApiResponse.Success("success");
+            var res = await _mediator.Send(new CreateUserCommand(request.UserName,request.Password));
+            if (res)
+            {
+                return ApiResponse.Success("创建成功");
+            }
+            return ApiResponse.DefaultFail("创建失败");
         }
 
-        // PUT: api/Demo/5
+        /// <summary>
+        /// 全部更新 PUT: api/users/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="value"></param>
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public ApiResponse Put(int id, [FromBody]PutUserRequest request)
         {
+            return ApiResponse.DefaultFail("更新成功");
         }
 
-        // DELETE: api/demo/5
+        /// <summary>
+        /// 删除一个用户 DELETE: api/demo/5
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public async Task<ApiResponse> Delete(int id)
         {
+            var res = await _mediator.Send(new DeleteUserCommand(id));
+            if (res)
+            {
+                return ApiResponse.Success("创建成功");
+            }
+            return ApiResponse.DefaultFail("创建失败");
         }
 
     }

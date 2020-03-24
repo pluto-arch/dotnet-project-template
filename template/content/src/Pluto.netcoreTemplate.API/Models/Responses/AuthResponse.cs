@@ -8,6 +8,10 @@ namespace Pluto.netcoreTemplate.API.Models.Responses
     /// </summary>
     public class AuthResponse
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <value></value>
         public string Token { get; set; }
     }
 }

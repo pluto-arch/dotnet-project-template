@@ -1,4 +1,5 @@
-﻿using Autofac;
+﻿using System;
+using Autofac;
 
 namespace Pluto.netcoreTemplate.API.Modules
 {
@@ -6,6 +7,13 @@ namespace Pluto.netcoreTemplate.API.Modules
     {
         protected override void Load(ContainerBuilder builder)
         {
+            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
+                .Where(t => t.Name.EndsWith("Repository"))
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
+
+            builder.RegisterAssemblyTypes(AppDomain.CurrentDomain.GetAssemblies())
+                .Where(t => t.Name.EndsWith("Queries"))
+                .AsImplementedInterfaces().InstancePerLifetimeScope();
 
         }
     }

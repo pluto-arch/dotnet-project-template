@@ -13,7 +13,7 @@ namespace Pluto.netcoreTemplate.API.Models
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="success"></param>
+        /// <param name="successed"></param>
         /// <param name="msg"></param>
 
         public ApiResponse(bool successed, string msg)
@@ -65,12 +65,13 @@ namespace Pluto.netcoreTemplate.API.Models
     /// <typeparam name="T"></typeparam>
     public class ApiResponse<T>:ApiResponse
     {
-        
         /// <summary>
         /// 
         /// </summary>
         /// <param name="success"></param>
         /// <param name="msg"></param>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public ApiResponse(bool success, string msg,T data) : base(success, msg)
         {
             this.Data = data;

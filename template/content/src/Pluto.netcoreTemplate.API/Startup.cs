@@ -69,25 +69,28 @@ namespace Pluto.netcoreTemplate.API
             #endregion
 
 
-            #region efcore
+            #region efcore  根据实际情况使用数据库
             services
                 .AddEntityFrameworkSqlServer()
                 .AddDbContext<PlutonetcoreTemplateDbContext>(options =>
                     {
                         options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddSerilog()));
+                        options.UseInMemoryDatabase("PlutonetcoreTemplateDatabase");
+                #if !DEBUG
                         options.UseSqlServer(Configuration["ConnectionString"],
-                            sqlServerOptionsAction: sqlOptions =>
-                            {
-                                sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                                sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                            });
-                    },
-                    ServiceLifetime.Scoped  //Showing explicitly that the DbContext is shared across the HTTP request scope (graph of objects started in the HTTP request)
+                                                    sqlServerOptionsAction: sqlOptions =>
+                                                    {
+                                                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                                                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                                                    });
+                #endif
+
+                    }, ServiceLifetime.Scoped  // 和http请求的生命周期一致
                 );
-            #endregion
+#endregion
 
 
-            #region swagger
+#region swagger
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pluto.netcoreTemplate.API", Version = "v1" });
@@ -117,10 +120,10 @@ namespace Pluto.netcoreTemplate.API
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-            #endregion
+#endregion
 
 
-            #region cors
+#region cors
 
             services.AddCors(options =>
             {
@@ -134,7 +137,7 @@ namespace Pluto.netcoreTemplate.API
                     });
             });
 
-            #endregion
+#endregion
         }
 
 
@@ -144,14 +147,14 @@ namespace Pluto.netcoreTemplate.API
         /// <param name="builder"></param>
         public void ConfigureContainer(ContainerBuilder builder)
         {
-            #region MediatoR
+#region MediatoR
             builder.RegisterModule(new MediatorModule());
-            #endregion
+#endregion
 
 
-            #region Application
+#region Application
             builder.RegisterModule(new ApplicationModule());
-            #endregion
+#endregion
         }
 
 
@@ -168,7 +171,7 @@ namespace Pluto.netcoreTemplate.API
             {
                 app.UseExceptionProcess();
             }
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c =>

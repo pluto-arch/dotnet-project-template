@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 
 using Microsoft.Extensions.Logging;
 
@@ -6,6 +7,7 @@ using Pluto.netcoreTemplate.Infrastructure.Providers;
 
 using System.Threading;
 using System.Threading.Tasks;
+using Serilog.Context;
 
 namespace Pluto.netcoreTemplate.Application.Behaviors
 {
@@ -32,10 +34,21 @@ namespace Pluto.netcoreTemplate.Application.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            _logger.LogInformation(_eventIdProvider.EventId, "MediatR request : {@Command}",  request);
-            var response = await next();
-            _logger.LogInformation(_eventIdProvider.EventId, "MediatR response: {@Response}",  response);
-            return response;
+            using (LogContext.PushProperty("CommondHandler", typeof(TRequest) + " Handler"))
+            {
+                try
+                {
+                    _logger.LogInformation(_eventIdProvider.EventId, "MediatR request： ({@Command})", request);
+                    var response = await next();
+                    _logger.LogInformation(_eventIdProvider.EventId, "MediatR response - response: {@Response}", response);
+                    return response;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(_eventIdProvider.EventId, e, $"{typeof(TRequest)} handler error ：{e.Message}");
+                    return default;
+                }
+            }
         }
     }
 }

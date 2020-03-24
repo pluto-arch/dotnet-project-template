@@ -49,14 +49,15 @@ namespace Pluto.netcoreTemplate.API
         {
             var webHost = WebHost.CreateDefaultBuilder(args)
                 .CaptureStartupErrors(false)
-                .ConfigureKestrel(options =>
-                {
-                    var ports = GetDefinedPorts(configuration);
-                    options.Listen(IPAddress.Any, ports, listenOptions =>
-                    {
-                        listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                    });
-                })
+                .UseUrls("http://0.0.0.0:5000")
+                //.ConfigureKestrel(options =>
+                //{
+                //    var ports = GetDefinedPorts(configuration);
+                //    options.Listen(IPAddress.Any, ports, listenOptions =>
+                //    {
+                //        listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
+                //    });
+                //})
                 .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .UseContentRoot(Directory.GetCurrentDirectory())

@@ -5,7 +5,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>F:\å“ˆå“ˆå“ˆå“ˆå“ˆ\GithubCoreDemos\demo\content\src\Pluto.netcoreTemplate.Application\Pluto.netcoreTemplate.Application.xml</DocumentationFile>
+    <DocumentationFile>F:\¹þ¹þ¹þ¹þ¹þ\GithubCoreDemos\demo\content\src\Pluto.netcoreTemplate.Application\Pluto.netcoreTemplate.Application.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702,1591</NoWarn>
   </PropertyGroup>
@@ -24,6 +24,12 @@
   <ItemGroup>
     <Folder Include="Notifications\" />
     <Folder Include="Queries\Impls\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Pluto.netcoreTemplate.Application.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

@@ -1,0 +1,8 @@
+version: '3.4'
+
+services:
+  pluto.netcoretemplate.api:
+    image: ${DOCKER_REGISTRY-}plutonetcoretemplateapi
+    build:
+      context: .
+      dockerfile: src/Pluto.netcoreTemplate.API/Dockerfile

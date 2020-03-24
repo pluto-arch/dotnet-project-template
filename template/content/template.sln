@@ -16,7 +16,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Pluto.netcoreTemplate.Test", "src\Pluto.netcoreTemplate.Test\Pluto.netcoreTemplate.Test.csproj", "{7213BF94-CAD0-4663-9F9B-925168447808}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pluto.netcoreTemplate.Test", "src\Pluto.netcoreTemplate.Test\Pluto.netcoreTemplate.Test.csproj", "{7213BF94-CAD0-4663-9F9B-925168447808}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EB66D200-1B27-489F-AA3B-CFD8E9096C77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -88,6 +90,18 @@ Global
 		{7213BF94-CAD0-4663-9F9B-925168447808}.Release|x64.Build.0 = Release|Any CPU
 		{7213BF94-CAD0-4663-9F9B-925168447808}.Release|x86.ActiveCfg = Release|Any CPU
 		{7213BF94-CAD0-4663-9F9B-925168447808}.Release|x86.Build.0 = Release|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Debug|x64.Build.0 = Debug|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Debug|x86.Build.0 = Debug|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Release|x64.ActiveCfg = Release|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Release|x64.Build.0 = Release|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Release|x86.ActiveCfg = Release|Any CPU
+		{EB66D200-1B27-489F-AA3B-CFD8E9096C77}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

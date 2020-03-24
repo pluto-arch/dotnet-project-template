@@ -4,6 +4,20 @@
         <name>Pluto.netcoreTemplate.Application</name>
     </assembly>
     <members>
+        <member name="T:Pluto.netcoreTemplate.Application.Behaviors.LoggingBehavior`2">
+            <summary>
+            
+            </summary>
+            <typeparam name="TRequest"></typeparam>
+            <typeparam name="TResponse"></typeparam>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.Application.Behaviors.LoggingBehavior`2.#ctor(Microsoft.Extensions.Logging.ILogger{Pluto.netcoreTemplate.Application.Behaviors.LoggingBehavior{`0,`1}},Pluto.netcoreTemplate.Infrastructure.Providers.EventIdProvider)">
+            <summary>
+            
+            </summary>
+            <param name="logger"></param>
+            <param name="eventIdProvider"></param>
+        </member>
         <member name="T:Pluto.netcoreTemplate.Application.Behaviors.TransactionBehaviour`2">
             <summary>
             涉及事务的所有操作
@@ -28,7 +42,17 @@
         </member>
         <member name="T:Pluto.netcoreTemplate.Application.Commands.CreateUserCommand">
             <summary>
-            
+            创建账户
+            </summary>
+        </member>
+        <member name="P:Pluto.netcoreTemplate.Application.Commands.CreateUserCommand.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:Pluto.netcoreTemplate.Application.Commands.CreateUserCommand.Tel">
+            <summary>
+            联系方式
             </summary>
         </member>
         <member name="M:Pluto.netcoreTemplate.Application.Commands.CreateUserCommand.#ctor">
@@ -42,21 +66,6 @@
             </summary>
             <param name="userName"></param>
             <param name="tel"></param>
-        </member>
-        <member name="M:Pluto.netcoreTemplate.Application.Queries.UserQueries.UserQuery.GetByIdAsync(System.Int32)">
-            <summary>
-            获取一个用户
-            </summary>
-            <param name="id"></param>
-            <returns></returns>
-        </member>
-        <member name="M:Pluto.netcoreTemplate.Application.Queries.UserQueries.UserQuery.GetListAsync(System.Int32,System.Int32)">
-            <summary>
-            获取列表
-            </summary>
-            <param name="index">页码</param>
-            <param name="size">页大小</param>
-            <returns></returns>
         </member>
     </members>
 </doc>

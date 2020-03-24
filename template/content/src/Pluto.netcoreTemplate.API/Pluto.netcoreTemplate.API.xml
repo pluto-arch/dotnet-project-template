@@ -4,12 +4,56 @@
         <name>Pluto.netcoreTemplate.API</name>
     </assembly>
     <members>
-        <member name="T:Pluto.netcoreTemplate.API.Controllers.DefaultController">
+        <member name="T:Pluto.netcoreTemplate.API.Controllers.AccountController">
+            <summary>
+            account controller
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.AccountController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{Pluto.netcoreTemplate.API.Controllers.AccountController},Pluto.netcoreTemplate.Infrastructure.Providers.EventIdProvider)">
+            <summary>
+            
+            </summary>
+            <param name="mediator"></param>
+            <param name="logger"></param>
+            <param name="eventIdProvider"></param>
+            <param name="accountService"></param>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.AccountController.TokenAsync(Pluto.netcoreTemplate.API.Models.Requests.LoginRequest)">
+            <summary>
+            
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.AccountController.PostAsync(Pluto.netcoreTemplate.API.Models.Requests.LoginRequest)">
+            <summary>
+            创建账户
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Pluto.netcoreTemplate.API.Controllers.ApiBaseController`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:Pluto.netcoreTemplate.API.Controllers.ApiBaseController`1._mediator">
             <summary>
             
             </summary>
         </member>
-        <member name="M:Pluto.netcoreTemplate.API.Controllers.DefaultController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{Pluto.netcoreTemplate.API.Controllers.DefaultController},Pluto.netcoreTemplate.Infrastructure.Providers.EventIdProvider,Pluto.netcoreTemplate.Application.Queries.UserQueries.UserQuery)">
+        <member name="F:Pluto.netcoreTemplate.API.Controllers.ApiBaseController`1._logger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Pluto.netcoreTemplate.API.Controllers.ApiBaseController`1._eventIdProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.ApiBaseController`1.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{`0},Pluto.netcoreTemplate.Infrastructure.Providers.EventIdProvider)">
             <summary>
             
             </summary>
@@ -17,39 +61,176 @@
             <param name="logger"></param>
             <param name="eventIdProvider"></param>
         </member>
-        <member name="M:Pluto.netcoreTemplate.API.Controllers.DefaultController.CreateUser(Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest)">
+        <member name="T:Pluto.netcoreTemplate.API.Controllers.UserController">
             <summary>
-            创建用户
+            Demo 控制器
             </summary>
-            <param name="request"></param>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.UserController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{Pluto.netcoreTemplate.API.Controllers.UserController},Pluto.netcoreTemplate.Infrastructure.Providers.EventIdProvider)">
+            <summary>
+            
+            </summary>
+            <param name="mediator"></param>
+            <param name="logger"></param>
+            <param name="eventIdProvider"></param>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.UserController.Users">
+            <summary>
+            获取所有用户  GET: api/users
+            </summary>
             <returns></returns>
         </member>
-        <member name="M:Pluto.netcoreTemplate.API.Controllers.DefaultController.GetOne(System.Int32)">
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.UserController.User(System.Int32)">
             <summary>
-            获取一个
+            根据id获取一个用户 GET: api/users/{id}
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.UserController.UserRoles(System.Int32)">
+            <summary>
+            获取用户的所有角色 / GET: api/users/{id}/roles
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.UserController.Post(Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest)">
+            <summary>
+            创建用户 POST: api/users
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="T:Pluto.netcoreTemplate.API.Filters.ModelValidateFilter">
+            <summary>
+            model 验证过滤器
+            </summary>
+        </member>
+        <member name="T:Pluto.netcoreTemplate.API.Middlewares.ApplicationBuilderExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Middlewares.ApplicationBuilderExtensions.UseExceptionProcess(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Pluto.netcoreTemplate.API.Models.ApiResponse">
+            <summary>
+            接口response
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Models.ApiResponse.#ctor(System.Boolean,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="success"></param>
+            <param name="msg"></param>
+        </member>
+        <member name="P:Pluto.netcoreTemplate.API.Models.ApiResponse.Successed">
+            <summary>
+            接口调用是否成功
+            </summary>
+        </member>
+        <member name="P:Pluto.netcoreTemplate.API.Models.ApiResponse.Msg">
+            <summary>
+            失败的提示信息
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Models.ApiResponse.DefaultSuccess(System.String)">
+            <summary>
+            默认成功
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Pluto.netcoreTemplate.API.Controllers.DefaultController.GetList(System.Int32,System.Int32)">
+        <member name="M:Pluto.netcoreTemplate.API.Models.ApiResponse.DefaultFail(System.String)">
             <summary>
-            获取列表
+            默认失败
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Models.ApiResponse.Success``1(``0)">
+            <summary>
+            带数据的成功
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Pluto.netcoreTemplate.API.Models.ApiResponse`1">
+            <summary>
+            接口统一返回值
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Models.ApiResponse`1.#ctor(System.Boolean,System.String,`0)">
+            <summary>
+            
+            </summary>
+            <param name="success"></param>
+            <param name="msg"></param>
+        </member>
+        <member name="P:Pluto.netcoreTemplate.API.Models.ApiResponse`1.Data">
+            <summary>
+            数据域
+            </summary>
         </member>
         <member name="T:Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest">
             <summary>
             创建用户http request
             </summary>
         </member>
-        <member name="P:Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest.UserName">
+        <member name="P:Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest.Email">
             <summary>
-            用户名称
+            邮箱
             </summary>
         </member>
-        <member name="P:Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest.Tel">
+        <member name="P:Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest.Password">
             <summary>
-            联系方式
+            密码
             </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Models.Requests.CreateUserRequest.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+             先这里验证  在进行ModelValidateFilter 所以这个过滤器 没什么用了 
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Pluto.netcoreTemplate.API.Models.Requests.LoginRequest">
+            <summary>
+            登陆
+            </summary>
+        </member>
+        <member name="P:Pluto.netcoreTemplate.API.Models.Requests.LoginRequest.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Pluto.netcoreTemplate.API.Models.Requests.LoginRequest.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Models.Requests.LoginRequest.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Pluto.netcoreTemplate.API.Models.Responses.AuthResponse">
+            <summary>
+            授权token 
+            </summary>
+        </member>
+        <member name="M:Pluto.netcoreTemplate.API.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
+            <summary>
+            配置第三方(autofac)容器
+            </summary>
+            <param name="builder"></param>
         </member>
     </members>
 </doc>

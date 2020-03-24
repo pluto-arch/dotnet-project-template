@@ -5,7 +5,7 @@ template 文件夹中 content中内容不能乱移动，默认保持就行，模
 
 
 1. 打包
-请确保电脑中又nuget.exe
+请确保电脑中有nuget.exe
 ```
 # 打包成nuget
 nuget pack Pluto.netcoreTemplate.nuspec 

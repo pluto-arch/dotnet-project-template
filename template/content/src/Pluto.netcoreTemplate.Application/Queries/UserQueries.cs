@@ -23,9 +23,8 @@ namespace Pluto.netcoreTemplate.Application.Queries
         /// 
         /// </summary>
         /// <param name="userRepository"></param>
-        public UserQueries(IUserRepository userRepository)
+        public UserQueries()
         {
-            _userEntities = userRepository.Entities();
         }
 
 

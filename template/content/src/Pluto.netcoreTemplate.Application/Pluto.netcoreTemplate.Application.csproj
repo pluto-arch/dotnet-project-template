@@ -5,14 +5,14 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>F:\¹þ¹þ¹þ¹þ¹þ\GithubCoreDemos\demo\content\src\Pluto.netcoreTemplate.Application\Pluto.netcoreTemplate.Application.xml</DocumentationFile>
+    <DocumentationFile>F:\ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½\GithubCoreDemos\demo\content\src\Pluto.netcoreTemplate.Application\Pluto.netcoreTemplate.Application.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702,1591</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="8.0.1" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.3" />
     <PackageReference Include="Serilog" Version="2.9.0" />
   </ItemGroup>
 

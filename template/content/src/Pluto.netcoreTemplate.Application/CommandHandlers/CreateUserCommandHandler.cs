@@ -8,6 +8,8 @@ using Pluto.netcoreTemplate.Infrastructure.Providers;
 using System.Threading;
 using System.Threading.Tasks;
 using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
+using Pluto.netcoreTemplate.Infrastructure;
+using PlutoData.Interface;
 
 namespace Pluto.netcoreTemplate.Application.CommandHandlers
 {
@@ -18,7 +20,8 @@ namespace Pluto.netcoreTemplate.Application.CommandHandlers
     {
 
         private readonly IMediator _mediator;
-        private readonly IUserRepository _userRepository;
+
+        private readonly IUnitOfWork<PlutonetcoreTemplateDbContext> _unitOfWork;
 
         /// <summary>
         /// 
@@ -28,23 +31,24 @@ namespace Pluto.netcoreTemplate.Application.CommandHandlers
         /// <param name="eventIdProvider"></param>
         /// <param name="userRepository"></param>
         public CreateUserCommandHandler(
-            IMediator mediator,IUserRepository userRepository)
+            IMediator mediator, IUnitOfWork<PlutonetcoreTemplateDbContext> unitOfWork)
         {
             _mediator = mediator;
-            _userRepository = userRepository;
+            _unitOfWork = unitOfWork;
         }
 
 
         public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
+            var rep = _unitOfWork.GetRepository<UserEntity>();
             var user = new UserEntity
             {
                 UserName = request.UserName,
+                Email= request.UserName+"@qq.com"
             };
-            user.SetPasswordHash(request.Password); 
-            await _userRepository.CreateAsync(user, cancellationToken);
-            await _userRepository.UnitOfWork.SaveChangesAsync(cancellationToken); 
-            return await Task.FromResult(true);
+            user.SetPasswordHash(request.Password);
+            rep.Insert(user);
+            return (await _unitOfWork.SaveChangesAsync())>0;
         }
     }
 }

@@ -4,7 +4,8 @@ using System.Threading.Tasks;
 using MediatR;
 using Pluto.netcoreTemplate.Application.Commands;
 using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
-
+using Pluto.netcoreTemplate.Infrastructure;
+using PlutoData.Interface;
 
 
 //  ===================
@@ -17,22 +18,23 @@ namespace Pluto.netcoreTemplate.Application.CommandHandlers
     {
 
         private readonly IMediator _mediator;
-        private readonly IUserRepository _userRepository;
+
+        private readonly IUnitOfWork<PlutonetcoreTemplateDbContext> _unitOfWork;
 
         public DeleteUserCommandHandler(
-            IUserRepository userRepository, IMediator mediator)
+            IMediator mediator, IUnitOfWork<PlutonetcoreTemplateDbContext> unitOfWork)
         {
-            _userRepository = userRepository;
             _mediator = mediator;
+            _unitOfWork = unitOfWork;
         }
 
 
         /// <inheritdoc />
         public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            _userRepository.Delete(x => x.Id == (int)request.Id);
-            var res= await _userRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
-            return res>0;
+            var rep = _unitOfWork.GetRepository<UserEntity>();
+            rep.Delete(request.Id);
+            return (await _unitOfWork.SaveChangesAsync()) > 0;
         }
     }
 }

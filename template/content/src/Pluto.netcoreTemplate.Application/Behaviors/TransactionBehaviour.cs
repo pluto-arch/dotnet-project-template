@@ -12,6 +12,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using PlutoData.Interface;
 
 namespace Pluto.netcoreTemplate.Application.Behaviors
 {
@@ -24,13 +25,15 @@ namespace Pluto.netcoreTemplate.Application.Behaviors
     {
 
         private readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
-        private readonly PlutonetcoreTemplateDbContext _dbContext;
         private readonly EventIdProvider _eventIdProvider;
-        public TransactionBehaviour(PlutonetcoreTemplateDbContext dbContext, ILogger<TransactionBehaviour<TRequest, TResponse>> logger, EventIdProvider eventIdProvider)
+
+        private readonly IUnitOfWork<PlutonetcoreTemplateDbContext> _unitOfWork;
+
+        public TransactionBehaviour(ILogger<TransactionBehaviour<TRequest, TResponse>> logger, EventIdProvider eventIdProvider, IUnitOfWork<PlutonetcoreTemplateDbContext> unitOfWork)
         {
-            _dbContext = dbContext;
             _logger = logger;
             _eventIdProvider = eventIdProvider;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
@@ -45,15 +48,15 @@ namespace Pluto.netcoreTemplate.Application.Behaviors
             }
             try
             {
-                if (_dbContext.HasActiveTransaction)
+                if (_unitOfWork.HasActiveTransaction)
                 {
                     return await next();
                 }
-                var strategy = _dbContext.Database.CreateExecutionStrategy();
+                var strategy = _unitOfWork.CreateExecutionStrategy();
                 await strategy.ExecuteAsync(async () =>
                 {
                     Guid transactionId;
-                    using (var transaction = await _dbContext.BeginTransactionAsync())
+                    using (var transaction = await _unitOfWork.BeginTransactionAsync())
                     {
                         _logger.LogInformation(_eventIdProvider.EventId, "----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
 
@@ -61,14 +64,13 @@ namespace Pluto.netcoreTemplate.Application.Behaviors
 
                         _logger.LogInformation(_eventIdProvider.EventId, "----- Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
 
-                        await _dbContext.CommitTransactionAsync(transaction);
+                        await _unitOfWork.CommitTransactionAsync(transaction);
                         _logger.LogInformation(_eventIdProvider.EventId, "----- Finish transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
                         transactionId = transaction.TransactionId;
                     }
                     // TODO 事务执行完毕后 通过 事件总线 发布，从而处理其余业务 
                     //await _orderingIntegrationEventService.PublishEventsThroughEventBusAsync(transactionId);
                 });
-
                 return response;
 
             }

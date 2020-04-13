@@ -28,6 +28,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Pluto.netcoreTemplate.API.Filters;
+using PlutoData;
 
 
 namespace Pluto.netcoreTemplate.API
@@ -71,73 +72,69 @@ namespace Pluto.netcoreTemplate.API
 
             #region efcore  根据实际情况使用数据库
             services
-                .AddEntityFrameworkSqlServer()
                 .AddDbContext<PlutonetcoreTemplateDbContext>(options =>
                     {
                         options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddSerilog()));
-                        options.UseInMemoryDatabase("PlutonetcoreTemplateDatabase");
-                #if !DEBUG
                         options.UseSqlServer(Configuration["ConnectionString"],
-                                                    sqlServerOptionsAction: sqlOptions =>
-                                                    {
-                                                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                                                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                                                    });
-                #endif
-
-                    }, ServiceLifetime.Scoped  // 和http请求的生命周期一致
-                );
-#endregion
-
-
-#region swagger
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pluto.netcoreTemplate.API", Version = "v1" });
-
-                c.AddSecurityDefinition("Bearer", //Name the security scheme
-                    new OpenApiSecurityScheme
-                    {
-                        Description = "JWT Authorization header using the Bearer scheme.",
-                        Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
-                        Scheme = "bearer" //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer".
-                    });
-
-                c.AddSecurityRequirement(new OpenApiSecurityRequirement{
-                    {
-                        new OpenApiSecurityScheme{
-                            Reference = new OpenApiReference{
-                                Id = "Bearer", //The name of the previously defined security scheme.
-                                Type = ReferenceType.SecurityScheme
-                            }
-                        },new List<string>()
-                    }
-                });
+                            sqlServerOptionsAction: sqlOptions =>
+                            {
+                                sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                                sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                            });
+                    }, ServiceLifetime.Scoped // 和http请求的生命周期一致
+                )
+                .AddUnitOfWork<PlutonetcoreTemplateDbContext>();
+            #endregion
 
 
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                c.IncludeXmlComments(xmlPath);
-            });
-#endregion
+            #region swagger
+                        services.AddSwaggerGen(c =>
+                        {
+                            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pluto.netcoreTemplate.API", Version = "v1" });
+
+                            c.AddSecurityDefinition("Bearer", //Name the security scheme
+                                new OpenApiSecurityScheme
+                                {
+                                    Description = "JWT Authorization header using the Bearer scheme.",
+                                    Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
+                                    Scheme = "bearer" //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer".
+                                });
+
+                            c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                                {
+                                    new OpenApiSecurityScheme{
+                                        Reference = new OpenApiReference{
+                                            Id = "Bearer", //The name of the previously defined security scheme.
+                                            Type = ReferenceType.SecurityScheme
+                                        }
+                                    },new List<string>()
+                                }
+                            });
 
 
-#region cors
+                            // Set the comments path for the Swagger JSON and UI.
+                            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                            c.IncludeXmlComments(xmlPath);
+                        });
+            #endregion
 
-            services.AddCors(options =>
-            {
-                options.AddPolicy(DefaultCorsName,
-                    builder =>
-                    {
-                        builder.AllowAnyOrigin();
-                        builder.AllowAnyHeader();
-                        builder.AllowAnyMethod();
-                        builder.AllowAnyHeader();
-                    });
-            });
 
-#endregion
+            #region cors
+
+                        services.AddCors(options =>
+                        {
+                            options.AddPolicy(DefaultCorsName,
+                                builder =>
+                                {
+                                    builder.AllowAnyOrigin();
+                                    builder.AllowAnyHeader();
+                                    builder.AllowAnyMethod();
+                                    builder.AllowAnyHeader();
+                                });
+                        });
+
+            #endregion
         }
 
 

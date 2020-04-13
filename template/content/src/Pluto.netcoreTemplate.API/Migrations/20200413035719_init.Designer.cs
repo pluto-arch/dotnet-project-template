@@ -10,18 +10,18 @@ using Pluto.netcoreTemplate.Infrastructure;
 namespace Pluto.netcoreTemplate.API.Migrations
 {
     [DbContext(typeof(PlutonetcoreTemplateDbContext))]
-    [Migration("20200114065657_initdb")]
-    partial class initdb
+    [Migration("20200413035719_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Pluto.netcoreTemplate.Domain.Entities.Account.RoleEntity", b =>
+            modelBuilder.Entity("Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate.RoleEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -38,7 +38,7 @@ namespace Pluto.netcoreTemplate.API.Migrations
                     b.ToTable("Roles");
                 });
 
-            modelBuilder.Entity("Pluto.netcoreTemplate.Domain.Entities.Account.UserEntity", b =>
+            modelBuilder.Entity("Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate.UserEntity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,6 +71,9 @@ namespace Pluto.netcoreTemplate.API.Migrations
                     b.Property<bool>("PhoneConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasColumnType("nvarchar(300)")
@@ -81,7 +84,7 @@ namespace Pluto.netcoreTemplate.API.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("Pluto.netcoreTemplate.Domain.Entities.Account.UserRoleEntity", b =>
+            modelBuilder.Entity("Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate.UserRoleEntity", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -96,15 +99,15 @@ namespace Pluto.netcoreTemplate.API.Migrations
                     b.ToTable("UserRole");
                 });
 
-            modelBuilder.Entity("Pluto.netcoreTemplate.Domain.Entities.Account.UserRoleEntity", b =>
+            modelBuilder.Entity("Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate.UserRoleEntity", b =>
                 {
-                    b.HasOne("Pluto.netcoreTemplate.Domain.Entities.Account.RoleEntity", "Role")
+                    b.HasOne("Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate.RoleEntity", "Role")
                         .WithMany("Users")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Pluto.netcoreTemplate.Domain.Entities.Account.UserEntity", "User")
+                    b.HasOne("Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate.UserEntity", "User")
                         .WithMany("Roles")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)

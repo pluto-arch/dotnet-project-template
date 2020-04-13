@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pluto.netcoreTemplate.API.Migrations
 {
-    public partial class initdb : Migration
+    public partial class init : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -27,6 +27,7 @@ namespace Pluto.netcoreTemplate.API.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     UserName = table.Column<string>(maxLength: 300, nullable: false),
+                    SecurityStamp = table.Column<string>(nullable: true),
                     Email = table.Column<string>(maxLength: 200, nullable: false),
                     EmailConfirmed = table.Column<bool>(nullable: false),
                     Phone = table.Column<string>(nullable: true),

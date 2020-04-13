@@ -84,7 +84,7 @@ namespace Pluto.netcoreTemplate.API.Controllers
         [HttpPost]
         public async Task<ApiResponse> Post([FromBody]CreateUserRequest request)
         {
-            var res = await _mediator.Send(new CreateUserCommand(request.UserName,request.Password));
+            var res = await _mediator.Send(new CreateUserCommand(Guid.NewGuid().ToString("N"), request.Password));
             if (res)
             {
                 return ApiResponse.Success("创建成功");

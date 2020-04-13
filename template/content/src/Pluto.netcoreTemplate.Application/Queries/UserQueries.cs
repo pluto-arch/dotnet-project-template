@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Pluto.netcoreTemplate.Application.Queries.Interfaces;
+using Pluto.netcoreTemplate.Application.ResourceModels;
 using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
+using Pluto.netcoreTemplate.Infrastructure;
+using PlutoData.Collections;
+using PlutoData.Interface;
 
 
 //  ===================
@@ -17,27 +21,30 @@ namespace Pluto.netcoreTemplate.Application.Queries
     public class UserQueries: IUserQueries
     {
 
-        private readonly IQueryable<UserEntity> _userEntities;
+        private readonly IRepository<UserEntity> _userRepository;
+
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="userRepository"></param>
-        public UserQueries()
+        public UserQueries(IUnitOfWork<PlutonetcoreTemplateDbContext> unitOfWork)
         {
+            _userRepository = unitOfWork.GetRepository<UserEntity>();
         }
 
 
         /// <inheritdoc />
-        public IEnumerable<object> GetUsers()
+        public IPagedList<UserItemModel> GetUsers()
         {
-            return _userEntities.ToList();
+            var pageList= _userRepository.GetPagedList<UserItemModel>(x => new UserItemModel{UserName=x.UserName,Email=x.Email},pageIndex:1,pageSize:20);
+            return pageList;
         }
 
         /// <inheritdoc />
         public object GetUser(object key)
         {
-           return _userEntities.FirstOrDefault(x => x.Id == (int)key);
+            return _userRepository.Find(key);
         }
     }
 }

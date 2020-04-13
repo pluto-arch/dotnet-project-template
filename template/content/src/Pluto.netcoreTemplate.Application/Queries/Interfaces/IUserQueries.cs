@@ -1,5 +1,7 @@
-﻿using System;
+﻿using PlutoData.Collections;
+using System;
 using System.Collections.Generic;
+using Pluto.netcoreTemplate.Application.ResourceModels;
 
 //  ===================
 // 2020-03-24
@@ -16,7 +18,7 @@ namespace Pluto.netcoreTemplate.Application.Queries.Interfaces
         /// 
         /// </summary>
         /// <returns></returns>
-        IEnumerable<object> GetUsers();
+        IPagedList<UserItemModel> GetUsers();
 
         /// <summary>
         /// 

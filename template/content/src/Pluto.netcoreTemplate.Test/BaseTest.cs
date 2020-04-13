@@ -18,6 +18,7 @@ using Pluto.netcoreTemplate.API.Modules;
 using Pluto.netcoreTemplate.Infrastructure;
 using Pluto.netcoreTemplate.Infrastructure.Extensions;
 using Pluto.netcoreTemplate.Infrastructure.Providers;
+using PlutoData;
 using Serilog;
 
 namespace Pluto.netcoreTemplate.Test
@@ -54,7 +55,6 @@ namespace Pluto.netcoreTemplate.Test
             });
             services.AddScoped(typeof(EventIdProvider));
             services
-                .AddEntityFrameworkSqlServer()
                 .AddDbContext<PlutonetcoreTemplateDbContext>(options =>
                     {
                         options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddSerilog()));
@@ -65,7 +65,8 @@ namespace Pluto.netcoreTemplate.Test
                                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                             });
                     },
-                    ServiceLifetime.Scoped );
+                    ServiceLifetime.Scoped )
+                .AddUnitOfWork<PlutonetcoreTemplateDbContext>();
             services.AddLogging(options => { options.AddSerilog(); });
 
             var autofac= ConfigureContainer(new ContainerBuilder());

@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>F:\����������\GithubCoreDemos\demo\content\src\Pluto.netcoreTemplate.API\Pluto.netcoreTemplate.API.xml</DocumentationFile>
+    <DocumentationFile>E:\我的项目\dotnet-project-template\template\content\src\Pluto.netcoreTemplate.API\Pluto.netcoreTemplate.API.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702,1591</NoWarn>
   </PropertyGroup>

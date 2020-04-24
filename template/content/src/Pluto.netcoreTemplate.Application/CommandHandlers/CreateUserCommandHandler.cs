@@ -40,7 +40,7 @@ namespace Pluto.netcoreTemplate.Application.CommandHandlers
 
         public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var rep = _unitOfWork.GetRepository<UserEntity>();
+            var rep = _unitOfWork.GetRepository<IUserRepository>();
             var user = new UserEntity
             {
                 UserName = request.UserName,
@@ -48,7 +48,7 @@ namespace Pluto.netcoreTemplate.Application.CommandHandlers
             };
             user.SetPasswordHash(request.Password);
             rep.Insert(user);
-            return (await _unitOfWork.SaveChangesAsync())>0;
+            return (await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken))>0;
         }
     }
 }

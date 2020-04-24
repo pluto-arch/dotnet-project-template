@@ -27,10 +27,10 @@ namespace Pluto.netcoreTemplate.Application.Queries
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="userRepository"></param>
+        /// <param name="unitOfWork"></param>
         public UserQueries(IUnitOfWork<PlutonetcoreTemplateDbContext> unitOfWork)
         {
-            _userRepository = unitOfWork.GetRepository<UserEntity>();
+            _userRepository = unitOfWork.GetRepository<IUserRepository>();
         }
 
 

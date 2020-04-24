@@ -81,9 +81,10 @@ namespace Pluto.netcoreTemplate.API
                                 sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
                                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                             });
-                    }, ServiceLifetime.Scoped // 和http请求的生命周期一致
+                    }, ServiceLifetime.Scoped
                 )
-                .AddUnitOfWork<PlutonetcoreTemplateDbContext>();
+                .AddUnitOfWork<PlutonetcoreTemplateDbContext>()
+                .AddRepository();
             #endregion
 
 

@@ -11,15 +11,10 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="PlutoData" Version="0.0.1-preview02" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Pluto.netcoreTemplate.Domain\Pluto.netcoreTemplate.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Repositories\" />
   </ItemGroup>
 
 </Project>

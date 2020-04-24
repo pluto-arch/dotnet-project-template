@@ -32,9 +32,9 @@ namespace Pluto.netcoreTemplate.Application.CommandHandlers
         /// <inheritdoc />
         public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
-            var rep = _unitOfWork.GetRepository<UserEntity>();
+            var rep = _unitOfWork.GetRepository<IUserRepository>();
             rep.Delete(request.Id);
-            return (await _unitOfWork.SaveChangesAsync()) > 0;
+            return (await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken)) > 0;
         }
     }
 }

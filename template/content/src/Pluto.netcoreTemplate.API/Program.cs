@@ -83,15 +83,12 @@ namespace Pluto.netcoreTemplate.API
         {
             const string outputTemplate = "[{Timestamp:HH:mm:ss.FFF} {Level}]{NewLine}{Event}¡£{RequestId}{NewLine}{Message}{NewLine}({SourceContext:l}){NewLine}{Exception}";
             return new LoggerConfiguration()
-                .MinimumLevel.Verbose()
-                .MinimumLevel.Override("Microsoft", LogEventLevel.Error)
-                .MinimumLevel.Override("System", LogEventLevel.Error)
+                .ReadFrom.Configuration(configuration)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.Seq(configuration["Seq:SeqUrl"])
+                .WriteTo.Seq(configuration["Seq:Address"])
                 //.WriteTo.File(Path.Combine("logs", @"log.log"), rollingInterval: RollingInterval.Day,
                 //    outputTemplate: outputTemplate)
-                .ReadFrom.Configuration(configuration)
                 .CreateLogger();
         }
 

@@ -1,14 +1,11 @@
-﻿using MediatR;
-
-using Microsoft.Extensions.Logging;
-
+﻿using System;
+using MediatR;
 using Pluto.netcoreTemplate.Application.Commands;
-using Pluto.netcoreTemplate.Infrastructure.Providers;
-
 using System.Threading;
 using System.Threading.Tasks;
 using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
 using Pluto.netcoreTemplate.Infrastructure;
+using Pluto.netcoreTemplate.Infrastructure.Extensions;
 using PlutoData.Interface;
 
 namespace Pluto.netcoreTemplate.Application.CommandHandlers
@@ -20,35 +17,40 @@ namespace Pluto.netcoreTemplate.Application.CommandHandlers
     {
 
         private readonly IMediator _mediator;
-
         private readonly IUnitOfWork<PlutonetcoreTemplateDbContext> _unitOfWork;
+        private readonly IUserRepository _userRepository;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="mediator"></param>
-        /// <param name="logger"></param>
-        /// <param name="eventIdProvider"></param>
-        /// <param name="userRepository"></param>
+        /// <param name="unitOfWork"></param>
         public CreateUserCommandHandler(
-            IMediator mediator, IUnitOfWork<PlutonetcoreTemplateDbContext> unitOfWork)
+            IMediator mediator, 
+            IUnitOfWork<PlutonetcoreTemplateDbContext> unitOfWork)
         {
             _mediator = mediator;
             _unitOfWork = unitOfWork;
+            _userRepository =unitOfWork.GetRepository<IUserRepository>();
         }
 
 
         public async Task<bool> Handle(CreateUserCommand request, CancellationToken cancellationToken)
         {
-            var rep = _unitOfWork.GetRepository<IUserRepository>();
             var user = new UserEntity
             {
                 UserName = request.UserName,
                 Email= request.UserName+"@qq.com"
             };
-            user.SetPasswordHash(request.Password);
-            rep.Insert(user);
-            return (await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken))>0;
+            user.SetPasswordHash(request.Password);  // 有可能会注册领域事件
+            _userRepository.Insert(user);
+
+            // 如果要触发领域事件，则使用SaveEntityChanges或者它的异步方法，不想触发事件，SaveChanges
+            var res= await _unitOfWork.SaveEntityChangesAsync(async () =>
+            {
+                await _mediator.DispatchDomainEventsAsync(_unitOfWork.DbContext);
+            },cancellationToken);
+            return res>0;
         }
     }
 }

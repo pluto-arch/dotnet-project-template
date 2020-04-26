@@ -55,7 +55,7 @@ namespace Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate
         public void SetPasswordHash(string passwordHash)
         {
             PasswordHash = passwordHash;
-            //AddDomainEvent(new SecurityStampChangedEvent<int>(this.Id, "安全戳已变更！"));
+            AddDomainEvent(new SecurityStampChangedEvent<int>(this.Id, "安全戳已变更！"));
         }
 
         public void SetSecurityStamp(string securityStamp)

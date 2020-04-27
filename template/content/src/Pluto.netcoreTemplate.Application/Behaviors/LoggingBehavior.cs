@@ -1,10 +1,7 @@
 ﻿using System;
 using MediatR;
-
 using Microsoft.Extensions.Logging;
-
 using Pluto.netcoreTemplate.Infrastructure.Providers;
-
 using System.Threading;
 using System.Threading.Tasks;
 using Serilog.Context;
@@ -38,9 +35,9 @@ namespace Pluto.netcoreTemplate.Application.Behaviors
             {
                 try
                 {
-                    _logger.LogInformation(_eventIdProvider.EventId, "MediatR request： ({@Command})", request);
+                    _logger.LogInformation(_eventIdProvider.EventId, "MediatR request： {@Command}", request);
                     var response = await next();
-                    _logger.LogInformation(_eventIdProvider.EventId, "MediatR response - response: {@Response}", response);
+                    _logger.LogInformation(_eventIdProvider.EventId, "MediatR response: {@Response}", response);
                     return response;
                 }
                 catch (Exception e)

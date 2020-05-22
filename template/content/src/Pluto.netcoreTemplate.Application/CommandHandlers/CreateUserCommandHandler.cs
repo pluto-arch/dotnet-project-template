@@ -27,9 +27,7 @@ namespace Pluto.netcoreTemplate.Application.CommandHandlers
         /// 
         /// </summary>
         /// <param name="mediator"></param>
-        /// <param name="logger"></param>
-        /// <param name="eventIdProvider"></param>
-        /// <param name="userRepository"></param>
+        /// <param name="unitOfWork"></param>
         public CreateUserCommandHandler(
             IMediator mediator, IUnitOfWork<PlutonetcoreTemplateDbContext> unitOfWork)
         {

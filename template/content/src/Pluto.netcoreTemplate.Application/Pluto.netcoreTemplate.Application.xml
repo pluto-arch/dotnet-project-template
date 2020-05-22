@@ -35,9 +35,7 @@
             
             </summary>
             <param name="mediator"></param>
-            <param name="logger"></param>
-            <param name="eventIdProvider"></param>
-            <param name="userRepository"></param>
+            <param name="unitOfWork"></param>
         </member>
         <member name="M:Pluto.netcoreTemplate.Application.CommandHandlers.DeleteUserCommandHandler.Handle(Pluto.netcoreTemplate.Application.Commands.DeleteUserCommand,System.Threading.CancellationToken)">
             <inheritdoc />

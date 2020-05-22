@@ -12,13 +12,19 @@ namespace Pluto.netcoreTemplate.API.Modules
 {
     public class MediatorModule : Autofac.Module
     {
+        /*
+         * https://github.com/jbogard/MediatR/wiki
+         */
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyTypes(typeof(IMediator).GetTypeInfo().Assembly)
-                .AsImplementedInterfaces();
 
+            builder
+                .RegisterType<Mediator>()
+                .As<IMediator>()
+                .InstancePerLifetimeScope();
+            
             builder.RegisterAssemblyTypes(typeof(CreateUserCommand).GetTypeInfo().Assembly)
-                .AsClosedTypesOf(typeof(IRequestHandler<,>));
+                .AsClosedTypesOf(typeof(IRequestHandler<,>)).InstancePerDependency();
 
 
             builder.RegisterAssemblyTypes(typeof(DisableUserEventHandler).GetTypeInfo().Assembly)
@@ -32,8 +38,8 @@ namespace Pluto.netcoreTemplate.API.Modules
             });
 
 
-            builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>));
-            builder.RegisterGeneric(typeof(TransactionBehaviour<,>)).As(typeof(IPipelineBehavior<,>));
+            builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>)).InstancePerDependency(); ;
+            builder.RegisterGeneric(typeof(TransactionBehaviour<,>)).As(typeof(IPipelineBehavior<,>)).InstancePerDependency(); ;
         }
     }
 }

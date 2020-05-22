@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Pluto.netcoreTemplate.Infrastructure.Extensions
 {
-    static class MediatorExtension
+    public static class MediatorExtension
     {
         public static async Task DispatchDomainEventsAsync(this IMediator mediator, PlutonetcoreTemplateDbContext ctx)
         {

@@ -11,6 +11,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pluto.netcoreTemplate.Application.xml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MediatR" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.3" />
     <PackageReference Include="Serilog" Version="2.9.0" />
@@ -24,12 +28,6 @@
   <ItemGroup>
     <Folder Include="Notifications\" />
     <Folder Include="Queries\Impls\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Update="Pluto.netcoreTemplate.Application.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 
 </Project>

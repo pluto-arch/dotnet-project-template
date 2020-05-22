@@ -3,37 +3,26 @@ using Autofac.Extensions.DependencyInjection;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-
-using Pluto.netcoreTemplate.API.Middlewares;
-using Pluto.netcoreTemplate.API.Modules;
-using Pluto.netcoreTemplate.Infrastructure;
-using Pluto.netcoreTemplate.Infrastructure.Extensions;
-using Pluto.netcoreTemplate.Infrastructure.Providers;
-
-using Serilog;
-
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.IO;
-using System.Net.NetworkInformation;
-using System.Reflection;
-using System.Text.Json;
-using MediatR;
-using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Pluto.netcoreTemplate.API.Filters;
-using Pluto.netcoreTemplate.Application.Queries;
-using Pluto.netcoreTemplate.Application.Queries.Interfaces;
+using Pluto.netcoreTemplate.API.Middlewares;
+using Pluto.netcoreTemplate.API.Modules;
+using Pluto.netcoreTemplate.Infrastructure;
+using Pluto.netcoreTemplate.Infrastructure.Providers;
 using PlutoData;
+using Serilog;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
 
 
 namespace Pluto.netcoreTemplate.API
@@ -79,8 +68,10 @@ namespace Pluto.netcoreTemplate.API
             services
                 .AddDbContext<PlutonetcoreTemplateDbContext>(options =>
                     {
-                        options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddSerilog()));
-                        options.UseSqlServer(Configuration["ConnectionString"],
+                        options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddFilter((category, level) =>
+                            category == DbLoggerCategory.Database.Command.Name
+                            && level == LogLevel.Information).AddSerilog()));
+                        options.UseSqlServer(Configuration.GetConnectionString("Default"),
                             sqlServerOptionsAction: sqlOptions =>
                             {
                                 sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);

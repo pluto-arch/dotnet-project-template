@@ -81,14 +81,13 @@ namespace Pluto.netcoreTemplate.API
 
         private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
         {
-            const string outputTemplate = "[{Timestamp:HH:mm:ss.FFF} {Level}]{NewLine}{Event}¡£{RequestId}{NewLine}{Message}{NewLine}({SourceContext:l}){NewLine}{Exception}";
+            const string outputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}";
             return new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
                 .Enrich.FromLogContext()
                 .WriteTo.Console()
-                .WriteTo.Seq(configuration["Seq:Address"])
-                //.WriteTo.File(Path.Combine("logs", @"log.log"), rollingInterval: RollingInterval.Day,
-                //    outputTemplate: outputTemplate)
+                .WriteTo.File(Path.Combine("logs", @"log.log"), rollingInterval: RollingInterval.Day,
+                    outputTemplate: outputTemplate)
                 .CreateLogger();
         }
 

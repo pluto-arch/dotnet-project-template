@@ -45,11 +45,9 @@ namespace Pluto.netcoreTemplate.Application.CommandHandlers
             user.SetPasswordHash(request.Password);  // 有可能会注册领域事件
             _userRepository.Insert(user);
 
-            // 如果要触发领域事件，则使用SaveEntityChanges或者它的异步方法，不想触发事件，SaveChanges
-            var res= await _unitOfWork.SaveEntityChangesAsync(async () =>
-            {
-                await _mediator.DispatchDomainEventsAsync(_unitOfWork.DbContext);
-            },cancellationToken);
+            // 如果要触发领域事件，
+            await _mediator.DispatchDomainEventsAsync(_unitOfWork.DbContext);
+            var res= await _unitOfWork.SaveChangesAsync(cancellationToken);
             return res>0;
         }
     }

@@ -148,7 +148,6 @@ namespace Pluto.netcoreTemplate.API
              * other http micro service
              */
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            // ²Î¼û https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Web/WebMVC/Startup.cs
             services.AddHttpClient<IOrderService, OrderService>(client =>
             {
                 client.BaseAddress = new Uri("http://localhost:9900/api/v1");

@@ -23,6 +23,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Http;
+using Pluto.netcoreTemplate.Application.Services.Impl;
+using Pluto.netcoreTemplate.Application.Services.Interface;
 
 
 namespace Pluto.netcoreTemplate.API
@@ -42,6 +45,12 @@ namespace Pluto.netcoreTemplate.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
+            #region Á´½Ó×Ö·û´®
+            var sqlConnStr = Configuration.GetConnectionString("Default");
+            #endregion
+
+
             #region api controller
             services.AddControllers(options => { options.Filters.Add<ModelValidateFilter>(); })
                 .AddNewtonsoftJson(options =>
@@ -71,7 +80,7 @@ namespace Pluto.netcoreTemplate.API
                         options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddFilter((category, level) =>
                             category == DbLoggerCategory.Database.Command.Name
                             && level == LogLevel.Information).AddSerilog()));
-                        options.UseSqlServer(Configuration.GetConnectionString("Default"),
+                        options.UseSqlServer(sqlConnStr,
                             sqlServerOptionsAction: sqlOptions =>
                             {
                                 sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
@@ -130,6 +139,30 @@ namespace Pluto.netcoreTemplate.API
                                     builder.AllowAnyHeader();
                                 });
                         });
+
+            #endregion
+
+
+            #region Http microservice
+            /*
+             * other http micro service
+             */
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            // ²Î¼û https://github.com/dotnet-architecture/eShopOnContainers/blob/dev/src/Web/WebMVC/Startup.cs
+            services.AddHttpClient<IOrderService, OrderService>(client =>
+            {
+                client.BaseAddress = new Uri("http://localhost:9900/api/v1");
+            }).SetHandlerLifetime(TimeSpan.FromMinutes(5));
+            //.AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>(); // todo and authorization
+
+            #endregion
+
+
+            #region grpc micro service
+
+            /*
+             * other grpc micro service
+             */
 
             #endregion
         }

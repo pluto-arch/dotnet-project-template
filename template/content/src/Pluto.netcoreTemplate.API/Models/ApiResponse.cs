@@ -37,7 +37,7 @@ namespace Pluto.netcoreTemplate.API.Models
         /// 默认成功
         /// </summary>
         /// <returns></returns>
-        public static ApiResponse DefaultSuccess(string msg=null) => new ApiResponse(true, msg);
+        public static ApiResponse DefaultSuccess(string msg="SUCCESS") => new ApiResponse(true, msg);
 
         /// <summary>
         /// 默认失败

@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Design;
 using Pluto.netcoreTemplate.Application.Services.Impl;
 using Pluto.netcoreTemplate.Application.Services.Interface;
 
@@ -75,19 +76,7 @@ namespace Pluto.netcoreTemplate.API
 
             #region efcore  根据实际情况使用数据库
             services
-                .AddDbContext<PlutonetcoreTemplateDbContext>(options =>
-                    {
-                        options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddFilter((category, level) =>
-                            category == DbLoggerCategory.Database.Command.Name
-                            && level == LogLevel.Information).AddSerilog()));
-                        options.UseSqlServer(sqlConnStr,
-                            sqlServerOptionsAction: sqlOptions =>
-                            {
-                                sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                                sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                            });
-                    }, ServiceLifetime.Scoped
-                )
+                .AddDbContext<PlutonetcoreTemplateDbContext>(DbContextCreateFactory.OptionsAction(sqlConnStr), ServiceLifetime.Scoped)
                 .AddUnitOfWork<PlutonetcoreTemplateDbContext>()
                 .AddRepository();
             #endregion
@@ -166,6 +155,8 @@ namespace Pluto.netcoreTemplate.API
             #endregion
         }
 
+       
+
 
         /// <summary>
         /// 配置第三方(autofac)容器
@@ -213,4 +204,54 @@ namespace Pluto.netcoreTemplate.API
             });
         }
     }
+
+
+    /// <summary>
+    /// 指定设计时dbcontext 工厂
+    /// code first 迁移时使用
+    /// </summary>
+    /// <remarks>
+    /// 当program中没有默认的：
+    /// public static IHostBuilder CreateHostBuilder(string[] args) =>
+    /// Host.CreateDefaultBuilder(args)
+    /// .ConfigureWebHostDefaults(webBuilder =>
+    /// {
+    /// webBuilder.UseStartup<Startup>();
+    /// });
+    /// 时，必须指定如何初始化创建dbcontext
+    /// </remarks>
+    public class DbContextCreateFactory : IDesignTimeDbContextFactory<PlutonetcoreTemplateDbContext>
+    {
+        public PlutonetcoreTemplateDbContext CreateDbContext(string[] args)
+        {
+            var configbuild = new ConfigurationBuilder();
+            configbuild.AddJsonFile("appsettings.json", optional: true);
+            var config=configbuild.Build();
+            string conn = config.GetConnectionString("Default"); ;
+
+            var optionsBuilder = new DbContextOptionsBuilder<PlutonetcoreTemplateDbContext>();
+            OptionsAction(conn).Invoke(optionsBuilder);
+            return new PlutonetcoreTemplateDbContext(optionsBuilder.Options);
+
+        }
+
+
+        public static Action<DbContextOptionsBuilder> OptionsAction(string sqlConnStr)
+        {
+            return options =>
+            {
+                options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddFilter((category, level) =>
+                    category == DbLoggerCategory.Database.Command.Name
+                    && level == LogLevel.Information).AddSerilog()));
+                options.UseSqlServer(sqlConnStr,
+                    sqlServerOptionsAction: sqlOptions =>
+                    {
+                        sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
+                        sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
+                    });
+            };
+        }
+
+    }
+
 }

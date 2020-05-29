@@ -14,11 +14,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="Migrations\20200420143214_autoHistory.cs" />
-    <Compile Remove="Migrations\20200420143214_autoHistory.Designer.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Remove="Pluto.netcoreTemplate.API.xml" />
   </ItemGroup>
 

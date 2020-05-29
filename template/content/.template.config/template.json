@@ -1,21 +1,21 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "zhangyulong",
-  "classifications": [ "api", "project" ],
+  "classifications": ["api", "project"],
   "identity": "pluto.netcoreTemplate.Application",
-  "name": "pluto.netcoreTemplate.Application",
+  "name": "pluto.netcoreTemplate",
   "shortName": "pluto",
   "preferNameDirectory": true,
-  "sourceName":"Pluto.netcoreTemplate",
+  "sourceName": "Pluto.netcoreTemplate",
   "symbols": {
-	"solution": {
-		"type": "parameter",
-		"fileRename":"template",
-		"isRequired": true,
-		"description": "解决方案名称[solution]",
-		"defaultValue": "template",
-		"replaces": "template"
-	},
+    "solution": {
+      "type": "parameter",
+      "fileRename": "template",
+      "isRequired": true,
+      "description": "解决方案名称[solution]",
+      "defaultValue": "template",
+      "replaces": "template"
+    },
     "namespace": {
       "type": "parameter",
       "isRequired": true,
@@ -25,7 +25,7 @@
     },
     "dbcontext": {
       "type": "parameter",
-	  "fileRename":"PlutonetcoreTemplate",
+      "fileRename": "PlutonetcoreTemplate",
       "isRequired": true,
       "description": "数据库上下文[dbcontext]",
       "defaultValue": "PlutonetcoreTemplate",

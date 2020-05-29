@@ -10,8 +10,8 @@ using Pluto.netcoreTemplate.Infrastructure;
 namespace Pluto.netcoreTemplate.API.Migrations
 {
     [DbContext(typeof(PlutonetcoreTemplateDbContext))]
-    [Migration("20200413035719_init")]
-    partial class init
+    [Migration("20200529155050_init_Db")]
+    partial class init_Db
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

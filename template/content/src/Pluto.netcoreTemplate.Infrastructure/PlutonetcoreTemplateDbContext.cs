@@ -18,8 +18,6 @@ namespace Pluto.netcoreTemplate.Infrastructure
     public class PlutonetcoreTemplateDbContext : DbContext
     {
 
-        public const string DEFAULT_SCHEMA = "dbo";
-
         public PlutonetcoreTemplateDbContext(DbContextOptions<PlutonetcoreTemplateDbContext> options)
             : base(options)
         {

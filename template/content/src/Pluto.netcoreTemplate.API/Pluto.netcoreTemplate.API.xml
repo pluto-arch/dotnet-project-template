@@ -33,6 +33,13 @@
             <param name="logger"></param>
             <param name="eventIdProvider"></param>
         </member>
+        <member name="M:Pluto.netcoreTemplate.API.Controllers.OrderController.Orders">
+            <summary>
+            获取所有订单  GET: api/Orders
+            使用订单微服务
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:Pluto.netcoreTemplate.API.Controllers.UserController">
             <summary>
             Demo 控制器
@@ -272,5 +279,6 @@
             </summary>
             <param name="builder"></param>
         </member>
+        <!-- Badly formed XML comment ignored for member "T:Pluto.netcoreTemplate.API.DbContextCreateFactory" -->
     </members>
 </doc>

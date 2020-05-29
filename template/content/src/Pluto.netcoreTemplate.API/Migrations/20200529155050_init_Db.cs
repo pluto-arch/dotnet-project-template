@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Pluto.netcoreTemplate.API.Migrations
 {
-    public partial class init : Migration
+    public partial class init_Db : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -25,8 +25,6 @@ using System.IO;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Design;
-using Pluto.netcoreTemplate.Application.Services.Impl;
-using Pluto.netcoreTemplate.Application.Services.Interface;
 
 
 namespace Pluto.netcoreTemplate.API
@@ -131,31 +129,14 @@ namespace Pluto.netcoreTemplate.API
 
             #endregion
 
-
-            #region Http microservice
-            /*
-             * other http micro service
-             */
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddHttpClient<IOrderService, OrderService>(client =>
-            {
-                client.BaseAddress = new Uri("http://localhost:9900/api/v1");
-            }).SetHandlerLifetime(TimeSpan.FromMinutes(5));
-            //.AddHttpMessageHandler<HttpClientAuthorizationDelegatingHandler>(); // todo and authorization
-
+            #region httpcontext accessor
+            services.AddHttpContextAccessor();
             #endregion
 
 
-            #region grpc micro service
-
-            /*
-             * other grpc micro service
-             */
-
-            #endregion
         }
 
-       
+
 
 
         /// <summary>

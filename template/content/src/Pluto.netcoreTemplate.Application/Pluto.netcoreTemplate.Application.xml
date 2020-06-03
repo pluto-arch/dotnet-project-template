@@ -117,29 +117,5 @@
         <member name="M:Pluto.netcoreTemplate.Application.Queries.UserQueries.GetUser(System.Object)">
             <inheritdoc />
         </member>
-        <member name="T:Pluto.netcoreTemplate.Application.Services.Impl.OrderService">
-            <summary>
-            demo 访问另外的为服务
-            </summary>
-            <remarks>
-            使用http方式
-            </remarks>
-        </member>
-        <member name="M:Pluto.netcoreTemplate.Application.Services.Impl.OrderService.GetOrders(System.Int32,System.Int32)">
-            <inheritdoc />
-        </member>
-        <member name="T:Pluto.netcoreTemplate.Application.Services.Interface.IOrderService">
-            <summary>
-            order 服务client接口顶级
-            </summary>
-        </member>
-        <member name="M:Pluto.netcoreTemplate.Application.Services.Interface.IOrderService.GetOrders(System.Int32,System.Int32)">
-            <summary>
-            获取订单列表
-            </summary>
-            <param name="pageIndex"></param>
-            <param name="pageSize"></param>
-            <returns></returns>
-        </member>
     </members>
 </doc>

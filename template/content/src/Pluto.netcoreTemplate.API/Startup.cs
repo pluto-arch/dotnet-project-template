@@ -22,6 +22,7 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Design;
@@ -32,9 +33,13 @@ namespace Pluto.netcoreTemplate.API
     public class Startup
     {
         private const string DefaultCorsName = "default";
+
+        private readonly string conntctionString = string.Empty;
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
+            conntctionString = Configuration["ConnectionStrings:PlutonetcoreTemplate"];
         }
 
         public IConfiguration Configuration { get; }
@@ -67,6 +72,16 @@ namespace Pluto.netcoreTemplate.API
             #endregion
 
 
+            #region HealthChecks
+            services.Configure<MemoryCheckOptions>(options =>
+            {
+                options.Threshold = Configuration.GetValue<long>("Options:MemoryChkOpt:Threshold");
+            });
+            services.AddHealthChecks()
+                .AddCheck<DatabaseHealthCheck>("database_check",failureStatus: HealthStatus.Unhealthy,tags: new string[] {"database", "sqlServer"})
+                .AddCheck<MemoryHealthCheck>("memory_check",failureStatus: HealthStatus.Degraded);
+            #endregion
+
             #region EventIdProvider
             services.AddScoped(typeof(EventIdProvider));
             #endregion
@@ -81,19 +96,19 @@ namespace Pluto.netcoreTemplate.API
 
 
             #region swagger
-                        services.AddSwaggerGen(c =>
-                        {
-                            c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pluto.netcoreTemplate.API", Version = "v1" });
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Pluto.netcoreTemplate.API", Version = "v1" });
 
-                            c.AddSecurityDefinition("Bearer", //Name the security scheme
-                                new OpenApiSecurityScheme
-                                {
-                                    Description = "JWT Authorization header using the Bearer scheme.",
-                                    Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
+                c.AddSecurityDefinition("Bearer", //Name the security scheme
+                    new OpenApiSecurityScheme
+                    {
+                        Description = "JWT Authorization header using the Bearer scheme.",
+                        Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
                                     Scheme = "bearer" //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer".
                                 });
 
-                            c.AddSecurityRequirement(new OpenApiSecurityRequirement{
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement{
                                 {
                                     new OpenApiSecurityScheme{
                                         Reference = new OpenApiReference{
@@ -102,30 +117,30 @@ namespace Pluto.netcoreTemplate.API
                                         }
                                     },new List<string>()
                                 }
-                            });
+                });
 
 
                             // Set the comments path for the Swagger JSON and UI.
                             var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                            var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
-                            c.IncludeXmlComments(xmlPath);
-                        });
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
             #endregion
 
 
             #region cors
 
-                        services.AddCors(options =>
-                        {
-                            options.AddPolicy(DefaultCorsName,
-                                builder =>
-                                {
-                                    builder.AllowAnyOrigin();
-                                    builder.AllowAnyHeader();
-                                    builder.AllowAnyMethod();
-                                    builder.AllowAnyHeader();
-                                });
-                        });
+            services.AddCors(options =>
+            {
+                options.AddPolicy(DefaultCorsName,
+                    builder =>
+                    {
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                        builder.AllowAnyHeader();
+                    });
+            });
 
             #endregion
 
@@ -145,14 +160,14 @@ namespace Pluto.netcoreTemplate.API
         /// <param name="builder"></param>
         public void ConfigureContainer(ContainerBuilder builder)
         {
-#region MediatoR
+            #region MediatoR
             builder.RegisterModule(new MediatorModule());
-#endregion
+            #endregion
 
 
-#region Application
+            #region Application
             builder.RegisterModule(new ApplicationModule());
-#endregion
+            #endregion
         }
 
 
@@ -178,9 +193,21 @@ namespace Pluto.netcoreTemplate.API
             });
             app.UseCors(DefaultCorsName);
             app.UseRouting();
-            
+
+
+
+
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHealthChecks("/health", new HealthCheckOptions
+                {
+                    ResponseWriter = async (c, r) =>
+                    {
+                        c.Response.ContentType = "application/json";
+                        var result = JsonConvert.SerializeObject(r.Entries);
+                        await c.Response.WriteAsync(result);
+                    }
+                });
                 endpoints.MapControllers();
             });
         }

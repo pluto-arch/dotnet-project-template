@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Runtime.InteropServices.ComTypes;
 using MediatR;
-
 using Microsoft.Extensions.Logging;
-
 using Pluto.netcoreTemplate.Infrastructure.Providers;
-
 using System.Threading;
 using System.Threading.Tasks;
 using Serilog.Context;

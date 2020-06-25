@@ -2,11 +2,11 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>Pluto.netcoreTemplate</id>
-    <version>1.2.0</version>
+    <version>1.2.1</version>
     <description>
       dotnet core 3.1 project template
     </description>
-    <authors>zhangyulong</authors>
+    <authors>yulong0204@qq.com</authors>
     <packageTypes>
       <packageType name="Template" />
     </packageTypes>

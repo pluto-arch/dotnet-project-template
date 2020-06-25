@@ -1,0 +1,10 @@
+{
+  "Grpc": {
+    "Urls": {
+      "OrderServiceAddress": "http://localhost:5800"
+    }
+  },
+  "Http": {
+
+  }
+}

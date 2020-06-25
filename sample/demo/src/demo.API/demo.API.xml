@@ -1,0 +1,277 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Demo.API</name>
+    </assembly>
+    <members>
+        <member name="T:Demo.API.Controllers.ApiBaseController`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:Demo.API.Controllers.ApiBaseController`1._mediator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Demo.API.Controllers.ApiBaseController`1._logger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:Demo.API.Controllers.ApiBaseController`1._eventIdProvider">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Demo.API.Controllers.ApiBaseController`1.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{`0},Demo.Infrastructure.Providers.EventIdProvider)">
+            <summary>
+            
+            </summary>
+            <param name="mediator"></param>
+            <param name="logger"></param>
+            <param name="eventIdProvider"></param>
+        </member>
+        <member name="T:Demo.API.Controllers.UserController">
+            <summary>
+            Demo 控制器
+            </summary>
+        </member>
+        <member name="M:Demo.API.Controllers.UserController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{Demo.API.Controllers.UserController},Demo.Infrastructure.Providers.EventIdProvider,Demo.Application.Queries.Interfaces.IUserQueries)">
+            <summary>
+            
+            </summary>
+            <param name="mediator"></param>
+            <param name="logger"></param>
+            <param name="eventIdProvider"></param>
+        </member>
+        <member name="M:Demo.API.Controllers.UserController.Users">
+            <summary>
+            获取所有用户  GET: api/users
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Demo.API.Controllers.UserController.Users(System.Int32)">
+            <summary>
+            根据id获取一个用户 GET: api/users/{id}
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Demo.API.Controllers.UserController.UserRoles(System.Int32)">
+            <summary>
+            获取用户的所有角色 / GET: api/users/{id}/roles
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Demo.API.Controllers.UserController.Post(Demo.API.Models.Requests.CreateUserRequest)">
+            <summary>
+            创建用户 POST: api/users
+            </summary>
+            <param name="request"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Demo.API.Controllers.UserController.Put(System.Int32,Demo.API.Models.Requests.PutUserRequest)">
+            <summary>
+            全部更新 PUT: api/users/5
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:Demo.API.Controllers.UserController.Delete(System.Int32)">
+            <summary>
+            删除一个用户 DELETE: api/demo/5
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Demo.API.Filters.ModelValidateFilter">
+            <summary>
+            model 验证过滤器
+            </summary>
+        </member>
+        <member name="M:Demo.API.Filters.ModelValidateFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:Demo.API.Filters.ModelValidateFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Demo.API.Middlewares.ApplicationBuilderExtensions">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Demo.API.Middlewares.ApplicationBuilderExtensions.UseExceptionProcess(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Demo.API.Models.ApiResponse">
+            <summary>
+            接口response
+            </summary>
+        </member>
+        <member name="M:Demo.API.Models.ApiResponse.#ctor(System.Boolean,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="successed"></param>
+            <param name="msg"></param>
+        </member>
+        <member name="P:Demo.API.Models.ApiResponse.Successed">
+            <summary>
+            接口调用是否成功
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.ApiResponse.Msg">
+            <summary>
+            失败的提示信息
+            </summary>
+        </member>
+        <member name="M:Demo.API.Models.ApiResponse.DefaultSuccess(System.String)">
+            <summary>
+            默认成功
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Demo.API.Models.ApiResponse.DefaultFail(System.String)">
+            <summary>
+            默认失败
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Demo.API.Models.ApiResponse.Success``1(``0)">
+            <summary>
+            带数据的成功
+            </summary>
+            <typeparam name="T"></typeparam>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Demo.API.Models.ApiResponse`1">
+            <summary>
+            接口统一返回值
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="M:Demo.API.Models.ApiResponse`1.#ctor(System.Boolean,System.String,`0)">
+            <summary>
+            
+            </summary>
+            <param name="success"></param>
+            <param name="msg"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Demo.API.Models.ApiResponse`1.Data">
+            <summary>
+            数据域
+            </summary>
+        </member>
+        <member name="T:Demo.API.Models.Requests.CreateUserRequest">
+            <summary>
+            创建用户http request
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.CreateUserRequest.UserName">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.CreateUserRequest.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="T:Demo.API.Models.Requests.LoginRequest">
+            <summary>
+            登陆
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.LoginRequest.Email">
+            <summary>
+            邮箱
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.LoginRequest.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="M:Demo.API.Models.Requests.LoginRequest.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
+            <summary>
+            
+            </summary>
+            <param name="validationContext"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Demo.API.Models.Requests.PutUserRequest">
+            <summary>
+            对应 http put 更新 user
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.PutUserRequest.userName">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.PutUserRequest.emailConfirmed">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.PutUserRequest.phoneConfirmed">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.PutUserRequest.lockoutEnabled">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.PutUserRequest.accessFailedCount">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.PutUserRequest.passwordHash">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Requests.PutUserRequest.id">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Demo.API.Models.Responses.AuthResponse">
+            <summary>
+            授权token 
+            </summary>
+        </member>
+        <member name="P:Demo.API.Models.Responses.AuthResponse.Token">
+            <summary>
+            
+            </summary>
+            <value></value>
+        </member>
+        <member name="M:Demo.API.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
+            <summary>
+            配置第三方(autofac)容器
+            </summary>
+            <param name="builder"></param>
+        </member>
+        <!-- Badly formed XML comment ignored for member "T:Demo.API.DbContextCreateFactory" -->
+    </members>
+</doc>

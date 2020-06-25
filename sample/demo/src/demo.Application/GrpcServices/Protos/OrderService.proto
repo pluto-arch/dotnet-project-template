@@ -1,0 +1,15 @@
+﻿syntax = "proto3";
+package BlogCore.Application;
+
+message Request{
+	int32 Id = 1;
+}
+
+message Response{
+	string Name = 1;
+}
+
+
+service OrderService {
+	rpc GetOrders (Request) returns (Response);
+}

@@ -8,8 +8,5 @@ namespace Pluto.netcoreTemplate.Infrastructure.Repositories
 {
     public class UserRepository:Repository<UserEntity>, IUserRepository
     {
-        public UserRepository(PlutonetcoreTemplateDbContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

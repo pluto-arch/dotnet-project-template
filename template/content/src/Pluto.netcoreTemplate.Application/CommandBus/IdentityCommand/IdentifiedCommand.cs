@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Pluto.netcoreTemplate.Application.CommandHandlers.IdentityCommand
+namespace Pluto.netcoreTemplate.Application.CommandBus.IdentityCommand
 {
     public class IdentifiedCommand<T, R> : IRequest<R>
         where T : IRequest<R>

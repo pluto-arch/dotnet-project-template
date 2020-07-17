@@ -8,7 +8,7 @@ using Pluto.netcoreTemplate.Infrastructure;
 using Pluto.netcoreTemplate.Infrastructure.Extensions;
 using PlutoData.Interface;
 
-namespace Pluto.netcoreTemplate.Application.CommandHandlers
+namespace Pluto.netcoreTemplate.Application.CommandBus
 {
     /// <summary>
     /// 

@@ -36,8 +36,6 @@
 
   <ItemGroup>
     <Folder Include="GrpcServices\Protos\" />
-    <Folder Include="Notifications\" />
-    <Folder Include="HttpServices\" />
   </ItemGroup>
 
   <ItemGroup>

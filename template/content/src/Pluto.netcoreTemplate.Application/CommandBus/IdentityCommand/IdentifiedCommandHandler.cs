@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Pluto.netcoreTemplate.Application.CommandHandlers.IdentityCommand
+namespace Pluto.netcoreTemplate.Application.CommandBus.IdentityCommand
 {
     public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<T, R>, R>
         where T : IRequest<R>

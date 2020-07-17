@@ -24,6 +24,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using AutoMapper;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Design;
@@ -57,7 +58,6 @@ namespace Pluto.netcoreTemplate.API
             var sqlConnStr = Configuration.GetConnectionString("Default");
             #endregion
 
-
             #region api controller
             services.AddControllers(options => { options.Filters.Add<ModelValidateFilter>(); })
                 .AddNewtonsoftJson(options =>
@@ -74,29 +74,26 @@ namespace Pluto.netcoreTemplate.API
             });
             #endregion
 
-
             #region HealthChecks
             services.Configure<MemoryCheckOptions>(options =>
             {
                 options.Threshold = Configuration.GetValue<long>("Options:MemoryChkOpt:Threshold");
             });
             services.AddHealthChecks()
-                .AddCheck<DatabaseHealthCheck>("database_check",failureStatus: HealthStatus.Unhealthy,tags: new string[] {"database", "sqlServer"})
-                .AddCheck<MemoryHealthCheck>("memory_check",failureStatus: HealthStatus.Degraded);
+                .AddCheck<DatabaseHealthCheck>("database_check", failureStatus: HealthStatus.Unhealthy, tags: new string[] { "database", "sqlServer" })
+                .AddCheck<MemoryHealthCheck>("memory_check", failureStatus: HealthStatus.Degraded);
             #endregion
 
             #region EventIdProvider
             services.AddScoped(typeof(EventIdProvider));
             #endregion
 
-
             #region efcore  根据实际情况使用数据库
-            services
-                .AddDbContext<PlutonetcoreTemplateDbContext>(DbContextCreateFactory.OptionsAction(sqlConnStr), ServiceLifetime.Scoped)
-                .AddUnitOfWork<PlutonetcoreTemplateDbContext>()
-                .AddRepository();
-            #endregion
 
+            services.AddUnitOfWorkDbContext<PlutonetcoreTemplateDbContext>(DbContextCreateFactory.OptionsAction(sqlConnStr), ServiceLifetime.Scoped)
+                    .AddRepository();
+
+            #endregion
 
             #region swagger
             services.AddSwaggerGen(c =>
@@ -108,8 +105,8 @@ namespace Pluto.netcoreTemplate.API
                     {
                         Description = "JWT Authorization header using the Bearer scheme.",
                         Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
-                                    Scheme = "bearer" //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer".
-                                });
+                        Scheme = "bearer" //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer".
+                    });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement{
                                 {
@@ -123,13 +120,12 @@ namespace Pluto.netcoreTemplate.API
                 });
 
 
-                            // Set the comments path for the Swagger JSON and UI.
-                            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
             #endregion
-
 
             #region cors
 
@@ -151,6 +147,11 @@ namespace Pluto.netcoreTemplate.API
             services.AddHttpContextAccessor();
             #endregion
 
+            #region automapper
+
+            services.AddAutoMapper(Assembly.GetEntryAssembly());
+
+            #endregion
 
         }
 
@@ -221,23 +222,20 @@ namespace Pluto.netcoreTemplate.API
     /// 指定设计时dbcontext 工厂
     /// code first 迁移时使用
     /// </summary>
-    /// <remarks>
     /// 当program中没有默认的：
     /// public static IHostBuilder CreateHostBuilder(string[] args) =>
     /// Host.CreateDefaultBuilder(args)
     /// .ConfigureWebHostDefaults(webBuilder =>
     /// {
-    /// webBuilder.UseStartup<Startup>();
     /// });
     /// 时，必须指定如何初始化创建dbcontext
-    /// </remarks>
     public class DbContextCreateFactory : IDesignTimeDbContextFactory<PlutonetcoreTemplateDbContext>
     {
         public PlutonetcoreTemplateDbContext CreateDbContext(string[] args)
         {
             var configbuild = new ConfigurationBuilder();
             configbuild.AddJsonFile("appsettings.json", optional: true);
-            var config=configbuild.Build();
+            var config = configbuild.Build();
             string conn = config.GetConnectionString("Default"); ;
 
             var optionsBuilder = new DbContextOptionsBuilder<PlutonetcoreTemplateDbContext>();

@@ -8,7 +8,7 @@ using Pluto.netcoreTemplate.Infrastructure.Providers;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Pluto.netcoreTemplate.Application.DomainEventHandlers.Users
+namespace Pluto.netcoreTemplate.Application.EventBus.Users
 {
     public class DisableUserEventHandler : INotificationHandler<DisableUserEvent>
     {

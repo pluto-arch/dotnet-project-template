@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate
+namespace Pluto.netcoreTemplate.Domain.DomainModels.Account
 {
     public class RoleEntity : BaseEntity<int>
     {

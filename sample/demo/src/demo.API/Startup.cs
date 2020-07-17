@@ -95,10 +95,10 @@ namespace Demo.API
 
 
             #region efcore  根据实际情况使用数据库
-            services
-                .AddDbContext<DemoDbContext>(DbContextCreateFactory.OptionsAction(sqlConnStr), ServiceLifetime.Scoped)
-                .AddUnitOfWork<DemoDbContext>()
-                .AddRepository();
+
+            services.AddUnitOfWorkDbContext<DemoDbContext>(DbContextCreateFactory.OptionsAction(sqlConnStr),
+                                                               ServiceLifetime.Scoped)
+                        .AddRepository();
             #endregion
 
 

@@ -4,9 +4,9 @@ using MediatR;
 
 using Pluto.netcoreTemplate.Application.Behaviors;
 using Pluto.netcoreTemplate.Application.Commands;
-using Pluto.netcoreTemplate.Application.DomainEventHandlers.Users;
 
 using System.Reflection;
+using Pluto.netcoreTemplate.Application.EventBus.Users;
 
 namespace Pluto.netcoreTemplate.API.Modules
 {

@@ -8,11 +8,8 @@ using Pluto.netcoreTemplate.Infrastructure;
 using PlutoData.Interface;
 
 
-//  ===================
-// 2020-03-24
-//  ===================
 
-namespace Pluto.netcoreTemplate.Application.CommandHandlers
+namespace Pluto.netcoreTemplate.Application.CommandBus
 {
     public class DeleteUserCommandHandler:IRequestHandler<DeleteUserCommand,bool>
     {

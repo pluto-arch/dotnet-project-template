@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Pluto.netcoreTemplate.Domain.Events.AccountEvents;
 
-namespace Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate
+namespace Pluto.netcoreTemplate.Domain.DomainModels.Account
 {
     public class UserEntity : BaseEntity<int>
     {
@@ -35,6 +35,9 @@ namespace Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate
         public string PasswordHash { get; internal set; }
 
         public IReadOnlyCollection<UserRoleEntity> Roles { get; set; }
+
+
+
 
         public void ChangeSecurityStamp(string securityStamp)
         {

@@ -174,7 +174,6 @@ namespace Pluto.netcoreTemplate.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

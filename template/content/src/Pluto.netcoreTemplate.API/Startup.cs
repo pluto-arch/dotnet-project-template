@@ -43,7 +43,7 @@ namespace Pluto.netcoreTemplate.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            conntctionString = Configuration["ConnectionStrings:PlutonetcoreTemplate"];
+            conntctionString = configuration.GetConnectionString("PlutonetcoreTemplate.MSSQL");
         }
 
         public IConfiguration Configuration { get; }
@@ -53,11 +53,6 @@ namespace Pluto.netcoreTemplate.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
-            #region 链接字符串
-            var sqlConnStr = Configuration.GetConnectionString("Default");
-            #endregion
-
             #region api controller
             services.AddControllers(options => { options.Filters.Add<ModelValidateFilter>(); })
                 .AddNewtonsoftJson(options =>
@@ -90,7 +85,7 @@ namespace Pluto.netcoreTemplate.API
 
             #region efcore  根据实际情况使用数据库
 
-            services.AddUnitOfWorkDbContext<PlutonetcoreTemplateDbContext>(DbContextCreateFactory.OptionsAction(sqlConnStr), ServiceLifetime.Scoped)
+            services.AddUnitOfWorkDbContext<PlutonetcoreTemplateDbContext>(DbContextCreateFactory.OptionsAction(conntctionString), ServiceLifetime.Scoped)
                     .AddRepository();
 
             #endregion
@@ -198,9 +193,6 @@ namespace Pluto.netcoreTemplate.API
             app.UseCors(DefaultCorsName);
             app.UseRouting();
 
-
-
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions
@@ -236,7 +228,7 @@ namespace Pluto.netcoreTemplate.API
             var configbuild = new ConfigurationBuilder();
             configbuild.AddJsonFile("appsettings.json", optional: true);
             var config = configbuild.Build();
-            string conn = config.GetConnectionString("Default"); ;
+            string conn = config.GetConnectionString("PlutonetcoreTemplate.MSSQL");
 
             var optionsBuilder = new DbContextOptionsBuilder<PlutonetcoreTemplateDbContext>();
             OptionsAction(conn).Invoke(optionsBuilder);

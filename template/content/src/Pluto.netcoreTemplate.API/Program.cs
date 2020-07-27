@@ -31,14 +31,14 @@ namespace Pluto.netcoreTemplate.API
             Log.Logger = CreateSerilogLogger(configuration);
             try
             {
-                Log.Information("配置web主机 ({ApplicationContext})...", AppName);
+                Log.Information("准备启动{ApplicationContext}...", AppName);
                 var host = BuildWebHost(configuration, args);
-                Log.Information("主机配置完毕，开始启动 ({ApplicationContext})...", AppName);
+                Log.Information("{ApplicationContext} 已启动", AppName);
                 host.Run();
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "应用程序异常终止 ({ApplicationContext})!", AppName);
+                Log.Fatal(ex, "{ApplicationContext} 出现错误:{messsage} !", AppName,ex.Message);
             }
             finally
             {
@@ -50,15 +50,16 @@ namespace Pluto.netcoreTemplate.API
         {
             var webHost = WebHost.CreateDefaultBuilder(args)
                 .CaptureStartupErrors(false)
-                .UseUrls("http://0.0.0.0:5000")
-                //.ConfigureKestrel(options =>
-                //{
-                //    var ports = GetDefinedPorts(configuration);
-                //    options.Listen(IPAddress.Any, ports, listenOptions =>
-                //    {
-                //        listenOptions.Protocols = HttpProtocols.Http1AndHttp2;
-                //    });
-                //})
+                .UseIISIntegration()
+                .ConfigureKestrel(options =>
+                {
+                    var hostAddress = GetDefinedPorts(configuration);
+                    options.Listen(hostAddress.IP, hostAddress.Port, listenOptions =>
+                    {
+                        listenOptions.Protocols = Enum.TryParse<HttpProtocols>(hostAddress.Protocols, ignoreCase: true,out var protocols) 
+                                                      ? SetHostProtocols(protocols) : HttpProtocols.Http1AndHttp2;
+                    });
+                })
                 .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .UseContentRoot(Directory.GetCurrentDirectory())
@@ -73,6 +74,32 @@ namespace Pluto.netcoreTemplate.API
 
             return webHost;
         }
+
+        private static HttpProtocols SetHostProtocols(HttpProtocols protocols)
+        {
+            switch (protocols)
+            {
+                case HttpProtocols.Http1:
+                    return HttpProtocols.Http1;
+                case HttpProtocols.Http2:
+                    return HttpProtocols.Http2;
+                case HttpProtocols.Http1AndHttp2:
+                    return HttpProtocols.Http1AndHttp2;
+                case HttpProtocols.None:
+                    return HttpProtocols.None;
+                default:
+                    throw new ApplicationException("Protocols 类型不正确，可能的值：Http1、Http2、None、Http1AndHttp2 ");
+            }
+        }
+
+        private static (IPAddress IP,int Port,string Protocols) GetDefinedPorts(IConfiguration configuration)
+        {
+            var ip = configuration["Host:IP"];
+            var port = configuration.GetValue<int>("Host:Port");
+            var protocols = configuration["Host:Protocols"];
+            return (IPAddress.Parse(ip), port,protocols);
+        }
+
 
         private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
         {
@@ -113,12 +140,14 @@ namespace Pluto.netcoreTemplate.API
 
                 try
                 {
-                    logger.LogInformation("迁移数据库 ({DbContextName})", typeof(TContext).Name);
+                    logger.LogInformation("开始迁移数据库 {DbContextName}", typeof(TContext).Name);
+                    // 存在未提交到数据库的迁移
                     if (context.Database.GetPendingMigrations().Any())
                     {
+                        // 进行迁移
                         context.Database.Migrate();
+                        logger.LogInformation("已迁移数据库 {DbContextName}", typeof(TContext).Name);
                     }
-                    logger.LogInformation("已迁移数据库 {DbContextName}", typeof(TContext).Name);
                     seeder?.Invoke(context, webHost.Services); // 种子数据初始化
                 }
                 catch (Exception ex)

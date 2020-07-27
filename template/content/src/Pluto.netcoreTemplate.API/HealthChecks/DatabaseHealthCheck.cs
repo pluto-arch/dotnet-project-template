@@ -17,7 +17,7 @@ namespace Pluto.netcoreTemplate.API.HealthChecks
         private readonly string _connectionString;
         public DatabaseHealthCheck(IConfiguration configuration)
         {
-            _connectionString = configuration["ConnectionStrings:PlutonetcoreTemplate"] ?? throw new ArgumentNullException("连接字符串为空");
+            _connectionString = configuration.GetConnectionString("PlutonetcoreTemplate.MSSQL") ?? throw new ArgumentNullException("连接字符串为空");
         }
 
         /// <inheritdoc />
@@ -33,7 +33,7 @@ namespace Pluto.netcoreTemplate.API.HealthChecks
                     using (var command = connection.CreateCommand())
                     {
                         command.CommandText = "select 1+1";
-                        await command.ExecuteScalarAsync();
+                        await command.ExecuteScalarAsync(cancellationToken);
                     }
 
                     return new HealthCheckResult(

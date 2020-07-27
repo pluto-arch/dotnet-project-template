@@ -1,0 +1,14 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>PlutoNetCoreTemplate.Domain</AssemblyName>
+    <RootNamespace>PlutoNetCoreTemplate.Domain</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="8.0.1" />
+    <PackageReference Include="PlutoData" Version="1.2.0" />
+  </ItemGroup>
+
+</Project>

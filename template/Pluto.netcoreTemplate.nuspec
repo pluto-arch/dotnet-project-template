@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
-    <id>Pluto.netcoreTemplate</id>
-    <version>1.3.0</version>
+    <id>PlutoNetCoreTemplate</id>
+    <version>1.3.2</version>
     <description>
-      dotnet core 3.1 project template
+      dotnet core 3.1 Api project template
     </description>
     <authors>yulong0204@qq.com</authors>
     <packageTypes>
@@ -12,6 +12,6 @@
     </packageTypes>
   </metadata>
   <files>
-    <file src="content\**" target="content" exclude="**.vs\**;**.idea\**;**\**\**\bin\**;**\**\**\obj\**" />
+    <file src="content\**" target="content" exclude="**.vs\**;**.idea\**;**\**\**\bin\**;**\**\**\obj\**;**\**\*.xml" />
   </files>
 </package>

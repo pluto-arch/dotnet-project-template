@@ -16,20 +16,13 @@
       "defaultValue": "template",
       "replaces": "template"
     },
-    "namespace": {
-      "type": "parameter",
-      "isRequired": true,
-      "description": "命名空间[namespace]",
-      "defaultValue": "Pluto.netcoreTemplate",
-      "replaces": "Pluto.netcoreTemplate"
-    },
     "dbcontext": {
       "type": "parameter",
-      "fileRename": "PlutonetcoreTemplate",
-      "isRequired": true,
-      "description": "数据库上下文[dbcontext]",
-      "defaultValue": "PlutonetcoreTemplate",
-      "replaces": "PlutonetcoreTemplate"
+      "isRequired": false,
+      "fileRename": "PlutoNetCoreTemplate",
+      "description": "数据库上下文[EF CORE]",
+      "defaultValue": "PlutoNetCoreTemplate",
+      "replaces": "PlutoNetCoreTemplate"
     }
   }
 }

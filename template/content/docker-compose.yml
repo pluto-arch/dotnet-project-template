@@ -6,4 +6,4 @@ services:
     container_name: templateService
     build:
       context: .
-      dockerfile: src/Pluto.netcoreTemplate.API/Dockerfile
+      dockerfile: src/PlutoNetCoreTemplate.API/Dockerfile

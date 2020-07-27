@@ -3,20 +3,20 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29609.76
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pluto.netcoreTemplate.Infrastructure", "src\Pluto.netcoreTemplate.Infrastructure\Pluto.netcoreTemplate.Infrastructure.csproj", "{E6B9C091-9DCC-4EA9-A9CF-27F5E432284A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoNetCoreTemplate.Infrastructure", "src\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj", "{E6B9C091-9DCC-4EA9-A9CF-27F5E432284A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pluto.netcoreTemplate.Domain", "src\Pluto.netcoreTemplate.Domain\Pluto.netcoreTemplate.Domain.csproj", "{24730CDE-11F3-4755-A694-0604EAB583B9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoNetCoreTemplate.Domain", "src\PlutoNetCoreTemplate.Domain\PlutoNetCoreTemplate.Domain.csproj", "{24730CDE-11F3-4755-A694-0604EAB583B9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pluto.netcoreTemplate.Application", "src\Pluto.netcoreTemplate.Application\Pluto.netcoreTemplate.Application.csproj", "{09488B14-B296-4D5E-B138-377FEF3843A9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoNetCoreTemplate.Application", "src\PlutoNetCoreTemplate.Application\PlutoNetCoreTemplate.Application.csproj", "{09488B14-B296-4D5E-B138-377FEF3843A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pluto.netcoreTemplate.API", "src\Pluto.netcoreTemplate.API\Pluto.netcoreTemplate.API.csproj", "{71041645-E8E5-457D-8F7E-AEB3A293910A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoNetCoreTemplate.API", "src\PlutoNetCoreTemplate.API\PlutoNetCoreTemplate.API.csproj", "{71041645-E8E5-457D-8F7E-AEB3A293910A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9B37EC1-6843-4667-91F0-DA8F89A4878A}"
 	ProjectSection(SolutionItems) = preProject
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Pluto.netcoreTemplate.Test", "src\Pluto.netcoreTemplate.Test\Pluto.netcoreTemplate.Test.csproj", "{7213BF94-CAD0-4663-9F9B-925168447808}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoNetCoreTemplate.Test", "src\PlutoNetCoreTemplate.Test\PlutoNetCoreTemplate.Test.csproj", "{7213BF94-CAD0-4663-9F9B-925168447808}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{EB66D200-1B27-489F-AA3B-CFD8E9096C77}"
 EndProject

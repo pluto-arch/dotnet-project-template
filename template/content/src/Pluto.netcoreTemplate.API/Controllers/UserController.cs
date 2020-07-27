@@ -30,6 +30,7 @@ namespace Pluto.netcoreTemplate.API.Controllers
         /// <param name="mediator"></param>
         /// <param name="logger"></param>
         /// <param name="eventIdProvider"></param>
+        /// <param name="userQueries"></param>
         public UserController(
             IMediator mediator, 
             ILogger<UserController> logger, 
@@ -93,10 +94,10 @@ namespace Pluto.netcoreTemplate.API.Controllers
         }
 
         /// <summary>
-        /// 全部更新 PUT: api/users/5
+        /// 全部更新
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="value"></param>
+        /// <param name="request"></param>
         [HttpPut("{id}")]
         public ApiResponse Put(int id, [FromBody]PutUserRequest request)
         {

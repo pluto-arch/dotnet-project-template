@@ -2,9 +2,9 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "zhangyulong",
   "classifications": ["api", "project"],
-  "identity": "pluto.netcoreTemplate.Application",
-  "name": "pluto.netcoreTemplate",
-  "shortName": "pluto",
+  "identity": "pluto.netcoreTemplate.API",
+  "name": "pluto.netcoreTemplate.api",
+  "shortName": "plutoapi",
   "preferNameDirectory": true,
   "sourceName": "Pluto.netcoreTemplate",
   "symbols": {

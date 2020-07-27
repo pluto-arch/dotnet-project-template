@@ -34,6 +34,9 @@ namespace Demo.Domain.AggregatesModel.UserAggregate
 
         public string PasswordHash { get; internal set; }
 
+        public string Type { get; set; }
+
+
         public IReadOnlyCollection<UserRoleEntity> Roles { get; set; }
 
         public void ChangeSecurityStamp(string securityStamp)

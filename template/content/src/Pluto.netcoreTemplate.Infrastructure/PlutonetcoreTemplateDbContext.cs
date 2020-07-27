@@ -1,17 +1,8 @@
 ﻿using MediatR;
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-
-using Pluto.netcoreTemplate.Domain.SeedWork;
 using Pluto.netcoreTemplate.Infrastructure.EntityTypeConfigurations;
-using Pluto.netcoreTemplate.Infrastructure.Extensions;
-
-using System;
-using System.Data;
-using System.Threading;
-using System.Threading.Tasks;
-using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
+using Pluto.netcoreTemplate.Domain.DomainModels.Account;
 
 namespace Pluto.netcoreTemplate.Infrastructure
 {

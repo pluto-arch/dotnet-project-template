@@ -8,8 +8,5 @@ namespace Demo.Infrastructure.Repositories
 {
     public class UserRepository:Repository<UserEntity>, IUserRepository
     {
-        public UserRepository(DemoDbContext dbContext) : base(dbContext)
-        {
-        }
     }
 }

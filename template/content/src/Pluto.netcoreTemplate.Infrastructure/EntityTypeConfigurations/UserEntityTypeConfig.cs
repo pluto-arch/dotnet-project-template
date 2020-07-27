@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
+using Pluto.netcoreTemplate.Domain.DomainModels.Account;
 
 
 namespace Pluto.netcoreTemplate.Infrastructure.EntityTypeConfigurations

@@ -26,7 +26,6 @@ namespace Demo.Application.HttpClientHandlers
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             request.Version = new System.Version(2, 0);
-            request.Method = HttpMethod.Get;
 
             var authorizationHeader = _httpContextAccesor.HttpContext
                 .Request.Headers["Authorization"];

@@ -3,7 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
 using Pluto.netcoreTemplate.Application.Commands;
-using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
+using Pluto.netcoreTemplate.Domain.IRepositories;
 using Pluto.netcoreTemplate.Infrastructure;
 using PlutoData.Interface;
 

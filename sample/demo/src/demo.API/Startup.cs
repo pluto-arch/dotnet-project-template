@@ -33,6 +33,9 @@ using Demo.Application.GrpcServices;
 using Demo.Application.GrpcServices.GrpcCallers;
 using Demo.Application.GrpcServices.GrpcCallers.Interfaces;
 using Demo.Application.HttpClientHandlers;
+using Serilog.Events;
+using Serilog.Extensions.Logging;
+using Serilog.Sinks.Elasticsearch;
 
 
 namespace Demo.API
@@ -53,10 +56,14 @@ namespace Demo.API
 
         public ILifetimeScope AutofacContainer { get; private set; }
 
+
+
+       
+
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
             #region 链接字符串
             var sqlConnStr = Configuration.GetConnectionString("Default");
             #endregion
@@ -85,8 +92,8 @@ namespace Demo.API
                 options.Threshold = Configuration.GetValue<long>("Options:MemoryChkOpt:Threshold");
             });
             services.AddHealthChecks()
-                .AddCheck<DatabaseHealthCheck>("database_check",failureStatus: HealthStatus.Unhealthy,tags: new string[] {"database", "sqlServer"})
-                .AddCheck<MemoryHealthCheck>("memory_check",failureStatus: HealthStatus.Degraded);
+                .AddCheck<DatabaseHealthCheck>("database_check", failureStatus: HealthStatus.Unhealthy, tags: new string[] { "database", "sqlServer" })
+                .AddCheck<MemoryHealthCheck>("memory_check", failureStatus: HealthStatus.Degraded);
             #endregion
 
             #region EventIdProvider
@@ -96,7 +103,7 @@ namespace Demo.API
 
             #region efcore  根据实际情况使用数据库
 
-            services.AddUnitOfWorkDbContext<DemoDbContext>(DbContextCreateFactory.OptionsAction(sqlConnStr),
+            services.AddUnitOfWorkDbContext<DemoDbContext>(DbContextCreateFactory.DbContextOptionsAction(sqlConnStr),
                                                                ServiceLifetime.Scoped)
                         .AddRepository();
             #endregion
@@ -112,8 +119,8 @@ namespace Demo.API
                     {
                         Description = "JWT Authorization header using the Bearer scheme.",
                         Type = SecuritySchemeType.Http, //We set the scheme type to http since we're using bearer authentication
-                                    Scheme = "bearer" //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer".
-                                });
+                        Scheme = "bearer" //The name of the HTTP Authorization scheme to be used in the Authorization header. In this case "bearer".
+                    });
 
                 c.AddSecurityRequirement(new OpenApiSecurityRequirement{
                                 {
@@ -127,8 +134,8 @@ namespace Demo.API
                 });
 
 
-                            // Set the comments path for the Swagger JSON and UI.
-                            var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
@@ -158,6 +165,7 @@ namespace Demo.API
 
 
             #region other grpc
+            services.AddTransient(typeof(GrpcCallerService));
             services.Configure<GrpcUrlConfig>(Configuration.GetSection(GrpcUrlConfig.ConfigKey));
             services.AddHttpClient<IOrderGrpcService, OrderGrpcService>();
             #endregion
@@ -185,18 +193,19 @@ namespace Demo.API
 
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory loggerFactory)
         {
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
 
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-            else
-            {
-                app.UseExceptionProcess();
-            }
+            app.UseExceptionProcess();
+            //if (env.IsDevelopment())
+            //{
+            //    app.UseDeveloperExceptionPage();
+            //}
+            //else
+            //{
+            //    app.UseExceptionProcess();
+            //}
             //app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseSwagger();
@@ -247,23 +256,26 @@ namespace Demo.API
         {
             var configbuild = new ConfigurationBuilder();
             configbuild.AddJsonFile("appsettings.json", optional: true);
-            var config=configbuild.Build();
+            var config = configbuild.Build();
             string conn = config.GetConnectionString("Default"); ;
 
             var optionsBuilder = new DbContextOptionsBuilder<DemoDbContext>();
-            OptionsAction(conn).Invoke(optionsBuilder);
+            DbContextOptionsAction(conn).Invoke(optionsBuilder);
             return new DemoDbContext(optionsBuilder.Options);
 
         }
 
 
-        public static Action<DbContextOptionsBuilder> OptionsAction(string sqlConnStr)
+        public static Action<DbContextOptionsBuilder> DbContextOptionsAction(string sqlConnStr)
         {
             return options =>
             {
-                options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddFilter((category, level) =>
-                    category == DbLoggerCategory.Database.Command.Name
-                    && level == LogLevel.Information).AddSerilog()));
+                options.UseLoggerFactory(LoggerFactory.Create(
+                    builder => builder.AddFilter((category, level) =>
+                                                        category == DbLoggerCategory.Database.Command.Name
+                                                        && level == LogLevel.Information)
+                                              .AddSerilog()))
+                                        ;//.EnableSensitiveDataLogging(); //开启敏感数据记录// sql变量值
                 options.UseSqlServer(sqlConnStr,
                     sqlServerOptionsAction: sqlOptions =>
                     {
@@ -272,7 +284,6 @@ namespace Demo.API
                     });
             };
         }
-
     }
 
 }

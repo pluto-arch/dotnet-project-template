@@ -124,6 +124,7 @@ namespace Pluto.netcoreTemplate.API
                         context.Database.Migrate();
                     }
                     logger.LogInformation("已迁移数据库 {DbContextName}", typeof(TContext).Name);
+                    seeder?.Invoke(context, webHost.Services); // 种子数据初始化
                 }
                 catch (Exception ex)
                 {

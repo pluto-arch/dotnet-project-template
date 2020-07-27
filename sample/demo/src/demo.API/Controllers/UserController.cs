@@ -4,12 +4,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Demo.API.Models;
 using Demo.API.Models.Requests;
 using Demo.Application.Commands;
 using Demo.Application.Queries.Interfaces;
 using Demo.Infrastructure.Providers;
+using Microsoft.Extensions.Logging;
+using Serilog.Context;
 
 namespace Demo.API.Controllers
 {
@@ -46,6 +47,19 @@ namespace Demo.API.Controllers
         [HttpGet]
         public ApiResponse Users()
         {
+
+            _logger.LogInformation(_eventIdProvider.EventId, "这条日志没有自定义属性");
+            using (LogContext.PushProperty("A", 1))  //  为日志添加属性
+            {
+                _logger.LogInformation(_eventIdProvider.EventId, "自定义属性A=1");
+                using (LogContext.PushProperty("A", 2))
+                using (LogContext.PushProperty("B", 1))
+                {
+                    _logger.LogInformation(_eventIdProvider.EventId, "自定义属性A=2 and B = 1");
+                }
+                _logger.LogInformation(_eventIdProvider.EventId, "自定义属性A=1 A = 1, again");
+            }
+
             var users= _userQueries.GetUsers();
             return ApiResponse.Success(users);
         }

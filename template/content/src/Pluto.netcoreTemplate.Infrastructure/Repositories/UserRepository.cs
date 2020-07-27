@@ -1,6 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Pluto.netcoreTemplate.Domain.AggregatesModel.UserAggregate;
+﻿using Pluto.netcoreTemplate.Domain.DomainModels.Account;
+using Pluto.netcoreTemplate.Domain.IRepositories;
 using PlutoData;
 
 

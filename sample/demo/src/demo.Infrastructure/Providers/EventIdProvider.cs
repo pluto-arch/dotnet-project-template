@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.Logging;
-
 using System;
 
 namespace Demo.Infrastructure.Providers
@@ -15,4 +14,5 @@ namespace Demo.Infrastructure.Providers
         public EventId EventId { get; }
 
     }
+
 }

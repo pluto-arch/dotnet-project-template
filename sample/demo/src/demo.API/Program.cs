@@ -18,9 +18,60 @@ using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Demo.Infrastructure;
+using Newtonsoft.Json;
+using Serilog.Extensions.Logging;
+using Serilog.Sinks.Elasticsearch;
 
 namespace Demo.API
 {
+
+
+
+    public static class ILoggerBuilderExt
+    {
+        public static ILoggingBuilder AddCustomerSerilog(this ILoggingBuilder builder,IConfiguration configuration)
+        {
+            Log.Logger = CreateSerilogLogger(configuration);
+            builder.AddProvider((ILoggerProvider)new SerilogLoggerProvider(dispose:false));
+            builder.AddFilter<SerilogLoggerProvider>((string)null, LogLevel.Trace);
+            return builder;
+        }
+
+
+        private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
+        {
+            const string outputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}";
+            return new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .WriteTo.Console()
+                .WriteTo.Seq("http://localhost:5341")
+                .WriteTo.Exceptionless("h9XWzilc6jEsjconVyCFFaOmR59H5Vgld3bpaKgg")
+                .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200"))
+                {
+                    MinimumLogEventLevel = LogEventLevel.Verbose,
+                    AutoRegisterTemplate = true,
+                    AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv2,
+                    IndexAliases = new string[]
+                    {
+                        "demo.api"
+                    },
+                    ModifyConnectionSettings = connectionSettings =>
+                    {
+                        connectionSettings.BasicAuthentication("elastic", "changeme");
+                        return connectionSettings;
+                    }
+                })
+                .WriteTo.File(Path.Combine("logs", @"log.log"), rollingInterval: RollingInterval.Day,
+                    outputTemplate: outputTemplate)
+                .CreateLogger();
+        }
+
+    }
+
+
+
+
+
     public class Program
     {
         public static readonly string Namespace = typeof(Program).Namespace;
@@ -28,7 +79,6 @@ namespace Demo.API
         public static void Main(string[] args)
         {
             var configuration = GetConfiguration();
-            Log.Logger = CreateSerilogLogger(configuration);
             try
             {
                 Log.Information("ÅäÖÃwebÖ÷»ú ({ApplicationContext})...", AppName);
@@ -44,17 +94,18 @@ namespace Demo.API
             {
                 Log.CloseAndFlush();
             }
-
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-            {
-                Log.Error(e.ExceptionObject as Exception, $"UnhandledException");
-            };
         }
 
         private static IWebHost BuildWebHost(IConfiguration configuration, string[] args)
         {
             var webHost = WebHost.CreateDefaultBuilder(args)
                 .CaptureStartupErrors(false)
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    //builder.AddSerilog();
+                    builder.AddCustomerSerilog(configuration);
+                })
                 .UseUrls("http://0.0.0.0:5004")
                 //.ConfigureKestrel(options =>
                 //{
@@ -68,27 +119,22 @@ namespace Demo.API
                 .UseStartup<Startup>()
                 .UseContentRoot(Directory.GetCurrentDirectory())
                 .UseConfiguration(configuration)
-                .UseSerilog()
+                //.UseSerilog()
                 .Build();
 
             webHost.MigrateDbContext<DemoDbContext>((context, services) =>
             {
                 var logger = services.GetService<ILogger<DemoDbContext>>();
             });
-
             return webHost;
         }
 
-        private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
+        
+
+        private static void DoFailCallback(LogEvent logevent)
         {
-            const string outputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}";
-            return new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.File(Path.Combine("logs", @"log.log"), rollingInterval: RollingInterval.Day,
-                    outputTemplate: outputTemplate)
-                .CreateLogger();
+            Console.BackgroundColor = ConsoleColor.Red;
+            Console.WriteLine($"es error  {JsonConvert.SerializeObject(logevent)}");
         }
 
         private static IConfiguration GetConfiguration()

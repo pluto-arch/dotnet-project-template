@@ -33,7 +33,9 @@ namespace Demo.API.Controllers
         [HttpGet]
         public async Task<ApiResponse> Get()
         {
+            _logger.LogInformation(_eventIdProvider.EventId,"开始调用Grpc服务");
             var users =await _orderGrpcService.Get();
+            _logger.LogInformation(_eventIdProvider.EventId, "调用Grpc服务完成，返回值：{@users}",users);
             return ApiResponse.Success(users);
         }
     }

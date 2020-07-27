@@ -44,11 +44,6 @@ namespace Pluto.netcoreTemplate.API
             {
                 Log.CloseAndFlush();
             }
-
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-            {
-                Log.Error(e.ExceptionObject as Exception, $"UnhandledException");
-            };
         }
 
         private static IWebHost BuildWebHost(IConfiguration configuration, string[] args)

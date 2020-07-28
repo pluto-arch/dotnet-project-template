@@ -26,8 +26,8 @@ dotnet new plutoapi -h
 
 尝试示例：
 ```
-dotnet new plutoapi -n Demo -s Demo -d Demo
+dotnet new plutoapi -n Demo  -d Demo
 
-# 参数：-n 名称（有值会新建一个文件夹输出项目），  -s解决方案名称  -d efcore dbcontext 名称[可选]
+# 参数：-n 名称（有值会新建一个文件夹输出项目），  -d efcore dbcontext 名称[可选]
 
 ```

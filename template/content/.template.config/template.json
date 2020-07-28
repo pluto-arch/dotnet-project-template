@@ -14,8 +14,8 @@
   "symbols": {
     "dbcontext": {
       "type": "parameter",
-      "isRequired": true,
-      "description": "数据库上下文名称[solution]",
+      "isRequired": false,
+      "description": "数据库上下文名称[dbcontext]",
       "defaultValue": "EfCore",
       "replaces": "EfCore"
     }

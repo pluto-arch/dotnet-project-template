@@ -12,13 +12,12 @@
     "type": "project"
   },
   "symbols": {
-    "solution": {
+    "dbcontext": {
       "type": "parameter",
-      "fileRename": "template",
       "isRequired": true,
-      "description": "解决方案名称[solution]",
-      "defaultValue": "template",
-      "replaces": "template"
+      "description": "数据库上下文名称[solution]",
+      "defaultValue": "EfCore",
+      "replaces": "EfCore"
     }
   }
 }

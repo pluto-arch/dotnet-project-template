@@ -17,7 +17,7 @@ namespace PlutoNetCoreTemplate.API.HealthChecks
         private readonly string _connectionString;
         public DatabaseHealthCheck(IConfiguration configuration)
         {
-            _connectionString = configuration.GetConnectionString("EfCoreDbContext.MSSQL") ?? throw new ArgumentNullException("连接字符串为空");
+            _connectionString = configuration.GetConnectionString("EfCore.MSSQL") ?? throw new ArgumentNullException("连接字符串为空");
         }
 
         /// <inheritdoc />

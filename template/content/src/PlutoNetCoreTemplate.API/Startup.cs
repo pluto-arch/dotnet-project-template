@@ -43,7 +43,7 @@ namespace PlutoNetCoreTemplate.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            conntctionString = configuration.GetConnectionString("EfCoreDbContext.MSSQL");
+            conntctionString = configuration.GetConnectionString("EfCore.MSSQL");
         }
 
         public IConfiguration Configuration { get; }
@@ -227,7 +227,7 @@ namespace PlutoNetCoreTemplate.API
             var configbuild = new ConfigurationBuilder();
             configbuild.AddJsonFile("appsettings.json", optional: true);
             var config = configbuild.Build();
-            string conn = config.GetConnectionString("EfCoreDbContext.MSSQL");
+            string conn = config.GetConnectionString("EfCore.MSSQL");
 
             var optionsBuilder = new DbContextOptionsBuilder<EfCoreDbContext>();
             OptionsAction(conn).Invoke(optionsBuilder);

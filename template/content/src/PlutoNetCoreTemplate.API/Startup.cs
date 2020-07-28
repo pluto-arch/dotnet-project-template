@@ -43,7 +43,7 @@ namespace PlutoNetCoreTemplate.API
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            conntctionString = configuration.GetConnectionString("PlutoNetCoreTemplate.MSSQL");
+            conntctionString = configuration.GetConnectionString("EfCoreDbContext.MSSQL");
         }
 
         public IConfiguration Configuration { get; }
@@ -85,7 +85,7 @@ namespace PlutoNetCoreTemplate.API
 
             #region efcore  根据实际情况使用数据库
 
-            services.AddUnitOfWorkDbContext<PlutoNetCoreTemplateDbContext>(DbContextCreateFactory.OptionsAction(conntctionString), ServiceLifetime.Scoped)
+            services.AddUnitOfWorkDbContext<EfCoreDbContext>(DbContextCreateFactory.OptionsAction(conntctionString), ServiceLifetime.Scoped)
                     .AddRepository();
 
             #endregion
@@ -220,18 +220,18 @@ namespace PlutoNetCoreTemplate.API
     /// {
     /// });
     /// 时，必须指定如何初始化创建dbcontext
-    public class DbContextCreateFactory : IDesignTimeDbContextFactory<PlutoNetCoreTemplateDbContext>
+    public class DbContextCreateFactory : IDesignTimeDbContextFactory<EfCoreDbContext>
     {
-        public PlutoNetCoreTemplateDbContext CreateDbContext(string[] args)
+        public EfCoreDbContext CreateDbContext(string[] args)
         {
             var configbuild = new ConfigurationBuilder();
             configbuild.AddJsonFile("appsettings.json", optional: true);
             var config = configbuild.Build();
-            string conn = config.GetConnectionString("PlutoNetCoreTemplate.MSSQL");
+            string conn = config.GetConnectionString("EfCoreDbContext.MSSQL");
 
-            var optionsBuilder = new DbContextOptionsBuilder<PlutoNetCoreTemplateDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<EfCoreDbContext>();
             OptionsAction(conn).Invoke(optionsBuilder);
-            return new PlutoNetCoreTemplateDbContext(optionsBuilder.Options);
+            return new EfCoreDbContext(optionsBuilder.Options);
 
         }
 

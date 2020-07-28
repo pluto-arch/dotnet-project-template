@@ -6,10 +6,10 @@ using PlutoNetCoreTemplate.Domain.DomainModels.Account;
 
 namespace PlutoNetCoreTemplate.Infrastructure
 {
-    public class PlutoNetCoreTemplateDbContext : DbContext
+    public class EfCoreDbContext : DbContext
     {
 
-        public PlutoNetCoreTemplateDbContext(DbContextOptions<PlutoNetCoreTemplateDbContext> options)
+        public EfCoreDbContext(DbContextOptions<EfCoreDbContext> options)
             : base(options)
         {
         }

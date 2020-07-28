@@ -12,6 +12,6 @@
     </packageTypes>
   </metadata>
   <files>
-    <file src="content\**" target="content" exclude="**.vs\**;**.idea\**;**\**\**\bin\**;**\**\**\obj\**;**\**\*.xml" />
+    <file src="content\**" target="content" exclude="**.vs\**;**.idea\**;**\**\**\bin\**;**\**\**\obj\**;**\**\**\*.xml" />
   </files>
 </package>

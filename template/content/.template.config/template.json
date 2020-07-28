@@ -2,11 +2,15 @@
   "$schema": "http://json.schemastore.org/template",
   "author": "zhangyulong",
   "classifications": ["api", "project"],
-  "identity": "pluto.netcoreTemplate.API",
-  "name": "pluto.netcoreTemplate.api",
+  "identity": "PlutoNetCoreTemplate.API",
+  "name": "Pluto AspNetCore API Template",
   "shortName": "plutoapi",
   "preferNameDirectory": true,
-  "sourceName": "Pluto.netcoreTemplate",
+  "sourceName": "PlutoNetCoreTemplate",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
   "symbols": {
     "solution": {
       "type": "parameter",
@@ -15,14 +19,6 @@
       "description": "解决方案名称[solution]",
       "defaultValue": "template",
       "replaces": "template"
-    },
-    "dbcontext": {
-      "type": "parameter",
-      "isRequired": false,
-      "fileRename": "PlutoNetCoreTemplate",
-      "description": "数据库上下文[EF CORE]",
-      "defaultValue": "PlutoNetCoreTemplate",
-      "replaces": "PlutoNetCoreTemplate"
     }
   }
 }

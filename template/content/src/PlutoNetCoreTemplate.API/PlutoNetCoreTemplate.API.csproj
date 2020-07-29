@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <DocumentationFile>F:\my-github\dotnet-project-template\template\content\src\PlutoNetCoreTemplate.API\PlutoNetCoreTemplate.API.xml</DocumentationFile>
+    <DocumentationFile>PlutoNetCoreTemplate.API.xml</DocumentationFile>
     <WarningsAsErrors>NU1605</WarningsAsErrors>
     <NoWarn>1701;1702,1591</NoWarn>
   </PropertyGroup>

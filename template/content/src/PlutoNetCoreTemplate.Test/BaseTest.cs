@@ -55,7 +55,7 @@ namespace PlutoNetCoreTemplate.Test
             });
             services.AddScoped(typeof(EventIdProvider));
             services
-                .AddDbContext<PlutoNetCoreTemplateDbContext>(options =>
+                .AddDbContext<EfCoreDbContext>(options =>
                     {
                         options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddSerilog()));
                         options.UseSqlServer(config["ConnectionString"],
@@ -66,7 +66,7 @@ namespace PlutoNetCoreTemplate.Test
                             });
                     },
                     ServiceLifetime.Scoped )
-                .AddUnitOfWork<PlutoNetCoreTemplateDbContext>();
+                .AddUnitOfWork<EfCoreDbContext>();
             services.AddLogging(options => { options.AddSerilog(); });
 
             var autofac= ConfigureContainer(new ContainerBuilder());

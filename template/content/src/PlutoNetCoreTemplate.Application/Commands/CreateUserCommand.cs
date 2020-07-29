@@ -35,7 +35,7 @@ namespace PlutoNetCoreTemplate.Application.Commands
         /// 
         /// </summary>
         /// <param name="userName"></param>
-        /// <param name="tel"></param>
+        /// <param name="password"></param>
         public CreateUserCommand(string userName, string password) : this()
         {
             UserName = userName;

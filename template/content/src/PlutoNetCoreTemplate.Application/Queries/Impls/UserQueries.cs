@@ -29,7 +29,7 @@ namespace PlutoNetCoreTemplate.Application.Queries
         /// 
         /// </summary>
         /// <param name="unitOfWork"></param>
-        public UserQueries(IUnitOfWork<PlutoNetCoreTemplateDbContext> unitOfWork)
+        public UserQueries(IUnitOfWork<EfCoreDbContext> unitOfWork)
         {
             _userRepository = unitOfWork.GetRepository<IUserRepository>();
         }

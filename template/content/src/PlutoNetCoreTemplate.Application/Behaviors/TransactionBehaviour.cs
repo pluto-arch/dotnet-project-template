@@ -27,9 +27,9 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
         private readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
         private readonly EventIdProvider _eventIdProvider;
 
-        private readonly IUnitOfWork<PlutoNetCoreTemplateDbContext> _unitOfWork;
+        private readonly IUnitOfWork<EfCoreDbContext> _unitOfWork;
 
-        public TransactionBehaviour(ILogger<TransactionBehaviour<TRequest, TResponse>> logger, EventIdProvider eventIdProvider, IUnitOfWork<PlutoNetCoreTemplateDbContext> unitOfWork)
+        public TransactionBehaviour(ILogger<TransactionBehaviour<TRequest, TResponse>> logger, EventIdProvider eventIdProvider, IUnitOfWork<EfCoreDbContext> unitOfWork)
         {
             _logger = logger;
             _eventIdProvider = eventIdProvider;

@@ -8,7 +8,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.Extensions
 {
     public static class MediatorExtension
     {
-        public static async Task DispatchDomainEventsAsync(this IMediator mediator, PlutoNetCoreTemplateDbContext ctx)
+        public static async Task DispatchDomainEventsAsync(this IMediator mediator, EfCoreDbContext ctx)
         {
             var domainEntities = ctx.ChangeTracker
                 .Entries<Entity>()

@@ -11,7 +11,6 @@ namespace PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand
         where T : IRequest<R>
     {
 
-        private readonly IMediator _mediator;
         private readonly ILogger<IdentifiedCommandHandler<T, R>> _logger;
 
         public IdentifiedCommandHandler(ILogger<IdentifiedCommandHandler<T, R>> logger)
@@ -27,6 +26,7 @@ namespace PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand
         /// <returns></returns>
         public Task<R> Handle(IdentifiedCommand<T, R> request, CancellationToken cancellationToken)
         {
+            _logger.LogInformation("");
             throw new System.NotImplementedException();
         }
 

@@ -16,10 +16,10 @@ namespace PlutoNetCoreTemplate.Application.CommandBus
 
         private readonly IMediator _mediator;
 
-        private readonly IUnitOfWork<PlutoNetCoreTemplateDbContext> _unitOfWork;
+        private readonly IUnitOfWork<EfCoreDbContext> _unitOfWork;
 
         public DeleteUserCommandHandler(
-            IMediator mediator, IUnitOfWork<PlutoNetCoreTemplateDbContext> unitOfWork)
+            IMediator mediator, IUnitOfWork<EfCoreDbContext> unitOfWork)
         {
             _mediator = mediator;
             _unitOfWork = unitOfWork;

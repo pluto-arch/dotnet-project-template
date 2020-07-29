@@ -18,7 +18,7 @@ namespace PlutoNetCoreTemplate.Application.CommandBus
     {
 
         private readonly IMediator _mediator;
-        private readonly IUnitOfWork<PlutoNetCoreTemplateDbContext> _unitOfWork;
+        private readonly IUnitOfWork<EfCoreDbContext> _unitOfWork;
         private readonly IUserRepository _userRepository;
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace PlutoNetCoreTemplate.Application.CommandBus
         /// <param name="unitOfWork"></param>
         public CreateUserCommandHandler(
             IMediator mediator, 
-            IUnitOfWork<PlutoNetCoreTemplateDbContext> unitOfWork)
+            IUnitOfWork<EfCoreDbContext> unitOfWork)
         {
             _mediator = mediator;
             _unitOfWork = unitOfWork;

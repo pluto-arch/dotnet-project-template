@@ -2,7 +2,6 @@ using System;
 using System.Reflection;
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,10 +12,8 @@ using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using PlutoNetCoreTemplate.API;
 using PlutoNetCoreTemplate.API.Controllers;
-using PlutoNetCoreTemplate.API.Filters;
 using PlutoNetCoreTemplate.API.Modules;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoNetCoreTemplate.Infrastructure.Extensions;
 using PlutoNetCoreTemplate.Infrastructure.Providers;
 using PlutoData;
 using Serilog;
@@ -38,10 +35,7 @@ namespace PlutoNetCoreTemplate.Test
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            services.AddControllers(options =>
-                {
-                    options.Filters.Add<ModelValidateFilter>();
-                })
+            services.AddControllers()
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;

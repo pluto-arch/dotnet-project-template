@@ -1,9 +1,13 @@
-﻿using System;
-using System.Text;
+﻿﻿using System;
+ using System.Collections.Generic;
+ using System.Linq;
+ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using PlutoNetCoreTemplate.API.Models;
+ using Newtonsoft.Json;
+ using PlutoNetCoreTemplate.API.Models;
+using PlutoNetCoreTemplate.Infrastructure;
 
 
 namespace PlutoNetCoreTemplate.API.Filters
@@ -26,16 +30,15 @@ namespace PlutoNetCoreTemplate.API.Filters
       {
         if (!context.ModelState.IsValid)
         {
-          StringBuilder builder = new StringBuilder();
+          List<string> errors=new List<string>();
           foreach (var item in context.ModelState.Values)
           {
             foreach (var error in item.Errors)
             {
-              builder.Append(error.ErrorMessage);
-              builder.Append("|");
+              errors.Add(error.ErrorMessage);
             }
           }
-          context.Result = new JsonResult(ApiResponse.DefaultFail(builder.ToString().TrimEnd('|')));
+          context.Result = new JsonResult(ApiResponse.Fail(AppResponseCode.InvalidParameter,errors.First()));
         }
       }
   }

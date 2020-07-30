@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using PlutoNetCoreTemplate.API.Controllers;
+using PlutoNetCoreTemplate.API.Models;
 
 
 namespace PlutoNetCoreTemplate.Test.ApiTest
@@ -19,12 +20,12 @@ namespace PlutoNetCoreTemplate.Test.ApiTest
             using (var scope = _Container.BeginLifetimeScope())
             {
                 var _demoController = scope.Resolve<UserController>();
-                var res= await _demoController.Post(new API.Models.Requests.CreateUserRequest
+                var res= await _demoController.PostAsync(new API.Models.Requests.CreateUserRequest
                 {
                     UserName = Guid.NewGuid().ToString("N"),
                     Password = "admin123"
                 });
-                Assert.IsTrue(res.Successed);
+                Assert.IsTrue(res.Code==AppResponseCode.Success);
             }
         }
     }

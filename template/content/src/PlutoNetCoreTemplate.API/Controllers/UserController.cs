@@ -8,7 +8,10 @@ using PlutoNetCoreTemplate.Application.Queries.Interfaces;
 using System;
 using System.Threading.Tasks;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using PlutoData.Collections;
 using PlutoNetCoreTemplate.Application.Commands;
+using PlutoNetCoreTemplate.Application.ResourceModels;
 using PlutoNetCoreTemplate.Infrastructure.Providers;
 
 namespace PlutoNetCoreTemplate.API.Controllers
@@ -46,10 +49,11 @@ namespace PlutoNetCoreTemplate.API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ApiResponse Users()
+        [Authorize]
+        public ApiResponse<IPagedList<UserItemModel>> Users()
         {
             var users= _userQueries.GetUsers();
-            return ApiResponse.Success(users);
+            return ApiResponse<IPagedList<UserItemModel>>.Success(users);
         }
 
         /// <summary>
@@ -58,10 +62,10 @@ namespace PlutoNetCoreTemplate.API.Controllers
         /// <param name="id"></param>
         /// <returns></returns>
         [HttpGet("{id}")]
-        public ApiResponse Users(int id)
+        public ApiResponse<object> Users(int id)
         {
             var users = _userQueries.GetUser(id);
-            return ApiResponse.Success(users);
+            return ApiResponse<object>.Success(users);
         }
 
         /// <summary>
@@ -72,7 +76,7 @@ namespace PlutoNetCoreTemplate.API.Controllers
         [HttpGet("{id}/roles")]
         public ApiResponse UserRoles(int id)
         {
-            return ApiResponse.Success(new { User="user1",Roles=new string[] { "role1","role2" }});
+            return ApiResponse<object>.Success(new { User="user1",Roles=new string[] { "role1","role2" }});
         }
 
 
@@ -83,14 +87,17 @@ namespace PlutoNetCoreTemplate.API.Controllers
         /// <param name="request"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ApiResponse> Post([FromBody]CreateUserRequest request)
+        public async Task<ApiResponse> PostAsync([FromBody]CreateUserRequest request)
         {
+            if (ModelState.IsValid)
+            {
+            }
             var res = await _mediator.Send(new CreateUserCommand(Guid.NewGuid().ToString("N"), request.Password));
             if (res)
             {
-                return ApiResponse.Success("创建成功");
+                return ApiResponse.DefaultSuccess();
             }
-            return ApiResponse.DefaultFail("创建失败");
+            return ApiResponse.DefaultFail();
         }
 
         /// <summary>
@@ -115,7 +122,7 @@ namespace PlutoNetCoreTemplate.API.Controllers
             var res = await _mediator.Send(new DeleteUserCommand(id));
             if (res)
             {
-                return ApiResponse.Success("创建成功");
+                return ApiResponse<string>.Success("创建成功");
             }
             return ApiResponse.DefaultFail("创建失败");
         }

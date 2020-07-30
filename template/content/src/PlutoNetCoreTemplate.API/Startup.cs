@@ -12,7 +12,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
-using PlutoNetCoreTemplate.API.Filters;
 using PlutoNetCoreTemplate.API.Middlewares;
 using PlutoNetCoreTemplate.API.Modules;
 using PlutoNetCoreTemplate.Infrastructure;
@@ -22,13 +21,13 @@ using Serilog;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using PlutoNetCoreTemplate.API.Filters;
 using PlutoNetCoreTemplate.API.HealthChecks;
 
 
@@ -54,7 +53,7 @@ namespace PlutoNetCoreTemplate.API
         public void ConfigureServices(IServiceCollection services)
         {
             #region api controller
-            services.AddControllers(options => { options.Filters.Add<ModelValidateFilter>(); })
+            services.AddControllers(options => { options.Filters.Add<ModelValidateFilter>();})
                 .AddNewtonsoftJson(options =>
                 {
                     options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
@@ -174,15 +173,12 @@ namespace PlutoNetCoreTemplate.API
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
-            if (env.IsDevelopment())
+            if (env.IsProduction())
             {
-                app.UseDeveloperExceptionPage();
+                app.UseHsts();
+                app.UseHttpsRedirection();
             }
-            else
-            {
-                app.UseExceptionProcess();
-            }
-            //app.UseHttpsRedirection();
+            app.UseExceptionProcess();
             app.UseStaticFiles();
             app.UseSwagger();
             app.UseSwaggerUI(c =>
@@ -191,7 +187,8 @@ namespace PlutoNetCoreTemplate.API
             });
             app.UseCors(DefaultCorsName);
             app.UseRouting();
-
+            app.UseAuthentication();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapHealthChecks("/health", new HealthCheckOptions

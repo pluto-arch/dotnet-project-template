@@ -15,6 +15,7 @@
     "dbcontext": {
       "type": "parameter",
       "isRequired": false,
+      "fileRename": "EfCore",
       "description": "数据库上下文名称[dbcontext]",
       "defaultValue": "EfCore",
       "replaces": "EfCore"

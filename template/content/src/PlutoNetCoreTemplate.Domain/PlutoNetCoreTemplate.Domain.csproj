@@ -8,7 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="8.0.1" />
-    <PackageReference Include="PlutoData" Version="1.2.0" />
+    <PackageReference Include="PlutoData" Version="1.3.5" />
   </ItemGroup>
 
 </Project>

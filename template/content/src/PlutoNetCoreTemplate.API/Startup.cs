@@ -159,7 +159,7 @@ namespace PlutoNetCoreTemplate.API
 
 			#region automapper
 
-			services.AddAutoMapper(Assembly.GetEntryAssembly());
+			services.AddAutoMapper(typeof(PlutoNetCoreTemplate.API.AutoMapperProfile),typeof(PlutoNetCoreTemplate.Application.AutoMapperProfile));
 
 			#endregion
 		}

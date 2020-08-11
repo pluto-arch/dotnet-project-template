@@ -10,6 +10,7 @@ namespace PlutoNetCoreTemplate.Application.Commands
     /// <summary>
     /// 创建账户
     /// </summary>
+    [AutoSaveChange]
     public class CreateUserCommand : IRequest<bool>
     {
         /// <summary>

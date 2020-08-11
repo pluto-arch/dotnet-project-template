@@ -83,10 +83,6 @@ namespace PlutoNetCoreTemplate.API.Controllers
 		[HttpPost]
 		public async Task<ApiResponse> PostAsync([FromBody] CreateUserRequest request)
 		{
-			if (ModelState.IsValid)
-			{
-			}
-
 			var res = await _mediator.Send(new CreateUserCommand(Guid.NewGuid().ToString("N"), request.Password));
 			if (res)
 			{

@@ -33,11 +33,6 @@ namespace PlutoNetCoreTemplate.API.Models
 		public string Message { get; set; }
 
 		/// <summary>
-		/// 详细错误信息
-		/// </summary>
-		public string DebugMsg { get; set; }
-
-		/// <summary>
 		/// 默认成功
 		/// </summary>
 		/// <returns></returns>
@@ -92,36 +87,5 @@ namespace PlutoNetCoreTemplate.API.Models
 		/// <param name="data"></param>
 		/// <returns></returns>
 		public static ApiResponse<T> Success(T data) => new ApiResponse<T>(AppResponseCode.Success, "执行成功", data);
-	}
-
-
-	/// <summary>
-	/// 扩展
-	/// </summary>
-	public static class ApiResponseExtensions
-	{
-		/// <summary>
-		/// 添加调试信息
-		/// </summary>
-		/// <param name="this"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
-		public static ApiResponse AddDebugMessage(this ApiResponse @this, string message)
-		{
-			@this.DebugMsg = message;
-			return @this;
-		}
-
-		/// <summary>
-		/// 添加调试信息
-		/// </summary>
-		/// <param name="this"></param>
-		/// <param name="message"></param>
-		/// <returns></returns>
-		public static ApiResponse<T> AddDebugMessage<T>(this ApiResponse<T> @this, string message)
-		{
-			@this.DebugMsg = message;
-			return @this;
-		}
 	}
 }

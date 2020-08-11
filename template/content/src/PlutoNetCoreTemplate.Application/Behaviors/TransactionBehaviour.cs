@@ -46,39 +46,27 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
             {
                 return await next();
             }
-            try
+            if (_unitOfWork.HasActiveTransaction)
             {
-                if (_unitOfWork.HasActiveTransaction)
+                return await next();
+            }
+            var strategy = _unitOfWork.CreateExecutionStrategy();
+            await strategy.ExecuteAsync(async () =>
+            {
+                Guid transactionId;
+                using (var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken))
                 {
-                    return await next();
+                    _logger.LogInformation(_eventIdProvider.EventId, "----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
+                    response = await next();
+                    _logger.LogInformation(_eventIdProvider.EventId, "----- Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
+                    await _unitOfWork.CommitTransactionAsync(transaction,cancellationToken);
+                    _logger.LogInformation(_eventIdProvider.EventId, "----- Finish transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
+                    transactionId = transaction.TransactionId;
                 }
-                var strategy = _unitOfWork.CreateExecutionStrategy();
-                await strategy.ExecuteAsync(async () =>
-                {
-                    Guid transactionId;
-                    using (var transaction = await _unitOfWork.BeginTransactionAsync())
-                    {
-                        _logger.LogInformation(_eventIdProvider.EventId, "----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
-
-                        response = await next();
-
-                        _logger.LogInformation(_eventIdProvider.EventId, "----- Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
-
-                        await _unitOfWork.CommitTransactionAsync(transaction);
-                        _logger.LogInformation(_eventIdProvider.EventId, "----- Finish transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
-                        transactionId = transaction.TransactionId;
-                    }
-                    // TODO 事务执行完毕后 通过 事件总线 发布，从而处理其余业务 
-                    //await _orderingIntegrationEventService.PublishEventsThroughEventBusAsync(transactionId);
-                });
-                return response;
-
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError(_eventIdProvider.EventId, ex, "为命令：{CommandName} ({@Command})。进行事务处理异常", typeName, request);
-                throw;
-            }
+                // TODO 事务执行完毕后 通过 事件总线 发布，从而处理其余业务 
+                //await _orderingIntegrationEventService.PublishEventsThroughEventBusAsync(transactionId);
+            });
+            return response;
         }
     }
 }

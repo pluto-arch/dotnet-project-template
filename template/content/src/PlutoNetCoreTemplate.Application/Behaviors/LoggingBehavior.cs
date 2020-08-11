@@ -32,20 +32,12 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            using (LogContext.PushProperty("CommondHandler", typeof(TRequest) + " Handler"))
+            using (LogContext.PushProperty("Execute CommondHandler", typeof(TRequest) + " Handler"))
             {
-                try
-                {
-                    _logger.LogInformation(_eventIdProvider.EventId, "command：{@Command}", request);
-                    var response = await next();
-                    _logger.LogInformation(_eventIdProvider.EventId, "command result: {@Response}", response);
-                    return response;
-                }
-                catch (Exception e)
-                {
-                    _logger.LogError(_eventIdProvider.EventId, e, $"{typeof(TRequest)} handler error ：{e.Message}");
-                    return default;
-                }
+                _logger.LogInformation(_eventIdProvider.EventId, "command：{@Command}", request);
+                var response = await next();
+                _logger.LogInformation(_eventIdProvider.EventId, "command result: {@Response}", response);
+                return response;
             }
         }
     }

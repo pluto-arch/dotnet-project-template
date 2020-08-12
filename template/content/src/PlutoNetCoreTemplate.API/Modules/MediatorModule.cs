@@ -21,7 +21,7 @@ namespace PlutoNetCoreTemplate.API.Modules
                 .As<IMediator>()
                 .InstancePerLifetimeScope();
             
-            builder.RegisterAssemblyTypes(typeof(CreateUserCommand).GetTypeInfo().Assembly)
+            builder.RegisterAssemblyTypes(typeof(BaseCommand).GetTypeInfo().Assembly)
                 .AsClosedTypesOf(typeof(IRequestHandler<,>)).InstancePerDependency();
 
 

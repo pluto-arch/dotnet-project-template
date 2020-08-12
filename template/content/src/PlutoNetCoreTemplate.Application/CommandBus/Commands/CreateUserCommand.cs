@@ -11,7 +11,7 @@ namespace PlutoNetCoreTemplate.Application.CommandBus.Commands
     /// 创建账户
     /// </summary>
     //[DisableAutoSaveChangeAttribute]
-    public class CreateUserCommand : IRequest<bool>
+    public class CreateUserCommand : BaseCommand,IRequest<bool>
     {
         /// <summary>
         /// 用户名

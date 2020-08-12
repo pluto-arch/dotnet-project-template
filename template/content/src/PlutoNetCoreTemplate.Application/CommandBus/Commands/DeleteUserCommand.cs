@@ -8,7 +8,7 @@ using MediatR;
 
 namespace PlutoNetCoreTemplate.Application.CommandBus.Commands
 {
-    public class DeleteUserCommand:IRequest<bool>
+    public class DeleteUserCommand:BaseCommand,IRequest<bool>
     {
         public object Id { get; set; }
 

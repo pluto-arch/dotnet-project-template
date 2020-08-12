@@ -57,10 +57,10 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
                 using (var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken))
                 {
                     transactionId = transaction.TransactionId;
-                    _logger.LogInformation(_eventIdProvider.EventId, "----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
+                    _logger.LogInformation(_eventIdProvider.EventId, "Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
                     response = await next();
                     await _unitOfWork.CommitTransactionAsync(transaction,cancellationToken);
-                    _logger.LogInformation(_eventIdProvider.EventId, "----- Finish transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
+                    _logger.LogInformation(_eventIdProvider.EventId, "Finish transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
                 }
                 // TODO 事务执行完毕后 通过 事件总线 发布，从而处理其余业务 
                 //await _orderingIntegrationEventService.PublishEventsThroughEventBusAsync(transactionId);

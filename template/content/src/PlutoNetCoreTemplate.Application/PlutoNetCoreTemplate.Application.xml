@@ -4,8 +4,11 @@
         <name>PlutoNetCoreTemplate.Application</name>
     </assembly>
     <members>
-        <member name="M:PlutoNetCoreTemplate.Application.Attributes.AutoSaveChangeAttribute.#ctor(System.Boolean)">
-            <summary>Initializes a new instance of the <see cref="T:System.Attribute" /> class.</summary>
+        <member name="T:PlutoNetCoreTemplate.Application.Attributes.DisableAutoSaveChangeAttribute">
+            <summary>
+            禁用自动SaveChange
+            </summary>
+            <remarks>如果禁用了，需要手动添加unitofwork的SaveChange</remarks>
         </member>
         <member name="M:PlutoNetCoreTemplate.Application.Behaviors.AutoSaveChangeBehavior`2.Handle(`0,System.Threading.CancellationToken,MediatR.RequestHandlerDelegate{`1})">
             <summary>
@@ -37,6 +40,33 @@
             <typeparam name="TRequest"></typeparam>
             <typeparam name="TResponse"></typeparam>
         </member>
+        <member name="T:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand">
+            <summary>
+            创建账户
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand.UserName">
+            <summary>
+            用户名
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand.Password">
+            <summary>
+            密码
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand.#ctor">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand.#ctor(System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="userName"></param>
+            <param name="password"></param>
+        </member>
         <member name="T:PlutoNetCoreTemplate.Application.CommandBus.CreateUserCommandHandler">
             <summary>
             
@@ -49,14 +79,22 @@
             <param name="mediator"></param>
             <param name="unitOfWork"></param>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.DeleteUserCommandHandler.Handle(PlutoNetCoreTemplate.Application.Commands.DeleteUserCommand,System.Threading.CancellationToken)">
+        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.DeleteUserCommandHandler.Handle(PlutoNetCoreTemplate.Application.CommandBus.Commands.DeleteUserCommand,System.Threading.CancellationToken)">
             <inheritdoc />
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand.IdentifiedCommand`2">
+            <summary>
+            具有辨识的command。执行前会进行查重
+            </summary>
+            <typeparam name="T">需要执行的command</typeparam>
+            <typeparam name="R">T对应的返回类型</typeparam>
         </member>
         <member name="M:PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand.IdentifiedCommandHandler`2.Handle(PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand.IdentifiedCommand{`0,`1},System.Threading.CancellationToken)">
             <summary>
-            这个方法处理命令。它只是确保不存在具有相同ID的其他请求，如果是这种情况，则只对原始内部命令进行排队。
+            这个方法处理命令。它只是确保不存在具有相同ID的其他请求
+            重复执行将返回默认值
             </summary>
-            <param name="request"></param>
+            <param name="message"></param>
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
@@ -67,36 +105,11 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:PlutoNetCoreTemplate.Application.Commands.CreateUserCommand">
-            <summary>
-            创建账户
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.Commands.CreateUserCommand.UserName">
-            <summary>
-            用户名
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.Commands.CreateUserCommand.Password">
-            <summary>
-            密码
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Commands.CreateUserCommand.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Commands.CreateUserCommand.#ctor(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="userName"></param>
-            <param name="password"></param>
-        </member>
         <member name="T:PlutoNetCoreTemplate.Application.Queries.UserQueries">
             <summary>
-            
+            仅仅查询-默认不启用追踪
+            构造函数中：_userRepository.SetNoTracking();
+            或者方法指定 disableTracking:true
             </summary>
         </member>
         <member name="M:PlutoNetCoreTemplate.Application.Queries.UserQueries.#ctor(PlutoData.Interface.IUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext})">

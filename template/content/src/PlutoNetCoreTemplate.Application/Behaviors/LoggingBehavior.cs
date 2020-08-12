@@ -32,13 +32,10 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            using (LogContext.PushProperty("Execute CommondHandler", typeof(TRequest) + " Handler"))
-            {
-                _logger.LogInformation(_eventIdProvider.EventId, "command：{@Command}", request);
-                var response = await next();
-                _logger.LogInformation(_eventIdProvider.EventId, "command result: {@Response}", response);
-                return response;
-            }
+            _logger.LogInformation(_eventIdProvider.EventId, "执行{@command}：{@Command}",request.GetType().Name, request);
+            var response = await next();
+            _logger.LogInformation(_eventIdProvider.EventId, "执行{@command} result: {@Response}",request.GetType().Name, response);
+            return response;
         }
     }
 }

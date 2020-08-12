@@ -56,12 +56,11 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
                 Guid transactionId;
                 using (var transaction = await _unitOfWork.BeginTransactionAsync(cancellationToken))
                 {
+                    transactionId = transaction.TransactionId;
                     _logger.LogInformation(_eventIdProvider.EventId, "----- Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
                     response = await next();
-                    _logger.LogInformation(_eventIdProvider.EventId, "----- Commit transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
                     await _unitOfWork.CommitTransactionAsync(transaction,cancellationToken);
                     _logger.LogInformation(_eventIdProvider.EventId, "----- Finish transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
-                    transactionId = transaction.TransactionId;
                 }
                 // TODO 事务执行完毕后 通过 事件总线 发布，从而处理其余业务 
                 //await _orderingIntegrationEventService.PublishEventsThroughEventBusAsync(transactionId);

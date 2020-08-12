@@ -1,9 +1,15 @@
-﻿using MediatR;
+﻿using System;
+using MediatR;
 
 using Microsoft.Extensions.Logging;
 
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
+using PlutoNetCoreTemplate.Application.CommandBus.Commands;
+using PlutoNetCoreTemplate.Infrastructure.Exceptions;
+using PlutoNetCoreTemplate.Infrastructure.Extensions;
+using PlutoNetCoreTemplate.Infrastructure.Idempotency;
 
 namespace PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand
 {
@@ -11,23 +17,44 @@ namespace PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand
         where T : IRequest<R>
     {
 
+        private readonly IMediator _mediator;
+        private readonly IRequestManager _requestManager;
         private readonly ILogger<IdentifiedCommandHandler<T, R>> _logger;
 
-        public IdentifiedCommandHandler(ILogger<IdentifiedCommandHandler<T, R>> logger)
+        public IdentifiedCommandHandler(
+            ILogger<IdentifiedCommandHandler<T, R>> logger, 
+            IRequestManager requestManager, 
+            IMediator mediator)
         {
             _logger = logger;
+            _requestManager = requestManager;
+            _mediator = mediator;
         }
 
         /// <summary>
-        /// 这个方法处理命令。它只是确保不存在具有相同ID的其他请求，如果是这种情况，则只对原始内部命令进行排队。
+        /// 这个方法处理命令。它只是确保不存在具有相同ID的其他请求
+        /// 重复执行将返回默认值
         /// </summary>
-        /// <param name="request"></param>
+        /// <param name="message"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public Task<R> Handle(IdentifiedCommand<T, R> request, CancellationToken cancellationToken)
+        public async Task<R> Handle(IdentifiedCommand<T, R> message, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("");
-            throw new System.NotImplementedException();
+            var command = message.Command;
+            var commandName = command.GetGenericTypeName();
+            try
+            {
+                await _requestManager.CreateRequestForCommandAsync<T>(message.Id, JsonConvert.SerializeObject(command));
+                var result = await _mediator.Send(command, cancellationToken);
+                return result;
+            }
+            catch (RepeatedCommandException e)
+            {
+                _logger.LogError(e, "命令重复执行:  {CommandName}: ({@Command})",
+                                 commandName,
+                                 command);
+                return CreateResultForDuplicateRequest();
+            }
         }
 
 

@@ -1,6 +1,5 @@
 ﻿using System;
 using MediatR;
-using PlutoNetCoreTemplate.Application.Commands;
 using System.Threading;
 using System.Threading.Tasks;
 using PlutoNetCoreTemplate.Domain.DomainModels.Account;
@@ -8,6 +7,7 @@ using PlutoNetCoreTemplate.Domain.IRepositories;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoNetCoreTemplate.Infrastructure.Extensions;
 using PlutoData.Interface;
+using PlutoNetCoreTemplate.Application.CommandBus.Commands;
 
 namespace PlutoNetCoreTemplate.Application.CommandBus
 {

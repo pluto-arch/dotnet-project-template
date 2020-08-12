@@ -13,7 +13,6 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
             builder.HasKey(x => x.Id);
             builder.Property(x => x.UserName).IsRequired(true).HasMaxLength(300);
             builder.Property(x => x.Email).IsRequired(true).HasMaxLength(200);
-            builder.Ignore(x => x.Roles);
         }
     }
 }

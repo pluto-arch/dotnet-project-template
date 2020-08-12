@@ -5,12 +5,12 @@ using PlutoNetCoreTemplate.Application.Attributes;
 
 using System.Runtime.Serialization;
 
-namespace PlutoNetCoreTemplate.Application.Commands
+namespace PlutoNetCoreTemplate.Application.CommandBus.Commands
 {
     /// <summary>
     /// 创建账户
     /// </summary>
-    [AutoSaveChange]
+    //[DisableAutoSaveChangeAttribute]
     public class CreateUserCommand : IRequest<bool>
     {
         /// <summary>

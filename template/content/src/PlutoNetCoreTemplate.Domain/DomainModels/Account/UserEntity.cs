@@ -34,10 +34,6 @@ namespace PlutoNetCoreTemplate.Domain.DomainModels.Account
 
         public string PasswordHash { get; internal set; }
 
-        public IReadOnlyCollection<UserRoleEntity> Roles { get; set; }
-
-
-
 
         public void ChangeSecurityStamp(string securityStamp)
         {

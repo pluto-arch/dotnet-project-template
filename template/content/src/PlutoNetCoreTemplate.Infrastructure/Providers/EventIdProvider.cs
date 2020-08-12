@@ -9,7 +9,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.Providers
         public EventIdProvider()
         {
             var id = (int)(DateTime.Now.Ticks % int.MaxValue);
-            var name = $"Demo_{DateTime.Now.ToString("yyyyMMddHHmmssfffff")}";
+            var name = $"PlutoNetCoreTemplate_{DateTime.Now:yyyyMMddHHmmssfffff}";
             EventId = new EventId(id, name);
         }
         public EventId EventId { get; }

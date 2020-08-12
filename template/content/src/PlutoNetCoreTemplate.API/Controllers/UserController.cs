@@ -7,7 +7,7 @@ using System;
 using System.Threading.Tasks;
 using MediatR;
 using PlutoData.Collections;
-using PlutoNetCoreTemplate.Application.Commands;
+using PlutoNetCoreTemplate.Application.CommandBus.Commands;
 using PlutoNetCoreTemplate.Application.ResourceModels;
 using PlutoNetCoreTemplate.Infrastructure.Providers;
 
@@ -64,18 +64,6 @@ namespace PlutoNetCoreTemplate.API.Controllers
 		}
 
 		/// <summary>
-		/// 获取用户的所有角色 / GET: api/users/{id}/roles
-		/// </summary>
-		/// <param name="id"></param>
-		/// <returns></returns>
-		[HttpGet("{id}/roles")]
-		public ApiResponse UserRoles(int id)
-		{
-			return ApiResponse<object>.Success(new {User = "user1", Roles = new string[] {"role1", "role2"}});
-		}
-
-
-		/// <summary>
 		/// 创建用户 POST: api/users
 		/// </summary>
 		/// <param name="request"></param>
@@ -83,12 +71,11 @@ namespace PlutoNetCoreTemplate.API.Controllers
 		[HttpPost]
 		public async Task<ApiResponse> PostAsync([FromBody] CreateUserRequest request)
 		{
-			var res = await _mediator.Send(new CreateUserCommand(Guid.NewGuid().ToString("N"), request.Password));
+			var res = await _mediator.Send(new CreateUserCommand(request.UserName, request.Password));
 			if (res)
 			{
 				return ApiResponse.DefaultSuccess();
 			}
-
 			return ApiResponse.DefaultFail();
 		}
 

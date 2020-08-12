@@ -2,11 +2,10 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using PlutoNetCoreTemplate.Application.Commands;
 using PlutoNetCoreTemplate.Domain.IRepositories;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoData.Interface;
-
+using PlutoNetCoreTemplate.Application.CommandBus.Commands;
 
 
 namespace PlutoNetCoreTemplate.Application.CommandBus

@@ -1,12 +1,10 @@
 ﻿using Autofac;
-
 using MediatR;
-
 using PlutoNetCoreTemplate.Application.Behaviors;
-using PlutoNetCoreTemplate.Application.Commands;
-
 using System.Reflection;
+using PlutoNetCoreTemplate.Application.CommandBus.Commands;
 using PlutoNetCoreTemplate.Application.EventBus.Users;
+using PlutoNetCoreTemplate.Infrastructure.Idempotency;
 
 namespace PlutoNetCoreTemplate.API.Modules
 {
@@ -41,6 +39,9 @@ namespace PlutoNetCoreTemplate.API.Modules
             builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>)).InstancePerDependency(); 
             builder.RegisterGeneric(typeof(AutoSaveChangeBehavior<,>)).As(typeof(IPipelineBehavior<,>)).InstancePerDependency(); 
             builder.RegisterGeneric(typeof(TransactionBehaviour<,>)).As(typeof(IPipelineBehavior<,>)).InstancePerDependency(); 
+            
+            builder.RegisterType<RequestManager>().As<IRequestManager>().InstancePerDependency(); 
+            
         }
     }
 }

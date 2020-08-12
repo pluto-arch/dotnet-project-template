@@ -36,8 +36,8 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
 		                                    RequestHandlerDelegate<TResponse> next)
 		{
 			var type = request.GetType();
-			var attr = type.GetCustomAttribute(typeof(AutoSaveChangeAttribute), true) as AutoSaveChangeAttribute;
-			if (attr == null)
+			var attr = type.GetCustomAttribute(typeof(DisableAutoSaveChangeAttribute), true) as DisableAutoSaveChangeAttribute;
+			if (attr != null)
 			{
 				return await next();
 			}

@@ -1,10 +1,10 @@
 #See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
 
-FROM mcr.azk8s.cn/dotnet/core/aspnet:3.1-buster-slim AS base
+FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-buster-slim AS base
 WORKDIR /app
 EXPOSE 5000
 
-FROM mcr.azk8s.cn/dotnet/core/sdk:3.1-buster AS build
+FROM mcr.microsoft.com/dotnet/core/sdk:3.1-buster AS build
 WORKDIR /src
 COPY ["src/PlutoNetCoreTemplate.API/PlutoNetCoreTemplate.API.csproj", "src/PlutoNetCoreTemplate.API/"]
 COPY ["src/PlutoNetCoreTemplate.Infrastructure/PlutoNetCoreTemplate.Infrastructure.csproj", "src/PlutoNetCoreTemplate.Infrastructure/"]

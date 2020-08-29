@@ -45,10 +45,10 @@ namespace PlutoNetCoreTemplate.API.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		public ApiResponse<IPagedList<UserItemModel>> Users()
+		public IActionResult Users()
 		{
 			var users = _userQueries.GetUsers();
-			return ApiResponse<IPagedList<UserItemModel>>.Success(users);
+			return Ok(ApiResponse.Success(users));
 		}
 
 		/// <summary>
@@ -57,10 +57,10 @@ namespace PlutoNetCoreTemplate.API.Controllers
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public ApiResponse<object> Users(int id)
+		public IActionResult Users(int id)
 		{
 			var users = _userQueries.GetUser(id);
-			return ApiResponse<object>.Success(users);
+			return Ok(ApiResponse.Success(users));
 		}
 
 		/// <summary>
@@ -69,14 +69,10 @@ namespace PlutoNetCoreTemplate.API.Controllers
 		/// <param name="request"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<ApiResponse> PostAsync([FromBody] CreateUserRequest request)
+		public async Task<IActionResult> PostAsync([FromBody] CreateUserRequest request)
 		{
 			var res = await _mediator.Send(new CreateUserCommand(request.UserName, request.Password));
-			if (res)
-			{
-				return ApiResponse.DefaultSuccess();
-			}
-			return ApiResponse.DefaultFail();
+			return Ok(ApiResponse.Success(res));
 		}
 
 		/// <summary>
@@ -85,9 +81,9 @@ namespace PlutoNetCoreTemplate.API.Controllers
 		/// <param name="id"></param>
 		/// <param name="request"></param>
 		[HttpPut("{id}")]
-		public ApiResponse Put(int id, [FromBody] PutUserRequest request)
+		public IActionResult Put(int id, [FromBody] PutUserRequest request)
 		{
-			return ApiResponse.DefaultFail("更新成功");
+			return Ok(ApiResponse.Success("更新成功"));
 		}
 
 		/// <summary>
@@ -96,15 +92,10 @@ namespace PlutoNetCoreTemplate.API.Controllers
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpDelete("{id}")]
-		public async Task<ApiResponse> Delete(int id)
+		public async Task<IActionResult> Delete(int id)
 		{
 			var res = await _mediator.Send(new DeleteUserCommand(id));
-			if (res)
-			{
-				return ApiResponse<string>.Success("创建成功");
-			}
-
-			return ApiResponse.DefaultFail("创建失败");
+			return Ok(ApiResponse.Success(res));
 		}
 	}
 }

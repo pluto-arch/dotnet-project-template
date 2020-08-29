@@ -64,9 +64,8 @@ namespace PlutoNetCoreTemplate.API.Middlewares
 		private async Task HandlerExceptionAsync(HttpContext context, Exception e)
 		{
 			context.Response.ContentType = "application/json;charset=utf-8";
-			var message = e.Message;
 			context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-			var apiResponse = ApiResponse.DefaultFail("服务器异常");
+			var apiResponse = ApiResponse.Error(e.Message);
 			var serializerResult = JsonConvert.SerializeObject(apiResponse);
 			await context.Response.WriteAsync(serializerResult);
 		}

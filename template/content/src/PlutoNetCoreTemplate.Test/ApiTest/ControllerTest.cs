@@ -25,7 +25,7 @@ namespace PlutoNetCoreTemplate.Test.ApiTest
                     UserName = Guid.NewGuid().ToString("N"),
                     Password = "admin123"
                 });
-                Assert.IsTrue(res.Code==AppResponseCode.Success);
+                Assert.IsNull(res);
             }
         }
     }

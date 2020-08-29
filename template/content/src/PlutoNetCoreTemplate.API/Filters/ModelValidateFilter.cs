@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -41,9 +42,8 @@ namespace PlutoNetCoreTemplate.API.Filters
 						errors.Add(error.ErrorMessage);
 					}
 				}
-
 				context.Result =
-					new JsonResult(ApiResponse.Fail(AppResponseCode.InvalidParameter, string.Join("|", errors)));
+					new JsonResult(ApiResponse.Error(string.Join("|", errors)));
 			}
 		}
 	}

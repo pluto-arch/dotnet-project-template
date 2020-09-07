@@ -17,6 +17,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using PlutoNetCoreTemplate.API.Extensions;
 using PlutoNetCoreTemplate.Infrastructure;
 
 namespace PlutoNetCoreTemplate.API
@@ -28,7 +29,6 @@ namespace PlutoNetCoreTemplate.API
         public static void Main(string[] args)
         {
             var configuration = GetConfiguration();
-            Log.Logger = CreateSerilogLogger(configuration);
             try
             {
                 Log.Information("×¼±¸Æô¶¯{ApplicationContext}...", AppName);
@@ -51,6 +51,11 @@ namespace PlutoNetCoreTemplate.API
             var webHost = WebHost.CreateDefaultBuilder(args)
                 .CaptureStartupErrors(false)
                 .UseIISIntegration()
+                .ConfigureLogging(builder =>
+                {
+                    builder.ClearProviders();
+                    builder.AddCustomerSerilog(configuration);
+                })
                 .ConfigureKestrel(options =>
                 {
                     var hostAddress = GetDefinedPorts(configuration);
@@ -100,18 +105,6 @@ namespace PlutoNetCoreTemplate.API
             return (IPAddress.Parse(ip), port,protocols);
         }
 
-
-        private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
-        {
-            const string outputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}";
-            return new LoggerConfiguration()
-                .ReadFrom.Configuration(configuration)
-                .Enrich.FromLogContext()
-                .WriteTo.Console()
-                .WriteTo.File(Path.Combine("logs", @"log.log"), rollingInterval: RollingInterval.Day,
-                    outputTemplate: outputTemplate)
-                .CreateLogger();
-        }
 
         private static IConfiguration GetConfiguration()
         {

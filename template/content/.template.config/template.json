@@ -1,10 +1,10 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "zhangyulong",
-  "classifications": ["api", "project"],
-  "identity": "PlutoNetCoreTemplate.API",
-  "name": "Pluto AspNetCore API Template",
-  "shortName": "plutoapi",
+  "classifications": ["WEB", "AspNetCore"],
+  "identity": "PlutoNetCoreTemplate",
+  "name": "Pluto AspNetCore Template",
+  "shortName": "pluto",
   "preferNameDirectory": true,
   "sourceName": "PlutoNetCoreTemplate",
   "tags": {

@@ -24,12 +24,8 @@ namespace PlutoNetCoreTemplate.API.Extensions
 
         private static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration)
         {
-            const string outputTemplate = "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}";
             return new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
-                .WriteTo.Console()
-                .WriteTo.File(Path.Combine("logs", @"log.log"), rollingInterval: RollingInterval.Day,
-                    outputTemplate: outputTemplate)
                 .CreateLogger();
         }
     }

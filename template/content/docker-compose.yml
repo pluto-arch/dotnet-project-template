@@ -1,9 +1,13 @@
 version: '3.4'
 
 services:
-  pluto.netcoretemplate.api:
+  pluto.netcoretemplate:
     image: ${DOCKER_REGISTRY-}templateService
+    restart: always
     container_name: templateService
+    ports:
+      - 5000:5000
+      - 5001:5001
     build:
       context: .
       dockerfile: src/PlutoNetCoreTemplate.API/Dockerfile

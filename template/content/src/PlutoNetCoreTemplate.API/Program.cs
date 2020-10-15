@@ -56,15 +56,6 @@ namespace PlutoNetCoreTemplate.API
                     builder.ClearProviders();
                     builder.AddCustomerSerilog(configuration);
                 })
-                .ConfigureKestrel(options =>
-                {
-                    var hostAddress = GetDefinedPorts(configuration);
-                    options.Listen(hostAddress.IP, hostAddress.Port, listenOptions =>
-                    {
-                        listenOptions.Protocols = Enum.TryParse<HttpProtocols>(hostAddress.Protocols, ignoreCase: true,out var protocols) 
-                                                      ? SetHostProtocols(protocols) : HttpProtocols.Http1AndHttp2;
-                    });
-                })
                 .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .UseContentRoot(Directory.GetCurrentDirectory())

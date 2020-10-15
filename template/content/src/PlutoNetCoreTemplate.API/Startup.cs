@@ -137,17 +137,18 @@ namespace PlutoNetCoreTemplate.API
 
 			#region cors
 
-			services.AddCors(options =>
-			{
-				options.AddPolicy(DefaultCorsName,
-				                  builder =>
-				                  {
-					                  builder.AllowAnyOrigin();
-					                  builder.AllowAnyHeader();
-					                  builder.AllowAnyMethod();
-					                  builder.AllowAnyHeader();
-				                  });
-			});
+            services.AddCors(options =>
+            {
+                options.AddPolicy(DefaultCorsName,
+                    builder =>
+                    {
+                        builder.SetIsOriginAllowed(_ => true).AllowAnyHeader()
+                            .AllowAnyMethod(); 
+                        builder.AllowAnyOrigin();
+                        builder.AllowAnyHeader();
+                        builder.AllowAnyMethod();
+                    });
+            });
 
 			#endregion
 
@@ -159,7 +160,12 @@ namespace PlutoNetCoreTemplate.API
 
 			#region automapper
 
-			services.AddAutoMapper(typeof(PlutoNetCoreTemplate.API.AutoMapperProfile),typeof(PlutoNetCoreTemplate.Application.AutoMapperProfile));
+            services.AddAutoMapper(cfg =>
+            {
+                cfg.AddProfile<AutoMapperProfile>();
+                cfg.AddProfile<Application.AutoMapperProfile>();
+            }, Assembly.GetExecutingAssembly());
+
 
 			#endregion
 		}

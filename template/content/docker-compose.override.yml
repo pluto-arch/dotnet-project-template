@@ -1,8 +1,8 @@
 version: '3.4'
 
 services:
-  pluto.netcoretemplate.api:
+  pluto.netcoretemplate:
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
-    ports:
-      - "80"
+      - ASPNETCORE_URLS=http://+:5000;https://+:5001;
+      - TZ=Asia/shanghai

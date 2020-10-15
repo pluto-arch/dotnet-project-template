@@ -10,4 +10,4 @@ services:
       - 5001:5001
     build:
       context: .
-      dockerfile: src/PlutoNetCoreTemplate.API/Dockerfile
+      dockerfile: src/PlutoNetCoreTemplate/Dockerfile

@@ -10,12 +10,11 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
-using PlutoNetCoreTemplate.API;
-using PlutoNetCoreTemplate.API.Controllers;
-using PlutoNetCoreTemplate.API.Modules;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoNetCoreTemplate.Infrastructure.Providers;
 using PlutoData;
+using PlutoNetCoreTemplate.Controllers;
+using PlutoNetCoreTemplate.Modules;
 using Serilog;
 
 namespace PlutoNetCoreTemplate.Test
@@ -52,7 +51,7 @@ namespace PlutoNetCoreTemplate.Test
                 .AddDbContext<EfCoreDbContext>(options =>
                     {
                         options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddSerilog()));
-                        options.UseSqlServer(config["ConnectionString"],
+                        options.UseSqlServer(config.GetConnectionString("EfCore.MSSQL"),
                             sqlServerOptionsAction: sqlOptions =>
                             {
                                 sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
@@ -74,7 +73,7 @@ namespace PlutoNetCoreTemplate.Test
         public ContainerBuilder ConfigureContainer(ContainerBuilder builder)
         {
 
-            var dataAccess = Assembly.GetAssembly(typeof(ApiBaseController<>));
+            var dataAccess = Assembly.GetAssembly(typeof(BaseController<>));
             builder.RegisterAssemblyTypes(dataAccess)
                 .Where(t => t.Name.EndsWith("Controller"))
                 .InstancePerLifetimeScope();

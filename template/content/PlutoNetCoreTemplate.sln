@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoNetCoreTemplate.Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoNetCoreTemplate.Application", "src\PlutoNetCoreTemplate.Application\PlutoNetCoreTemplate.Application.csproj", "{09488B14-B296-4D5E-B138-377FEF3843A9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoNetCoreTemplate.API", "src\PlutoNetCoreTemplate.API\PlutoNetCoreTemplate.API.csproj", "{71041645-E8E5-457D-8F7E-AEB3A293910A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlutoNetCoreTemplate", "src\PlutoNetCoreTemplate\PlutoNetCoreTemplate.csproj", "{71041645-E8E5-457D-8F7E-AEB3A293910A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F9B37EC1-6843-4667-91F0-DA8F89A4878A}"
 	ProjectSection(SolutionItems) = preProject

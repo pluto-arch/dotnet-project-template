@@ -41,10 +41,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PlutoNetCoreTemplate.API\PlutoNetCoreTemplate.API.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Application\PlutoNetCoreTemplate.Application.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Domain\PlutoNetCoreTemplate.Domain.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
+    <ProjectReference Include="..\PlutoNetCoreTemplate\PlutoNetCoreTemplate.csproj" />
   </ItemGroup>
 
 </Project>

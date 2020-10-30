@@ -24,8 +24,10 @@ using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
+using PlutoNetCoreTemplate.Extensions;
 using PlutoNetCoreTemplate.Filters;
 using PlutoNetCoreTemplate.HealthChecks;
 
@@ -64,6 +66,12 @@ namespace PlutoNetCoreTemplate
 
 			services.Configure<ApiBehaviorOptions>(options => { options.SuppressModelStateInvalidFilter = true; });
 
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardedHeaders =
+                    ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto;
+            });
+            services.AddRouting(options => options.LowercaseUrls = true);
 			#endregion
 
 			#region HealthChecks
@@ -193,9 +201,10 @@ namespace PlutoNetCoreTemplate
 
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory loggerFactory)
 		{
 			this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            loggerFactory.AddCustomerSerilog(Configuration, app.ApplicationServices);
 			if (env.IsProduction())
 			{
 				app.UseHsts();

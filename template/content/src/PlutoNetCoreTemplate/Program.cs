@@ -27,11 +27,9 @@ namespace PlutoNetCoreTemplate
         public static readonly string AppName = typeof(Program).Namespace;
         public static void Main(string[] args)
         {
-            var configuration = GetConfiguration();
             try
             {
-                Log.Information("准备启动{ApplicationContext}...", AppName);
-                var host = BuildWebHost(configuration, args);
+                var host = BuildWebHost(args);
                 Log.Information("{ApplicationContext} 已启动", AppName);
                 host.Run();
             }
@@ -45,16 +43,21 @@ namespace PlutoNetCoreTemplate
             }
         }
 
-        private static IWebHost BuildWebHost(IConfiguration configuration, string[] args)
+        private static IWebHost BuildWebHost(string[] args)
         {
             var webHost = WebHost.CreateDefaultBuilder(args)
-                .CaptureStartupErrors(false)
+                .CaptureStartupErrors(true)
+                .UseSerilog()
                 .UseIISIntegration()
+                .ConfigureAppConfiguration((context, builder) =>
+                {
+                    var env = context.HostingEnvironment;
+                    var baseConfig = GetConfiguration(env);
+                    builder.AddConfiguration(baseConfig);
+                })
                 .ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .UseContentRoot(Directory.GetCurrentDirectory())
-                .UseConfiguration(configuration)
-                .UseSerilog()
                 .Build();
 
             webHost.MigrateDbContext<EfCoreDbContext>((context, services, env) =>
@@ -65,11 +68,12 @@ namespace PlutoNetCoreTemplate
             return webHost;
         }
 
-        private static IConfiguration GetConfiguration()
+        private static IConfiguration GetConfiguration(IHostEnvironment env)
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+                .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: false, reloadOnChange: true)
                 .AddEnvironmentVariables();
             return builder.Build();
 

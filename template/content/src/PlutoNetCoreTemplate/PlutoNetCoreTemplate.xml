@@ -128,6 +128,13 @@
             <param name="app"></param>
             <returns></returns>
         </member>
+        <member name="M:PlutoNetCoreTemplate.Middlewares.ApplicationBuilderExtensions.UseCustomIpRateLimiting(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            速率限制中间件
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
         <member name="T:PlutoNetCoreTemplate.Middlewares.HttpContextLogMiddleware">
             <summary>
             扩展日志中间件

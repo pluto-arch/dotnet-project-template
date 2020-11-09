@@ -39,6 +39,18 @@ namespace PlutoNetCoreTemplate.Middlewares
 			app.UseMiddleware<CustomerExceptionHandler>();
 			return app;
 		}
+
+		/// <summary>
+		/// 速率限制中间件
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <returns></returns>
+        public static IApplicationBuilder UseCustomIpRateLimiting(
+            this IApplicationBuilder builder)
+        {
+            return builder.UseMiddleware<CustomRateLimitMiddleware>();
+        }
+
 	}
 
 	internal class CustomerExceptionHandler

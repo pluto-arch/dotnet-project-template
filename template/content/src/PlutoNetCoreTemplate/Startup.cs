@@ -21,6 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using AspNetCoreRateLimit;
 using AutoMapper;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
@@ -40,11 +41,14 @@ namespace PlutoNetCoreTemplate
 
 		private readonly string conntctionString = string.Empty;
 
+        private readonly bool IsOpenRateLimit = false;
+
 		public Startup(IConfiguration configuration)
 		{
 			Configuration = configuration;
 			conntctionString = configuration.GetConnectionString("EfCore.MSSQL");
-		}
+            IsOpenRateLimit = configuration.GetValue<bool>("IsOpenRateLimit");
+        }
 
 		public IConfiguration Configuration { get; }
 
@@ -176,6 +180,30 @@ namespace PlutoNetCoreTemplate
 
 
 			#endregion
+
+
+            #region 缓存
+			// 速率限制会使用，建议使用redis
+            services.AddMemoryCache();
+            #endregion
+
+
+            #region 请求频率限制
+			// 具体配置参见：https://github.com/stefanprodan/AspNetCoreRateLimit
+            if (IsOpenRateLimit)
+            {
+                //从appsetting.json加载常规配置
+                services.Configure<IpRateLimitOptions>(Configuration.GetSection("IpRateLimiting"));
+                //从appsetting.json加载ip规则
+                services.Configure<IpRateLimitPolicies>(Configuration.GetSection("IpRateLimitPolicies"));
+                //注入计数器和规则存储
+                services.AddSingleton<IIpPolicyStore, MemoryCacheIpPolicyStore>(); // 可替换成redis，自定义
+                services.AddSingleton<IRateLimitCounterStore, MemoryCacheRateLimitCounterStore>();// 可替换成redis，自定义
+                // 配置(解析器,计数器和生成器)
+                services.AddSingleton<IRateLimitConfiguration, RateLimitConfiguration>();
+            }
+            #endregion
+
 		}
 
 
@@ -210,14 +238,16 @@ namespace PlutoNetCoreTemplate
 				app.UseHsts();
 				app.UseHttpsRedirection();
 			}
-
 			app.UseExceptionProcess();
 			app.UseStaticFiles();
 			app.UseSwagger();
 			app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "PlutoNetCoreTemplate"); });
 			app.UseCors(DefaultCorsName);
+            if (IsOpenRateLimit)
+            {
+                app.UseCustomIpRateLimiting();
+            }
 			app.UseRouting();
-
 			app.UseEndpoints(endpoints =>
 			{
 				endpoints.MapHealthChecks("/health", new HealthCheckOptions

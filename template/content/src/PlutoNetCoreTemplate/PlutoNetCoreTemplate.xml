@@ -81,6 +81,11 @@
             <param name="id"></param>
             <returns></returns>
         </member>
+        <member name="T:PlutoNetCoreTemplate.Extensions.HttpContextEnricher">
+            <summary>
+            记录http上下文的enricher
+            </summary>
+        </member>
         <member name="T:PlutoNetCoreTemplate.Filters.ModelValidateFilter">
             <summary>
             model 验证过滤器
@@ -109,12 +114,24 @@
             
             </summary>
         </member>
+        <member name="M:PlutoNetCoreTemplate.Middlewares.ApplicationBuilderExtensions.UseHttpContextLog(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            记录http上下文的中间件
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
         <member name="M:PlutoNetCoreTemplate.Middlewares.ApplicationBuilderExtensions.UseExceptionProcess(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
-            
+            异常处理中间件
             </summary>
             <param name="app"></param>
             <returns></returns>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Middlewares.HttpContextLogMiddleware">
+            <summary>
+            扩展日志中间件
+            </summary>
         </member>
         <member name="T:PlutoNetCoreTemplate.Models.ApiResponse">
             <summary>
@@ -217,6 +234,19 @@
             <summary>
             
             </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Program.GetConfiguration(Microsoft.Extensions.Hosting.IHostEnvironment)">
+            <summary>
+            加载配置
+            </summary>
+            <param name="env"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Program.GetLogConfig">
+            <summary>
+            日志配置
+            </summary>
+            <returns></returns>
         </member>
         <member name="M:PlutoNetCoreTemplate.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
             <summary>

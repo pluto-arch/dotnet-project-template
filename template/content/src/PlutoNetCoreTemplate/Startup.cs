@@ -196,6 +196,7 @@ namespace PlutoNetCoreTemplate
 		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            app.UseHttpContextLog();
 			if (env.IsProduction())
 			{
 				app.UseHsts();

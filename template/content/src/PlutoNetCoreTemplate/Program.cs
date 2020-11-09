@@ -63,9 +63,9 @@ namespace PlutoNetCoreTemplate
                 .UseSerilog()
                 .Build();
 
-            webHost.MigrateDbContext<EfCoreDbContext>((context, services) =>
+            webHost.MigrateDbContext<EfCoreDbContext>((context, services, env) =>
             {
-                var logger = services.GetService<ILogger<EfCoreDbContext>>();
+                // seeder 
             });
 
             return webHost;

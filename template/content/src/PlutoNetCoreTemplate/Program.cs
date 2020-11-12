@@ -101,39 +101,4 @@ namespace PlutoNetCoreTemplate
 
     }
 
-
-
-    public static class WebHostExtension
-    {
-        public static void MigrateDbContext<TContext>(this IWebHost webHost,
-            Action<TContext, IServiceProvider> seeder)
-            where TContext : DbContext
-        {
-            using (var scope = webHost.Services.CreateScope())
-            {
-                var services = scope.ServiceProvider;
-                var logger = services.GetRequiredService<ILogger<TContext>>();
-                var context = services.GetService<TContext>();
-
-                try
-                {
-                    logger.LogInformation("开始迁移数据库 {DbContextName}", typeof(TContext).Name);
-                    // 存在未提交到数据库的迁移
-                    if (context.Database.GetPendingMigrations().Any())
-                    {
-                        // 进行迁移
-                        context.Database.Migrate();
-                        logger.LogInformation("已迁移数据库 {DbContextName}", typeof(TContext).Name);
-                    }
-                    seeder?.Invoke(context, webHost.Services); // 种子数据初始化
-                }
-                catch (Exception ex)
-                {
-                    logger.LogError(ex, "迁移数据库时出错 {DbContextName}", typeof(TContext).Name);
-                }
-
-            }
-        }
-    }
-
 }

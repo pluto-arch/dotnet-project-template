@@ -9,7 +9,6 @@ using MediatR;
 using PlutoData.Collections;
 using PlutoNetCoreTemplate.Application.CommandBus.Commands;
 using PlutoNetCoreTemplate.Application.ResourceModels;
-using PlutoNetCoreTemplate.Infrastructure.Providers;
 using PlutoNetCoreTemplate.Models;
 using PlutoNetCoreTemplate.Models.Requests;
 
@@ -30,13 +29,11 @@ namespace PlutoNetCoreTemplate.Controllers
 		/// </summary>
 		/// <param name="mediator"></param>
 		/// <param name="logger"></param>
-		/// <param name="eventIdProvider"></param>
 		/// <param name="userQueries"></param>
 		public UserController(
 			IMediator mediator,
 			ILogger<UserController> logger,
-			EventIdProvider eventIdProvider,
-			IUserQueries userQueries) : base(mediator, logger, eventIdProvider)
+			IUserQueries userQueries) : base(mediator, logger)
 		{
 			_userQueries = userQueries;
 		}

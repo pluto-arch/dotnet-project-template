@@ -11,7 +11,6 @@ using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoNetCoreTemplate.Infrastructure.Providers;
 using PlutoData;
 using PlutoNetCoreTemplate.Controllers;
 using PlutoNetCoreTemplate.Modules;
@@ -46,7 +45,6 @@ namespace PlutoNetCoreTemplate.Test
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-            services.AddScoped(typeof(EventIdProvider));
             services
                 .AddDbContext<EfCoreDbContext>(options =>
                     {

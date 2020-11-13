@@ -5,7 +5,7 @@ using Grpc.Net.Client;
 using Serilog;
 
 
-namespace PlutoNetCoreTemplate.Application.GrpcServices
+namespace PlutoNetCoreTemplate.GrpcServices
 {
     public static class GrpcCallerService
     {
@@ -35,19 +35,19 @@ namespace PlutoNetCoreTemplate.Application.GrpcServices
             }
         }
 
-        public static async Task CallService(string urlGrpc, Func<GrpcChannel, Task> func)
+        public static TResponse CallService<TResponse>(string urlGrpc, Func<GrpcChannel, TResponse> func)
         {
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2UnencryptedSupport", true);
             AppContext.SetSwitch("System.Net.Http.SocketsHttpHandler.Http2Support", true);
-
             var channel = GrpcChannel.ForAddress(urlGrpc);
             try
             {
-                await func(channel);
+                return func(channel);
             }
             catch (RpcException e)
             {
                 Log.Error(e, "Error calling grpc: {@BaseAddress} - {Message}", channel.Target, e.Message);
+                return default;
             }
             finally
             {

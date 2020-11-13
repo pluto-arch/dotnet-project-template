@@ -2,7 +2,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PlutoNetCoreTemplate.Infrastructure.Providers;
 
 
 namespace PlutoNetCoreTemplate.Controllers
@@ -21,22 +20,16 @@ namespace PlutoNetCoreTemplate.Controllers
         /// 
         /// </summary>
         internal readonly ILogger _logger;
-        /// <summary>
-        /// 
-        /// </summary>
-        internal readonly EventIdProvider _eventIdProvider;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="mediator"></param>
         /// <param name="logger"></param>
-        /// <param name="eventIdProvider"></param>
-        public BaseController(IMediator mediator, ILogger<T> logger, EventIdProvider eventIdProvider)
+        public BaseController(IMediator mediator, ILogger<T> logger)
         {
             _mediator = mediator;
             _logger = logger;
-            _eventIdProvider = eventIdProvider;
         }
     }
 }

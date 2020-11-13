@@ -1,22 +1,11 @@
 using Autofac.Extensions.DependencyInjection;
-
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
-
 using Serilog;
-using Serilog.Events;
-
 using System;
 using System.IO;
-using System.Net;
-using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using PlutoNetCoreTemplate.Extensions;
 using PlutoNetCoreTemplate.Infrastructure;
 

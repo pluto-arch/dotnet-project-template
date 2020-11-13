@@ -14,7 +14,6 @@ using Newtonsoft.Json.Serialization;
 using PlutoNetCoreTemplate.Middlewares;
 using PlutoNetCoreTemplate.Modules;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoNetCoreTemplate.Infrastructure.Providers;
 using PlutoData;
 using Serilog;
 using System;
@@ -27,7 +26,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
-using PlutoNetCoreTemplate.Extensions;
 using PlutoNetCoreTemplate.Filters;
 using PlutoNetCoreTemplate.HealthChecks;
 
@@ -86,12 +84,6 @@ namespace PlutoNetCoreTemplate
 			        .AddCheck<DatabaseHealthCheck>("database_check", failureStatus: HealthStatus.Unhealthy,
 			                                       tags: new string[] {"database", "sqlServer"})
 			        .AddCheck<MemoryHealthCheck>("memory_check", failureStatus: HealthStatus.Degraded);
-
-			#endregion
-
-			#region EventIdProvider
-
-			services.AddScoped(typeof(EventIdProvider));
 
 			#endregion
 
@@ -202,7 +194,7 @@ namespace PlutoNetCoreTemplate
 
 
 		// This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-		public void Configure(IApplicationBuilder app, IWebHostEnvironment env,ILoggerFactory loggerFactory)
+		public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
 		{
 			this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             app.UseHttpContextLog();

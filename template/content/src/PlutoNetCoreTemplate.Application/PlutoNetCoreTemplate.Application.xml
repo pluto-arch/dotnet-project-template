@@ -26,12 +26,11 @@
             <typeparam name="TRequest"></typeparam>
             <typeparam name="TResponse"></typeparam>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Behaviors.LoggingBehavior`2.#ctor(Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Application.Behaviors.LoggingBehavior{`0,`1}},PlutoNetCoreTemplate.Infrastructure.Providers.EventIdProvider)">
+        <member name="M:PlutoNetCoreTemplate.Application.Behaviors.LoggingBehavior`2.#ctor(Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Application.Behaviors.LoggingBehavior{`0,`1}})">
             <summary>
             
             </summary>
             <param name="logger"></param>
-            <param name="eventIdProvider"></param>
         </member>
         <member name="T:PlutoNetCoreTemplate.Application.Behaviors.TransactionBehaviour`2">
             <summary>

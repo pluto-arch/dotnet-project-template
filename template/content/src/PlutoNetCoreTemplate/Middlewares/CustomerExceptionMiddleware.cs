@@ -1,10 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
-using PlutoNetCoreTemplate.Infrastructure.Providers;
-using Serilog.Context;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
@@ -28,7 +25,6 @@ namespace PlutoNetCoreTemplate.Middlewares
             return builder.UseMiddleware<HttpContextLogMiddleware>();
         }
 
-
 		/// <summary>
 		/// 异常处理中间件
 		/// </summary>
@@ -46,15 +42,12 @@ namespace PlutoNetCoreTemplate.Middlewares
 	{
 		private readonly RequestDelegate _next;
 
-		private readonly EventIdProvider _eventIdProvider;
-
 		private readonly ILogger _logger;
 
 
-		public CustomerExceptionHandler(EventIdProvider eventIdProvider, RequestDelegate next,
+		public CustomerExceptionHandler(RequestDelegate next,
 		                                ILogger<CustomerExceptionHandler> logger)
 		{
-			_eventIdProvider = eventIdProvider;
 			_next = next;
 			_logger = logger;
 		}
@@ -68,7 +61,7 @@ namespace PlutoNetCoreTemplate.Middlewares
 			}
 			catch (Exception e)
 			{
-				_logger.LogError(_eventIdProvider.EventId, e, $"{httpContext.Request.Path} has an error. {e.Message}");
+				_logger.LogError(e, $"{httpContext.Request.Path} has an error. {e.Message}");
 				await HandlerExceptionAsync(httpContext, e);
 			}
 		}

@@ -32,12 +32,14 @@ namespace PlutoNetCoreTemplate.Extensions
                             // 进行迁移
                             context.Database.Migrate();
                             logger.LogInformation("已迁移数据库 {DbContextName}", typeof(TContext).Name);
-                        } else
+                        }
+                        else
                         {
                             logger.LogInformation("不需要迁移 {DbContextName}", typeof(TContext).Name);
                         }
                         seeder?.Invoke(context, webHost.Services, env); // 种子数据初始化
-                    } catch (Exception ex)
+                    }
+                    catch (Exception ex)
                     {
                         logger.LogError(ex, "迁移数据库时出错 {DbContextName}", typeof(TContext).Name);
                     }

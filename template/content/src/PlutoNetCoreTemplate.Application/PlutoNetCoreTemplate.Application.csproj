@@ -32,15 +32,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="GrpcServices\Protos\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <!--对外提供的话，请使用Both或者Server。使用其他的grpc服务，请使用Cient-->
-    <Protobuf Include="GrpcServices\Protos\*.proto" GrpcServices="Client" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PlutoNetCoreTemplate.Domain\PlutoNetCoreTemplate.Domain.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
   </ItemGroup>

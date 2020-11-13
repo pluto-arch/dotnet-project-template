@@ -20,31 +20,24 @@
             
             </summary>
         </member>
-        <member name="F:PlutoNetCoreTemplate.Controllers.BaseController`1._eventIdProvider">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.BaseController`1.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{`0},PlutoNetCoreTemplate.Infrastructure.Providers.EventIdProvider)">
+        <member name="M:PlutoNetCoreTemplate.Controllers.BaseController`1.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{`0})">
             <summary>
             
             </summary>
             <param name="mediator"></param>
             <param name="logger"></param>
-            <param name="eventIdProvider"></param>
         </member>
         <member name="T:PlutoNetCoreTemplate.Controllers.UserController">
             <summary>
             Demo 控制器
             </summary>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Controllers.UserController},PlutoNetCoreTemplate.Infrastructure.Providers.EventIdProvider,PlutoNetCoreTemplate.Application.Queries.Interfaces.IUserQueries)">
+        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Controllers.UserController},PlutoNetCoreTemplate.Application.Queries.Interfaces.IUserQueries)">
             <summary>
             
             </summary>
             <param name="mediator"></param>
             <param name="logger"></param>
-            <param name="eventIdProvider"></param>
             <param name="userQueries"></param>
         </member>
         <member name="M:PlutoNetCoreTemplate.Controllers.UserController.Users">

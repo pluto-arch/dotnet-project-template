@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using PlutoNetCoreTemplate.Infrastructure.EventBus.Abstractions;
@@ -8,7 +9,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.EventBus
 {
     public class InMemoryEventBusSubscriptionsManager
     {
-        private readonly Dictionary<string, List<SubscriptionInfo>> _handlers;
+        private readonly ConcurrentDictionary<string, List<SubscriptionInfo>> _handlers;
         private readonly List<Type> _eventTypes;
 
         /// <summary>
@@ -18,7 +19,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.EventBus
 
         public InMemoryEventBusSubscriptionsManager()
         {
-            _handlers = new Dictionary<string, List<SubscriptionInfo>>();
+            _handlers = new ConcurrentDictionary<string, List<SubscriptionInfo>>();
             _eventTypes = new List<Type>();
         }
         public bool IsEmpty => !_handlers.Keys.Any();
@@ -137,7 +138,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.EventBus
                 _handlers[eventName].Remove(subsToRemove);
                 if (!_handlers[eventName].Any())
                 {
-                    _handlers.Remove(eventName);
+                    _handlers.Remove(eventName,out _);
                     var eventType = _eventTypes.SingleOrDefault(e => e.Name == eventName);
                     if (eventType != null)
                     {
@@ -153,7 +154,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.EventBus
         {
             if (!HasSubscriptionsForEvent(eventName))
             {
-                _handlers.Add(eventName, new List<SubscriptionInfo>());
+                _handlers.TryAdd(eventName, new List<SubscriptionInfo>());
             }
 
             if (_handlers[eventName].Any(s => s.HandlerType == handlerType))

@@ -4,7 +4,7 @@ using PlutoNetCoreTemplate.Domain.Events.UserEvents;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace PlutoNetCoreTemplate.Application.EventBus.Users
+namespace PlutoNetCoreTemplate.Application.DomainEventHandler
 {
     public class DisableUserEventHandler : INotificationHandler<DisableUserEvent>
     {

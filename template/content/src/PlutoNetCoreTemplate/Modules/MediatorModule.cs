@@ -3,7 +3,7 @@ using MediatR;
 using PlutoNetCoreTemplate.Application.Behaviors;
 using System.Reflection;
 using PlutoNetCoreTemplate.Application.CommandBus.Commands;
-using PlutoNetCoreTemplate.Application.EventBus.Users;
+using PlutoNetCoreTemplate.Application.DomainEventHandler;
 using PlutoNetCoreTemplate.Infrastructure.Idempotency;
 
 namespace PlutoNetCoreTemplate.Modules

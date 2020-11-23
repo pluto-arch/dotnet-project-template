@@ -70,7 +70,7 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
                  * 
                  * 如果此次操作没有涉及通知其他系统，可不使用事务，对应的command对象上不需要加CommandTransactionAttribute特性(反射也会影响性能)。
                  */
-                //await _orderingIntegrationEventService.PublishEventsThroughEventBusAsync(transactionId);
+                //await _ntegrationEventService.PublishEventsThroughEventBusAsync(transactionId);
             });
             return response;
         }

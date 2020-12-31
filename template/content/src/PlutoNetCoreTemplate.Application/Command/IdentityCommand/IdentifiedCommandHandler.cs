@@ -6,12 +6,11 @@ using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using PlutoNetCoreTemplate.Application.CommandBus.Commands;
 using PlutoNetCoreTemplate.Infrastructure.Exceptions;
 using PlutoNetCoreTemplate.Infrastructure.Extensions;
 using PlutoNetCoreTemplate.Infrastructure.Idempotency;
 
-namespace PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand
+namespace PlutoNetCoreTemplate.Application.Command
 {
     public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<T, R>, R>
         where T : IRequest<R>

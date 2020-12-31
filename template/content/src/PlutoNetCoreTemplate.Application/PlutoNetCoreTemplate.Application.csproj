@@ -36,10 +36,4 @@
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="EventBus\IntegrationEvents\Event\" />
-    <Folder Include="EventBus\IntegrationEvents\EventHandler\" />
-    <Folder Include="EventBus\EventBus.RabbitMQ\" />
-  </ItemGroup>
-
 </Project>

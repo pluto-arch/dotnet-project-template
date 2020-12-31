@@ -53,14 +53,14 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.PostAsync(PlutoNetCoreTemplate.Models.Requests.CreateUserRequest)">
+        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.PostAsync">
             <summary>
             创建用户 POST: api/users
             </summary>
             <param name="request"></param>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.Put(System.Int32,PlutoNetCoreTemplate.Models.Requests.PutUserRequest)">
+        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.Put">
             <summary>
             全部更新
             </summary>
@@ -78,6 +78,30 @@
             <summary>
             记录http上下文的enricher
             </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollectionExtensions.AddCustomerControllers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            控制器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollectionExtensions.AddCustomerHealthCheck(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            健康检查
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollectionExtensions.AddCustomerSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            API文档
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollectionExtensions.AddCustomerCors(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            跨域
+            </summary>
+            <returns></returns>
         </member>
         <member name="T:PlutoNetCoreTemplate.Filters.ModelValidateFilter">
             <summary>
@@ -126,108 +150,6 @@
             扩展日志中间件
             </summary>
         </member>
-        <member name="T:PlutoNetCoreTemplate.Models.ApiResponse">
-            <summary>
-            接口response
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Models.ApiResponse.Success``1(``0)">
-            <summary>
-            执行成功的返回值
-            </summary>
-            <param name="data"></param>
-            <typeparam name="T"></typeparam>
-            <returns></returns>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Models.ApiResponse.Error(System.String)">
-            <summary>
-            执行失败的返回值
-            </summary>
-            <param name="msg"></param>
-            <returns></returns>
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Models.Requests.CreateUserRequest">
-            <summary>
-            创建用户http request
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.CreateUserRequest.UserName">
-            <summary>
-            邮箱
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.CreateUserRequest.Password">
-            <summary>
-            密码
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Models.Requests.CreateUserRequest.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
-            <summary>Determines whether the specified object is valid.</summary>
-            <param name="validationContext">The validation context.</param>
-            <returns>A collection that holds failed-validation information.</returns>
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Models.Requests.LoginRequest">
-            <summary>
-            登陆
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.LoginRequest.Email">
-            <summary>
-            邮箱
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.LoginRequest.Password">
-            <summary>
-            密码
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Models.Requests.LoginRequest.Validate(System.ComponentModel.DataAnnotations.ValidationContext)">
-            <summary>
-            
-            </summary>
-            <param name="validationContext"></param>
-            <returns></returns>
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Models.Requests.PutUserRequest">
-            <summary>
-            对应 http put 更新 user
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.PutUserRequest.userName">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.PutUserRequest.emailConfirmed">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.PutUserRequest.phoneConfirmed">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.PutUserRequest.lockoutEnabled">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.PutUserRequest.accessFailedCount">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.PutUserRequest.passwordHash">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Models.Requests.PutUserRequest.id">
-            <summary>
-            
-            </summary>
-        </member>
         <member name="M:PlutoNetCoreTemplate.Program.GetConfiguration(Microsoft.Extensions.Hosting.IHostEnvironment)">
             <summary>
             加载配置
@@ -240,12 +162,6 @@
             日志配置
             </summary>
             <returns></returns>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Startup.ConfigureContainer(Autofac.ContainerBuilder)">
-            <summary>
-            配置第三方(autofac)容器
-            </summary>
-            <param name="builder"></param>
         </member>
         <member name="T:PlutoNetCoreTemplate.DbContextCreateFactory">
             <summary>

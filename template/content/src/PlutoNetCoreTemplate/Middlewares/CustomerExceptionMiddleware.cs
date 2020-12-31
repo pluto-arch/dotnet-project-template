@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using PlutoNetCoreTemplate.Models;
 
 namespace PlutoNetCoreTemplate.Middlewares
 {
@@ -71,7 +70,7 @@ namespace PlutoNetCoreTemplate.Middlewares
 		{
 			context.Response.ContentType = "application/json;charset=utf-8";
 			context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-			var apiResponse = ApiResponse.Error(e.Message);
+			var apiResponse = e.Message;
 			var serializerResult = JsonConvert.SerializeObject(apiResponse);
 			await context.Response.WriteAsync(serializerResult);
 		}

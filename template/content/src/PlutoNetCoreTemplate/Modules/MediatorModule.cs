@@ -2,7 +2,7 @@
 using MediatR;
 using PlutoNetCoreTemplate.Application.Behaviors;
 using System.Reflection;
-using PlutoNetCoreTemplate.Application.CommandBus.Commands;
+using PlutoNetCoreTemplate.Application.Command;
 using PlutoNetCoreTemplate.Application.DomainEventHandler;
 using PlutoNetCoreTemplate.Infrastructure.Idempotency;
 

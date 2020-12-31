@@ -5,10 +5,9 @@ using MediatR;
 using PlutoNetCoreTemplate.Domain.IRepositories;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoData.Interface;
-using PlutoNetCoreTemplate.Application.CommandBus.Commands;
 
 
-namespace PlutoNetCoreTemplate.Application.CommandBus
+namespace PlutoNetCoreTemplate.Application.Command
 {
     public class DeleteUserCommandHandler:IRequestHandler<DeleteUserCommand,bool>
     {

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoNetCoreTemplate.Models;
 
 
 namespace PlutoNetCoreTemplate.Filters
@@ -43,7 +42,7 @@ namespace PlutoNetCoreTemplate.Filters
 					}
 				}
 				context.Result =
-					new JsonResult(ApiResponse.Error(string.Join("|", errors)));
+					new JsonResult(string.Join("|", errors));
 			}
 		}
 	}

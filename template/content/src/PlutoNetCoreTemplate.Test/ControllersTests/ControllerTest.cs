@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using PlutoNetCoreTemplate.Controllers;
-using PlutoNetCoreTemplate.Models;
 
 
 namespace PlutoNetCoreTemplate.Test.ControllersTests

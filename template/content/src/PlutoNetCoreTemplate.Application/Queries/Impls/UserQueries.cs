@@ -18,8 +18,7 @@ namespace PlutoNetCoreTemplate.Application.Queries
 {
     /// <summary>
     /// 仅仅查询-默认不启用追踪
-    /// 构造函数中：_userRepository.SetNoTracking();
-    /// 或者方法指定 disableTracking:true
+    /// 方法指定 disableTracking:true
     /// </summary>
     public class UserQueries: IUserQueries
     {
@@ -34,7 +33,6 @@ namespace PlutoNetCoreTemplate.Application.Queries
         public UserQueries(IUnitOfWork<EfCoreDbContext> unitOfWork)
         {
             _userRepository = unitOfWork.GetRepository<IUserRepository>();
-            _userRepository.SetNoTracking();
         }
 
 

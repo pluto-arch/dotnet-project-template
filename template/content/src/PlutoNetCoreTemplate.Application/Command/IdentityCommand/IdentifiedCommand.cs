@@ -2,7 +2,7 @@
 
 using System;
 
-namespace PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand
+namespace PlutoNetCoreTemplate.Application.Command
 {
     /// <summary>
     /// 具有辨识的command。执行前会进行查重

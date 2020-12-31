@@ -39,56 +39,56 @@
             <typeparam name="TRequest"></typeparam>
             <typeparam name="TResponse"></typeparam>
         </member>
-        <member name="T:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand">
+        <member name="T:PlutoNetCoreTemplate.Application.Command.CreateUserCommand">
             <summary>
             创建账户
             </summary>
         </member>
-        <member name="P:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand.UserName">
+        <member name="P:PlutoNetCoreTemplate.Application.Command.CreateUserCommand.UserName">
             <summary>
             用户名
             </summary>
         </member>
-        <member name="P:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand.Password">
+        <member name="P:PlutoNetCoreTemplate.Application.Command.CreateUserCommand.Password">
             <summary>
             密码
             </summary>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand.#ctor">
+        <member name="M:PlutoNetCoreTemplate.Application.Command.CreateUserCommand.#ctor">
             <summary>
             
             </summary>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.Commands.CreateUserCommand.#ctor(System.String,System.String)">
+        <member name="M:PlutoNetCoreTemplate.Application.Command.CreateUserCommand.#ctor(System.String,System.String)">
             <summary>
             
             </summary>
             <param name="userName"></param>
             <param name="password"></param>
         </member>
-        <member name="T:PlutoNetCoreTemplate.Application.CommandBus.CreateUserCommandHandler">
+        <member name="T:PlutoNetCoreTemplate.Application.Command.CreateUserCommandHandler">
             <summary>
             
             </summary>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.CreateUserCommandHandler.#ctor(MediatR.IMediator,PlutoData.Interface.IUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext})">
+        <member name="M:PlutoNetCoreTemplate.Application.Command.CreateUserCommandHandler.#ctor(MediatR.IMediator,PlutoData.Interface.IUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext})">
             <summary>
             
             </summary>
             <param name="mediator"></param>
             <param name="unitOfWork"></param>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.DeleteUserCommandHandler.Handle(PlutoNetCoreTemplate.Application.CommandBus.Commands.DeleteUserCommand,System.Threading.CancellationToken)">
+        <member name="M:PlutoNetCoreTemplate.Application.Command.DeleteUserCommandHandler.Handle(PlutoNetCoreTemplate.Application.Command.DeleteUserCommand,System.Threading.CancellationToken)">
             <inheritdoc />
         </member>
-        <member name="T:PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand.IdentifiedCommand`2">
+        <member name="T:PlutoNetCoreTemplate.Application.Command.IdentifiedCommand`2">
             <summary>
             具有辨识的command。执行前会进行查重
             </summary>
             <typeparam name="T">需要执行的command</typeparam>
             <typeparam name="R">T对应的返回类型</typeparam>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand.IdentifiedCommandHandler`2.Handle(PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand.IdentifiedCommand{`0,`1},System.Threading.CancellationToken)">
+        <member name="M:PlutoNetCoreTemplate.Application.Command.IdentifiedCommandHandler`2.Handle(PlutoNetCoreTemplate.Application.Command.IdentifiedCommand{`0,`1},System.Threading.CancellationToken)">
             <summary>
             这个方法处理命令。它只是确保不存在具有相同ID的其他请求
             重复执行将返回默认值
@@ -97,18 +97,40 @@
             <param name="cancellationToken"></param>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.CommandBus.IdentityCommand.IdentifiedCommandHandler`2.CreateResultForDuplicateRequest">
+        <member name="M:PlutoNetCoreTemplate.Application.Command.IdentifiedCommandHandler`2.CreateResultForDuplicateRequest">
             <summary>
             如果前一个command已经处理了，直接返回
             防止重复command
             </summary>
             <returns></returns>
         </member>
+        <member name="T:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService">
+            <summary>
+            调用GRPC服务
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService.CallServiceAsync``1(System.String,System.Func{Grpc.Net.Client.GrpcChannel,System.Threading.Tasks.Task{``0}})">
+            <summary>
+            异步调用GRPC服务
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="urlGrpc"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService.CallService``1(System.String,System.Func{Grpc.Net.Client.GrpcChannel,``0})">
+            <summary>
+            同步调用GRPC服务
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="urlGrpc"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
         <member name="T:PlutoNetCoreTemplate.Application.Queries.UserQueries">
             <summary>
             仅仅查询-默认不启用追踪
-            构造函数中：_userRepository.SetNoTracking();
-            或者方法指定 disableTracking:true
+            方法指定 disableTracking:true
             </summary>
         </member>
         <member name="M:PlutoNetCoreTemplate.Application.Queries.UserQueries.#ctor(PlutoData.Interface.IUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext})">

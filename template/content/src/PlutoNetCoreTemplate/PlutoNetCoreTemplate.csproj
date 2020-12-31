@@ -16,6 +16,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="ActionResult\Responses\**" />
+    <Compile Remove="logs\**" />
+    <Content Remove="ActionResult\Responses\**" />
+    <Content Remove="logs\**" />
+    <EmbeddedResource Remove="ActionResult\Responses\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <None Remove="ActionResult\Responses\**" />
+    <None Remove="logs\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="PlutoNetCoreTemplate.xml" />
   </ItemGroup>
 
@@ -42,10 +53,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="ActionResult\" />
     <Folder Include="Filters\" />
-    <Folder Include="GrpcServices\Protos\" />
-    <Folder Include="logs\" />
-    <Folder Include="Models\Responses" />
   </ItemGroup>
 
   <ItemGroup>

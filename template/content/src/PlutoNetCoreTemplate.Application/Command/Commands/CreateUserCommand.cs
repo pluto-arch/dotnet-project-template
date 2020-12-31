@@ -1,11 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using MediatR;
+﻿using MediatR;
 
-using PlutoNetCoreTemplate.Application.Attributes;
-
-using System.Runtime.Serialization;
-
-namespace PlutoNetCoreTemplate.Application.CommandBus.Commands
+namespace PlutoNetCoreTemplate.Application.Command
 {
     /// <summary>
     /// 创建账户

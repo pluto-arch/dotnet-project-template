@@ -14,7 +14,7 @@ namespace PlutoNetCoreTemplate.Test.ControllersTests
     {
 
         [Test]
-        public async Task GET_api_Demo()
+        public void GET_api_Demo()
         {
             using (var scope = _Container.BeginLifetimeScope())
             {

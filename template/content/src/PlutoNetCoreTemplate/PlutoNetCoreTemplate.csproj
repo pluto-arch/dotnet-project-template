@@ -16,13 +16,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ActionResult\Responses\**" />
+    <Compile Remove="ActionResult\**" />
     <Compile Remove="logs\**" />
-    <Content Remove="ActionResult\Responses\**" />
+    <Content Remove="ActionResult\**" />
     <Content Remove="logs\**" />
-    <EmbeddedResource Remove="ActionResult\Responses\**" />
+    <EmbeddedResource Remove="ActionResult\**" />
     <EmbeddedResource Remove="logs\**" />
-    <None Remove="ActionResult\Responses\**" />
+    <None Remove="ActionResult\**" />
     <None Remove="logs\**" />
   </ItemGroup>
 
@@ -53,7 +53,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ActionResult\" />
     <Folder Include="Filters\" />
   </ItemGroup>
 

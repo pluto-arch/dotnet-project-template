@@ -66,7 +66,7 @@ namespace PlutoNetCoreTemplate.Middlewares
 		}
 
 
-		private async Task HandlerExceptionAsync(HttpContext context, Exception e)
+		private static async Task HandlerExceptionAsync(HttpContext context, Exception e)
 		{
 			context.Response.ContentType = "application/json;charset=utf-8";
 			context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;

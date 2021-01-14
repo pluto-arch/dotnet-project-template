@@ -10,8 +10,13 @@ using PlutoNetCoreTemplate.Infrastructure.Exceptions;
 using PlutoNetCoreTemplate.Infrastructure.Extensions;
 using PlutoNetCoreTemplate.Infrastructure.Idempotency;
 
-namespace PlutoNetCoreTemplate.Application.Command
+namespace PlutoNetCoreTemplate.Application.Command.IdentityCommand
 {
+    /// <summary>
+    /// 标识command处理程序
+    /// </summary>
+    /// <typeparam name="T">target command</typeparam>
+    /// <typeparam name="R">expected response</typeparam>
     public class IdentifiedCommandHandler<T, R> : IRequestHandler<IdentifiedCommand<T, R>, R>
         where T : IRequest<R>
     {
@@ -43,7 +48,7 @@ namespace PlutoNetCoreTemplate.Application.Command
             var commandName = command.GetGenericTypeName();
             try
             {
-                await _requestManager.CreateRequestForCommandAsync<T>(message.Id, JsonConvert.SerializeObject(command));
+                await _requestManager.CreateRequestForCommandAsync<T>(message.Id, command);
                 var result = await _mediator.Send(command, cancellationToken);
                 return result;
             }
@@ -64,7 +69,7 @@ namespace PlutoNetCoreTemplate.Application.Command
         /// <returns></returns>
         protected virtual R CreateResultForDuplicateRequest()
         {
-            return default(R);
+            return default;
         }
 
 

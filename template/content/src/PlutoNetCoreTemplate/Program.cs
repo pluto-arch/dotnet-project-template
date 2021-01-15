@@ -11,6 +11,9 @@ using PlutoNetCoreTemplate.Infrastructure;
 
 namespace PlutoNetCoreTemplate
 {
+    using System.Net;
+    using Microsoft.AspNetCore.Server.Kestrel.Core;
+
     public class Program
     {
         public static readonly string AppName = typeof(Program).Namespace;

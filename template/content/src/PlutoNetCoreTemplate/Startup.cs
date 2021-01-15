@@ -2,38 +2,33 @@ using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
 using PlutoNetCoreTemplate.Middlewares;
 using PlutoNetCoreTemplate.Modules;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoData;
 using Serilog;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using AutoMapper;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Diagnostics.HealthChecks;
 using PlutoNetCoreTemplate.Extensions;
-using PlutoNetCoreTemplate.Filters;
-using PlutoNetCoreTemplate.HealthChecks;
 
 
 namespace PlutoNetCoreTemplate
 {
-	public class Startup
+    using Application.Grpc;
+    using Grpc.Protocol;
+
+    public class Startup
 	{
 		private const string DefaultCorsName = "default";
 
@@ -64,6 +59,9 @@ namespace PlutoNetCoreTemplate
                 .AddUnitOfWorkDbContext<EfCoreDbContext>(
                     DbContextCreateFactory.OptionsAction(_conntctionString), ServiceLifetime.Scoped)
                 .AddRepository();
+
+            services.AddGrpc();
+            services.AddSingleton<GrpcCallerService>();
 		}
 
 
@@ -91,6 +89,7 @@ namespace PlutoNetCoreTemplate
 			app.UseRouting();
 			app.UseEndpoints(endpoints =>
 			{
+                endpoints.MapGrpcService<OrderGrpc>();
 				endpoints.MapHealthChecks("/health", new HealthCheckOptions
 				{
 					ResponseWriter = async (c, r) =>

@@ -112,11 +112,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:PlutoNetCoreTemplate.Application.Dtos.ResponseDto`1">
-            <summary>
-            响应结构
-            </summary>
-        </member>
         <member name="T:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService">
             <summary>
             调用GRPC服务

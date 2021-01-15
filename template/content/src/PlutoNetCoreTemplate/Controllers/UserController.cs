@@ -11,12 +11,14 @@ using PlutoNetCoreTemplate.Application.Command;
 
 namespace PlutoNetCoreTemplate.Controllers
 {
+    using System.IO;
     using Application.Dtos;
+    using PlutoNetCoreTemplate.Infrastructure.Commons;
 
     /// <summary>
-	/// Demo 控制器
-	/// </summary>
-	[Route("api/users")]
+    /// Demo 控制器
+    /// </summary>
+    [Route("api/users")]
 	[ApiController]
 	public class UserController : BaseController<UserController>
 	{
@@ -43,11 +45,11 @@ namespace PlutoNetCoreTemplate.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		public IActionResult Users()
+		public ServiceResponse<object> Users()
 		{
 			_logger.LogInformation("获取用户");
 			var users = _userQueries.GetUsers();
-			return Ok("");
+			return ServiceResponse<object>.Success(users);
 		}
 
 		/// <summary>
@@ -56,11 +58,15 @@ namespace PlutoNetCoreTemplate.Controllers
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public IActionResult Users(int id)
+		public ServiceResponse<object> Users(int id)
 		{
 			var users = _userQueries.GetUser(id);
-            var response = ResponseDto<string>.Success("12312");
-            return Ok(response);
+            if (users==null)
+            {
+                throw new InvalidDataException("无此数据");
+            }
+            var response = ServiceResponse<object>.Success(users);
+            return response;
 		}
 
 		/// <summary>
@@ -68,11 +74,11 @@ namespace PlutoNetCoreTemplate.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<IActionResult> PostAsync()
+		public async Task<ServiceResponse<string>> PostAsync([FromBody]CreateUserCommand request)
 		{
-			var res = await _mediator.Send(new CreateUserCommand("request.UserName", "request.Password"));
-            var response = ResponseDto<string>.Success("12312");
-			return Ok(response);
+			var res = await _mediator.Send(request);
+            var response = ServiceResponse<string>.Success(res.ToString());
+			return response;
 		}
 
 

@@ -53,7 +53,7 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.PostAsync">
+        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.PostAsync(PlutoNetCoreTemplate.Application.Command.CreateUserCommand)">
             <summary>
             创建用户 POST: api/users
             </summary>

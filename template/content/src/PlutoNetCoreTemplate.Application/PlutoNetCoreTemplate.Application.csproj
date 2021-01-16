@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
@@ -17,29 +17,29 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Google.Protobuf" Version="3.14.0" />
-    <PackageReference Include="Grpc" Version="2.33.1" />
-    <PackageReference Include="Grpc.Net.Client" Version="2.33.1" />
-    <PackageReference Include="Grpc.Tools" Version="2.33.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="MediatR" Version="9.0.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="5.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
     <PackageReference Include="Serilog" Version="2.10.0" />
+   
   </ItemGroup>
+
+	<ItemGroup Condition="'$(Grpc)'=='true'">
+		<PackageReference Include="Google.Protobuf" Version="3.14.0" />
+		<PackageReference Include="Grpc" Version="2.34.1" />
+		<PackageReference Include="Grpc.Net.Client" Version="2.34.0" />
+		<PackageReference Include="Grpc.Tools" Version="2.34.1">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PlutoNetCoreTemplate.Domain\PlutoNetCoreTemplate.Domain.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="EventBus\IntegrationEvents\Event\" />
-    <Folder Include="EventBus\IntegrationEvents\EventHandler\" />
-    <Folder Include="EventBus\EventBus.RabbitMQ\" />
-  </ItemGroup>
-
+	<ItemGroup Condition="'$(Grpc)'=='true'">
+		<Protobuf Include="..\PlutoNetCoreTemplate.Grpc.Protocol\Protocols\*.proto" GrpcServices="Server" />
+	</ItemGroup>
 </Project>

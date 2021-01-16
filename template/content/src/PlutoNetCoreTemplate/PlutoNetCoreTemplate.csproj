@@ -16,8 +16,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="logs\**" />
+    <Compile Remove="Views\**" />
+    <Content Remove="logs\**" />
+    <Content Remove="Views\**" />
+    <EmbeddedResource Remove="logs\**" />
+    <EmbeddedResource Remove="Views\**" />
+    <None Remove="logs\**" />
+    <None Remove="Views\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="PlutoNetCoreTemplate.xml" />
   </ItemGroup>
+	
+    <ItemGroup Condition="'$(Grpc)'=='true'">
+	    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.34.0" />
+    </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
@@ -43,9 +58,6 @@
 
   <ItemGroup>
     <Folder Include="Filters\" />
-    <Folder Include="GrpcServices\Protos\" />
-    <Folder Include="logs\" />
-    <Folder Include="Models\Responses" />
   </ItemGroup>
 
   <ItemGroup>

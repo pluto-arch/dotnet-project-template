@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Newtonsoft.Json;
+using PlutoNetCoreTemplate.Application.Dtos;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoNetCoreTemplate.Models;
-
+using PlutoNetCoreTemplate.Infrastructure.Commons;
 
 namespace PlutoNetCoreTemplate.Filters
 {
@@ -34,17 +34,13 @@ namespace PlutoNetCoreTemplate.Filters
 		{
 			if (!context.ModelState.IsValid)
 			{
-				List<string> errors = new List<string>();
-				foreach (var item in context.ModelState.Values)
-				{
-					foreach (var error in item.Errors)
-					{
-						errors.Add(error.ErrorMessage);
-					}
-				}
-				context.Result =
-					new JsonResult(ApiResponse.Error(string.Join("|", errors)));
+                var result = context.ModelState.Keys
+                                    .SelectMany(key => context.ModelState[key].Errors.Select(x => new ValidationError(key, x.ErrorMessage)))
+                                    .ToList();
+                context.HttpContext.Response.StatusCode=(int)HttpStatusCode.BadRequest;
+				context.Result = new JsonResult(ServiceResponse<List<ValidationError>>.ValidateFailure(result));
 			}
 		}
-	}
+
+    }
 }

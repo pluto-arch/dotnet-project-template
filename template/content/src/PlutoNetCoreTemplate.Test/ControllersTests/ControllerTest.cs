@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using NUnit.Framework;
 using PlutoNetCoreTemplate.Controllers;
-using PlutoNetCoreTemplate.Models;
 
 
 namespace PlutoNetCoreTemplate.Test.ControllersTests
@@ -15,7 +14,7 @@ namespace PlutoNetCoreTemplate.Test.ControllersTests
     {
 
         [Test]
-        public async Task GET_api_Demo()
+        public void GET_api_Demo()
         {
             using (var scope = _Container.BeginLifetimeScope())
             {

@@ -7,17 +7,18 @@ using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
 using PlutoData.Collections;
-using PlutoNetCoreTemplate.Application.CommandBus.Commands;
-using PlutoNetCoreTemplate.Application.ResourceModels;
-using PlutoNetCoreTemplate.Models;
-using PlutoNetCoreTemplate.Models.Requests;
+using PlutoNetCoreTemplate.Application.Command;
 
 namespace PlutoNetCoreTemplate.Controllers
 {
-	/// <summary>
-	/// Demo 控制器
-	/// </summary>
-	[Route("api/users")]
+    using System.IO;
+    using Application.Dtos;
+    using PlutoNetCoreTemplate.Infrastructure.Commons;
+
+    /// <summary>
+    /// Demo 控制器
+    /// </summary>
+    [Route("api/users")]
 	[ApiController]
 	public class UserController : BaseController<UserController>
 	{
@@ -44,11 +45,11 @@ namespace PlutoNetCoreTemplate.Controllers
 		/// </summary>
 		/// <returns></returns>
 		[HttpGet]
-		public IActionResult Users()
+		public ServiceResponse<object> Users()
 		{
 			_logger.LogInformation("获取用户");
 			var users = _userQueries.GetUsers();
-			return Ok(ApiResponse.Success(users));
+			return ServiceResponse<object>.Success(users);
 		}
 
 		/// <summary>
@@ -57,33 +58,37 @@ namespace PlutoNetCoreTemplate.Controllers
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
-		public IActionResult Users(int id)
+		public ServiceResponse<object> Users(int id)
 		{
 			var users = _userQueries.GetUser(id);
-			return Ok(ApiResponse.Success(users));
+            if (users==null)
+            {
+                throw new InvalidDataException("无此数据");
+            }
+            var response = ServiceResponse<object>.Success(users);
+            return response;
 		}
 
 		/// <summary>
 		/// 创建用户 POST: api/users
 		/// </summary>
-		/// <param name="request"></param>
 		/// <returns></returns>
 		[HttpPost]
-		public async Task<IActionResult> PostAsync([FromBody] CreateUserRequest request)
+		public async Task<ServiceResponse<string>> PostAsync([FromBody]CreateUserCommand request)
 		{
-			var res = await _mediator.Send(new CreateUserCommand(request.UserName, request.Password));
-			return Ok(ApiResponse.Success(res));
+			var res = await _mediator.Send(request);
+            var response = ServiceResponse<string>.Success(res.ToString());
+			return response;
 		}
 
-		/// <summary>
-		/// 全部更新
-		/// </summary>
-		/// <param name="id"></param>
-		/// <param name="request"></param>
-		[HttpPut("{id}")]
-		public IActionResult Put(int id, [FromBody] PutUserRequest request)
+
+        /// <summary>
+        /// 全部更新
+        /// </summary>
+        [HttpPut("{id}")]
+		public IActionResult Put()
 		{
-			return Ok(ApiResponse.Success("更新成功"));
+			return Ok();
 		}
 
 		/// <summary>
@@ -95,7 +100,7 @@ namespace PlutoNetCoreTemplate.Controllers
 		public async Task<IActionResult> Delete(int id)
 		{
 			var res = await _mediator.Send(new DeleteUserCommand(id));
-			return Ok(ApiResponse.Success(res));
+			return Ok();
 		}
 	}
 }

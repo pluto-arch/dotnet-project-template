@@ -1,7 +1,7 @@
 {
   "$schema": "http://json.schemastore.org/template",
   "author": "zhangyulong",
-  "classifications": ["WEB", "AspNetCore"],
+  "classifications": ["WEB", "AspNetCore","GRPC"],
   "identity": "PlutoNetCoreTemplate",
   "name": "Pluto AspNetCore Template",
   "shortName": "pluto",
@@ -12,13 +12,29 @@
     "type": "project"
   },
   "symbols": {
-    "dbcontext": {
+    "Dbcontext": {
       "type": "parameter",
       "isRequired": false,
       "fileRename": "EfCore",
       "description": "数据库上下文名称[dbcontext]",
       "defaultValue": "EfCore",
       "replaces": "EfCore"
+    },
+    "Grpc":{
+      "type": "parameter",
+      "dataType":"bool",
+      "description": "是否启用grpc",
+      "defaultValue": "false",
+    }    
+  },
+  "sources": [
+    {
+        "modifiers": [
+            {
+                "condition": "(!Grpc)",
+                "exclude": ["src/PlutoNetCoreTemplate.Grpc.Protocol/**/*","src/PlutoNetCoreTemplate.Application/Grpc/**/*"]
+            }
+        ]
     }
-  }
+  ]
 }

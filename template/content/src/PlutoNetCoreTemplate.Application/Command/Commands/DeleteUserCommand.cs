@@ -2,11 +2,7 @@
 using MediatR;
 
 
-//  ===================
-// 2020-03-24
-//  ===================
-
-namespace PlutoNetCoreTemplate.Application.CommandBus.Commands
+namespace PlutoNetCoreTemplate.Application.Command
 {
     public class DeleteUserCommand:BaseCommand,IRequest<bool>
     {

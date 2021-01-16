@@ -5,11 +5,14 @@ using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using PlutoNetCoreTemplate.Models;
 
 namespace PlutoNetCoreTemplate.Middlewares
 {
-	/// <summary>
+    using System.Runtime.Serialization.Formatters;
+    using Infrastructure.Commons;
+    using Newtonsoft.Json.Serialization;
+
+    /// <summary>
 	/// 
 	/// </summary>
 	public static class ApplicationBuilderExtensions
@@ -67,12 +70,20 @@ namespace PlutoNetCoreTemplate.Middlewares
 		}
 
 
-		private async Task HandlerExceptionAsync(HttpContext context, Exception e)
+		private static async Task HandlerExceptionAsync(HttpContext context, Exception e)
 		{
 			context.Response.ContentType = "application/json;charset=utf-8";
 			context.Response.StatusCode = (int) HttpStatusCode.InternalServerError;
-			var apiResponse = ApiResponse.Error(e.Message);
-			var serializerResult = JsonConvert.SerializeObject(apiResponse);
+            var traceId=context.TraceIdentifier;
+			var apiResponse = ServiceResponse<string>.Failure($"服务异常:{traceId}");
+            var serializeSetting=new JsonSerializerSettings
+                                 {
+                                     NullValueHandling = NullValueHandling.Ignore,
+                                     DateFormatString = "yyyy-MM-dd HH:mm:ss",
+                                     ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                                     ContractResolver = new CamelCasePropertyNamesContractResolver()
+                                 };
+			var serializerResult = JsonConvert.SerializeObject(apiResponse,serializeSetting);
 			await context.Response.WriteAsync(serializerResult);
 		}
 	}

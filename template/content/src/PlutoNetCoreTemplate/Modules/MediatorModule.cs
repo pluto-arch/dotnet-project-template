@@ -2,7 +2,7 @@
 using MediatR;
 using PlutoNetCoreTemplate.Application.Behaviors;
 using System.Reflection;
-using PlutoNetCoreTemplate.Application.CommandBus.Commands;
+using PlutoNetCoreTemplate.Application.Command;
 using PlutoNetCoreTemplate.Application.DomainEventHandler;
 using PlutoNetCoreTemplate.Infrastructure.Idempotency;
 
@@ -32,12 +32,11 @@ namespace PlutoNetCoreTemplate.Modules
             builder.Register<ServiceFactory>(context =>
             {
                 var componentContext = context.Resolve<IComponentContext>();
-                return t => { object o; return componentContext.TryResolve(t, out o) ? o : null; };
+                return t => componentContext.TryResolve(t, out object o) ? o : null;
             });
 
 
-            builder.RegisterGeneric(typeof(LoggingBehavior<,>)).As(typeof(IPipelineBehavior<,>)).InstancePerDependency(); 
-            builder.RegisterGeneric(typeof(AutoSaveChangeBehavior<,>)).As(typeof(IPipelineBehavior<,>)).InstancePerDependency(); 
+            builder.RegisterGeneric(typeof(AutoSaveBehavior<,>)).As(typeof(IPipelineBehavior<,>)).InstancePerDependency(); 
             builder.RegisterGeneric(typeof(TransactionBehaviour<,>)).As(typeof(IPipelineBehavior<,>)).InstancePerDependency(); 
             
             builder.RegisterType<RequestManager>().As<IRequestManager>().InstancePerDependency(); 

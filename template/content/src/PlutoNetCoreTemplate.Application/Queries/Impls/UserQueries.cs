@@ -1,25 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using PlutoData.Collections;
+using PlutoData.Interface;
+using PlutoNetCoreTemplate.Application.Dtos;
 using PlutoNetCoreTemplate.Application.Queries.Interfaces;
-using PlutoNetCoreTemplate.Application.ResourceModels;
 using PlutoNetCoreTemplate.Domain.DomainModels.Account;
 using PlutoNetCoreTemplate.Domain.IRepositories;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoData.Collections;
-using PlutoData.Interface;
 
 
-//  ===================
-// 2020-03-24
-//  ===================
 
-namespace PlutoNetCoreTemplate.Application.Queries
+namespace PlutoNetCoreTemplate.Application.Queries.Impls
 {
     /// <summary>
     /// 仅仅查询-默认不启用追踪
-    /// 构造函数中：_userRepository.SetNoTracking();
-    /// 或者方法指定 disableTracking:true
+    /// 方法指定 disableTracking:true
     /// </summary>
     public class UserQueries: IUserQueries
     {
@@ -34,14 +27,13 @@ namespace PlutoNetCoreTemplate.Application.Queries
         public UserQueries(IUnitOfWork<EfCoreDbContext> unitOfWork)
         {
             _userRepository = unitOfWork.GetRepository<IUserRepository>();
-            _userRepository.SetNoTracking();
         }
 
 
         /// <inheritdoc />
-        public IPagedList<UserItemModel> GetUsers()
+        public IPagedList<UserItemDto> GetUsers()
         {
-            var pageList= _userRepository.GetPagedList<UserItemModel>(x => new UserItemModel{UserName=x.UserName,Email=x.Email},pageIndex:1,pageSize:20);
+            var pageList= _userRepository.GetPagedList<UserItemDto>(x => new UserItemDto{UserName=x.UserName,Email=x.Email},pageIndex:1,pageSize:20);
             return pageList;
         }
 

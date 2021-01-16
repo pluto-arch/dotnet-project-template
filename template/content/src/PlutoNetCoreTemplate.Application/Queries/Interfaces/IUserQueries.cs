@@ -1,11 +1,6 @@
 ﻿using PlutoData.Collections;
-using System;
-using System.Collections.Generic;
-using PlutoNetCoreTemplate.Application.ResourceModels;
+using PlutoNetCoreTemplate.Application.Dtos;
 
-//  ===================
-// 2020-03-24
-//  ===================
 
 namespace PlutoNetCoreTemplate.Application.Queries.Interfaces
 {
@@ -18,7 +13,7 @@ namespace PlutoNetCoreTemplate.Application.Queries.Interfaces
         /// 
         /// </summary>
         /// <returns></returns>
-        IPagedList<UserItemModel> GetUsers();
+        IPagedList<UserItemDto> GetUsers();
 
         /// <summary>
         /// 

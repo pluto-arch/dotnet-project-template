@@ -1,11 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
-using MediatR;
+﻿using MediatR;
+using System.ComponentModel.DataAnnotations;
 
-using PlutoNetCoreTemplate.Application.Attributes;
-
-using System.Runtime.Serialization;
-
-namespace PlutoNetCoreTemplate.Application.CommandBus.Commands
+namespace PlutoNetCoreTemplate.Application.Command
 {
     /// <summary>
     /// 创建账户
@@ -16,12 +12,13 @@ namespace PlutoNetCoreTemplate.Application.CommandBus.Commands
         /// <summary>
         /// 用户名
         /// </summary>
-        public string UserName { get; private set; }
+        [Required(ErrorMessage = "名称必填")]
+        public string UserName { get; set; }
 
         /// <summary>
         /// 密码
         /// </summary>
-        public string Password { get; private set; }
+        public string Password { get; set; }
 
 
         /// <summary>

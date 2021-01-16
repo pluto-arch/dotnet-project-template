@@ -26,7 +26,7 @@ using PlutoNetCoreTemplate.Extensions;
 namespace PlutoNetCoreTemplate
 {
     using Application.Grpc;
-    using Grpc.Protocol;
+    using PlutoNetCoreTemplate.Application.Grpc.Services;
 
     public class Startup
 	{

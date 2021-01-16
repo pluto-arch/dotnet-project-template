@@ -33,7 +33,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PlutoNetCoreTemplate.Domain\PlutoNetCoreTemplate.Domain.csproj" />
-    <ProjectReference Include="..\PlutoNetCoreTemplate.Grpc.Protocol\PlutoNetCoreTemplate.Grpc.Protocol.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
   </ItemGroup>
 

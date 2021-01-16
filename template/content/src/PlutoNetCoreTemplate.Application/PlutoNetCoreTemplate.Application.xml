@@ -112,7 +112,30 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Grpc.OrderGrpc.Service_A(Request,Grpc.Core.ServerCallContext)">
+        <member name="T:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService">
+            <summary>
+            调用GRPC服务
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService.CallServiceAsync``1(System.String,System.Func{Grpc.Net.Client.GrpcChannel,System.Threading.Tasks.Task{``0}})">
+            <summary>
+            异步调用GRPC服务
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="urlGrpc"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService.CallService``1(System.String,System.Func{Grpc.Net.Client.GrpcChannel,``0})">
+            <summary>
+            同步调用GRPC服务
+            </summary>
+            <typeparam name="TResponse"></typeparam>
+            <param name="urlGrpc"></param>
+            <param name="func"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Grpc.Services.OrderGrpc.Service_A(Request,Grpc.Core.ServerCallContext)">
             <inheritdoc />
         </member>
         <member name="T:PlutoNetCoreTemplate.Application.Queries.Impls.UserQueries">

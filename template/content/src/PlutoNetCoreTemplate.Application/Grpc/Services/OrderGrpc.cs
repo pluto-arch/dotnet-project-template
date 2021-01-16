@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PlutoNetCoreTemplate.Application.Grpc
+namespace PlutoNetCoreTemplate.Application.Grpc.Services
 {
     using System.Threading.Tasks;
     using global::Grpc.Core;

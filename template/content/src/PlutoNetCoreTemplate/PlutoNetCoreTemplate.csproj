@@ -16,23 +16,26 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ActionResult\**" />
     <Compile Remove="logs\**" />
-    <Content Remove="ActionResult\**" />
+    <Compile Remove="Views\**" />
     <Content Remove="logs\**" />
-    <EmbeddedResource Remove="ActionResult\**" />
+    <Content Remove="Views\**" />
     <EmbeddedResource Remove="logs\**" />
-    <None Remove="ActionResult\**" />
+    <EmbeddedResource Remove="Views\**" />
     <None Remove="logs\**" />
+    <None Remove="Views\**" />
   </ItemGroup>
 
   <ItemGroup>
     <None Remove="PlutoNetCoreTemplate.xml" />
   </ItemGroup>
+	
+    <ItemGroup Condition="'$(Grpc)'=='true'">
+	    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.34.0" />
+    </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Autofac.Extensions.DependencyInjection" Version="7.1.0" />
-    <PackageReference Include="Grpc.AspNetCore.Server" Version="2.34.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0">
       <PrivateAssets>all</PrivateAssets>

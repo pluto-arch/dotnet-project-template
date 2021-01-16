@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if (Grpc)
+
+using System;
 using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Net.Client;
@@ -83,3 +85,4 @@ namespace PlutoNetCoreTemplate.Application.Grpc
 
 	}
 }
+#endif

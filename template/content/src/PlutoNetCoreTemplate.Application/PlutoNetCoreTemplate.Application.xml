@@ -112,32 +112,6 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="T:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService">
-            <summary>
-            调用GRPC服务
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService.CallServiceAsync``1(System.String,System.Func{Grpc.Net.Client.GrpcChannel,System.Threading.Tasks.Task{``0}})">
-            <summary>
-            异步调用GRPC服务
-            </summary>
-            <typeparam name="TResponse"></typeparam>
-            <param name="urlGrpc"></param>
-            <param name="func"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Grpc.GrpcCallerService.CallService``1(System.String,System.Func{Grpc.Net.Client.GrpcChannel,``0})">
-            <summary>
-            同步调用GRPC服务
-            </summary>
-            <typeparam name="TResponse"></typeparam>
-            <param name="urlGrpc"></param>
-            <param name="func"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Grpc.Services.OrderGrpc.Service_A(Request,Grpc.Core.ServerCallContext)">
-            <inheritdoc />
-        </member>
         <member name="T:PlutoNetCoreTemplate.Application.Queries.Impls.UserQueries">
             <summary>
             仅仅查询-默认不启用追踪
@@ -173,37 +147,6 @@
             </summary>
             <param name="key"></param>
             <returns></returns>
-        </member>
-        <member name="T:OrderReflection">
-            <summary>Holder for reflection information generated from Order.proto</summary>
-        </member>
-        <member name="P:OrderReflection.Descriptor">
-            <summary>File descriptor for Order.proto</summary>
-        </member>
-        <member name="F:Request.OrderIdFieldNumber">
-            <summary>Field number for the "OrderId" field.</summary>
-        </member>
-        <member name="F:Response.OrderIdFieldNumber">
-            <summary>Field number for the "OrderId" field.</summary>
-        </member>
-        <member name="F:Response.UserNameFieldNumber">
-            <summary>Field number for the "UserName" field.</summary>
-        </member>
-        <member name="P:OrderingGrpc.Descriptor">
-            <summary>Service descriptor</summary>
-        </member>
-        <member name="T:OrderingGrpc.OrderingGrpcBase">
-            <summary>Base class for server-side implementations of OrderingGrpc</summary>
-        </member>
-        <member name="M:OrderingGrpc.BindService(OrderingGrpc.OrderingGrpcBase)">
-            <summary>Creates service definition that can be registered with a server</summary>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
-        </member>
-        <member name="M:OrderingGrpc.BindService(Grpc.Core.ServiceBinderBase,OrderingGrpc.OrderingGrpcBase)">
-            <summary>Register service method with a service binder with or without implementation. Useful when customizing the  service binding logic.
-            Note: this method is part of an experimental API that can change or be removed without any prior notice.</summary>
-            <param name="serviceBinder">Service methods will be bound by calling <c>AddMethod</c> on this object.</param>
-            <param name="serviceImpl">An object implementing the server-side handling logic.</param>
         </member>
     </members>
 </doc>

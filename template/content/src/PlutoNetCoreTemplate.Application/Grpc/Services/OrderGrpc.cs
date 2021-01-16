@@ -1,7 +1,11 @@
-﻿using System;
+﻿#if (Grpc)
+using System;
 
 namespace PlutoNetCoreTemplate.Application.Grpc.Services
 {
+    
+    
+    
     using System.Threading.Tasks;
     using global::Grpc.Core;
 
@@ -14,3 +18,4 @@ namespace PlutoNetCoreTemplate.Application.Grpc.Services
         }
     }
 }
+#endif

@@ -162,16 +162,8 @@
         </member>
         <member name="T:PlutoNetCoreTemplate.DbContextCreateFactory">
             <summary>
-            指定设计时dbcontext 工厂
-            code first 迁移时使用
+            efcore 设计时工厂
             </summary>
-            当program中没有默认的：
-            public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-            .ConfigureWebHostDefaults(webBuilder =>
-            {
-            });
-            时，必须指定如何初始化创建dbcontext
         </member>
     </members>
 </doc>

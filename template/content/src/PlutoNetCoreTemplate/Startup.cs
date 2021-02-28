@@ -21,7 +21,8 @@ using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Design;
 using PlutoNetCoreTemplate.Extensions;
-
+using PlutoNetCoreTemplate.Domain;
+using PlutoNetCoreTemplate.Application;
 
 namespace PlutoNetCoreTemplate
 {
@@ -49,20 +50,28 @@ namespace PlutoNetCoreTemplate
 
         public void ConfigureServices(IServiceCollection services)
         {
+            //services.AddCustomerControllers()
+            //    .AddCustomerHealthCheck(Configuration)
+            //    .AddCustomerSwagger()
+            //    .AddCustomerCors(DefaultCorsName, Configuration)
+            //    .AddHttpContextAccessor()
+            //    .AddAutoMapper(cfg =>
+            //    {
+            //        cfg.AddProfile<AutoMapperProfile>();
+            //        cfg.AddProfile<Application.AutoMapperProfile>();
+            //    }, Assembly.GetExecutingAssembly())
+            //    .AddHybridUnitOfWorkUsingPool<EfCoreDbContext>(DbContextCreateFactory.OptionsAction(_conntctionString))
+            //    .AddRepository();
+
+
             services.AddCustomerControllers()
                 .AddCustomerHealthCheck(Configuration)
                 .AddCustomerSwagger()
                 .AddCustomerCors(DefaultCorsName, Configuration)
                 .AddHttpContextAccessor()
-                .AddAutoMapper(cfg =>
-                {
-                    cfg.AddProfile<AutoMapperProfile>();
-                    cfg.AddProfile<Application.AutoMapperProfile>();
-                }, Assembly.GetExecutingAssembly())
-                .AddUnitOfWorkDbContext<EfCoreDbContext>(
-                    DbContextCreateFactory.OptionsAction(_conntctionString), ServiceLifetime.Scoped)
-                .AddRepository();
-
+                .AddApplicationLayer()
+                .AddDomainLayer()
+                .AddInfrastructureLayer(Configuration, DbContextCreateFactory.OptionsAction(_conntctionString));
 #if (Grpc)
             services.AddGrpc();
             services.AddSingleton<GrpcCallerService>();
@@ -71,16 +80,16 @@ namespace PlutoNetCoreTemplate
         }
 
 
-        public void ConfigureContainer(ContainerBuilder builder)
-        {
-            builder.RegisterModule(new MediatorModule());
-            builder.RegisterModule(new ApplicationModule());
-        }
+        //public void ConfigureContainer(ContainerBuilder builder)
+        //{
+        //    builder.RegisterModule(new MediatorModule());
+        //    builder.RegisterModule(new ApplicationModule());
+        //}
 
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
+            //this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
             app.UseHttpContextLog();
             if (env.IsProduction())
             {

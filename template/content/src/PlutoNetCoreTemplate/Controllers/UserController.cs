@@ -13,6 +13,7 @@ namespace PlutoNetCoreTemplate.Controllers
 {
     using System.IO;
     using Application.Dtos;
+    using Infrastructure.Extensions;
     using PlutoNetCoreTemplate.Infrastructure.Commons;
 
     /// <summary>
@@ -47,7 +48,7 @@ namespace PlutoNetCoreTemplate.Controllers
 		[HttpGet]
 		public ServiceResponse<object> Users()
 		{
-			_logger.LogInformation("获取用户");
+			_logger.LogInfo("获取用户信息");
 			var users = _userQueries.GetUsers();
 			return ServiceResponse<object>.Success(users);
 		}

@@ -5,7 +5,10 @@ using PlutoData;
 
 namespace PlutoNetCoreTemplate.Infrastructure.Repositories
 {
-    public class UserRepository:Repository<UserEntity>, IUserRepository
+    public class UserRepository : EfRepository<EfCoreDbContext, UserEntity>, IUserRepository
     {
+        public UserRepository(EfCoreDbContext dbContext) : base(dbContext)
+        {
+        }
     }
 }

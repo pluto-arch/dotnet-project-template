@@ -5,7 +5,7 @@ using PlutoData.Interface;
 
 namespace PlutoNetCoreTemplate.Domain.IRepositories
 {
-    public interface IUserRepository: IRepository<UserEntity>
+    public interface IUserRepository: IEfRepository<UserEntity>
     {
         
     }

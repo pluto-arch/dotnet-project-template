@@ -46,7 +46,7 @@ namespace PlutoNetCoreTemplate.Test
                 options.SuppressModelStateInvalidFilter = true;
             });
             services
-                .AddDbContext<EfCoreDbContext>(options =>
+                .AddHybridUnitOfWorkUsingPool<EfCoreDbContext>(options =>
                     {
                         options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddSerilog()));
                         options.UseSqlServer(config.GetConnectionString("EfCore.MSSQL"),
@@ -55,9 +55,7 @@ namespace PlutoNetCoreTemplate.Test
                                 sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
                                 sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
                             });
-                    },
-                    ServiceLifetime.Scoped )
-                .AddUnitOfWork<EfCoreDbContext>();
+                    } );
             services.AddLogging(options => { options.AddSerilog(); });
 
             var autofac= ConfigureContainer(new ContainerBuilder());

@@ -1,9 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+
+using Dapper;
+
 using PlutoNetCoreTemplate.Domain.Events.AccountEvents;
 
 namespace PlutoNetCoreTemplate.Domain.DomainModels.Account
 {
+    [Table("Users")]
     public class UserEntity : BaseEntity<int>
     {
         public UserEntity()

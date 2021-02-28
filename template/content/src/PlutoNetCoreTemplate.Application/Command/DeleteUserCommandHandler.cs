@@ -4,8 +4,7 @@ using System.Threading.Tasks;
 using MediatR;
 using PlutoNetCoreTemplate.Domain.IRepositories;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoData.Interface;
-
+using PlutoData.Uows;
 
 namespace PlutoNetCoreTemplate.Application.Command
 {
@@ -14,10 +13,10 @@ namespace PlutoNetCoreTemplate.Application.Command
 
         private readonly IMediator _mediator;
 
-        private readonly IUnitOfWork<EfCoreDbContext> _unitOfWork;
+        private readonly IEfUnitOfWork<EfCoreDbContext> _unitOfWork;
 
         public DeleteUserCommandHandler(
-            IMediator mediator, IUnitOfWork<EfCoreDbContext> unitOfWork)
+            IMediator mediator, IEfUnitOfWork<EfCoreDbContext> unitOfWork)
         {
             _mediator = mediator;
             _unitOfWork = unitOfWork;
@@ -28,7 +27,8 @@ namespace PlutoNetCoreTemplate.Application.Command
         public async Task<bool> Handle(DeleteUserCommand request, CancellationToken cancellationToken)
         {
             var rep = _unitOfWork.GetRepository<IUserRepository>();
-            rep.Delete(request.Id);
+            var user = rep.Find(request.Id);
+            rep.Delete(user);
             return (await _unitOfWork.SaveChangesAsync(cancellationToken: cancellationToken)) > 0;
         }
     }

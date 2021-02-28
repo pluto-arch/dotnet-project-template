@@ -1,9 +1,11 @@
 ﻿using PlutoData.Collections;
 using PlutoData.Interface;
+using PlutoData.Uows;
 using PlutoNetCoreTemplate.Application.Dtos;
 using PlutoNetCoreTemplate.Application.Queries.Interfaces;
 using PlutoNetCoreTemplate.Domain.DomainModels.Account;
 using PlutoNetCoreTemplate.Domain.IRepositories;
+using PlutoNetCoreTemplate.Domain.Services.Account;
 using PlutoNetCoreTemplate.Infrastructure;
 
 
@@ -17,30 +19,31 @@ namespace PlutoNetCoreTemplate.Application.Queries.Impls
     public class UserQueries: IUserQueries
     {
 
-        private readonly IRepository<UserEntity> _userRepository;
+        private readonly IAccountDomainService _accountDomainService;
 
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="unitOfWork"></param>
-        public UserQueries(IUnitOfWork<EfCoreDbContext> unitOfWork)
+        /// <param name="accountDomainService"></param>
+        public UserQueries(IAccountDomainService accountDomainService)
         {
-            _userRepository = unitOfWork.GetRepository<IUserRepository>();
+            _accountDomainService = accountDomainService;
         }
 
 
         /// <inheritdoc />
-        public IPagedList<UserItemDto> GetUsers()
+        public IPagedList<UserEntity> GetUsers()
         {
-            var pageList= _userRepository.GetPagedList<UserItemDto>(x => new UserItemDto{UserName=x.UserName,Email=x.Email},pageIndex:1,pageSize:20);
+            var pageList= _accountDomainService.GetUserPageList(new UserSpecification(4), 1,20);
             return pageList;
         }
 
         /// <inheritdoc />
         public object GetUser(object key)
         {
-            return _userRepository.Find(key);
+            return _accountDomainService.Find(key);
         }
+
     }
 }

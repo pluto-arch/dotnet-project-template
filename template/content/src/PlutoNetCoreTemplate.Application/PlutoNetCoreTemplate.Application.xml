@@ -17,7 +17,7 @@
             <typeparam name="TRequest"></typeparam>
             <typeparam name="TResponse"></typeparam>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior`2.#ctor(PlutoData.Interface.IUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext},Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior{`0,`1}})">
+        <member name="M:PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior`2.#ctor(PlutoData.Uows.IEfUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext},Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior{`0,`1}})">
             <summary>
             
             </summary>
@@ -72,7 +72,7 @@
             
             </summary>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Command.CreateUserCommandHandler.#ctor(MediatR.IMediator,PlutoData.Interface.IUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext})">
+        <member name="M:PlutoNetCoreTemplate.Application.Command.CreateUserCommandHandler.#ctor(MediatR.IMediator,PlutoData.Uows.IEfUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext})">
             <summary>
             
             </summary>
@@ -118,11 +118,11 @@
             方法指定 disableTracking:true
             </summary>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Queries.Impls.UserQueries.#ctor(PlutoData.Interface.IUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext})">
+        <member name="M:PlutoNetCoreTemplate.Application.Queries.Impls.UserQueries.#ctor(PlutoNetCoreTemplate.Domain.Services.Account.IAccountDomainService)">
             <summary>
             
             </summary>
-            <param name="unitOfWork"></param>
+            <param name="accountDomainService"></param>
         </member>
         <member name="M:PlutoNetCoreTemplate.Application.Queries.Impls.UserQueries.GetUsers">
             <inheritdoc />

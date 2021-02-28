@@ -20,7 +20,7 @@ namespace PlutoNetCoreTemplate
         public static void Main(string[] args)
         {
             var baseConfig = GetLogConfig();
-            Log.Logger = ILoggerBuilderExtension.CreateSerilogLogger(baseConfig);
+            Log.Logger = ILoggerBuilderExtension.CreateSerilogLogger(baseConfig,AppName);
             try
             {
                 Log.Information("×¼±¸Æô¶¯{ApplicationContext}...", AppName);
@@ -50,7 +50,7 @@ namespace PlutoNetCoreTemplate
                     var baseConfig = GetConfiguration(env);
                     builder.AddConfiguration(baseConfig);
                 })
-                .ConfigureServices(services => services.AddAutofac())
+                //.ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .UseSerilog()
                 .Build();

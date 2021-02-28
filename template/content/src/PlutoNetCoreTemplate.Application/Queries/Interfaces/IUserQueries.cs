@@ -1,6 +1,6 @@
 ﻿using PlutoData.Collections;
 using PlutoNetCoreTemplate.Application.Dtos;
-
+using PlutoNetCoreTemplate.Domain.DomainModels.Account;
 
 namespace PlutoNetCoreTemplate.Application.Queries.Interfaces
 {
@@ -13,7 +13,7 @@ namespace PlutoNetCoreTemplate.Application.Queries.Interfaces
         /// 
         /// </summary>
         /// <returns></returns>
-        IPagedList<UserItemDto> GetUsers();
+        IPagedList<UserEntity> GetUsers();
 
         /// <summary>
         /// 

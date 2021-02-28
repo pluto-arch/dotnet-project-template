@@ -8,7 +8,7 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using PlutoData.Interface;
+using PlutoData.Uows;
 
 namespace PlutoNetCoreTemplate.Application.Behaviors
 {
@@ -22,9 +22,9 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
 
         private readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
 
-        private readonly IUnitOfWork<EfCoreDbContext> _unitOfWork;
+        private readonly IEfUnitOfWork<EfCoreDbContext> _unitOfWork;
 
-        public TransactionBehaviour(ILogger<TransactionBehaviour<TRequest, TResponse>> logger, IUnitOfWork<EfCoreDbContext> unitOfWork)
+        public TransactionBehaviour(ILogger<TransactionBehaviour<TRequest, TResponse>> logger, IEfUnitOfWork<EfCoreDbContext> unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;

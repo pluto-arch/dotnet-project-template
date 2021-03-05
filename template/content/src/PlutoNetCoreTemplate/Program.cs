@@ -1,4 +1,3 @@
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -50,7 +49,6 @@ namespace PlutoNetCoreTemplate
                     var baseConfig = GetConfiguration(env);
                     builder.AddConfiguration(baseConfig);
                 })
-                //.ConfigureServices(services => services.AddAutofac())
                 .UseStartup<Startup>()
                 .UseSerilog()
                 .Build();

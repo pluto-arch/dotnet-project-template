@@ -1,5 +1,3 @@
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -9,14 +7,11 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using PlutoNetCoreTemplate.Middlewares;
-using PlutoNetCoreTemplate.Modules;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoData;
 using Serilog;
 using System;
 using System.IO;
 using System.Reflection;
-using AutoMapper;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Design;
@@ -46,24 +41,8 @@ namespace PlutoNetCoreTemplate
 
         public IConfiguration Configuration { get; }
 
-        public ILifetimeScope AutofacContainer { get; private set; }
-
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddCustomerControllers()
-            //    .AddCustomerHealthCheck(Configuration)
-            //    .AddCustomerSwagger()
-            //    .AddCustomerCors(DefaultCorsName, Configuration)
-            //    .AddHttpContextAccessor()
-            //    .AddAutoMapper(cfg =>
-            //    {
-            //        cfg.AddProfile<AutoMapperProfile>();
-            //        cfg.AddProfile<Application.AutoMapperProfile>();
-            //    }, Assembly.GetExecutingAssembly())
-            //    .AddHybridUnitOfWorkUsingPool<EfCoreDbContext>(DbContextCreateFactory.OptionsAction(_conntctionString))
-            //    .AddRepository();
-
-
             services.AddCustomerControllers()
                 .AddCustomerHealthCheck(Configuration)
                 .AddCustomerSwagger()
@@ -78,14 +57,6 @@ namespace PlutoNetCoreTemplate
 #endif
 
         }
-
-
-        //public void ConfigureContainer(ContainerBuilder builder)
-        //{
-        //    builder.RegisterModule(new MediatorModule());
-        //    builder.RegisterModule(new ApplicationModule());
-        //}
-
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

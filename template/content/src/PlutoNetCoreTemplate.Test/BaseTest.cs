@@ -1,7 +1,5 @@
 using System;
 using System.Reflection;
-using Autofac;
-using Autofac.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -13,21 +11,20 @@ using NUnit.Framework;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoData;
 using PlutoNetCoreTemplate.Controllers;
-using PlutoNetCoreTemplate.Modules;
 using Serilog;
+using PlutoNetCoreTemplate.Application;
+using PlutoNetCoreTemplate.Domain;
 
 namespace PlutoNetCoreTemplate.Test
 {
     public class BaseTest
     {
-
-        internal IContainer _Container;
+        protected IServiceProvider serviceProvider;
 
         [SetUp]
         public void Setup()
         {
             var services = new ServiceCollection();
-
             var config = new ConfigurationBuilder()
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json")
@@ -45,47 +42,12 @@ namespace PlutoNetCoreTemplate.Test
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
-            services
-                .AddHybridUnitOfWorkUsingPool<EfCoreDbContext>(options =>
-                    {
-                        options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddSerilog()));
-                        options.UseSqlServer(config.GetConnectionString("EfCore.MSSQL"),
-                            sqlServerOptionsAction: sqlOptions =>
-                            {
-                                sqlOptions.MigrationsAssembly(typeof(Startup).GetTypeInfo().Assembly.GetName().Name);
-                                sqlOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(30), errorNumbersToAdd: null);
-                            });
-                    } );
             services.AddLogging(options => { options.AddSerilog(); });
-
-            var autofac= ConfigureContainer(new ContainerBuilder());
-            autofac.Populate(services);
-            _Container = autofac.Build();
-
+            services.AddApplicationLayer();
+            services.AddDomainLayer();
+            var _conntctionString = config.GetConnectionString("EfCore.MSSQL");
+            services.AddInfrastructureLayer(config,DbContextCreateFactory.OptionsAction(_conntctionString));
+            serviceProvider=services.BuildServiceProvider();
         }
-
-
-        
-        public ContainerBuilder ConfigureContainer(ContainerBuilder builder)
-        {
-
-            var dataAccess = Assembly.GetAssembly(typeof(BaseController<>));
-            builder.RegisterAssemblyTypes(dataAccess)
-                .Where(t => t.Name.EndsWith("Controller"))
-                .InstancePerLifetimeScope();
-
-
-            #region MediatoR
-            builder.RegisterModule(new MediatorModule());
-            #endregion
-
-
-            #region Application
-            builder.RegisterModule(new ApplicationModule());
-            #endregion
-
-            return builder;
-        }
-
     }
 }

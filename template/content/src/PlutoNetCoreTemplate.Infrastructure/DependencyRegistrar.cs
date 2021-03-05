@@ -25,7 +25,7 @@
             Action<DbContextOptionsBuilder> options)
         {
 
-            services.AddHybridUnitOfWorkUsingPool<EfCoreDbContext>(options);
+            services.AddHybridUnitOfWork<EfCoreDbContext>(options);
             services.AddTransient<IRequestManager, RequestManager>();
             services.AddScoped(typeof(IEfRepository<>),typeof(PlutoNetCoreTemplateEfRepository<>));
             services.AddRepository(Assembly.GetExecutingAssembly());

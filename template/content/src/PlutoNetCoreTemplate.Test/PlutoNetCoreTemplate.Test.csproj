@@ -34,11 +34,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApplicationTest\" />
-    <Folder Include="DomainTest\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\PlutoNetCoreTemplate.Application\PlutoNetCoreTemplate.Application.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Domain\PlutoNetCoreTemplate.Domain.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />

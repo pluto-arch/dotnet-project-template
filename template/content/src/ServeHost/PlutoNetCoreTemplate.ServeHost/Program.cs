@@ -1,23 +1,24 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
-using PlutoNetCoreTemplate.Extensions;
-using PlutoNetCoreTemplate.Infrastructure;
+using PlutoNetCoreTemplate.ServeHost.Extensions;
 
 using Serilog;
 
-namespace PlutoNetCoreTemplate
+namespace PlutoNetCoreTemplate.ServeHost
 {
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Logging;
-
     public class Program
     {
         public static readonly string AppName = typeof(Program).Namespace;
+
         public static void Main(string[] args)
         {
             var baseConfig = GetLogConfig();
@@ -25,9 +26,10 @@ namespace PlutoNetCoreTemplate
             try
             {
                 Log.Information("准备启动{ApplicationContext}...", AppName);
-                var host = BuildWebHost(args);
+                var host = BuildHost(args);
                 Log.Information("{ApplicationContext} 已启动", AppName);
                 host.Run();
+
             }
             catch (Exception ex)
             {
@@ -39,7 +41,14 @@ namespace PlutoNetCoreTemplate
             }
         }
 
-        private static IHost BuildWebHost(string[] args)
+        #region config
+
+        /// <summary>
+        /// build host
+        /// </summary>
+        /// <param name="args"></param>
+        /// <returns></returns>
+        private static IHost BuildHost(string[] args)
         {
             var host = Host.CreateDefaultBuilder(args)
                            .UseContentRoot(Directory.GetCurrentDirectory())
@@ -58,18 +67,9 @@ namespace PlutoNetCoreTemplate
                            .ConfigureLogging((context, builder) =>
                            {
                                builder.AddSerilog(dispose: true);
-                               //builder.AddFilter((category, level) =>
-                               //{
-                               //    return category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information;
-                               //}).AddSerilog(dispose: true);
                            })
                            .UseSerilog(dispose: true)
                            .Build();
-
-            host.MigrateDbContext<EfCoreDbContext>((context, services, env) =>
-            {
-                // seeder 
-            });
             return host;
         }
 
@@ -89,6 +89,7 @@ namespace PlutoNetCoreTemplate
 
         }
 
+
         /// <summary>
         /// 日志配置
         /// </summary>
@@ -100,7 +101,6 @@ namespace PlutoNetCoreTemplate
             return builder.Build();
 
         }
-
+        #endregion
     }
-
 }

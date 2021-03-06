@@ -1,9 +1,10 @@
 ﻿using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using PlutoNetCoreTemplate.Application.Attributes;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoNetCoreTemplate.Infrastructure.Extensions;
+using PlutoNetCoreTemplate.Infrastructure.Commons;
+
 using System;
 using System.Reflection;
 using System.Threading;

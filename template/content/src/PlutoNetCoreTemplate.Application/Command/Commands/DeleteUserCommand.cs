@@ -1,7 +1,7 @@
 ﻿using System;
 using MediatR;
 
-using PlutoNetCoreTemplate.Application.Attributes;
+using PlutoNetCoreTemplate.Infrastructure.Commons;
 
 namespace PlutoNetCoreTemplate.Application.Command
 {

@@ -18,6 +18,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using PlutoNetCoreTemplate.Extensions;
 using PlutoNetCoreTemplate.Domain;
 using PlutoNetCoreTemplate.Application;
+using PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore;
 
 namespace PlutoNetCoreTemplate
 {
@@ -60,17 +61,20 @@ namespace PlutoNetCoreTemplate
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            //this.AutofacContainer = app.ApplicationServices.GetAutofacRoot();
-            app.UseHttpContextLog();
+            if (env.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZeroStack.DeviceCenter.API v1"));
+            }
+
             if (env.IsProduction())
             {
                 app.UseHsts();
                 app.UseHttpsRedirection();
+                app.UseHttpContextLog();
             }
             app.UseExceptionProcess();
-            app.UseStaticFiles();
-            app.UseSwagger();
-            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "PlutoNetCoreTemplate"); });
             app.UseCors(DefaultCorsName);
             app.UseRouting();
             app.UseEndpoints(endpoints =>
@@ -123,6 +127,7 @@ namespace PlutoNetCoreTemplate
                                                                                                && level == LogLevel
                                                                                                    .Information)
                                                                                 .AddSerilog()));
+
                 options.UseSqlServer(sqlConnStr,
                                      sqlServerOptionsAction: sqlOptions =>
                                      {

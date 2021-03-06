@@ -33,7 +33,6 @@ namespace PlutoNetCoreTemplate.Domain.Services.Account
         ///<inheritdoc />
         public IPagedList<UserEntity> GetUserPageList(ISpecification<UserEntity> spec, int pageNo, int pageSize)
         {
-            var dsd= _userDapperRep.GetPageList(null, pageNo, pageSize);
             return _userRepository.GetPageList(spec, pageNo, pageSize);
         }
     }

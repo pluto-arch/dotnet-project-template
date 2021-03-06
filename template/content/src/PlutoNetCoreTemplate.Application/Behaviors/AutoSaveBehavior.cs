@@ -5,9 +5,9 @@ using Microsoft.Extensions.Logging;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using PlutoNetCoreTemplate.Application.Attributes;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoData.Uows;
+using PlutoNetCoreTemplate.Infrastructure.Commons;
 
 namespace PlutoNetCoreTemplate.Application.Behaviors
 {

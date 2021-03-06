@@ -1,14 +1,23 @@
 ﻿using System;
+using System.Data.Common;
+using System.Threading;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
 using Newtonsoft.Json;
+
+using PlutoNetCoreTemplate.Infrastructure;
+
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Extensions.Logging;
+using Serilog.Filters;
 
 namespace PlutoNetCoreTemplate.Extensions
 {
@@ -23,6 +32,7 @@ namespace PlutoNetCoreTemplate.Extensions
                 .CreateLogger();
         }
     }
+
 
     /// <summary>
     /// 记录http上下文的enricher

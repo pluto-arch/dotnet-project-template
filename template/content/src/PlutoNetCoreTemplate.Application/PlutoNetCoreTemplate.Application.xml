@@ -4,12 +4,6 @@
         <name>PlutoNetCoreTemplate.Application</name>
     </assembly>
     <members>
-        <member name="T:PlutoNetCoreTemplate.Application.Attributes.DisableAutoSaveChangeAttribute">
-            <summary>
-            禁用自动SaveChange
-            </summary>
-            <remarks>如果禁用了，需要手动添加unitofwork的SaveChange</remarks>
-        </member>
         <member name="T:PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior`2">
             <summary>
             

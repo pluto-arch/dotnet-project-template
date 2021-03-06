@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PlutoNetCoreTemplate.Application.Attributes
+namespace PlutoNetCoreTemplate.Infrastructure.Commons
 {
 	/// <summary>
 	/// 禁用自动SaveChange

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
@@ -9,15 +10,17 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.OpenApi.Models;
+
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
+using PlutoNetCoreTemplate.Extensions.Tenant;
 using PlutoNetCoreTemplate.Filters;
 using PlutoNetCoreTemplate.HealthChecks;
 
 namespace PlutoNetCoreTemplate.Extensions
 {
-    public static class ServiceCollectionExtensions
+    public static class ServiceCollection
     {
         /// <summary>
         /// 控制器
@@ -51,7 +54,7 @@ namespace PlutoNetCoreTemplate.Extensions
         /// 健康检查
         /// </summary>
         /// <returns></returns>
-        public static IServiceCollection AddCustomerHealthCheck(this IServiceCollection services,IConfiguration configuration)
+        public static IServiceCollection AddCustomerHealthCheck(this IServiceCollection services, IConfiguration configuration)
         {
             services.Configure<MemoryCheckOptions>(options =>
             {
@@ -59,7 +62,7 @@ namespace PlutoNetCoreTemplate.Extensions
             });
             services.AddHealthChecks()
                 .AddCheck<DatabaseHealthCheck>("database_check", failureStatus: HealthStatus.Unhealthy,
-                    tags: new string[] {"database", "sqlServer"})
+                    tags: new string[] { "database", "sqlServer" })
                 .AddCheck<MemoryHealthCheck>("memory_check", failureStatus: HealthStatus.Degraded);
             return services;
         }
@@ -73,7 +76,7 @@ namespace PlutoNetCoreTemplate.Extensions
         {
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo {Title = "PlutoNetCoreTemplate", Version = "v1"});
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PlutoAdmin", Version = "v1" });
                 c.AddSecurityDefinition("Bearer", //Name the security scheme
                     new OpenApiSecurityScheme
                     {
@@ -108,7 +111,7 @@ namespace PlutoNetCoreTemplate.Extensions
         /// 跨域
         /// </summary>
         /// <returns></returns>
-        public static IServiceCollection AddCustomerCors(this IServiceCollection services,string corsName,IConfiguration configuration)
+        public static IServiceCollection AddCustomerCors(this IServiceCollection services, string corsName, IConfiguration configuration)
         {
             services.AddCors(options =>
             {
@@ -116,12 +119,24 @@ namespace PlutoNetCoreTemplate.Extensions
                     builder =>
                     {
                         builder.SetIsOriginAllowed(_ => true).AllowAnyHeader()
-                            .AllowAnyMethod(); 
+                            .AllowAnyMethod();
                         builder.AllowAnyOrigin();
                         builder.AllowAnyHeader();
                         builder.AllowAnyMethod();
                     });
             });
+            return services;
+        }
+
+
+
+        /// <summary>
+        /// 跨域
+        /// </summary>
+        /// <returns></returns>
+        public static IServiceCollection AddTenant(this IServiceCollection services)
+        {
+            services.AddTransient<TenantMiddleware>();
             return services;
         }
     }

@@ -1,9 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-using PlutoNetCoreTemplate.Extensions;
 using Serilog.Context;
 
-namespace PlutoNetCoreTemplate.Middlewares
+
+namespace PlutoNetCoreTemplate.Extensions.Logger
 {
     /// <summary>
     /// 扩展日志中间件

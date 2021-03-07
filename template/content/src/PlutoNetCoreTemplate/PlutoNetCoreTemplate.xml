@@ -71,30 +71,62 @@
             <param name="id"></param>
             <returns></returns>
         </member>
-        <member name="T:PlutoNetCoreTemplate.Extensions.HttpContextEnricher">
+        <member name="M:PlutoNetCoreTemplate.Extensions.AppBuilder.UseHttpContextLog(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            记录http上下文的中间件
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.AppBuilder.UseExceptionProcess(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            异常处理中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.AppBuilder.UseTenant(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            异常处理中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Extensions.Logger.HttpContextLogMiddleware">
+            <summary>
+            扩展日志中间件
+            </summary>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Extensions.Logger.HttpContextEnricher">
             <summary>
             记录http上下文的enricher
             </summary>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollectionExtensions.AddCustomerControllers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollection.AddCustomerControllers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             控制器
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollectionExtensions.AddCustomerHealthCheck(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollection.AddCustomerHealthCheck(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
             <summary>
             健康检查
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollectionExtensions.AddCustomerSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollection.AddCustomerSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             API文档
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollectionExtensions.AddCustomerCors(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,Microsoft.Extensions.Configuration.IConfiguration)">
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollection.AddCustomerCors(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            跨域
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollection.AddTenant(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
             跨域
             </summary>
@@ -122,30 +154,6 @@
         </member>
         <member name="M:PlutoNetCoreTemplate.HealthChecks.MemoryHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
             <inheritdoc />
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Middlewares.ApplicationBuilderExtensions">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Middlewares.ApplicationBuilderExtensions.UseHttpContextLog(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            记录http上下文的中间件
-            </summary>
-            <param name="builder"></param>
-            <returns></returns>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Middlewares.ApplicationBuilderExtensions.UseExceptionProcess(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            异常处理中间件
-            </summary>
-            <param name="app"></param>
-            <returns></returns>
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Middlewares.HttpContextLogMiddleware">
-            <summary>
-            扩展日志中间件
-            </summary>
         </member>
         <member name="M:PlutoNetCoreTemplate.Program.GetConfiguration(Microsoft.Extensions.Hosting.IHostEnvironment)">
             <summary>

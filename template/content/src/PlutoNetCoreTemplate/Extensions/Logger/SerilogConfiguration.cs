@@ -1,33 +1,24 @@
 ﻿using System;
-using System.Data.Common;
-using System.Threading;
-using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Primitives;
+using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
-
-using PlutoNetCoreTemplate.Infrastructure;
 
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
-using Serilog.Extensions.Logging;
-using Serilog.Filters;
 
-namespace PlutoNetCoreTemplate.Extensions
+namespace PlutoNetCoreTemplate.Extensions.Logger
 {
-    public static class ILoggerBuilderExtension
+    public static class SerilogConfiguration
     {
-        public static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration,string applicationName)
+        public static Serilog.ILogger CreateSerilogLogger(IConfiguration configuration, string applicationName)
         {
             return new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
-                .Enrich.WithProperty("ApplicationName",applicationName)
+                .Enrich.WithProperty("ApplicationName", applicationName)
                 .Enrich.FromLogContext()
                 .CreateLogger();
         }
@@ -67,7 +58,8 @@ namespace PlutoNetCoreTemplate.Extensions
                         logEvent.AddPropertyIfAbsent(propertyFactory.CreateProperty("response_status", httpContext.Response.StatusCode));
                     }
                 };
-            } else
+            }
+            else
             {
                 _enrichAction = enrichAction;
             }
@@ -83,6 +75,4 @@ namespace PlutoNetCoreTemplate.Extensions
             }
         }
     }
-
-
 }

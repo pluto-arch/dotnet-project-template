@@ -1,7 +1,6 @@
 ﻿using System;
-using PlutoNetCoreTemplate.Domain.DomainModels.Account;
 using PlutoData.Interface;
-
+using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
 namespace PlutoNetCoreTemplate.Domain.IRepositories
 {

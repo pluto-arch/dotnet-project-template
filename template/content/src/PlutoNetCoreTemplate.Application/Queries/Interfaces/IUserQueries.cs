@@ -1,6 +1,6 @@
 ﻿using PlutoData.Collections;
 using PlutoNetCoreTemplate.Application.Dtos;
-using PlutoNetCoreTemplate.Domain.DomainModels.Account;
+using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
 namespace PlutoNetCoreTemplate.Application.Queries.Interfaces
 {

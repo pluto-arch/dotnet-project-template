@@ -1,14 +1,10 @@
-﻿namespace PlutoNetCoreTemplate.Infrastructure.Repositories.Dapper
-{
-    using PlutoData;
-    using PlutoData.Interface;
-    using PlutoNetCoreTemplate.Domain.DomainModels.Account;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+﻿using PlutoData;
+using PlutoData.Interface;
 
+using PlutoNetCoreTemplate.Domain.Aggregates.Account;
+
+namespace PlutoNetCoreTemplate.Infrastructure.Repositories.Dapper
+{
     public interface IUserDapperRepository:IDapperRepository<UserEntity>
     {
     }

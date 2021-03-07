@@ -1,20 +1,15 @@
-﻿namespace PlutoNetCoreTemplate.Test.DomainTest
-{
-    using PlutoNetCoreTemplate.Application.Queries.Interfaces;
-    using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using NUnit.Framework;
-    using PlutoData.Interface;
-    using PlutoNetCoreTemplate.Domain.DomainModels.Account;
-    using PlutoData.Uows;
-    using PlutoNetCoreTemplate.Infrastructure;
-    using PlutoData;
-    using PlutoNetCoreTemplate.Infrastructure.Repositories.Dapper;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
+using PlutoData.Interface;
+using PlutoData.Uows;
+using PlutoNetCoreTemplate.Infrastructure;
+using PlutoData;
+using PlutoNetCoreTemplate.Infrastructure.Repositories.Dapper;
+using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
+
+namespace PlutoNetCoreTemplate.Test.DomainTest
+{
     public class RepositoryTest:BaseTest
     {
         [Test]

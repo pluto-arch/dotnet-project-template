@@ -1,14 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-
 using Dapper;
+using PlutoNetCoreTemplate.Domain.Entities;
 
-using PlutoNetCoreTemplate.Domain.Events.AccountEvents;
-
-namespace PlutoNetCoreTemplate.Domain.DomainModels.Account
+namespace PlutoNetCoreTemplate.Domain.Aggregates.Account
 {
     [Table("Users")]
-    public class UserEntity : BaseEntity<int>
+    public class UserEntity : BaseAggregateRoot<int>
     {
         public UserEntity()
         {
@@ -38,13 +35,6 @@ namespace PlutoNetCoreTemplate.Domain.DomainModels.Account
 
         public string PasswordHash { get; internal set; }
 
-
-        public void ChangeSecurityStamp(string securityStamp)
-        {
-            SecurityStamp = securityStamp;
-            AddDomainEvent(new SecurityStampChangedEvent<int>(this.Id, "安全戳已变更！"));
-        }
-
         public string GetSecurityStamp()
         {
             return SecurityStamp;
@@ -58,13 +48,11 @@ namespace PlutoNetCoreTemplate.Domain.DomainModels.Account
         public void SetPasswordHash(string passwordHash)
         {
             PasswordHash = passwordHash;
-            AddDomainEvent(new SecurityStampChangedEvent<int>(this.Id, "安全戳已变更！"));
         }
 
         public void SetSecurityStamp(string securityStamp)
         {
             SecurityStamp = securityStamp;
-            AddDomainEvent(new SecurityStampChangedEvent<int>(this.Id, "安全戳已变更！"));
         }
     }
 }

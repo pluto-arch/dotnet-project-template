@@ -15,13 +15,16 @@ namespace PlutoNetCoreTemplate
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
+    using PlutoNetCoreTemplate.Extensions.Logger;
+    using PlutoNetCoreTemplate.Extensions.SeedData;
+
     public class Program
     {
         public static readonly string AppName = typeof(Program).Namespace;
         public static void Main(string[] args)
         {
             var baseConfig = GetLogConfig();
-            Log.Logger = ILoggerBuilderExtension.CreateSerilogLogger(baseConfig, AppName);
+            Log.Logger = SerilogConfiguration.CreateSerilogLogger(baseConfig, AppName);
             try
             {
                 Log.Information("×¼±¸Æô¶¯{ApplicationContext}...", AppName);
@@ -55,21 +58,10 @@ namespace PlutoNetCoreTemplate
                                var baseConfig = GetConfiguration(env);
                                builder.AddConfiguration(baseConfig);
                            })
-                           .ConfigureLogging((context, builder) =>
-                           {
-                               builder.AddSerilog(dispose: true);
-                               //builder.AddFilter((category, level) =>
-                               //{
-                               //    return category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information;
-                               //}).AddSerilog(dispose: true);
-                           })
                            .UseSerilog(dispose: true)
                            .Build();
 
-            host.MigrateDbContext<EfCoreDbContext>((context, services, env) =>
-            {
-                // seeder 
-            });
+            host.MigrateDbContext<EfCoreDbContext>();
             return host;
         }
 

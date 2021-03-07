@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using PlutoData.Specifications;
 using PlutoData.Specifications.Builder;
-
-using PlutoNetCoreTemplate.Domain.DomainModels.Account;
+using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
 namespace PlutoNetCoreTemplate.Domain.Services.Account
 {

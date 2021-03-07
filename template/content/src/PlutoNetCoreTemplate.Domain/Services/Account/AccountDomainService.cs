@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 using PlutoData.Collections;
 using PlutoData.Interface;
 using PlutoData.Specifications;
 
-using PlutoNetCoreTemplate.Domain.DomainModels.Account;
+using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
 namespace PlutoNetCoreTemplate.Domain.Services.Account
 {
@@ -35,5 +30,6 @@ namespace PlutoNetCoreTemplate.Domain.Services.Account
         {
             return _userRepository.GetPageList(spec, pageNo, pageSize);
         }
+
     }
 }

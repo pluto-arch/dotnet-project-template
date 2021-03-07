@@ -1,16 +1,9 @@
-﻿namespace PlutoNetCoreTemplate.Test.ApplicationTest
-{
-    using PlutoNetCoreTemplate.Application.Queries.Interfaces;
-    using Microsoft.Extensions.DependencyInjection;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using NUnit.Framework;
-    using PlutoData.Interface;
-    using PlutoNetCoreTemplate.Domain.DomainModels.Account;
+﻿using NUnit.Framework;
+using Microsoft.Extensions.DependencyInjection;
+using PlutoNetCoreTemplate.Application.Queries.Interfaces;
 
+namespace PlutoNetCoreTemplate.Test.ApplicationTest
+{
     public class ApplicationTest : BaseTest
     {
         [Test]

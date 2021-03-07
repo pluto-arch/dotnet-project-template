@@ -1,28 +1,25 @@
 ﻿
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using PlutoNetCoreTemplate.Domain;
+
+using PlutoNetCoreTemplate.Domain.Entities;
 
 namespace PlutoNetCoreTemplate.Infrastructure.Extensions
 {
     public static class MediatorExtension
     {
-        public static async Task DispatchDomainEventsAsync(this IMediator mediator, EfCoreDbContext ctx)
+        public static async Task DispatchDomainEventsAsync(this IMediator mediator, EfCoreDbContext ctx, CancellationToken cancellationToken = default)
         {
             var domainEntities = ctx.ChangeTracker
-                .Entries<Entity>()
-                .Where(x => x.Entity.DomainEvents != null && x.Entity.DomainEvents.Any());
-
-            var domainEvents = domainEntities
-                .SelectMany(x => x.Entity.DomainEvents)
-                .ToList();
-
-            domainEntities.ToList()
-                .ForEach(entity => entity.Entity.ClearDomainEvents());
-
+                .Entries<BaseEntity>().OfType<IDomainEvents>();
+            var domainEvents = domainEntities.SelectMany(x => x.DomainEvents).ToList();
+            domainEntities.ToList().ForEach(entity => entity.ClearDomainEvents());
             foreach (var domainEvent in domainEvents)
-                await mediator.Publish(domainEvent);
+            {
+                await mediator.Publish(domainEvent, cancellationToken);
+            }
         }
     }
 }

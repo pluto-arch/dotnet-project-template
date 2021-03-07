@@ -2,11 +2,11 @@
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using PlutoNetCoreTemplate.Domain.DomainModels.Account;
 using PlutoNetCoreTemplate.Domain.IRepositories;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoNetCoreTemplate.Infrastructure.Extensions;
 using PlutoData.Uows;
+using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
 namespace PlutoNetCoreTemplate.Application.Command
 {

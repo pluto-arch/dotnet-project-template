@@ -6,7 +6,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using PlutoNetCoreTemplate.Middlewares;
 using PlutoNetCoreTemplate.Infrastructure;
 using Serilog;
 using System;
@@ -18,7 +17,7 @@ using Microsoft.EntityFrameworkCore.Design;
 using PlutoNetCoreTemplate.Extensions;
 using PlutoNetCoreTemplate.Domain;
 using PlutoNetCoreTemplate.Application;
-using PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore;
+using PlutoNetCoreTemplate.Domain.SeedWork;
 
 namespace PlutoNetCoreTemplate
 {
@@ -52,6 +51,8 @@ namespace PlutoNetCoreTemplate
                 .AddApplicationLayer()
                 .AddDomainLayer()
                 .AddInfrastructureLayer(Configuration, DbContextCreateFactory.OptionsAction(_conntctionString));
+
+            services.AddTenant();
 #if (Grpc)
             services.AddGrpc();
             services.AddSingleton<GrpcCallerService>();
@@ -67,14 +68,14 @@ namespace PlutoNetCoreTemplate
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZeroStack.DeviceCenter.API v1"));
             }
-
             if (env.IsProduction())
             {
+                app.UseExceptionProcess();
                 app.UseHsts();
                 app.UseHttpsRedirection();
                 app.UseHttpContextLog();
             }
-            app.UseExceptionProcess();
+            app.UseTenant();
             app.UseCors(DefaultCorsName);
             app.UseRouting();
             app.UseEndpoints(endpoints =>

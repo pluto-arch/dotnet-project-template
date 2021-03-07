@@ -3,7 +3,7 @@ using PlutoData.Interface;
 using PlutoData.Uows;
 using PlutoNetCoreTemplate.Application.Dtos;
 using PlutoNetCoreTemplate.Application.Queries.Interfaces;
-using PlutoNetCoreTemplate.Domain.DomainModels.Account;
+using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 using PlutoNetCoreTemplate.Domain.IRepositories;
 using PlutoNetCoreTemplate.Domain.Services.Account;
 using PlutoNetCoreTemplate.Infrastructure;

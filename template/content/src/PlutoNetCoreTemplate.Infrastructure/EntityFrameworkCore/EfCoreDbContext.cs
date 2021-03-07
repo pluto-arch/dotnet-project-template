@@ -1,6 +1,17 @@
-﻿using Microsoft.EntityFrameworkCore;
-using PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations;
-using PlutoNetCoreTemplate.Domain.DomainModels.Account;
+﻿
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.Extensions.DependencyInjection;
+
+using PlutoNetCoreTemplate.Domain.Aggregates.Account;
+using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
+using PlutoNetCoreTemplate.Domain.Entities;
+using PlutoNetCoreTemplate.Infrastructure.Extensions;
 
 namespace PlutoNetCoreTemplate.Infrastructure
 {
@@ -18,9 +29,47 @@ namespace PlutoNetCoreTemplate.Infrastructure
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfiguration(new UserEntityTypeConfig());
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+            // 查询过滤器
+            foreach (var item in modelBuilder.Model.GetEntityTypes())
+            {
+                // clr type实现了 多租户接口
+                if (item.ClrType.IsAssignableTo(typeof(IMultiTenant)))
+                {
+                    var currentTenant = this.GetInfrastructure().GetService<ICurrentTenant>(); ;
+                    if (!string.IsNullOrEmpty(currentTenant?.Id) && !string.IsNullOrWhiteSpace(currentTenant?.Id))
+                    {
+                        modelBuilder.Entity(item.ClrType).AddQueryFilter<IMultiTenant>(e => e.TenantId == currentTenant.Id);
+                    }
+                }
+
+                // 实现了软删除的接口
+                if (item.ClrType.IsAssignableTo(typeof(ISoftDelete)))
+                {
+                    modelBuilder.Entity(item.ClrType).AddQueryFilter<ISoftDelete>(e => !e.Deleted);
+                }
+            }
         }
         #endregion
+
+
+
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        {
+            #region 软删除
+            var deletedEntries = ChangeTracker.Entries().Where(entry => entry.State == EntityState.Deleted && entry.Entity is ISoftDelete);
+            deletedEntries?.ToList().ForEach(entityEntry =>
+            {
+                entityEntry.Reload();
+                entityEntry.State = EntityState.Modified;
+                ((ISoftDelete)entityEntry.Entity).Deleted = true;
+            });
+            #endregion
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
 
     }
 }

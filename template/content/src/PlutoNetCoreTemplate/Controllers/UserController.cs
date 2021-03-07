@@ -48,7 +48,6 @@ namespace PlutoNetCoreTemplate.Controllers
 		[HttpGet]
 		public ServiceResponse<object> Users()
 		{
-			_logger.LogInfo("获取用户信息");
 			var users = _userQueries.GetUsers();
 			return ServiceResponse<object>.Success(users);
 		}

@@ -1,8 +1,7 @@
 ﻿using System;
 using PlutoData.Interface;
-using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
-namespace PlutoNetCoreTemplate.Domain.IRepositories
+namespace PlutoNetCoreTemplate.Domain.Aggregates.System
 {
     public interface IUserRepository: IEfRepository<UserEntity>
     {

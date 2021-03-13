@@ -12,8 +12,7 @@
 		/// </summary>
 		/// <param name="builder"></param>
 		/// <returns></returns>
-        public static IApplicationBuilder UseHttpContextLog(
-            this IApplicationBuilder builder)
+        public static IApplicationBuilder UseHttpContextLog(this IApplicationBuilder builder)
         {
             return builder.UseMiddleware<HttpContextLogMiddleware>();
         }
@@ -30,7 +29,7 @@
         }
 
         /// <summary>
-        /// 异常处理中间件
+        /// 多租户
         /// </summary>
         /// <param name="app"></param>
         /// <returns></returns>

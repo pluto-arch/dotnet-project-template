@@ -1,10 +1,11 @@
 ﻿using PlutoData;
 using PlutoData.Interface;
 
-using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
 namespace PlutoNetCoreTemplate.Infrastructure.Repositories.Dapper
 {
+    using Domain.Aggregates.System;
+
     public interface IUserDapperRepository:IDapperRepository<UserEntity>
     {
     }

@@ -8,13 +8,14 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
 
-using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
 using PlutoNetCoreTemplate.Domain.Entities;
 using PlutoNetCoreTemplate.Infrastructure.Extensions;
 
 namespace PlutoNetCoreTemplate.Infrastructure
 {
+    using Domain.Aggregates.System;
+
     public class EfCoreDbContext : DbContext
     {
 

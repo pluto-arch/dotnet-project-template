@@ -3,24 +3,23 @@ using PlutoData.Collections;
 using PlutoData.Interface;
 using PlutoData.Specifications;
 
-using PlutoNetCoreTemplate.Domain.Aggregates.Account;
-
 namespace PlutoNetCoreTemplate.Domain.Services.Account
 {
-    public class AccountDomainService : IAccountDomainService
+    using Aggregates.System;
+
+    public class SystemDomainService : ISystemDomainService
     {
         private readonly IEfRepository<UserEntity> _userRepository;
-        private readonly IDapperRepository<UserEntity> _userDapperRep;
+        /* can use dapper */
+        //private readonly IDapperRepository<UserEntity> _userDapperRep;
 
-        public AccountDomainService(
-            IEfRepository<UserEntity> userRepository,
-            IDapperRepository<UserEntity> dapperRepository)
+        public SystemDomainService(
+            IEfRepository<UserEntity> userRepository)
         {
             _userRepository = userRepository;
-            _userDapperRep = dapperRepository;
         }
 
-        public object Find(object key)
+        public UserEntity Find(object key)
         {
             return _userRepository.Find(key);
         }

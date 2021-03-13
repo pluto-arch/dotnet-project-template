@@ -13,7 +13,7 @@ namespace PlutoNetCoreTemplate.Domain
     {
         public static IServiceCollection AddDomainLayer(this IServiceCollection services)
         {
-            services.AddTransient<IAccountDomainService, AccountDomainService>();
+            services.AddTransient<ISystemDomainService, SystemDomainService>();
             services.AddSingleton<ICurrentTenantAccessor, CurrentTenantAccessor>();
             services.AddTransient<ICurrentTenant, CurrentTenant>();
 

@@ -2,23 +2,23 @@
 using System.Threading;
 using System.Threading.Tasks;
 using MediatR;
-using PlutoNetCoreTemplate.Domain.IRepositories;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoData.Uows;
 
 namespace PlutoNetCoreTemplate.Application.Command
 {
+    using Domain.Aggregates.System;
+
     public class DeleteUserCommandHandler:IRequestHandler<DeleteUserCommand,bool>
     {
 
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
 
         private readonly IEfUnitOfWork<EfCoreDbContext> _unitOfWork;
 
-        public DeleteUserCommandHandler(
-            IMediator mediator, IEfUnitOfWork<EfCoreDbContext> unitOfWork)
+        public DeleteUserCommandHandler(IEfUnitOfWork<EfCoreDbContext> unitOfWork)
         {
-            _mediator = mediator;
+            //_mediator = mediator;
             _unitOfWork = unitOfWork;
         }
 

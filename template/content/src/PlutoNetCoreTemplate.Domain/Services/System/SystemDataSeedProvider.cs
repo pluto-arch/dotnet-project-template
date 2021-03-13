@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Threading.Tasks;
 using PlutoData.Interface;
-using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 using PlutoNetCoreTemplate.Domain.SeedWork;
 
 namespace PlutoNetCoreTemplate.Domain.Services.Account
 {
-    public class AccountDataSeedProvider : IDataSeedProvider
+    using Aggregates.System;
+
+    public class SystemDataSeedProvider : IDataSeedProvider
     {
         private readonly IEfRepository<UserEntity> _userRepository;
 
-        public AccountDataSeedProvider(IEfRepository<UserEntity> userRepository)
+        public SystemDataSeedProvider(IEfRepository<UserEntity> userRepository)
         {
             _userRepository = userRepository;
         }

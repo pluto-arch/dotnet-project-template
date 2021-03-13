@@ -4,6 +4,25 @@
         <name>PlutoNetCoreTemplate.Application</name>
     </assembly>
     <members>
+        <member name="M:PlutoNetCoreTemplate.Application.AppServices.ISystemAppService.GetPageList(System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.AppServices.ISystemAppService.GetUser(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="key"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.AppServices.SystemAppService.GetPageList(System.Int32,System.Int32)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.AppServices.SystemAppService.GetUser(System.Object)">
+            <inheritdoc />
+        </member>
         <member name="T:PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior`2">
             <summary>
             
@@ -104,42 +123,6 @@
             如果前一个command已经处理了，直接返回
             防止重复command
             </summary>
-            <returns></returns>
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Application.Queries.Impls.UserQueries">
-            <summary>
-            仅仅查询-默认不启用追踪
-            方法指定 disableTracking:true
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Queries.Impls.UserQueries.#ctor(PlutoNetCoreTemplate.Domain.Services.Account.IAccountDomainService)">
-            <summary>
-            
-            </summary>
-            <param name="accountDomainService"></param>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Queries.Impls.UserQueries.GetUsers">
-            <inheritdoc />
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Queries.Impls.UserQueries.GetUser(System.Object)">
-            <inheritdoc />
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Application.Queries.Interfaces.IUserQueries">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Queries.Interfaces.IUserQueries.GetUsers">
-            <summary>
-            
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Queries.Interfaces.IUserQueries.GetUser(System.Object)">
-            <summary>
-            
-            </summary>
-            <param name="key"></param>
             <returns></returns>
         </member>
     </members>

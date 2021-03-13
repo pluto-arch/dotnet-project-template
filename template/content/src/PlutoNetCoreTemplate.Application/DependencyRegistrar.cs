@@ -27,7 +27,7 @@
         {
             var assembly= Assembly.GetExecutingAssembly();
             List<Type> list = (from c in assembly?.GetTypes()
-                               where !c.IsInterface && c.Name.EndsWith("Queries")
+                               where !c.IsInterface && c.Name.EndsWith("AppService")
                                select c).ToList();
             if (list == null)
             {
@@ -37,7 +37,7 @@
             foreach (Type item in list)
             {
                 IEnumerable<Type> enumerable = from c in item.GetInterfaces()
-                                               where c.Name.StartsWith("I") && c.Name.EndsWith("Queries")
+                                               where c.Name.StartsWith("I") && c.Name.EndsWith("AppService")
                                                select c;
                 if (!enumerable.Any())
                 {

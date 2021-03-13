@@ -32,13 +32,13 @@
             Demo 控制器
             </summary>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Controllers.UserController},PlutoNetCoreTemplate.Application.Queries.Interfaces.IUserQueries)">
+        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Controllers.UserController},PlutoNetCoreTemplate.Application.AppServices.ISystemAppService)">
             <summary>
-            
+            初始化
             </summary>
             <param name="mediator"></param>
             <param name="logger"></param>
-            <param name="userQueries"></param>
+            <param name="systemAppService"></param>
         </member>
         <member name="M:PlutoNetCoreTemplate.Controllers.UserController.Users">
             <summary>
@@ -87,7 +87,7 @@
         </member>
         <member name="M:PlutoNetCoreTemplate.Extensions.AppBuilder.UseTenant(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
-            异常处理中间件
+            多租户
             </summary>
             <param name="app"></param>
             <returns></returns>
@@ -128,7 +128,7 @@
         </member>
         <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollection.AddTenant(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>
-            跨域
+            多租户
             </summary>
             <returns></returns>
         </member>

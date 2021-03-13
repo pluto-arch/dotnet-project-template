@@ -50,6 +50,7 @@ namespace PlutoNetCoreTemplate.Extensions
             return services;
         }
 
+
         /// <summary>
         /// 健康检查
         /// </summary>
@@ -129,9 +130,8 @@ namespace PlutoNetCoreTemplate.Extensions
         }
 
 
-
         /// <summary>
-        /// 跨域
+        /// 多租户
         /// </summary>
         /// <returns></returns>
         public static IServiceCollection AddTenant(this IServiceCollection services)

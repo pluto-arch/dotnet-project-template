@@ -2,14 +2,14 @@
 using MediatR;
 using System.Threading;
 using System.Threading.Tasks;
-using PlutoNetCoreTemplate.Domain.IRepositories;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoNetCoreTemplate.Infrastructure.Extensions;
 using PlutoData.Uows;
-using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
 namespace PlutoNetCoreTemplate.Application.Command
 {
+    using Domain.Aggregates.System;
+
     /// <summary>
     /// 
     /// </summary>
@@ -46,7 +46,7 @@ namespace PlutoNetCoreTemplate.Application.Command
             _userRepository.Insert(user);
 
             // 如果要触发领域事件，
-            await _mediator.DispatchDomainEventsAsync(_unitOfWork.DbContext);
+            await _mediator.DispatchDomainEventsAsync(_unitOfWork.DbContext,cancellationToken);
             var res= await _unitOfWork.SaveChangesAsync(cancellationToken);
             return res>0;
         }

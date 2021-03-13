@@ -2,14 +2,14 @@
 using PlutoData.Collections;
 using PlutoData.Specifications;
 
-using PlutoNetCoreTemplate.Domain.Aggregates.Account;
-
 namespace PlutoNetCoreTemplate.Domain.Services.Account
 {
+    using Aggregates.System;
+
     /// <summary>
-    /// Account服务
+    /// 
     /// </summary>
-    public interface IAccountDomainService
+    public interface ISystemDomainService
     {
         /// <summary>
         /// 查询用户分页列表
@@ -19,6 +19,6 @@ namespace PlutoNetCoreTemplate.Domain.Services.Account
         /// <param name="pageSize"></param>
         /// <returns></returns>
         IPagedList<UserEntity> GetUserPageList(ISpecification<UserEntity> spec,int pageNo,int pageSize);
-        object Find(object key);
+        UserEntity Find(object key);
     }
 }

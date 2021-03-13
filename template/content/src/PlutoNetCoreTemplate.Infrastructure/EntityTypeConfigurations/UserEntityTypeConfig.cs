@@ -1,9 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
 namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
 {
+    using Domain.Aggregates.System;
+
     public class UserEntityTypeConfig : IEntityTypeConfiguration<UserEntity>
     {
         public void Configure(EntityTypeBuilder<UserEntity> builder)

@@ -1,19 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using PlutoNetCoreTemplate.Application.Queries.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using MediatR;
-using PlutoData.Collections;
 using PlutoNetCoreTemplate.Application.Command;
 
 namespace PlutoNetCoreTemplate.Controllers
 {
     using System.IO;
-    using Application.Dtos;
-    using Infrastructure.Extensions;
+    using Application.AppServices;
     using PlutoNetCoreTemplate.Infrastructure.Commons;
 
     /// <summary>
@@ -23,22 +17,21 @@ namespace PlutoNetCoreTemplate.Controllers
 	[ApiController]
 	public class UserController : BaseController<UserController>
 	{
-		private readonly IUserQueries _userQueries;
+		private readonly ISystemAppService _systemAppService;
 
 
 		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="mediator"></param>
-		/// <param name="logger"></param>
-		/// <param name="userQueries"></param>
+        /// 初始化
+        /// </summary>
+        /// <param name="mediator"></param>
+        /// <param name="logger"></param>
+        /// <param name="systemAppService"></param>
 		public UserController(
 			IMediator mediator,
-			ILogger<UserController> logger,
-			IUserQueries userQueries) : base(mediator, logger)
-		{
-			_userQueries = userQueries;
-		}
+			ILogger<UserController> logger, ISystemAppService systemAppService) : base(mediator, logger)
+        {
+            _systemAppService = systemAppService;
+        }
 
 
 		/// <summary>
@@ -48,7 +41,7 @@ namespace PlutoNetCoreTemplate.Controllers
 		[HttpGet]
 		public ServiceResponse<object> Users()
 		{
-			var users = _userQueries.GetUsers();
+			var users = _systemAppService.GetPageList(1,20);
 			return ServiceResponse<object>.Success(users);
 		}
 
@@ -60,7 +53,7 @@ namespace PlutoNetCoreTemplate.Controllers
 		[HttpGet("{id}")]
 		public ServiceResponse<object> Users(int id)
 		{
-			var users = _userQueries.GetUser(id);
+			var users = _systemAppService.GetUser(id);
             if (users==null)
             {
                 throw new InvalidDataException("无此数据");

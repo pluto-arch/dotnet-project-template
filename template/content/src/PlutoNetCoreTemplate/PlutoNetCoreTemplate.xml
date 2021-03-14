@@ -92,6 +92,27 @@
             <param name="app"></param>
             <returns></returns>
         </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.CustomAuthorizationPolicyProvider.#ctor(Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Authorization.AuthorizationOptions},PlutoNetCoreTemplate.Application.AppServices.Permissions.IPermissionDefinitionManager)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.CustomAuthorizationPolicyProvider.GetPolicyAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.PermissionChecker.IsGrantedAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.PermissionChecker.IsGrantedAsync(System.Security.Claims.ClaimsPrincipal,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.PermissionChecker.IsGrantedAsync(System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.PermissionChecker.IsGrantedAsync(System.Security.Claims.ClaimsPrincipal,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.PermissionRequirementHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,PlutoNetCoreTemplate.Extensions.PermissionRequirement)">
+            <inheritdoc />
+        </member>
         <member name="T:PlutoNetCoreTemplate.Extensions.Logger.HttpContextLogMiddleware">
             <summary>
             扩展日志中间件
@@ -130,6 +151,13 @@
             <summary>
             多租户
             </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.ServiceCollection.AddPermission(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加权限
+            </summary>
+            <param name="services"></param>
             <returns></returns>
         </member>
         <member name="T:PlutoNetCoreTemplate.Filters.ModelValidateFilter">

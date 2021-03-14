@@ -78,6 +78,7 @@ namespace PlutoNetCoreTemplate
             app.UseTenant();
             app.UseCors(DefaultCorsName);
             app.UseRouting();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
 #if (Grpc)

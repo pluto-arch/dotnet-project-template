@@ -6,7 +6,8 @@
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
-
+    using AppServices.Permissions;
+    using AppServices.Permissions.PermissionDefinitionProviders;
     using AutoMapper;
 
     using MediatR;
@@ -20,6 +21,12 @@
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
             services.AddQueries();
+
+            services.AddTransient<IPermissionStore, PermissionStore>();
+            services.AddSingleton<IPermissionDefinitionProvider, PlutoNetCoreTemplatePermissionDefinitionProvider>();
+            services.AddSingleton<IPermissionDefinitionManager, PermissionDefinitionManager>();
+            services.AddSingleton<IPermissionValueProvider, RolePermissionValueProvider>();
+
             return services;
         }
 

@@ -54,7 +54,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Extensions\Authorization\" />
     <Folder Include="Filters\" />
   </ItemGroup>
 

@@ -5,11 +5,12 @@ using PlutoData.Uows;
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoData;
 using PlutoNetCoreTemplate.Infrastructure.Repositories.Dapper;
-using PlutoNetCoreTemplate.Domain.Aggregates.Account;
 
 
 namespace PlutoNetCoreTemplate.Test.DomainTest
 {
+    using Domain.Aggregates.System;
+
     public class RepositoryTest:BaseTest
     {
         [Test]

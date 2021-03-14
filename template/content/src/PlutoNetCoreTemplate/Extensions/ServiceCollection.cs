@@ -20,6 +20,9 @@ using PlutoNetCoreTemplate.HealthChecks;
 
 namespace PlutoNetCoreTemplate.Extensions
 {
+    using Application.AppServices.Permissions;
+    using Microsoft.AspNetCore.Authorization;
+
     public static class ServiceCollection
     {
         /// <summary>
@@ -137,6 +140,20 @@ namespace PlutoNetCoreTemplate.Extensions
         public static IServiceCollection AddTenant(this IServiceCollection services)
         {
             services.AddTransient<TenantMiddleware>();
+            return services;
+        }
+
+
+        /// <summary>
+        /// 添加权限
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddPermission(this IServiceCollection services)
+        {
+            services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationPolicyProvider>();
+            services.AddTransient<IPermissionChecker, PermissionChecker>();
+            services.AddTransient<IAuthorizationHandler, PermissionRequirementHandler>();
             return services;
         }
     }

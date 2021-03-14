@@ -6,7 +6,6 @@ using Newtonsoft.Json;
 using Microsoft.Extensions.DependencyInjection;
 using NUnit.Framework;
 using PlutoNetCoreTemplate.Controllers;
-using PlutoNetCoreTemplate.Application.Queries.Interfaces;
 
 namespace PlutoNetCoreTemplate.Test.ControllersTests
 {

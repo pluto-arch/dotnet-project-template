@@ -9,7 +9,7 @@
     using AppServices.Permissions;
     using AppServices.Permissions.PermissionDefinitionProviders;
     using AutoMapper;
-
+    using Behaviors;
     using MediatR;
 
     using Microsoft.Extensions.DependencyInjection;
@@ -20,17 +20,22 @@
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddQueries();
 
-            services.AddTransient<IPermissionStore, PermissionStore>();
+            services.AddTransient(typeof(IPipelineBehavior<,>),typeof(AutoSaveBehavior<,>));
+
+            services.AddTransient(typeof(IPipelineBehavior<,>),typeof(TransactionBehaviour<,>));
+
+            services.AddAppServices();
+
+            services.AddScoped<IPermissionStore, PermissionStore>();
             services.AddSingleton<IPermissionDefinitionProvider, PlutoNetCoreTemplatePermissionDefinitionProvider>();
-            services.AddSingleton<IPermissionDefinitionManager, PermissionDefinitionManager>();
-            services.AddSingleton<IPermissionValueProvider, RolePermissionValueProvider>();
+            services.AddScoped<IPermissionDefinitionManager, PermissionDefinitionManager>();
+            services.AddScoped<IPermissionValueProvider, RolePermissionValueProvider>();
 
             return services;
         }
 
-        public static IServiceCollection AddQueries(this IServiceCollection services)
+        public static IServiceCollection AddAppServices(this IServiceCollection services)
         {
             var assembly= Assembly.GetExecutingAssembly();
             List<Type> list = (from c in assembly?.GetTypes()

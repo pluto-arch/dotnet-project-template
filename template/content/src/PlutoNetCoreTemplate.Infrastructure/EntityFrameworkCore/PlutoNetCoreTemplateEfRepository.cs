@@ -1,14 +1,10 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
+    using Domain.SeedWork;
     using PlutoData;
 
-    public class PlutoNetCoreTemplateEfRepository<TEntity> : EfRepository<EfCoreDbContext, TEntity>
-        where TEntity : class
+    public class PlutoNetCoreTemplateEfRepository<TEntity> : EfRepository<EfCoreDbContext, TEntity>, IPlutoNetCoreTemplateEfRepository<TEntity>
+        where TEntity : class,new()
     {
         public PlutoNetCoreTemplateEfRepository(EfCoreDbContext dbContext) : base(dbContext)
         {

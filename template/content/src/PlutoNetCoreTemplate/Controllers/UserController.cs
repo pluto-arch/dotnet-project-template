@@ -75,6 +75,14 @@ namespace PlutoNetCoreTemplate.Controllers
 		}
 
 
+        [HttpPost("CreateUser")]
+        public async Task<ServiceResponse<int>> CreateUserAsync(string name,string email)
+        {
+            var res = await _systemAppService.CreateUserAsync(name,email);
+            return ServiceResponse<int>.Success(res);
+        }
+
+
         /// <summary>
         /// 全部更新
         /// </summary>

@@ -1,10 +1,9 @@
 ﻿using System;
-using Dapper;
 using PlutoNetCoreTemplate.Domain.Entities;
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.System
 {
-    [Table("Users")]
+    [Dapper.Table("Users")]
     public class UserEntity : BaseAggregateRoot<int>
     {
         public UserEntity()

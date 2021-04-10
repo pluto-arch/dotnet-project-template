@@ -23,4 +23,10 @@
     <Folder Include="Providers\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="PlutoData">
+      <HintPath>..\..\..\..\..\efcore-unitofwork-and-repository\PlutoData-efcore\PlutoData\bin\Debug\net5.0\PlutoData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

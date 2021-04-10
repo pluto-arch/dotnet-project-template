@@ -63,6 +63,12 @@
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="PlutoData">
+      <HintPath>..\..\..\..\..\efcore-unitofwork-and-repository\PlutoData-efcore\PlutoData\bin\Debug\net5.0\PlutoData.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
 
 

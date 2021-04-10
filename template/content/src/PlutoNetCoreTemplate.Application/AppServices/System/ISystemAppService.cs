@@ -1,5 +1,6 @@
 ﻿namespace PlutoNetCoreTemplate.Application.AppServices
 {
+    using System.Threading.Tasks;
     using Domain.Aggregates.System;
     using Domain.Services.Account;
     using PlutoData.Collections;
@@ -18,6 +19,8 @@
         /// </summary>
         /// <param name="key"></param>
         /// <returns></returns>
-        UserEntity GetUser(object key);
+        Task<UserEntity> GetUser(object key);
+
+        Task<int> CreateUserAsync(string name, string email);
     }
 }

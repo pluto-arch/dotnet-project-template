@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Threading.Tasks;
-
-using PlutoData.Interface;
-using PlutoData.Uows;
-
 using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
 using PlutoNetCoreTemplate.Domain.SeedWork;
 
 namespace PlutoNetCoreTemplate.Domain.Services.TenantDomainService
 {
+    using Microsoft.EntityFrameworkCore;
+    using PlutoData;
+
     public class TenantDataSeedProvider : IDataSeedProvider
     {
-        private readonly IEfRepository<Tenant> _rep;
+        private readonly IPlutoNetCoreTemplateEfRepository<Tenant> _rep;
 
-        public TenantDataSeedProvider(IEfRepository<Tenant> userRepository)
+        public TenantDataSeedProvider(IPlutoNetCoreTemplateEfRepository<Tenant> userRepository)
         {
             _rep = userRepository;
         }

@@ -1,19 +1,14 @@
 ﻿using PlutoData;
-using PlutoData.Interface;
 
 
 namespace PlutoNetCoreTemplate.Infrastructure.Repositories.Dapper
 {
+    using DapperCore;
     using Domain.Aggregates.System;
 
-    public interface IUserDapperRepository:IDapperRepository<UserEntity>
+    public class UserDapperRepository : BaseDapperRepository<PlutoNetCoreDapperDbContext,UserEntity>, IUserDapperRepository
     {
-    }
-
-
-    public class UserDapperRepository : DapperRepository<UserEntity>, IUserDapperRepository
-    {
-        public UserDapperRepository(DapperDbContext dapperDb) : base(dapperDb)
+        public UserDapperRepository(PlutoNetCoreDapperDbContext dapperDb) : base(dapperDb)
         {
         }
     }

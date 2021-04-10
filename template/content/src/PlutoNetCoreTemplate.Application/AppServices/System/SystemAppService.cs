@@ -1,7 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Application.AppServices
 {
+    using System.Threading.Tasks;
+    using Dapper;
     using Domain.Aggregates.System;
+    using Domain.SeedWork;
     using Domain.Services.Account;
+    using Infrastructure;
+    using Microsoft.EntityFrameworkCore;
     using PlutoData.Collections;
     using PlutoData.Specifications;
 
@@ -9,10 +14,14 @@
     {
 
         private readonly ISystemDomainService _accountDomainService;
+        private readonly EfCoreDbContext ddd;
+        private readonly IPlutoNetCoreTemplateDapperRepository<UserEntity> _userDapperRep;
 
-        public SystemAppService(ISystemDomainService accountDomainService)
+        public SystemAppService(ISystemDomainService accountDomainService,EfCoreDbContext db,IPlutoNetCoreTemplateDapperRepository<UserEntity> rrr)
         {
             _accountDomainService = accountDomainService;
+            ddd = db;
+            _userDapperRep = rrr;
         }
 
         /// <inheritdoc />
@@ -23,9 +32,28 @@
         }
 
         /// <inheritdoc />
-        public UserEntity GetUser(object key)
+        public async Task<UserEntity> GetUser(object key)
         {
-            return _accountDomainService.Find(key);
+            return await _accountDomainService.Find(key);
+        }
+
+
+        public async Task<int> CreateUserAsync(string name,string email)
+        {
+            var conn=this.ddd.Database.GetDbConnection();
+            var entity = new UserEntity
+            {
+                UserName = name,
+                Email = email,
+            };
+
+            await _userDapperRep.ExecuteAsync(async conn =>
+            {
+                await conn.InsertAsync(entity);
+            });
+
+            var res = await _accountDomainService.InsertAsync(entity);
+            return res ?? 0;
         }
     }
 }

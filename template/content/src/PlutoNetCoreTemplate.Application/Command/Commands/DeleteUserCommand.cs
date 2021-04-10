@@ -8,9 +8,9 @@ namespace PlutoNetCoreTemplate.Application.Command
     [DisableAutoSaveChange]
     public class DeleteUserCommand:BaseCommand,IRequest<bool>
     {
-        public object Id { get; set; }
+        public int Id { get; set; }
 
-        public DeleteUserCommand(object id)
+        public DeleteUserCommand(int id)
         {
             Id = id;
         }

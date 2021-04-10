@@ -4,6 +4,7 @@ using PlutoData.Specifications;
 
 namespace PlutoNetCoreTemplate.Domain.Services.Account
 {
+    using System.Threading.Tasks;
     using Aggregates.System;
 
     /// <summary>
@@ -19,6 +20,8 @@ namespace PlutoNetCoreTemplate.Domain.Services.Account
         /// <param name="pageSize"></param>
         /// <returns></returns>
         IPagedList<UserEntity> GetUserPageList(ISpecification<UserEntity> spec,int pageNo,int pageSize);
-        UserEntity Find(object key);
+        Task<UserEntity> Find(object key);
+
+        Task<int?> InsertAsync(UserEntity user);
     }
 }

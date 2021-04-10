@@ -43,7 +43,7 @@ namespace PlutoNetCoreTemplate.Application.Command
                 Email= request.UserName+"@qq.com"
             };
             user.SetPasswordHash(request.Password);  // 有可能会注册领域事件
-            _userRepository.Insert(user);
+            await _userRepository.InsertAsync(user,cancellationToken:cancellationToken);
 
             // 如果要触发领域事件，
             await _mediator.DispatchDomainEventsAsync(_unitOfWork.DbContext,cancellationToken);

@@ -15,13 +15,18 @@ using PlutoNetCoreTemplate.Infrastructure.Extensions;
 namespace PlutoNetCoreTemplate.Infrastructure
 {
     using Domain.Aggregates.System;
+    using MediatR;
+    using Providers;
 
     public class EfCoreDbContext : DbContext
     {
 
+        private readonly IMediator _mediator;
+
         public EfCoreDbContext(DbContextOptions<EfCoreDbContext> options)
             : base(options)
         {
+            _mediator=this.GetInfrastructure().GetService<IMediator>() ?? NullMediatorProvider.GetNullMediator();
         }
 
         #region Entitys and configuration  (OnModelCreating中配置了对应Entity 那么对应DbSet<>可以不写)
@@ -57,7 +62,7 @@ namespace PlutoNetCoreTemplate.Infrastructure
 
 
 
-        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
+        public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)
         {
             #region 软删除
             var deletedEntries = ChangeTracker.Entries().Where(entry => entry.State == EntityState.Deleted && entry.Entity is ISoftDelete);
@@ -68,9 +73,12 @@ namespace PlutoNetCoreTemplate.Infrastructure
                 ((ISoftDelete)entityEntry.Entity).Deleted = true;
             });
             #endregion
-            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+
+            #region 集成事件
+            await _mediator.DispatchDomainEventsAsync(this, cancellationToken);
+            #endregion
+
+            return await base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
-
-
     }
 }

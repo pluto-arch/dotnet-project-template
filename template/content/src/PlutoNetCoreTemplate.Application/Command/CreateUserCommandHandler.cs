@@ -47,8 +47,8 @@ namespace PlutoNetCoreTemplate.Application.Command
 
             // 如果要触发领域事件，
             await _mediator.DispatchDomainEventsAsync(_unitOfWork.DbContext,cancellationToken);
-            var res= await _unitOfWork.SaveChangesAsync(cancellationToken);
-            return res>0;
+            //var res= await _unitOfWork.SaveChangesAsync(cancellationToken);
+            return true;
         }
     }
 }

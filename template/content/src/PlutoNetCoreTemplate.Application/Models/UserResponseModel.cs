@@ -1,9 +1,9 @@
 ﻿using System;
 
 
-namespace PlutoNetCoreTemplate.Application.Dtos
+namespace PlutoNetCoreTemplate.Application.Models
 {
-    public class UserItemDto
+    public class UserResponseModel
     {
         public string UserName { get; set; }
 

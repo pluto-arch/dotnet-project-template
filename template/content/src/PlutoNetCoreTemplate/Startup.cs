@@ -57,7 +57,9 @@ namespace PlutoNetCoreTemplate
             services.AddGrpc();
             services.AddSingleton<GrpcCallerService>();
 #endif
-
+            services.AddAuthentication();
+            services.AddAuthorization()
+                .AddPermission();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -78,6 +80,7 @@ namespace PlutoNetCoreTemplate
             app.UseTenant();
             app.UseCors(DefaultCorsName);
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

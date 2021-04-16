@@ -6,8 +6,10 @@ using PlutoNetCoreTemplate.Application.Command;
 
 namespace PlutoNetCoreTemplate.Controllers
 {
+    using System;
     using System.IO;
     using Application.AppServices;
+    using Microsoft.AspNetCore.Authorization;
     using PlutoNetCoreTemplate.Infrastructure.Commons;
 
     /// <summary>
@@ -51,6 +53,7 @@ namespace PlutoNetCoreTemplate.Controllers
 		/// <param name="id"></param>
 		/// <returns></returns>
 		[HttpGet("{id}")]
+        [Authorize(Policy = "System.Users.Create")]
 		public ServiceResponse<object> Users(int id)
 		{
 			var users = _systemAppService.GetUser(id);

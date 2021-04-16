@@ -1,7 +1,7 @@
 ﻿namespace PlutoNetCoreTemplate.Extensions
 {
     using System.Threading.Tasks;
-    using Application.AppServices.Permissions;
+    using Application.Permissions;
     using Microsoft.AspNetCore.Authorization;
 
     public class PermissionRequirementHandler: AuthorizationHandler<PermissionRequirement>

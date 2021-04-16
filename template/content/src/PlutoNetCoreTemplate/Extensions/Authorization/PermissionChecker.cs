@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Threading.Tasks;
-    using Application.AppServices.Permissions;
+    using Application.Permissions;
     using Microsoft.AspNetCore.Http;
 
     public class PermissionChecker:IPermissionChecker
@@ -68,10 +68,7 @@
         }
 
         /// <inheritdoc />
-        public Task<MultiplePermissionGrantResult> IsGrantedAsync([NotNull]string[] names)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<MultiplePermissionGrantResult> IsGrantedAsync([NotNull]string[] names)=> await IsGrantedAsync(_httpContextAccessor.HttpContext!.User, names);
 
         /// <inheritdoc />
         public async Task<MultiplePermissionGrantResult> IsGrantedAsync(ClaimsPrincipal claimsPrincipal, string[] names)

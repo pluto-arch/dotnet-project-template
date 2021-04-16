@@ -1,4 +1,4 @@
-﻿namespace PlutoNetCoreTemplate.Application.AppServices.Permissions
+﻿namespace PlutoNetCoreTemplate.Application.Permissions
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Security.Claims;

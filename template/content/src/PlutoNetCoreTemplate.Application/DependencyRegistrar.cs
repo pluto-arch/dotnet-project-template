@@ -6,13 +6,12 @@
     using System.Reflection;
     using System.Text;
     using System.Threading.Tasks;
-    using AppServices.Permissions;
-    using AppServices.Permissions.PermissionDefinitionProviders;
     using AutoMapper;
     using Behaviors;
     using MediatR;
 
     using Microsoft.Extensions.DependencyInjection;
+    using Permissions;
 
     public static class DependencyRegistrar
     {
@@ -27,10 +26,10 @@
 
             services.AddAppServices();
 
-            services.AddScoped<IPermissionStore, PermissionStore>();
             services.AddSingleton<IPermissionDefinitionProvider, PlutoNetCoreTemplatePermissionDefinitionProvider>();
-            services.AddScoped<IPermissionDefinitionManager, PermissionDefinitionManager>();
-            services.AddScoped<IPermissionValueProvider, RolePermissionValueProvider>();
+            services.AddSingleton<IPermissionDefinitionManager, PermissionDefinitionManager>();
+            services.AddTransient<IPermissionStore, PermissionStore>();
+            services.AddTransient<IPermissionValueProvider, RolePermissionValueProvider>();
 
             return services;
         }

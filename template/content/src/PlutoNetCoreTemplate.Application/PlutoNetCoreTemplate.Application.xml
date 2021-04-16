@@ -4,91 +4,6 @@
         <name>PlutoNetCoreTemplate.Application</name>
     </assembly>
     <members>
-        <member name="T:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinition">
-            <summary>
-            权限定义
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinition.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinition.DisplayName">
-            <summary>
-            显示名称
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinition.Parent">
-            <summary>
-            上级权限
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinition.AllowedProviders">
-            <summary>
-            允许的提供者，eg. role/dept
-            </summary>
-        </member>
-        <member name="F:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinition._children">
-            <summary>
-            下级权限定义
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinition.IsEnabled">
-            <summary>
-            是否启用
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinitionManager.Get(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinitionManager.GetOrNull(System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinitionManager.GetPermissions">
-            <inheritdoc />
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinitionManager.GetGroups">
-            <inheritdoc />
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinitionProviders.PlutoNetCoreTemplatePermissionDefinitionProvider.Define(PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinitionContext)">
-            <inheritdoc />
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionGroupDefinition">
-            <summary>
-            权限分组定义
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionGroupDefinition.Name">
-            <summary>
-            名称
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionGroupDefinition.DisplayName">
-            <summary>
-            显示名称
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.NullPermissionStore.IsGrantedAsync(System.String,System.String,System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionStore.IsGrantedAsync(System.String,System.String,System.String)">
-            <inheritdoc />
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionStore.IsGrantedAsync(System.String[],System.String,System.String)">
-            <inheritdoc />
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Application.AppServices.Permissions.RolePermissionValueProvider">
-            <summary>
-            基于角色的权限值提供程序
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.RolePermissionValueProvider.CheckAsync(System.Security.Claims.ClaimsPrincipal,PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinition)">
-            <inheritdoc />
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.Permissions.RolePermissionValueProvider.CheckAsync(System.Security.Claims.ClaimsPrincipal,System.Collections.Generic.List{PlutoNetCoreTemplate.Application.AppServices.Permissions.PermissionDefinition})">
-            <inheritdoc />
-        </member>
         <member name="M:PlutoNetCoreTemplate.Application.AppServices.ISystemAppService.GetPageList(System.Int32,System.Int32)">
             <summary>
             
@@ -209,6 +124,118 @@
             防止重复command
             </summary>
             <returns></returns>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition">
+            <summary>
+            权限定义
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition.DisplayName">
+            <summary>
+            显示名称
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition.Parent">
+            <summary>
+            上级权限
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition.AllowedProviders">
+            <summary>
+            允许的提供者，eg. role/dept
+            </summary>
+        </member>
+        <member name="F:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition._children">
+            <summary>
+            下级权限定义
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition.IsEnabled">
+            <summary>
+            是否启用
+            </summary>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Application.Permissions.PermissionGroupDefinition">
+            <summary>
+            权限分组定义
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Permissions.PermissionGroupDefinition.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Permissions.PermissionGroupDefinition.DisplayName">
+            <summary>
+            显示名称
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.IPermissionAppService.GetAsync(System.String,System.String)">
+            <summary>
+            获取权限
+            </summary>
+            <param name="providerName">提供者名称 eg. Role</param>
+            <param name="providerKey">提供者值 eg. admin</param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.IPermissionAppService.UpdateAsync(System.String,System.String,System.Collections.Generic.IEnumerable{PlutoNetCoreTemplate.Application.Dtos.Permission.PermissionUpdateRequestModel})">
+            <summary>
+            更新授权
+            </summary>
+            <param name="providerName">提供者名称 eg. Role</param>
+            <param name="providerKey">提供者值 eg. admin</param>
+            <param name="requestModels"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionManager.Get(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionManager.GetOrNull(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionManager.GetPermissions">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionManager.GetGroups">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.PlutoNetCoreTemplatePermissionDefinitionProvider.Define(PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Application.Permissions.SystemPermission.SysUser">
+            <summary>
+            用户
+            </summary>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Application.Permissions.SystemPermission.SysRole">
+            <summary>
+            角色
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.NullPermissionStore.IsGrantedAsync(System.String,System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.PermissionStore.IsGrantedAsync(System.String,System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.PermissionStore.IsGrantedAsync(System.String[],System.String,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Application.Permissions.RolePermissionValueProvider">
+            <summary>
+            基于角色的权限值提供程序
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.RolePermissionValueProvider.CheckAsync(System.Security.Claims.ClaimsPrincipal,PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.RolePermissionValueProvider.CheckAsync(System.Security.Claims.ClaimsPrincipal,System.Collections.Generic.List{PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition})">
+            <inheritdoc />
         </member>
     </members>
 </doc>

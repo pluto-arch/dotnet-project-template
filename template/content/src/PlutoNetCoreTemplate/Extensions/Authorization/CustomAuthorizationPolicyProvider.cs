@@ -2,7 +2,7 @@
 {
     using System;
     using System.Threading.Tasks;
-    using Application.AppServices.Permissions;
+    using Application.Permissions;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.Extensions.Options;
 

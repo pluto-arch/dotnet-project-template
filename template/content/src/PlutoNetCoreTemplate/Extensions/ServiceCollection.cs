@@ -20,7 +20,7 @@ using PlutoNetCoreTemplate.HealthChecks;
 
 namespace PlutoNetCoreTemplate.Extensions
 {
-    using Application.AppServices.Permissions;
+    using Application.Permissions;
     using Microsoft.AspNetCore.Authorization;
 
     public static class ServiceCollection
@@ -152,8 +152,8 @@ namespace PlutoNetCoreTemplate.Extensions
         public static IServiceCollection AddPermission(this IServiceCollection services)
         {
             services.AddSingleton<IAuthorizationPolicyProvider, CustomAuthorizationPolicyProvider>();
-            services.AddTransient<IPermissionChecker, PermissionChecker>();
-            services.AddTransient<IAuthorizationHandler, PermissionRequirementHandler>();
+            services.AddScoped<IPermissionChecker, PermissionChecker>();
+            services.AddScoped<IAuthorizationHandler, PermissionRequirementHandler>();
             return services;
         }
     }

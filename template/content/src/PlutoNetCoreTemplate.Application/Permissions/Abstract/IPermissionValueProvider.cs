@@ -1,4 +1,4 @@
-﻿namespace PlutoNetCoreTemplate.Application.AppServices.Permissions
+﻿namespace PlutoNetCoreTemplate.Application.Permissions
 {
     using System.Collections.Generic;
     using System.Security.Claims;

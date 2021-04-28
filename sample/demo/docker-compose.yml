@@ -1,9 +1,0 @@
-version: '3.4'
-
-services:
-  demo.api:
-    image: ${DOCKER_REGISTRY-}demoService
-    container_name: demoService
-    build:
-      context: .
-      dockerfile: src/Demo.API/Dockerfile

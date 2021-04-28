@@ -5,8 +5,8 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Domain.Aggregates.Permission;
-    using Dtos.Permission;
     using Infrastructure;
+    using Models.PermissionModels;
     using PlutoData.Uows;
 
     public class PermissionAppService:IPermissionAppService

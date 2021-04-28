@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <Folder Include="Providers\" />
+    <Folder Include="Repositories\Dapper\" />
+    <Folder Include="ValueGenerator\" />
   </ItemGroup>
 
   <ItemGroup>

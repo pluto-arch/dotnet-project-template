@@ -4,24 +4,18 @@
         <name>PlutoNetCoreTemplate.Application</name>
     </assembly>
     <members>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.ISystemAppService.GetPageList(System.Int32,System.Int32)">
+        <member name="M:PlutoNetCoreTemplate.Application.AppServices.ProductAppServices.IProductAppService.GetListAsync">
             <summary>
-            
+            获取列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.ISystemAppService.GetUser(System.Object)">
+        <member name="M:PlutoNetCoreTemplate.Application.AppServices.ProductAppServices.IProductAppService.GetAsync(System.String)">
             <summary>
-            
+            获取单个
             </summary>
             <param name="key"></param>
             <returns></returns>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.SystemAppService.GetPageList(System.Int32,System.Int32)">
-            <inheritdoc />
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.AppServices.SystemAppService.GetUser(System.Object)">
-            <inheritdoc />
         </member>
         <member name="T:PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior`2">
             <summary>
@@ -53,48 +47,6 @@
             <typeparam name="TRequest"></typeparam>
             <typeparam name="TResponse"></typeparam>
         </member>
-        <member name="T:PlutoNetCoreTemplate.Application.Command.CreateUserCommand">
-            <summary>
-            创建账户
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.Command.CreateUserCommand.UserName">
-            <summary>
-            用户名
-            </summary>
-        </member>
-        <member name="P:PlutoNetCoreTemplate.Application.Command.CreateUserCommand.Password">
-            <summary>
-            密码
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Command.CreateUserCommand.#ctor">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Command.CreateUserCommand.#ctor(System.String,System.String)">
-            <summary>
-            
-            </summary>
-            <param name="userName"></param>
-            <param name="password"></param>
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Application.Command.CreateUserCommandHandler">
-            <summary>
-            
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Command.CreateUserCommandHandler.#ctor(MediatR.IMediator,PlutoData.Uows.IEfUnitOfWork{PlutoNetCoreTemplate.Infrastructure.EfCoreDbContext})">
-            <summary>
-            
-            </summary>
-            <param name="mediator"></param>
-            <param name="unitOfWork"></param>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Command.DeleteUserCommandHandler.Handle(PlutoNetCoreTemplate.Application.Command.DeleteUserCommand,System.Threading.CancellationToken)">
-            <inheritdoc />
-        </member>
         <member name="T:PlutoNetCoreTemplate.Application.Command.IdentifiedCommand`2">
             <summary>
             具有辨识的command。执行前会进行查重
@@ -124,6 +76,58 @@
             防止重复command
             </summary>
             <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Application.DependencyRegistrar.AddEventBusRabbitMQ(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加rabbitmq eventBus 
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Application.IntegrationEvent.EventHandler.DisableUserIntegrationDynamicEventHandler">
+            <summary>
+            动态事件
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Models.ProductModels.DeviceModel.Id">
+            <summary>
+            Id
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Models.ProductModels.DeviceModel.SerialNo">
+            <summary>
+            序列号
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Models.ProductModels.DeviceModel.Coordinate">
+            <summary>
+            经纬度
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Models.ProductModels.DeviceModel.Online">
+            <summary>
+            是否在线
+            </summary>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Application.Models.ProductModels.ProductModels">
+            <summary>
+            产品
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Models.ProductModels.ProductModels.Id">
+            <summary>
+            id
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Models.ProductModels.ProductModels.Name">
+            <summary>
+            名称
+            </summary>
+        </member>
+        <member name="P:PlutoNetCoreTemplate.Application.Models.ProductModels.ProductModels.Remark">
+            <summary>
+            描述信息
+            </summary>
         </member>
         <member name="T:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition">
             <summary>
@@ -183,7 +187,7 @@
             <param name="providerKey">提供者值 eg. admin</param>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Permissions.IPermissionAppService.UpdateAsync(System.String,System.String,System.Collections.Generic.IEnumerable{PlutoNetCoreTemplate.Application.Dtos.Permission.PermissionUpdateRequestModel})">
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.IPermissionAppService.UpdateAsync(System.String,System.String,System.Collections.Generic.IEnumerable{PlutoNetCoreTemplate.Application.Models.PermissionModels.PermissionUpdateRequestModel})">
             <summary>
             更新授权
             </summary>
@@ -204,18 +208,8 @@
         <member name="M:PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionManager.GetGroups">
             <inheritdoc />
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Permissions.PlutoNetCoreTemplatePermissionDefinitionProvider.Define(PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionContext)">
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.ProductPermissionDefinitionProvider.Define(PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionContext)">
             <inheritdoc />
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Application.Permissions.SystemPermission.SysUser">
-            <summary>
-            用户
-            </summary>
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Application.Permissions.SystemPermission.SysRole">
-            <summary>
-            角色
-            </summary>
         </member>
         <member name="M:PlutoNetCoreTemplate.Application.Permissions.NullPermissionStore.IsGrantedAsync(System.String,System.String,System.String)">
             <inheritdoc />
@@ -228,7 +222,7 @@
         </member>
         <member name="T:PlutoNetCoreTemplate.Application.Permissions.RolePermissionValueProvider">
             <summary>
-            基于角色的权限值提供程序
+            角色级别的权限值检测提供程序
             </summary>
         </member>
         <member name="M:PlutoNetCoreTemplate.Application.Permissions.RolePermissionValueProvider.CheckAsync(System.Security.Claims.ClaimsPrincipal,PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition)">
@@ -236,6 +230,11 @@
         </member>
         <member name="M:PlutoNetCoreTemplate.Application.Permissions.RolePermissionValueProvider.CheckAsync(System.Security.Claims.ClaimsPrincipal,System.Collections.Generic.List{PlutoNetCoreTemplate.Application.Permissions.PermissionDefinition})">
             <inheritdoc />
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Application.Permissions.UserPermissionValueProvider">
+            <summary>
+            用户级别的权限值检测提供程序
+            </summary>
         </member>
     </members>
 </doc>

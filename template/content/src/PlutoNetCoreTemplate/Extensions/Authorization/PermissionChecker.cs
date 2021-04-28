@@ -82,7 +82,11 @@
             foreach (string name in names)
             {
                 var permission = _permissionDefinitionManager.Get(name);
-                result.Result.Add(name, PermissionGrantResult.Undefined);
+                if (permission==null)
+                {
+                    result.Result.Add(name, PermissionGrantResult.Undefined);
+                    continue;
+                }
                 if (permission.IsEnabled)
                 {
                     permissionDefinitions.Add(permission);

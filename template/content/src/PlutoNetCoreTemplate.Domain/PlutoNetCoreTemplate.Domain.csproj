@@ -11,4 +11,9 @@
     <PackageReference Include="PlutoData" Version="1.7.0-alpha01" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Aggregates\ProductAggregate\" />
+    <Folder Include="Services\ProductDomainService\" />
+  </ItemGroup>
+
 </Project>

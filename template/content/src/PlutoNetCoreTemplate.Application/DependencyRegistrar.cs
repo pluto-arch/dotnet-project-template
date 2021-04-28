@@ -4,14 +4,16 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Text;
-    using System.Threading.Tasks;
-    using AutoMapper;
     using Behaviors;
+    using EventBus;
+    using EventBus.Abstractions;
+    using EventBus.RabbitMQ;
+    using IntegrationEvent.EventHandler;
     using MediatR;
-
     using Microsoft.Extensions.DependencyInjection;
+    using Microsoft.Extensions.Logging;
     using Permissions;
+    using RabbitMQ.Client;
 
     public static class DependencyRegistrar
     {
@@ -26,10 +28,16 @@
 
             services.AddAppServices();
 
-            services.AddSingleton<IPermissionDefinitionProvider, PlutoNetCoreTemplatePermissionDefinitionProvider>();
+            services.AddSingleton<IPermissionDefinitionProvider, ProductPermissionDefinitionProvider>();
             services.AddSingleton<IPermissionDefinitionManager, PermissionDefinitionManager>();
             services.AddTransient<IPermissionStore, PermissionStore>();
             services.AddTransient<IPermissionValueProvider, RolePermissionValueProvider>();
+            services.AddTransient<IPermissionValueProvider, UserPermissionValueProvider>();
+
+            /*
+             * event bus
+             */
+            //services.AddEventBusRabbitMQ();
 
             return services;
         }
@@ -62,5 +70,55 @@
             }
             return services;
         }
+
+        /// <summary>
+        /// 添加rabbitmq eventBus 
+        /// </summary>
+        /// <param name="services"></param>
+        /// <returns></returns>
+        public static IServiceCollection AddEventBusRabbitMQ(this IServiceCollection services)
+        {
+            // 注入 mq链接对象
+            services.AddSingleton<IRabbitMqPersistentConnection>(sp =>
+            {
+                var logger = sp.GetRequiredService<ILogger<DefaultRabbitMqPersistentConnection>>();
+                var factory = new ConnectionFactory()
+                {
+                    HostName = "",
+                    DispatchConsumersAsync = true,
+                    Port=5672
+                };
+                factory.UserName ="guest";
+                factory.Password = "guest";
+                var retryCount = 5;
+                return new DefaultRabbitMqPersistentConnection(factory, logger, retryCount);
+            });
+
+            // 注册内存订阅管理
+            services.AddSingleton<IEventBusSubscriptionsManager, InMemoryEventBusSubscriptionsManager>();
+
+
+            // 注册mq事件总线
+            services.AddSingleton<IEventBus, EventBusRabbitMq>(sp =>
+            {
+                var rabbitMqPersistentConnection = sp.GetRequiredService<IRabbitMqPersistentConnection>();
+                var logger = sp.GetRequiredService<ILogger<EventBusRabbitMq>>();
+                var eventBusSubcriptionsManager = sp.GetRequiredService<IEventBusSubscriptionsManager>();
+                var retryCount = 5;
+                return new EventBusRabbitMq(
+                    sp,
+                    logger,
+                    directExchangeName: "directExchange",
+                    fanoutExchangeName: "fanoutExchange",
+                    directQueueName: "PlutoNetCoreTemplate_Application",
+                    retryCount);
+            });
+
+            // 注册事件处理程序
+            services.AddTransient<DisableUserIntegrationEventHandler>();
+            services.AddTransient<DisableUserIntegrationDynamicEventHandler>();
+            return services;
+        }
+
     }
 }

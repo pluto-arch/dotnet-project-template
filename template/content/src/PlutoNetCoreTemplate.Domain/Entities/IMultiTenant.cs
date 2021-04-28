@@ -11,6 +11,6 @@ namespace PlutoNetCoreTemplate.Domain.Entities
     /// </summary>
     public interface IMultiTenant
     {
-        string TenantId { get; }
+        string TenantId { get; set; }
     }
 }

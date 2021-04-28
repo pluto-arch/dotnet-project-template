@@ -6,7 +6,7 @@
 			"Override": {
 				"System": "Error",
 				"Microsoft": "Error",
-				"Microsoft.EntityFrameworkCore": "Error"
+				"Microsoft.EntityFrameworkCore": "Information"
 			}
 		},
 		"WriteTo": [

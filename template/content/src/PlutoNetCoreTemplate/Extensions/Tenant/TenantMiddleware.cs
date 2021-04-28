@@ -2,11 +2,14 @@
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
-
+using Microsoft.Extensions.DependencyInjection;
 using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
 
 namespace PlutoNetCoreTemplate.Extensions.Tenant
 {
+    using Infrastructure;
+    using Microsoft.EntityFrameworkCore;
+    using PlutoData;
 
     public class TenantMiddleware : IMiddleware
     {

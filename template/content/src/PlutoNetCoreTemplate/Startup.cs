@@ -21,6 +21,15 @@ using PlutoNetCoreTemplate.Domain.SeedWork;
 
 namespace PlutoNetCoreTemplate
 {
+    using System.Text;
+    using Application.IntegrationEvent.Event;
+    using Application.IntegrationEvent.EventHandler;
+    using Domain.Aggregates.TenantAggregate;
+    using EventBus.Abstractions;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.IdentityModel.Logging;
+    using Microsoft.IdentityModel.Tokens;
+
 #if (Grpc)
     using Application.Grpc;
     using PlutoNetCoreTemplate.Application.Grpc.Services;
@@ -57,18 +66,32 @@ namespace PlutoNetCoreTemplate
             services.AddGrpc();
             services.AddSingleton<GrpcCallerService>();
 #endif
-            services.AddAuthentication();
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateAudience = false,
+                        ValidateIssuer = false,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+                        ValidIssuer = "pluto",
+                        ValidAudience = "12312",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("715B59F3CDB1CF8BC3E7C8F13794CEA9")),
+                    };
+                });
             services.AddAuthorization()
                 .AddPermission();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            IdentityModelEventSource.ShowPII = true;
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "ZeroStack.DeviceCenter.API v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PlutoNetCoreTemplate.API v1"));
             }
             if (env.IsProduction())
             {
@@ -116,7 +139,7 @@ namespace PlutoNetCoreTemplate
 
             var optionsBuilder = new DbContextOptionsBuilder<EfCoreDbContext>();
             OptionsAction(conn).Invoke(optionsBuilder);
-            return new EfCoreDbContext(optionsBuilder.Options);
+            return new EfCoreDbContext(optionsBuilder.Options,new TenantProvider(null));
         }
 
 

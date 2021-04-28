@@ -6,7 +6,7 @@
     using System.Threading.Tasks;
 
     /// <summary>
-    /// 基于角色的权限值提供程序
+    /// 角色级别的权限值检测提供程序
     /// </summary>
     public class RolePermissionValueProvider:IPermissionValueProvider
     {

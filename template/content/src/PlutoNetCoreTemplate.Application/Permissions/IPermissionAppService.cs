@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
-    using Dtos.Permission;
+    using Models.PermissionModels;
 
     public interface IPermissionAppService
     {

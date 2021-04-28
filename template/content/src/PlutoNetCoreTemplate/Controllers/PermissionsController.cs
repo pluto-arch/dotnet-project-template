@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Application.Dtos.Permission;
+    using Application.Models.PermissionModels;
     using Application.Permissions;
     using Infrastructure.Commons;
     using MediatR;
@@ -10,7 +10,7 @@
     using Microsoft.Extensions.Logging;
 
 
-    [Route("api/permission")]
+    [Route("api/[controller]")]
     [ApiController]
     public class PermissionsController: BaseController<PermissionsController>
     {

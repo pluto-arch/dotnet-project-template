@@ -41,7 +41,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.PermissionsController.UpdateAsync(System.String,System.String,System.Collections.Generic.IEnumerable{PlutoNetCoreTemplate.Application.Dtos.Permission.PermissionUpdateRequestModel})">
+        <member name="M:PlutoNetCoreTemplate.Controllers.PermissionsController.UpdateAsync(System.String,System.String,System.Collections.Generic.IEnumerable{PlutoNetCoreTemplate.Application.Models.PermissionModels.PermissionUpdateRequestModel})">
             <summary>
             更新权限
             </summary>
@@ -50,48 +50,46 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="T:PlutoNetCoreTemplate.Controllers.UserController">
+        <member name="M:PlutoNetCoreTemplate.Controllers.ProductController.GetAsync">
             <summary>
-            Demo 控制器
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Controllers.UserController},PlutoNetCoreTemplate.Application.AppServices.ISystemAppService)">
-            <summary>
-            初始化
-            </summary>
-            <param name="mediator"></param>
-            <param name="logger"></param>
-            <param name="systemAppService"></param>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.Users">
-            <summary>
-            获取所有用户  GET: api/users
+            获取产品列表
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.Users(System.Int32)">
+        <member name="M:PlutoNetCoreTemplate.Controllers.ProductController.GetAsync(System.String)">
             <summary>
-            根据id获取一个用户 GET: api/users/{id}
+            获取产品
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Controllers.ProductController.Post(System.String)">
+            <summary>
+            创建
+            </summary>
+            <param name="value"></param>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Controllers.ProductController.Put(System.Int32,System.String)">
+            <summary>
+            更新
             </summary>
             <param name="id"></param>
-            <returns></returns>
+            <param name="value"></param>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.PostAsync(PlutoNetCoreTemplate.Application.Command.CreateUserCommand)">
+        <member name="M:PlutoNetCoreTemplate.Controllers.ProductController.Delete(System.String)">
             <summary>
-            创建用户 POST: api/users
-            </summary>
-            <returns></returns>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.Put">
-            <summary>
-            全部更新
-            </summary>
-        </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.UserController.Delete(System.Int32)">
-            <summary>
-            删除一个用户 DELETE: api/demo/5
+            删除
             </summary>
             <param name="id"></param>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Controllers.TenantController">
+            <summary>
+            租户
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Controllers.TenantController.Get">
+            <summary>
+            获取当前租户
+            </summary>
             <returns></returns>
         </member>
         <member name="M:PlutoNetCoreTemplate.Extensions.AppBuilder.UseHttpContextLog(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
@@ -115,6 +113,13 @@
             <param name="app"></param>
             <returns></returns>
         </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.AppBuilder.Subscription(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            订阅事件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
         <member name="M:PlutoNetCoreTemplate.Extensions.CustomAuthorizationPolicyProvider.#ctor(Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Authorization.AuthorizationOptions},PlutoNetCoreTemplate.Application.Permissions.IPermissionDefinitionManager)">
             <inheritdoc />
         </member>
@@ -133,7 +138,12 @@
         <member name="M:PlutoNetCoreTemplate.Extensions.PermissionChecker.IsGrantedAsync(System.Security.Claims.ClaimsPrincipal,System.String[])">
             <inheritdoc />
         </member>
-        <member name="M:PlutoNetCoreTemplate.Extensions.PermissionRequirementHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,PlutoNetCoreTemplate.Extensions.PermissionRequirement)">
+        <member name="T:PlutoNetCoreTemplate.Extensions.PermissionRequirementHandler">
+            <summary>
+            细化到操作的处理程序
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Extensions.PermissionRequirementHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Authorization.Infrastructure.OperationAuthorizationRequirement)">
             <inheritdoc />
         </member>
         <member name="T:PlutoNetCoreTemplate.Extensions.Logger.HttpContextLogMiddleware">

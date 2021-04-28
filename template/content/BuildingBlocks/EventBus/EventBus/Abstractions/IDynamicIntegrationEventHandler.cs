@@ -1,0 +1,13 @@
+﻿using System.Threading.Tasks;
+
+
+namespace EventBus.Abstractions
+{
+    /// <summary>
+    /// 动态集成事件处理者
+    /// </summary>
+    public interface IDynamicIntegrationEventHandler
+    {
+        Task Handle(dynamic eventData);
+    }
+}

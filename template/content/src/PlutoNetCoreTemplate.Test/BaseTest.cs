@@ -17,6 +17,8 @@ using PlutoNetCoreTemplate.Domain;
 
 namespace PlutoNetCoreTemplate.Test
 {
+    using Domain.Aggregates.TenantAggregate;
+
     public class BaseTest
     {
         protected IServiceProvider serviceProvider;
@@ -44,7 +46,9 @@ namespace PlutoNetCoreTemplate.Test
             });
             services.AddLogging(options => { options.AddSerilog(); });
             services.AddApplicationLayer();
-            services.AddDomainLayer();
+            services.AddSingleton<ICurrentTenantAccessor, CurrentTenantAccessor>();
+            services.AddTransient<ICurrentTenant, CurrentTenant>();
+            services.AddTransient<ITenantProvider, TenantProvider>();
             var _conntctionString = config.GetConnectionString("EfCore.MSSQL");
             services.AddInfrastructureLayer(config,DbContextCreateFactory.OptionsAction(_conntctionString));
             serviceProvider=services.BuildServiceProvider();

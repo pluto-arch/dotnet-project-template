@@ -14,7 +14,6 @@ using PlutoNetCoreTemplate.Infrastructure.Extensions;
 
 namespace PlutoNetCoreTemplate.Infrastructure
 {
-    using Domain.Aggregates.System;
     using MediatR;
     using Providers;
 
@@ -23,34 +22,30 @@ namespace PlutoNetCoreTemplate.Infrastructure
 
         private readonly IMediator _mediator;
 
-        public EfCoreDbContext(DbContextOptions<EfCoreDbContext> options)
+        private readonly ITenantProvider _tenantProvider;
+
+        public EfCoreDbContext(DbContextOptions<EfCoreDbContext> options, ITenantProvider tenantProvider)
             : base(options)
         {
+            _tenantProvider = tenantProvider;
             _mediator=this.GetInfrastructure().GetService<IMediator>() ?? NullMediatorProvider.GetNullMediator();
         }
 
-        #region Entitys and configuration  (OnModelCreating中配置了对应Entity 那么对应DbSet<>可以不写)
-        public DbSet<UserEntity> Users { get; set; }
-
+        #region Entitys and configuration 
         
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-            // 查询过滤器
             foreach (var item in modelBuilder.Model.GetEntityTypes())
             {
-                // clr type实现了 多租户接口
+                // 多租户
                 if (item.ClrType.IsAssignableTo(typeof(IMultiTenant)))
                 {
-                    var currentTenant = this.GetInfrastructure().GetService<ICurrentTenant>(); ;
-                    if (!string.IsNullOrEmpty(currentTenant?.Id) && !string.IsNullOrWhiteSpace(currentTenant?.Id))
-                    {
-                        modelBuilder.Entity(item.ClrType).AddQueryFilter<IMultiTenant>(e => e.TenantId == currentTenant.Id);
-                    }
+                    modelBuilder.Entity(item.ClrType).AddQueryFilter<IMultiTenant>(e => e.TenantId==_tenantProvider.GetTenantId());
                 }
 
-                // 实现了软删除的接口
+
+                // 软删除
                 if (item.ClrType.IsAssignableTo(typeof(ISoftDelete)))
                 {
                     modelBuilder.Entity(item.ClrType).AddQueryFilter<ISoftDelete>(e => !e.Deleted);
@@ -58,7 +53,6 @@ namespace PlutoNetCoreTemplate.Infrastructure
             }
         }
         #endregion
-
 
 
 
@@ -72,6 +66,7 @@ namespace PlutoNetCoreTemplate.Infrastructure
                 entityEntry.State = EntityState.Modified;
                 ((ISoftDelete)entityEntry.Entity).Deleted = true;
             });
+
             #endregion
 
             #region 集成事件

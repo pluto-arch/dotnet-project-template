@@ -52,50 +52,79 @@ namespace PlutoNetCoreTemplate.Migrations
                     b.ToTable("PermissionGrant");
                 });
 
-            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.System.UserEntity", b =>
+            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.Device", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("int");
+                    b.Property<string>("Coordinate")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Email")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
 
-                    b.Property<bool>("EmailConfirmed")
+                    b.Property<bool>("Online")
                         .HasColumnType("bit");
 
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("bit");
+                    b.Property<string>("ProductId")
+                        .HasColumnType("nvarchar(450)");
 
-                    b.Property<DateTime?>("LockoutEndDateUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("PhoneConfirmed")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("UserName")
+                    b.Property<string>("SerialNo")
                         .IsRequired()
-                        .HasMaxLength(300)
-                        .HasColumnType("nvarchar(300)");
+                        .HasMaxLength(36)
+                        .HasColumnType("nvarchar(36)");
+
+                    b.Property<string>("TenantId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Users");
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("Devices");
+                });
+
+            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.DeviceTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DeviceTags");
+                });
+
+            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.Product", b =>
+                {
+                    b.Property<string>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(20)
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("Remark")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<string>("TenantId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate.Tenant", b =>
@@ -134,6 +163,45 @@ namespace PlutoNetCoreTemplate.Migrations
                     b.ToTable("TenantConnectionStrings");
                 });
 
+            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.Device", b =>
+                {
+                    b.HasOne("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.Product", "Product")
+                        .WithMany("Devices")
+                        .HasForeignKey("ProductId");
+
+                    b.OwnsOne("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.DeviceAddress", "Address", b1 =>
+                        {
+                            b1.Property<int>("DeviceId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("City")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Country")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("State")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Street")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("ZipCode")
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("DeviceId");
+
+                            b1.ToTable("DeviceAddresses");
+
+                            b1.WithOwner()
+                                .HasForeignKey("DeviceId");
+                        });
+
+                    b.Navigation("Address");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate.TenantConnectionString", b =>
                 {
                     b.HasOne("PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate.Tenant", null)
@@ -141,6 +209,11 @@ namespace PlutoNetCoreTemplate.Migrations
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.Product", b =>
+                {
+                    b.Navigation("Devices");
                 });
 
             modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate.Tenant", b =>

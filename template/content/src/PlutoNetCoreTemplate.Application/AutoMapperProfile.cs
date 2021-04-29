@@ -5,7 +5,9 @@ using AutoMapper;
 namespace PlutoNetCoreTemplate.Application
 {
     using Domain.Aggregates.ProductAggregate;
+    using Domain.Aggregates.TenantAggregate;
     using Models.ProductModels;
+    using Models.TenantModels;
 
     public class AutoMapperProfile:Profile
     {
@@ -23,6 +25,11 @@ namespace PlutoNetCoreTemplate.Application
                 .ForMember(x=>x.SerialNo,o=>o.MapFrom(z=>z.SerialNo))
                 .ForMember(x=>x.Coordinate,o=>o.MapFrom(z=>z.Coordinate.ToString()))
                 .ForMember(x=>x.Online,o=>o.MapFrom(z=>z.Online));
+
+
+            CreateMap<Tenant, TenantModel>()
+                .ForMember(x=>x.Id,o=>o.MapFrom(z=>z.Id))
+                .ForMember(x=>x.Name,o=>o.MapFrom(z=>z.Name));
         }
     }
 }

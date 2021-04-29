@@ -87,6 +87,7 @@ namespace PlutoNetCoreTemplate
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             IdentityModelEventSource.ShowPII = true;
+            app.UseHttpContextLog();
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -98,12 +99,12 @@ namespace PlutoNetCoreTemplate
                 app.UseExceptionProcess();
                 app.UseHsts();
                 app.UseHttpsRedirection();
-                app.UseHttpContextLog();
             }
-            app.UseTenant();
+
             app.UseCors(DefaultCorsName);
             app.UseRouting();
             app.UseAuthentication();
+            app.UseTenant();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

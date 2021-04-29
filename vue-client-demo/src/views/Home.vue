@@ -1,102 +1,114 @@
 <template>
-  <div class="home">
-    <el-input v-model="user.name" style="width:250px" placeholder="user name"></el-input>
-    <el-input v-model="user.tel" style="width:250px" placeholder="tel"></el-input>
-    <br/>
-    <el-button type="success" @click="createUser()">创建用户</el-button>
-    <el-button type="info" @click='getList()'>获取列表</el-button>
-    <el-button type="warning">警告按钮</el-button>
-    <el-button type="danger">危险按钮</el-button>
-
-    <el-table
-      :data="userlist"
-      style="width: 100%">
-      <el-table-column
-        prop="id"
-        label="编号"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="name"
-        label="名称"
-        width="180">
-      </el-table-column>
-      <el-table-column
-        prop="tel"
-        label="电话">
-      </el-table-column>
-      <el-table-column
-      fixed="right"
-      label="操作"
-      width="100">
-      <template slot-scope="scope">
-        <el-button @click="getUserInfo(scope.row.id)" type="text" size="small">查看</el-button>
-      </template>
-    </el-table-column>
-    </el-table>
-
-  </div>
+	<el-container style="min-height: 100vh">
+		<el-aside width="200px">
+			<side-menu></side-menu>
+		</el-aside>
+		<el-container>
+			<el-header>
+				<el-button
+					v-if="!isSignIned"
+					size="mini"
+					type="primary"
+					@click="openSignInDialog()"
+					>登录</el-button
+				>
+				<el-button
+					v-if="isSignIned"
+					size="mini"
+					type="danger"
+					@click="signOut()"
+					>{{ loginUser }} | 注销</el-button
+				>
+			</el-header>
+			<el-main>
+				<router-view v-if="isRouterAlive"></router-view>
+			</el-main>
+			<el-footer>Footer</el-footer>
+		</el-container>
+		<signInDialog
+			:traggerDialog="showSignDialog"
+			@doalogClosed="closed"
+		></signInDialog>
+	</el-container>
 </template>
 
 <script>
-import * as userapi from '../api/user'
 import { Message } from 'element-ui';
+import { getLoginedUser } from "../api/account";
+import sideMenu from '../components/sideMenu.vue';
+import signInDialog from "../components/signInDialog";
 export default {
-  name: 'home',
-  data() {
-    return {
-      user:{
-        id:0,
-        name:'',
-        tel:0
-      },
-      userlist:[]
-    }
-  },
-  components: {
-  },
-  methods: {
-    getUserInfo(param){
-      let v=this;
-      userapi.getInfoRequest.id=param;
-      userapi.getInfo(userapi.getInfoRequest).then(res=>{
-        v.userlist=[{
-           id:res.data.id,
-           name:res.data.userName,
-           tel:res.data.tel,
-        }];
-      }); 
-    },
-    createUser(){
-      let v=this;
-      userapi.createRequest.userName=v.user.name;
-      userapi.createRequest.tel=v.user.tel;
-      userapi.create(userapi.createRequest).then(res=>{
-        if(res.isError){
-          v.$Alert("error",res.msg);
-        }else{
-          v.$Alert("info",res.msg);
-        }        
-      }); 
-    },
-    getList(){
-      let v=this;
-      userapi.getListRequest.index=1;
-      userapi.getListRequest.size=30;
-      userapi.getList(userapi.getListRequest).then(res=>{
-        if(res.isError){
-          v.$Alert("error",res.msg);
-        }else{
-          for (let i = 0; i < res.data.length; i++) {
-            v.userlist.push({
-              id:res.data[i].id,
-              name:res.data[i].userName,
-              tel:res.data[i].tel
-            })
-          }
-        }
-      })
-    }
-  },
+	name: 'home',
+	provide () {
+		return {
+			reload: this.reload
+		}
+	},
+	data () {
+		return {
+			showSignDialog: false,
+			isSignIned: false,
+			loginUser: '',
+			isRouterAlive: true,
+			user: {
+				id: 0,
+				name: '',
+				tel: 0
+			},
+			userlist: []
+		}
+	},
+	components: {
+		sideMenu,
+		signInDialog
+	},
+	mounted () {
+		var v = this;
+		let d = window.location.pathname;
+		if (v.$Cookie.get('token')) {
+			v.isSignIned = true;
+			getLoginedUser().then(res => {
+				v.loginUser = res.data;
+			});
+		}
+	},
+	methods: {
+		openSignInDialog () {
+			this.showSignDialog = true;
+		},
+		signOut () {
+			this.$Cookie.remove('token');
+			this.isSignIned = false;
+		},
+		closed (signed) {
+			this.isSignIned = signed;
+			this.showSignDialog = false;
+			this.reload();
+		},
+		reload () {
+			this.isRouterAlive = false
+			this.$nextTick(function () {
+				this.isRouterAlive = true
+			})
+		}
+	},
 }
 </script>
+
+<style lang="scss" scoped>
+.el-header,
+.el-footer {
+	background-color: #566270;
+	color: #333;
+	text-align: right;
+	line-height: 60px;
+}
+
+.el-main {
+	background-color: #edf0f3;
+}
+
+body > .el-container {
+	margin-bottom: 40px;
+}
+</style>

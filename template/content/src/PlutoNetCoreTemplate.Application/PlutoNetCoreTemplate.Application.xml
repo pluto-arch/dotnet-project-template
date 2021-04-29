@@ -211,6 +211,9 @@
         <member name="M:PlutoNetCoreTemplate.Application.Permissions.ProductPermissionDefinitionProvider.Define(PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionContext)">
             <inheritdoc />
         </member>
+        <member name="M:PlutoNetCoreTemplate.Application.Permissions.TenantPermissionDefinitionProvider.Define(PlutoNetCoreTemplate.Application.Permissions.PermissionDefinitionContext)">
+            <inheritdoc />
+        </member>
         <member name="M:PlutoNetCoreTemplate.Application.Permissions.NullPermissionStore.IsGrantedAsync(System.String,System.String,System.String)">
             <inheritdoc />
         </member>

@@ -10,10 +10,11 @@ namespace PlutoNetCoreTemplate.Extensions.Tenant
     using Infrastructure;
     using Microsoft.EntityFrameworkCore;
     using PlutoData;
+    using Serilog;
 
     public class TenantMiddleware : IMiddleware
     {
-        const string TenantId = "tanent_id";
+        const string TenantId = "tenant_id";
 
 
         private readonly ICurrentTenant _currentTenant;
@@ -22,7 +23,7 @@ namespace PlutoNetCoreTemplate.Extensions.Tenant
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            var tenantIdString = string.Empty;
+            string tenantIdString;
 
             if (context.Request.Headers.TryGetValue(TenantId, out var headerTenantIds))
             {
@@ -44,13 +45,14 @@ namespace PlutoNetCoreTemplate.Extensions.Tenant
                 tenantIdString = routeTenantId?.ToString();
             }
 
-            tenantIdString ??= context.User.FindFirst(TenantId)?.Value;
+            tenantIdString = context.User.Claims.FirstOrDefault(x=>x.Type==TenantId)?.Value;
 
             string currentTenantId = null;
 
             if (!string.IsNullOrWhiteSpace(tenantIdString))
             {
                 currentTenantId = tenantIdString;
+                Log.Logger.Information($"当前租户：{currentTenantId}");
             }
 
             using (_currentTenant.Change(currentTenantId))

@@ -1,8 +1,14 @@
 ﻿namespace PlutoNetCoreTemplate.Controllers
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Application.AppServices.TenantAppServices;
+    using Application.Models.TenantModels;
+    using Application.Permissions;
     using Domain.Aggregates.TenantAggregate;
     using Infrastructure.Commons;
     using MediatR;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
@@ -11,20 +17,35 @@
     /// </summary>
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize(TenantPermission.Tenant.Default)]
     public class TenantController: BaseController<PermissionsController>
     {
         private readonly ICurrentTenant _currentTenant;
-        public TenantController(IMediator mediator, ILogger<PermissionsController> logger, ICurrentTenant currentTenant) : base(mediator, logger)
+        private readonly ITenantAppService _tenantAppService;
+        public TenantController(IMediator mediator, ILogger<PermissionsController> logger, ICurrentTenant currentTenant, ITenantAppService tenantAppService) : base(mediator, logger)
         {
             _currentTenant = currentTenant;
+            _tenantAppService = tenantAppService;
         }
+
+        /// <summary>
+        /// 获取租户列表
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("getList")]
+        public async Task<ServiceResponse<List<TenantModel>>> GetListAsync()
+        {
+            var res=await _tenantAppService.GetListAsync();
+            return ServiceResponse<List<TenantModel>>.Success(res);
+        }
+
 
         /// <summary>
         /// 获取当前租户
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        public ServiceResponse<string> Get()
+        public ServiceResponse<string> GetAsync()
         {
             return ServiceResponse<string>.Success(_currentTenant.Id);
         }

@@ -29,6 +29,7 @@
             services.AddAppServices();
 
             services.AddSingleton<IPermissionDefinitionProvider, ProductPermissionDefinitionProvider>();
+            services.AddSingleton<IPermissionDefinitionProvider, TenantPermissionDefinitionProvider>();
             services.AddSingleton<IPermissionDefinitionManager, PermissionDefinitionManager>();
             services.AddTransient<IPermissionStore, PermissionStore>();
             services.AddTransient<IPermissionValueProvider, RolePermissionValueProvider>();

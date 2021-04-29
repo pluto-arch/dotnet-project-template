@@ -50,8 +50,10 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="AppServices\ProductAppServices\" />
+	  <Folder Include="AppServices\TenantAppServices\" />
 	  <Folder Include="DomainEventHandler\" />
 	  <Folder Include="IntegrationEvent\Event\" />
 	  <Folder Include="Models\ProductModels\" />
+	  <Folder Include="Models\TenantModels\" />
 	</ItemGroup>
 </Project>

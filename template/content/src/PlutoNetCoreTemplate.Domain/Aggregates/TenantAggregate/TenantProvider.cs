@@ -1,6 +1,9 @@
 ﻿
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public class TenantProvider:ITenantProvider
     {
         private readonly ICurrentTenant _currentTenant;
@@ -12,5 +15,6 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 
 
         public string GetTenantId() => _currentTenant?.Id;
+
     }
 }

@@ -4,6 +4,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Security.Claims;
@@ -23,15 +24,34 @@
         {
         }
 
-        [HttpGet]
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="user">username@tenantid</param>
+        /// <param name="role"></param>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        [HttpGet("getToken")]
         [AllowAnonymous]
-        public IActionResult GetToken(string user,string role,string userId)
+        public IActionResult GetToken([Required]string user,[Required]string role,[Required]string userId)
         {
+            if (user.IndexOf('@')<0)
+            {
+                return BadRequest(new
+                {
+                    code = 400,
+                    message = "用户名格式不正确，<username>@<tenant_id>",
+                    data = ""
+                });
+            }
+            var username = user.Split('@')[0];
+            var tenantId = user.Split('@')[1];
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, user),
+                new Claim(ClaimTypes.Name, username),
                 new Claim(ClaimTypes.NameIdentifier, userId),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Role, role),
+                new Claim("tenant_id", tenantId)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("715B59F3CDB1CF8BC3E7C8F13794CEA9"));
             var token = new JwtSecurityToken(
@@ -44,5 +64,15 @@
             );
             return Ok(new { code = 200, message = "登录成功", data = new JwtSecurityTokenHandler().WriteToken(token) });
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Get()
+        {
+            var user= User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
+            var tenant=User.Claims.FirstOrDefault(x => x.Type == "tenant_id")?.Value;
+            return Ok(new { code = 200, message = "", data = $"{user}@{tenant}" });
+        }
+
     }
 }

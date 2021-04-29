@@ -4,6 +4,15 @@
         <name>PlutoNetCoreTemplate</name>
     </assembly>
     <members>
+        <member name="M:PlutoNetCoreTemplate.Controllers.AccountController.GetToken(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user">username@tenantid</param>
+            <param name="role"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
         <member name="T:PlutoNetCoreTemplate.Controllers.BaseController`1">
             <summary>
             
@@ -86,7 +95,13 @@
             租户
             </summary>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Controllers.TenantController.Get">
+        <member name="M:PlutoNetCoreTemplate.Controllers.TenantController.GetListAsync">
+            <summary>
+            获取租户列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Controllers.TenantController.GetAsync">
             <summary>
             获取当前租户
             </summary>

@@ -5,7 +5,7 @@
 			"Default": "Information",
 			"Override": {
 				"System": "Error",
-				"Microsoft": "Error",
+				"Microsoft": "Information",
 				"Microsoft.EntityFrameworkCore": "Information"
 			}
 		},

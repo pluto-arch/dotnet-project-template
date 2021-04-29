@@ -1,16 +1,16 @@
 <template>
-  <div class="login-container">
-      <router-link to="/user">User</router-link>
-  </div>
+	<div class="login-container">
+		<router-link to="/">User</router-link>
+	</div>
 </template>
 
 <script>
 export default {
-    data() {
-        return {
-            
-    }
-},
+	data () {
+		return {
+
+		}
+	},
 }
 </script>
 

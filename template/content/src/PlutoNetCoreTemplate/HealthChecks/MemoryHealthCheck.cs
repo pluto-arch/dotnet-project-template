@@ -6,7 +6,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Options;
 
 
-namespace PlutoNetCoreTemplate.HealthChecks
+namespace PlutoNetCoreTemplate.Api.HealthChecks
 {
 
 

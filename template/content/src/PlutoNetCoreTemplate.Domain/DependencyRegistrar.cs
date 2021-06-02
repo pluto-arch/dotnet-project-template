@@ -19,5 +19,15 @@ namespace PlutoNetCoreTemplate.Domain
 
             return services;
         }
+
+
+        public static IServiceCollection AddDomainLayerNoSeed(this IServiceCollection services)
+        {
+            services.AddSingleton<ICurrentTenantAccessor, CurrentTenantAccessor>();
+            services.AddTransient<ICurrentTenant, CurrentTenant>();
+            services.AddTransient<ITenantProvider, TenantProvider>();
+
+            return services;
+        }
     }
 }

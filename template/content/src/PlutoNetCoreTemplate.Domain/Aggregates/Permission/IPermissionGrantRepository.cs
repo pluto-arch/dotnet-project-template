@@ -5,7 +5,7 @@
     using global::System.Threading.Tasks;
     using SeedWork;
 
-    public interface IPermissionGrantRepository:IPlutoNetCoreTemplateEfRepository<PermissionGrant>
+    public interface IPermissionGrantRepository:IPlutoNetCoreTemplateBaseRepository<PermissionGrant>
     {
         Task<PermissionGrant> FindAsync(string name, string providerName, string providerKey, CancellationToken cancellationToken = default);
 

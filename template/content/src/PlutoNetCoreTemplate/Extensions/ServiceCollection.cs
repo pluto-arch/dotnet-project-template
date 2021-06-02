@@ -14,11 +14,14 @@ using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 
-using PlutoNetCoreTemplate.Extensions.Tenant;
-using PlutoNetCoreTemplate.Filters;
-using PlutoNetCoreTemplate.HealthChecks;
+using PlutoNetCoreTemplate.Api.Extensions.Tenant;
+using PlutoNetCoreTemplate.Api.Filters;
+using PlutoNetCoreTemplate.Api.HealthChecks;
 
-namespace PlutoNetCoreTemplate.Extensions
+#pragma warning disable IDE0060 // 删除未使用的参数
+
+
+namespace PlutoNetCoreTemplate.Api.Extensions
 {
     using Application.Permissions;
     using Microsoft.AspNetCore.Authorization;

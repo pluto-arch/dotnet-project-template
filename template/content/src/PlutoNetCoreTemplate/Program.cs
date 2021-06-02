@@ -5,18 +5,18 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 
-using PlutoNetCoreTemplate.Extensions;
+using PlutoNetCoreTemplate.Api.Extensions;
 using PlutoNetCoreTemplate.Infrastructure;
 
 using Serilog;
 
-namespace PlutoNetCoreTemplate
+namespace PlutoNetCoreTemplate.Api
 {
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
-    using PlutoNetCoreTemplate.Extensions.Logger;
-    using PlutoNetCoreTemplate.Extensions.SeedData;
+    using PlutoNetCoreTemplate.Api.Extensions.Logger;
+    using PlutoNetCoreTemplate.Api.Extensions.SeedData;
 
     public class Program
     {
@@ -61,7 +61,7 @@ namespace PlutoNetCoreTemplate
                            .UseSerilog(dispose: true)
                            .Build();
 
-            host.MigrateDbContext<EfCoreDbContext>();
+            host.MigrateDbContext<PlutoNetTemplateDbContext>();
             return host;
         }
 

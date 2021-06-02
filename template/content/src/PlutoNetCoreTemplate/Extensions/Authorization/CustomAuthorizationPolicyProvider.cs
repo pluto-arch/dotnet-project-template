@@ -1,4 +1,4 @@
-﻿namespace PlutoNetCoreTemplate.Extensions
+﻿namespace PlutoNetCoreTemplate.Api.Extensions
 {
     using System;
     using System.Threading.Tasks;

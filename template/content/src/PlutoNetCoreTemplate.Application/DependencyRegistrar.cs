@@ -28,12 +28,10 @@
 
             services.AddAppServices();
 
-            services.AddSingleton<IPermissionDefinitionProvider, ProductPermissionDefinitionProvider>();
-            services.AddSingleton<IPermissionDefinitionProvider, TenantPermissionDefinitionProvider>();
+            services.AddPermissionDefinitionProvider();
             services.AddSingleton<IPermissionDefinitionManager, PermissionDefinitionManager>();
             services.AddTransient<IPermissionStore, PermissionStore>();
-            services.AddTransient<IPermissionValueProvider, RolePermissionValueProvider>();
-            services.AddTransient<IPermissionValueProvider, UserPermissionValueProvider>();
+            services.AddPermissionValueProvider();
 
             /*
              * event bus
@@ -66,7 +64,7 @@
 
                 foreach (Type item2 in enumerable)
                 {
-                    services.AddScoped(item2, item);
+                    services.AddTransient(item2, item);
                 }
             }
             return services;
@@ -118,6 +116,66 @@
             // 注册事件处理程序
             services.AddTransient<DisableUserIntegrationEventHandler>();
             services.AddTransient<DisableUserIntegrationDynamicEventHandler>();
+            return services;
+        }
+
+
+        public static IServiceCollection AddPermissionDefinitionProvider(this IServiceCollection services)
+        {
+            var assembly= Assembly.GetExecutingAssembly();
+            List<Type> list = (from c in assembly?.GetTypes()
+                where !c.IsInterface && c.Name.EndsWith("PermissionDefinitionProvider")
+                select c).ToList();
+            if (list == null)
+            {
+                return services;
+            }
+
+            foreach (Type item in list)
+            {
+                IEnumerable<Type> enumerable = from c in item.GetInterfaces()
+                    where c.Name.StartsWith("I") && c.Name.EndsWith("PermissionDefinitionProvider")
+                    select c;
+                if (!enumerable.Any())
+                {
+                    continue;
+                }
+
+                foreach (Type item2 in enumerable)
+                {
+                    services.AddSingleton(item2, item);
+                }
+            }
+            return services;
+        }
+
+
+        public static IServiceCollection AddPermissionValueProvider(this IServiceCollection services)
+        {
+            var assembly= Assembly.GetExecutingAssembly();
+            List<Type> list = (from c in assembly?.GetTypes()
+                where !c.IsInterface && c.Name.EndsWith("PermissionValueProvider")
+                select c).ToList();
+            if (list == null)
+            {
+                return services;
+            }
+
+            foreach (Type item in list)
+            {
+                IEnumerable<Type> enumerable = from c in item.GetInterfaces()
+                    where c.Name.StartsWith("I") && c.Name.EndsWith("PermissionValueProvider")
+                    select c;
+                if (!enumerable.Any())
+                {
+                    continue;
+                }
+
+                foreach (Type item2 in enumerable)
+                {
+                    services.AddTransient(item2, item);
+                }
+            }
             return services;
         }
 

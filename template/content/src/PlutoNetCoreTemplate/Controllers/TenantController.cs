@@ -1,4 +1,4 @@
-﻿namespace PlutoNetCoreTemplate.Controllers
+﻿namespace PlutoNetCoreTemplate.Api.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -39,15 +39,5 @@
             return ServiceResponse<List<TenantModel>>.Success(res);
         }
 
-
-        /// <summary>
-        /// 获取当前租户
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public ServiceResponse<string> GetAsync()
-        {
-            return ServiceResponse<string>.Success(_currentTenant.Id);
-        }
     }
 }

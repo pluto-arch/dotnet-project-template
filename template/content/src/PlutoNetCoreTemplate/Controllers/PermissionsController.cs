@@ -1,4 +1,4 @@
-﻿namespace PlutoNetCoreTemplate.Controllers
+﻿namespace PlutoNetCoreTemplate.Api.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;

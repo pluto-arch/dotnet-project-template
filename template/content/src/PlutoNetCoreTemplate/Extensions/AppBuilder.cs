@@ -1,13 +1,13 @@
-﻿namespace PlutoNetCoreTemplate.Extensions
+﻿namespace PlutoNetCoreTemplate.Api.Extensions
 {
     using Application.IntegrationEvent.Event;
     using Application.IntegrationEvent.EventHandler;
     using EventBus.Abstractions;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.DependencyInjection;
-    using PlutoNetCoreTemplate.Extensions.Exceptions;
-    using PlutoNetCoreTemplate.Extensions.Logger;
-    using PlutoNetCoreTemplate.Extensions.Tenant;
+    using PlutoNetCoreTemplate.Api.Extensions.Exceptions;
+    using PlutoNetCoreTemplate.Api.Extensions.Logger;
+    using PlutoNetCoreTemplate.Api.Extensions.Tenant;
 
     public static class AppBuilder
     {

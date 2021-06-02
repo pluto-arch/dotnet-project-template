@@ -8,7 +8,7 @@ using Microsoft.Extensions.Diagnostics.HealthChecks;
 using Microsoft.Extensions.Logging;
 
 
-namespace PlutoNetCoreTemplate.HealthChecks
+namespace PlutoNetCoreTemplate.Api.HealthChecks
 {
     public class DatabaseHealthCheck: IHealthCheck
     {

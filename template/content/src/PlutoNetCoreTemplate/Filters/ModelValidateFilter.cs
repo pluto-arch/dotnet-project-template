@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using PlutoNetCoreTemplate.Infrastructure.Commons;
 
-namespace PlutoNetCoreTemplate.Filters
+namespace PlutoNetCoreTemplate.Api.Filters
 {
 	/// <summary>
 	/// model 验证过滤器

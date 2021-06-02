@@ -6,7 +6,7 @@
     /// <summary>
     /// 产品
     /// </summary>
-    public class Product: BaseAggregateRoot<string>,IMultiTenant
+    public class Product: BaseAggregateRoot<string>,IMultiTenant,ISoftDelete
     {
 
         /// <summary>
@@ -28,5 +28,8 @@
 
 
         public string TenantId { get; set; }
+
+        /// <inheritdoc />
+        public bool Deleted { get; set; }
     }
 }

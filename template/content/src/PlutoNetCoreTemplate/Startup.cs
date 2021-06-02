@@ -14,19 +14,21 @@ using System.Reflection;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Design;
-using PlutoNetCoreTemplate.Extensions;
+using PlutoNetCoreTemplate.Api.Extensions;
 using PlutoNetCoreTemplate.Domain;
 using PlutoNetCoreTemplate.Application;
 using PlutoNetCoreTemplate.Domain.SeedWork;
 
-namespace PlutoNetCoreTemplate
+namespace PlutoNetCoreTemplate.Api
 {
     using System.Text;
     using Application.IntegrationEvent.Event;
     using Application.IntegrationEvent.EventHandler;
     using Domain.Aggregates.TenantAggregate;
     using EventBus.Abstractions;
+    using Infrastructure.Providers;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
+    using Microsoft.Extensions.Primitives;
     using Microsoft.IdentityModel.Logging;
     using Microsoft.IdentityModel.Tokens;
 
@@ -59,7 +61,7 @@ namespace PlutoNetCoreTemplate
                 .AddHttpContextAccessor()
                 .AddApplicationLayer()
                 .AddDomainLayer()
-                .AddInfrastructureLayer(Configuration, DbContextCreateFactory.OptionsAction(_conntctionString));
+                .AddInfrastructureLayer(Configuration);
 
             services.AddTenant();
 #if (Grpc)
@@ -87,7 +89,22 @@ namespace PlutoNetCoreTemplate
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             IdentityModelEventSource.ShowPII = true;
-            app.UseHttpContextLog();
+            app.UseSerilogRequestLogging(config =>
+            {
+                config.EnrichDiagnosticContext = (context, httpContext) =>
+                {
+                    // EventIdProvider 可以自定义生成有意义的
+                    var eventId = httpContext.RequestServices.GetService<EventIdProvider>();
+                    var xForwardedFor = new StringValues();
+                    if (httpContext.Request.Headers.ContainsKey("X-Forwarded-For"))
+                    {
+                        xForwardedFor = httpContext.Request.Headers["X-Forwarded-For"];
+                    }
+                    context.Set("request_path", httpContext.Request.Path);
+                    context.Set("request_method", httpContext.Request.Method);
+                    context.Set("x_forwarded_for", xForwardedFor.ToString());
+                };
+            });
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -125,48 +142,4 @@ namespace PlutoNetCoreTemplate
         }
     }
 
-
-    /// <summary>
-    /// efcore 设计时工厂
-    /// </summary>
-    public class DbContextCreateFactory : IDesignTimeDbContextFactory<EfCoreDbContext>
-    {
-        public EfCoreDbContext CreateDbContext(string[] args)
-        {
-            var configbuild = new ConfigurationBuilder();
-            configbuild.AddJsonFile("appsettings.json", optional: true);
-            var config = configbuild.Build();
-            string conn = config.GetConnectionString("EfCore.MSSQL");
-
-            var optionsBuilder = new DbContextOptionsBuilder<EfCoreDbContext>();
-            OptionsAction(conn).Invoke(optionsBuilder);
-            return new EfCoreDbContext(optionsBuilder.Options,new TenantProvider(null));
-        }
-
-
-        public static Action<DbContextOptionsBuilder> OptionsAction(string sqlConnStr)
-        {
-            return options =>
-            {
-                options.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddFilter((category, level) =>
-                                                                                               category ==
-                                                                                               DbLoggerCategory
-                                                                                                   .Database.Command
-                                                                                                   .Name
-                                                                                               && level == LogLevel
-                                                                                                   .Information)
-                                                                                .AddSerilog()));
-
-                options.UseSqlServer(sqlConnStr,
-                                     sqlServerOptionsAction: sqlOptions =>
-                                     {
-                                         sqlOptions.MigrationsAssembly(typeof(Startup)
-                                                                       .GetTypeInfo().Assembly.GetName().Name);
-                                         sqlOptions.EnableRetryOnFailure(maxRetryCount: 5,
-                                                                         maxRetryDelay: TimeSpan.FromSeconds(30),
-                                                                         errorNumbersToAdd: null);
-                                     });
-            };
-        }
-    }
 }

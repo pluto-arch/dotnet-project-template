@@ -10,7 +10,7 @@ using Newtonsoft.Json.Serialization;
 
 using PlutoNetCoreTemplate.Infrastructure.Commons;
 
-namespace PlutoNetCoreTemplate.Extensions.Exceptions
+namespace PlutoNetCoreTemplate.Api.Extensions.Exceptions
 {
 
     public class ExceptionMiddlewareHandler

@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>PlutoNetCoreTemplate.Api</name>
+    </assembly>
+    <members>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.AccountController.GetToken(System.String,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <param name="user">username@tenantid</param>
+            <param name="role"></param>
+            <param name="userId"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Api.Controllers.BaseController`1">
+            <summary>
+            
+            </summary>
+            <typeparam name="T"></typeparam>
+        </member>
+        <member name="F:PlutoNetCoreTemplate.Api.Controllers.BaseController`1._mediator">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="F:PlutoNetCoreTemplate.Api.Controllers.BaseController`1._logger">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.BaseController`1.#ctor(MediatR.IMediator,Microsoft.Extensions.Logging.ILogger{`0})">
+            <summary>
+            
+            </summary>
+            <param name="mediator"></param>
+            <param name="logger"></param>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.PermissionsController.GetAsync(System.String,System.String)">
+            <summary>
+            获取权限
+            </summary>
+            <param name="providerName">提供者名称 eg. Role</param>
+            <param name="providerKey">提供者值 eg. admin</param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.PermissionsController.GetListAsync">
+            <summary>
+            获取权限
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.PermissionsController.UpdateAsync(System.String,System.String,System.Collections.Generic.IEnumerable{PlutoNetCoreTemplate.Application.Models.PermissionModels.PermissionUpdateRequestModel})">
+            <summary>
+            更新权限
+            </summary>
+            <param name="providerName"></param>
+            <param name="providerKey"></param>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.ProductController.GetAsync">
+            <summary>
+            获取产品列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.ProductController.GetAsync(System.String)">
+            <summary>
+            获取产品
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.ProductController.Post(PlutoNetCoreTemplate.Application.Command.CreateProductCommand)">
+            <summary>
+            创建
+            </summary>
+            <param name="request"></param>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.ProductController.Put(System.Int32,System.String)">
+            <summary>
+            更新
+            </summary>
+            <param name="id"></param>
+            <param name="value"></param>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.ProductController.Delete(System.String)">
+            <summary>
+            删除
+            </summary>
+            <param name="id"></param>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Api.Controllers.TenantController">
+            <summary>
+            租户
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Controllers.TenantController.GetListAsync">
+            <summary>
+            获取租户列表
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.AppBuilder.UseHttpContextLog(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            记录http上下文的中间件
+            </summary>
+            <param name="builder"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.AppBuilder.UseExceptionProcess(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            异常处理中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.AppBuilder.UseTenant(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            多租户
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.AppBuilder.Subscription(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            订阅事件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.CustomAuthorizationPolicyProvider.#ctor(Microsoft.Extensions.Options.IOptions{Microsoft.AspNetCore.Authorization.AuthorizationOptions},PlutoNetCoreTemplate.Application.Permissions.IPermissionDefinitionManager)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.CustomAuthorizationPolicyProvider.GetPolicyAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.PermissionChecker.IsGrantedAsync(System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.PermissionChecker.IsGrantedAsync(System.Security.Claims.ClaimsPrincipal,System.String)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.PermissionChecker.IsGrantedAsync(System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.PermissionChecker.IsGrantedAsync(System.Security.Claims.ClaimsPrincipal,System.String[])">
+            <inheritdoc />
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Api.Extensions.PermissionRequirementHandler">
+            <summary>
+            细化到操作的处理程序
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.PermissionRequirementHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,Microsoft.AspNetCore.Authorization.Infrastructure.OperationAuthorizationRequirement)">
+            <inheritdoc />
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Api.Extensions.Logger.ServiceTraceIdEnricher">
+            <summary>
+            服务间追踪id
+            </summary>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Api.Extensions.Logger.HttpContextLogMiddleware">
+            <summary>
+            扩展日志中间件
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.ServiceCollection.AddCustomerControllers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            控制器
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.ServiceCollection.AddCustomerHealthCheck(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            健康检查
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.ServiceCollection.AddCustomerSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            API文档
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.ServiceCollection.AddCustomerCors(Microsoft.Extensions.DependencyInjection.IServiceCollection,System.String,Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            跨域
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.ServiceCollection.AddTenant(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            多租户
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.ServiceCollection.AddPermission(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
+            <summary>
+            添加权限
+            </summary>
+            <param name="services"></param>
+            <returns></returns>
+        </member>
+        <member name="T:PlutoNetCoreTemplate.Api.Filters.ModelValidateFilter">
+            <summary>
+            model 验证过滤器
+            </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Filters.ModelValidateFilter.OnActionExecuted(Microsoft.AspNetCore.Mvc.Filters.ActionExecutedContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Filters.ModelValidateFilter.OnActionExecuting(Microsoft.AspNetCore.Mvc.Filters.ActionExecutingContext)">
+            <summary>
+            
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.HealthChecks.DatabaseHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.HealthChecks.MemoryHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Program.GetConfiguration(Microsoft.Extensions.Hosting.IHostEnvironment)">
+            <summary>
+            加载配置
+            </summary>
+            <param name="env"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Program.GetLogConfig">
+            <summary>
+            日志配置
+            </summary>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

@@ -1,41 +1,51 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure
 {
     using System;
-    using System.Linq;
     using System.Reflection;
-    using DapperCore;
+    using Constants;
     using Domain.SeedWork;
+    using global::EntityFrameworkCore.Extension;
+    using MediatR;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using PlutoData;
-    using PlutoData.Enums;
+    using Microsoft.Extensions.Logging;
     using PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore;
     using PlutoNetCoreTemplate.Infrastructure.Idempotency;
+    using Providers;
+    using Serilog;
 
     public static class DependencyRegistrar
     {
         public static IServiceCollection AddInfrastructureLayer(
             this IServiceCollection services, 
-            IConfiguration configuration, 
-            Action<DbContextOptionsBuilder> options)
+            IConfiguration configuration)
         {
 
-            services.AddDbContext<EfCoreDbContext>(options)
-                .AddEfUnitOfWork<EfCoreDbContext>();
-
-            services.AddDapperDbContext<PlutoNetCoreDapperDbContext>(op =>
+            services.AddDbContext<PlutoNetTemplateDbContext>((serviceProvider, optionsBuilder) =>
                 {
-                    op.DependOnEf = true;
-                    op.DbType = EnumDbType.SQLServer;
-                    op.EfDbContextType = typeof(EfCoreDbContext);
+                    optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddFilter((category, level) =>
+                            category == DbLoggerCategory.Database.Command.Name
+                            && level == LogLevel
+                                .Information)
+                        .AddSerilog()));
+
+                    optionsBuilder.UseSqlServer(configuration.GetConnectionString(DbConstants.DefaultConnectionStringName),
+                        sqlServerOptionsAction: sqlOptions =>
+                        {
+                            sqlOptions.MigrationsAssembly(Assembly.GetEntryAssembly()?.GetName().Name);
+                            sqlOptions.EnableRetryOnFailure(maxRetryCount: 5,
+                                maxRetryDelay: TimeSpan.FromSeconds(30),
+                                errorNumbersToAdd: null);
+                        });
+                    IMediator mediator = serviceProvider.GetService<IMediator>() ?? new NullMediator();
+                    optionsBuilder.AddInterceptors(new CustomSaveChangeInterceptor(mediator));
                 })
-                .AddDapperUnitOfWork<PlutoNetCoreDapperDbContext>();
+                .AddEfUnitOfWork<PlutoNetTemplateDbContext>();
 
 
             services.AddTransient<IRequestManager, RequestManager>();
-            services.AddTransient(typeof(IPlutoNetCoreTemplateEfRepository<>),typeof(PlutoNetCoreTemplateEfRepository<>));
-            services.AddTransient(typeof(IPlutoNetCoreTemplateDapperRepository<>),typeof(PlutoNetCoreTemplateDapperRepository<>));
+            services.AddTransient(typeof(IPlutoNetCoreTemplateBaseRepository<>),typeof(PlutoNetCoreTemplateBaseRepository<>));
             services.AddRepository(Assembly.GetExecutingAssembly());
             return services;
         }

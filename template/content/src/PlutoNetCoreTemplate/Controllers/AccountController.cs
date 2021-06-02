@@ -1,4 +1,4 @@
-﻿namespace PlutoNetCoreTemplate.Controllers
+﻿namespace PlutoNetCoreTemplate.Api.Controllers
 {
     using Microsoft.AspNetCore.Mvc;
 

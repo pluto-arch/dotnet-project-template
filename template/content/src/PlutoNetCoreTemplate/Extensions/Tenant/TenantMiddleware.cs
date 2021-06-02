@@ -5,12 +5,11 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
 
-namespace PlutoNetCoreTemplate.Extensions.Tenant
+namespace PlutoNetCoreTemplate.Api.Extensions.Tenant
 {
+    using Constants;
     using Infrastructure;
     using Microsoft.EntityFrameworkCore;
-    using PlutoData;
-    using Serilog;
 
     public class TenantMiddleware : IMiddleware
     {
@@ -23,42 +22,45 @@ namespace PlutoNetCoreTemplate.Extensions.Tenant
 
         public async Task InvokeAsync(HttpContext context, RequestDelegate next)
         {
-            string tenantIdString;
-
-            if (context.Request.Headers.TryGetValue(TenantId, out var headerTenantIds))
-            {
-                tenantIdString = headerTenantIds.First();
-            }
-
-            if (context.Request.Query.TryGetValue(TenantId, out var queryTenantIds))
-            {
-                tenantIdString = queryTenantIds.First();
-            }
-
-            if (context.Request.Cookies.TryGetValue(TenantId, out var cookieTenantId))
-            {
-                tenantIdString = cookieTenantId;
-            }
-
-            if (context.Request.RouteValues.TryGetValue(TenantId, out var routeTenantId))
-            {
-                tenantIdString = routeTenantId?.ToString();
-            }
-
-            tenantIdString = context.User.Claims.FirstOrDefault(x=>x.Type==TenantId)?.Value;
-
-            string currentTenantId = null;
-
-            if (!string.IsNullOrWhiteSpace(tenantIdString))
-            {
-                currentTenantId = tenantIdString;
-                Log.Logger.Information($"当前租户：{currentTenantId}");
-            }
-
-            using (_currentTenant.Change(currentTenantId))
+            string tenantIdString = ResolveTenantId(context);
+            if (string.IsNullOrEmpty(tenantIdString))
             {
                 await next(context);
             }
+            else
+            {
+                using (_currentTenant.Change(tenantIdString))
+                {
+                    await next(context);
+                }
+            }
+        }
+
+
+
+        protected virtual string ResolveTenantId(HttpContext httpContext)
+        {
+            if (httpContext.Request.Headers.TryGetValue(TenantClaimTypes.TenantId, out var headerValues))
+            {
+                return headerValues.First();
+            }
+
+            if (httpContext.Request.Query.TryGetValue(TenantClaimTypes.TenantId, out var queryValues))
+            {
+                return queryValues.First();
+            }
+
+            if (httpContext.Request.Cookies.TryGetValue(TenantClaimTypes.TenantId, out var cookieValue))
+            {
+                return cookieValue;
+            }
+
+            if (httpContext.Request.RouteValues.TryGetValue(TenantClaimTypes.TenantId, out var routeValue))
+            {
+                return routeValue?.ToString();
+            }
+
+            return httpContext.User.FindFirst(TenantClaimTypes.TenantId)?.Value;
         }
 
     }

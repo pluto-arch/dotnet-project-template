@@ -9,8 +9,8 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
     public class CurrentTenantAccessor: ICurrentTenantAccessor
     {
-        private readonly AsyncLocal<string> _currentScope = new();
+        private readonly AsyncLocal<TenantInfo> _currentScope = new();
 
-        public string TenantId { get => _currentScope.Value; set => _currentScope.Value = value; }
+        public TenantInfo CurrentTenantInfo { get => _currentScope.Value; set => _currentScope.Value = value; }
     }
 }

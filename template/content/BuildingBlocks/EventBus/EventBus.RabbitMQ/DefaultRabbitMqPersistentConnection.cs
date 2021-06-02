@@ -35,7 +35,7 @@
         {
             lock (sync_root)
             {
-                var policy = RetryPolicy.Handle<SocketException>()
+                var policy = Policy.Handle<SocketException>()
                     .Or<BrokerUnreachableException>()
                     .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (ex, time) =>
                         {

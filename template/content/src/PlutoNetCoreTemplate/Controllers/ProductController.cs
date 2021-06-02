@@ -1,8 +1,9 @@
-﻿namespace PlutoNetCoreTemplate.Controllers
+﻿namespace PlutoNetCoreTemplate.Api.Controllers
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Application.AppServices.ProductAppServices;
+    using Application.Command;
     using Application.Models.ProductModels;
     using Application.Permissions;
     using Infrastructure.Commons;
@@ -35,8 +36,6 @@
             return ServiceResponse<List<ProductModels>>.Success(list);
         }
 
-
-
         /// <summary>
         /// 获取产品
         /// </summary>
@@ -48,15 +47,15 @@
             return ServiceResponse<ProductModels>.Success(model);
         }
 
-
         /// <summary>
         /// 创建
         /// </summary>
-        /// <param name="value"></param>
+        /// <param name="request"></param>
         [HttpPost]
         [Authorize(ProductPermission.Product.Create)]
-        public ServiceResponse<bool> Post([FromBody] string value)
+        public async Task<ServiceResponse<bool>> Post([FromBody] CreateProductCommand request)
         {
+            await _mediator.Send(request);
             return ServiceResponse<bool>.Success(true);
         }
 

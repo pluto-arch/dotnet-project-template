@@ -9,10 +9,11 @@ using System;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using PlutoData.Uows;
 
 namespace PlutoNetCoreTemplate.Application.Behaviors
 {
+    using EntityFrameworkCore.Extension.Uows;
+
     /// <summary>
     /// 涉及事务的所有操作
     /// </summary>
@@ -23,9 +24,9 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
 
         private readonly ILogger<TransactionBehaviour<TRequest, TResponse>> _logger;
 
-        private readonly IEfUnitOfWork<EfCoreDbContext> _unitOfWork;
+        private readonly IUnitOfWork<PlutoNetTemplateDbContext> _unitOfWork;
 
-        public TransactionBehaviour(ILogger<TransactionBehaviour<TRequest, TResponse>> logger, IEfUnitOfWork<EfCoreDbContext> unitOfWork)
+        public TransactionBehaviour(ILogger<TransactionBehaviour<TRequest, TResponse>> logger, IUnitOfWork<PlutoNetTemplateDbContext> unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;

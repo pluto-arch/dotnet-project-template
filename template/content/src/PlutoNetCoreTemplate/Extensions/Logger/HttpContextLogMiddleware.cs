@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Serilog.Context;
 
 
-namespace PlutoNetCoreTemplate.Extensions.Logger
+namespace PlutoNetCoreTemplate.Api.Extensions.Logger
 {
     /// <summary>
     /// 扩展日志中间件
@@ -20,7 +20,7 @@ namespace PlutoNetCoreTemplate.Extensions.Logger
         public async Task InvokeAsync(HttpContext context)
         {
             var serviceProvider = context.RequestServices;
-            using (LogContext.Push(new HttpContextEnricher(serviceProvider)))
+            using (LogContext.Push(new ServiceTraceIdEnricher(serviceProvider)))
             {
                 await _next(context);
             }

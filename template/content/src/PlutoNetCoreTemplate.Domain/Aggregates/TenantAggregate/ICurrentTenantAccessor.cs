@@ -8,6 +8,6 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
     public interface ICurrentTenantAccessor
     {
-        string TenantId { get; set; }
+        TenantInfo CurrentTenantInfo { get; set; }
     }
 }

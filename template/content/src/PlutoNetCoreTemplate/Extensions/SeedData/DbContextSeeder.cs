@@ -1,17 +1,12 @@
-﻿namespace PlutoNetCoreTemplate.Extensions.SeedData
+﻿namespace PlutoNetCoreTemplate.Api.Extensions.SeedData
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
-    using System.Threading.Tasks;
-
+    using EntityFrameworkCore.Extension.Uows;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
     using Microsoft.Extensions.Logging;
-
-    using PlutoData.Uows;
-
     using PlutoNetCoreTemplate.Domain.SeedWork;
     using PlutoNetCoreTemplate.Infrastructure;
 
@@ -49,8 +44,8 @@
                         {
                             dataSeedProvider.SeedAsync(services).Wait();
                         }
-                        var uow = services.GetService<IEfUnitOfWork<EfCoreDbContext>>();
-                        uow.SaveChanges();
+                        var uow = services.GetService<IUnitOfWork<PlutoNetTemplateDbContext>>();
+                        uow?.SaveChanges();
                     }
                     catch (Exception ex)
                     {

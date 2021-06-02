@@ -5,9 +5,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Domain.Aggregates.Permission;
+    using EntityFrameworkCore.Extension.Uows;
     using Infrastructure;
     using Models.PermissionModels;
-    using PlutoData.Uows;
 
     public class PermissionAppService:IPermissionAppService
     {
@@ -15,10 +15,10 @@
 
         private readonly IPermissionGrantRepository _permissionGrantRepository;
 
-        private readonly IEfUnitOfWork<EfCoreDbContext> _uow;
+        private readonly IUnitOfWork<PlutoNetTemplateDbContext> _uow;
 
 
-        public PermissionAppService(IPermissionDefinitionManager permissionDefinitionManager,IEfUnitOfWork<EfCoreDbContext> uow)
+        public PermissionAppService(IPermissionDefinitionManager permissionDefinitionManager,IUnitOfWork<PlutoNetTemplateDbContext> uow)
         {
             _permissionDefinitionManager = permissionDefinitionManager;
             _uow = uow;
@@ -37,7 +37,7 @@
                     Name = group.Name,
                     Permissions = new List<PermissionGrantModel>()
                 };
-                foreach (PermissionDefinition? permission in group.GetPermissionsWithChildren())
+                foreach (PermissionDefinition permission in group.GetPermissionsWithChildren())
                 {
                     if (permission.IsEnabled && (!permission.AllowedProviders.Any() ||
                                                  permission.AllowedProviders.Contains(providerName)))

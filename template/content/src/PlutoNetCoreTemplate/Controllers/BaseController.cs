@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
 
-namespace PlutoNetCoreTemplate.Controllers
+namespace PlutoNetCoreTemplate.Api.Controllers
 {
     /// <summary>
     /// 

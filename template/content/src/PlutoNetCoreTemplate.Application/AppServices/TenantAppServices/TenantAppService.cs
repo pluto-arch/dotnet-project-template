@@ -11,10 +11,10 @@
 
     public class TenantAppService:ITenantAppService
     {
-        private readonly IPlutoNetCoreTemplateEfRepository<Tenant> _tenantRepository;
+        private readonly IPlutoNetCoreTemplateBaseRepository<Tenant> _tenantRepository;
         private readonly IMapper _mapper;
 
-        public TenantAppService(IPlutoNetCoreTemplateEfRepository<Tenant> tenantRepository, IMapper mapper)
+        public TenantAppService(IPlutoNetCoreTemplateBaseRepository<Tenant> tenantRepository, IMapper mapper)
         {
             _tenantRepository = tenantRepository;
             _mapper = mapper;

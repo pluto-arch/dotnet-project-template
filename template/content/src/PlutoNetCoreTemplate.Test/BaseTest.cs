@@ -1,22 +1,17 @@
 using System;
-using System.Reflection;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NUnit.Framework;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoData;
-using PlutoNetCoreTemplate.Controllers;
 using Serilog;
 using PlutoNetCoreTemplate.Application;
-using PlutoNetCoreTemplate.Domain;
 
 namespace PlutoNetCoreTemplate.Test
 {
+    using Api;
     using Domain.Aggregates.TenantAggregate;
 
     public class BaseTest
@@ -50,7 +45,6 @@ namespace PlutoNetCoreTemplate.Test
             services.AddTransient<ICurrentTenant, CurrentTenant>();
             services.AddTransient<ITenantProvider, TenantProvider>();
             var _conntctionString = config.GetConnectionString("EfCore.MSSQL");
-            services.AddInfrastructureLayer(config,DbContextCreateFactory.OptionsAction(_conntctionString));
             serviceProvider=services.BuildServiceProvider();
         }
     }

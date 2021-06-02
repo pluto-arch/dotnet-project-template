@@ -8,12 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
-    <PackageReference Include="PlutoData" Version="1.7.0-alpha01" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Aggregates\ProductAggregate\" />
     <Folder Include="Services\ProductDomainService\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\BuildingBlocks\EntityFrameworkCore.Extension\EntityFrameworkCore.Extension.csproj" />
   </ItemGroup>
 
 </Project>

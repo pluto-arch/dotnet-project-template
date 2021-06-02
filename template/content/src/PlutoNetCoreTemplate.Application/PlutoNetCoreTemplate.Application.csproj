@@ -41,7 +41,7 @@
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
   </ItemGroup>
 	<ItemGroup Condition="'$(Grpc)'=='true'">
-		<Protobuf Include="..\PlutoNetCoreTemplate.Grpc.Protocol\Protocols\*.proto" GrpcServices="Server" />
+		<Protobuf Include="..\PlutoNetCoreTemplate.Grpc.Protocol\Protocols\*.proto" GrpcServices="Both" />
 	</ItemGroup>
 	<ItemGroup>
 	  <Reference Include="PlutoData">
@@ -51,7 +51,6 @@
 	<ItemGroup>
 	  <Folder Include="AppServices\ProductAppServices\" />
 	  <Folder Include="AppServices\TenantAppServices\" />
-	  <Folder Include="DomainEventHandler\" />
 	  <Folder Include="IntegrationEvent\Event\" />
 	  <Folder Include="Models\ProductModels\" />
 	  <Folder Include="Models\TenantModels\" />

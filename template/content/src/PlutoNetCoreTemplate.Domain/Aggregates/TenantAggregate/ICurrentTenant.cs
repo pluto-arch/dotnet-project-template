@@ -8,8 +8,12 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
     public interface ICurrentTenant
     {
+        bool IsAvailable { get; }
+
+        string Name { get; }
+
         string Id { get; }
 
-        IDisposable Change(string id);
+        IDisposable Change(string id,string name=null);
     }
 }

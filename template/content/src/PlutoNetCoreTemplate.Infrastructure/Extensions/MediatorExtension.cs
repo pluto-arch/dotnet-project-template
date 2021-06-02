@@ -9,7 +9,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.Extensions
 {
     public static class MediatorExtension
     {
-        public static async Task DispatchDomainEventsAsync(this IMediator mediator, EfCoreDbContext ctx, CancellationToken cancellationToken = default)
+        public static async Task DispatchDomainEventsAsync(this IMediator mediator, PlutoNetTemplateDbContext ctx, CancellationToken cancellationToken = default)
         {
             var domainEntities = ctx.ChangeTracker
                 .Entries<BaseEntity>()

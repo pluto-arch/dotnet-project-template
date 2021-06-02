@@ -9,13 +9,19 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 
         public CurrentTenant(ICurrentTenantAccessor currentTenantAccessor) => _currentTenantAccessor = currentTenantAccessor;
 
-        public string Id => _currentTenantAccessor.TenantId;
+        /// <inheritdoc />
+        public bool IsAvailable => !string.IsNullOrEmpty(Id)&&!string.IsNullOrWhiteSpace(Id);
 
-        public IDisposable Change(string id)
+        /// <inheritdoc />
+        public string Name => _currentTenantAccessor.CurrentTenantInfo?.Name;
+
+        public string Id => _currentTenantAccessor.CurrentTenantInfo?.Id;
+
+        public IDisposable Change(string id,string name=null)
         {
-            var parentScope = _currentTenantAccessor.TenantId;
-            _currentTenantAccessor.TenantId = id;
-            return new DisposeAction(() => _currentTenantAccessor.TenantId = parentScope);
+            var parentScope = _currentTenantAccessor.CurrentTenantInfo;
+            _currentTenantAccessor.CurrentTenantInfo = new TenantInfo(id,name);
+            return new DisposeAction(() => _currentTenantAccessor.CurrentTenantInfo = parentScope);
         }
 
 

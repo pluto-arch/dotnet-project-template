@@ -1,4 +1,4 @@
-﻿namespace PlutoNetCoreTemplate.Extensions
+﻿namespace PlutoNetCoreTemplate.Api.Extensions
 {
     using System.Threading.Tasks;
     using Application.Permissions;

@@ -7,13 +7,11 @@ namespace PlutoNetCoreTemplate.Domain.Services.TenantDomainService
 {
     using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
-    using PlutoData;
-
     public class TenantDataSeedProvider : IDataSeedProvider
     {
-        private readonly IPlutoNetCoreTemplateEfRepository<Tenant> _rep;
+        private readonly IPlutoNetCoreTemplateBaseRepository<Tenant> _rep;
 
-        public TenantDataSeedProvider(IPlutoNetCoreTemplateEfRepository<Tenant> userRepository)
+        public TenantDataSeedProvider(IPlutoNetCoreTemplateBaseRepository<Tenant> userRepository)
         {
             _rep = userRepository;
         }

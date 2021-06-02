@@ -5,7 +5,7 @@
 			"Default": "Information",
 			"Override": {
 				"System": "Error",
-				"Microsoft": "Information",
+				"Microsoft": "Error",
 				"Microsoft.EntityFrameworkCore": "Information"
 			}
 		},
@@ -13,7 +13,7 @@
 			{
 				"Name": "Console",
 				"Args": {
-					"outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Properties:j}{NewLine}{Exception}"
+					"outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {NewLine} {Properties:j} {NewLine} {Exception}"
 				}
 			},
 			{
@@ -21,7 +21,7 @@
 				"Args": {
 					"path": "Logs/log.txt",
 					"rollingInterval": "Day",
-					"outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Properties:j}{NewLine}{Exception}"
+					"outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} {NewLine} {Properties:j} {NewLine} {Exception}"
 				}
 			}
 		]

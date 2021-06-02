@@ -6,11 +6,12 @@ using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoData.Uows;
 using PlutoNetCoreTemplate.Infrastructure.Commons;
 
 namespace PlutoNetCoreTemplate.Application.Behaviors
 {
+    using EntityFrameworkCore.Extension.Uows;
+
     /// <summary>
     /// 
     /// </summary>
@@ -18,7 +19,7 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
     /// <typeparam name="TResponse"></typeparam>
     public class AutoSaveBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     {
-        private readonly IEfUnitOfWork<EfCoreDbContext> _uow;
+        private readonly IUnitOfWork<PlutoNetTemplateDbContext> _uow;
         private readonly ILogger<AutoSaveBehavior<TRequest, TResponse>> _logger;
 
         /// <summary>
@@ -26,7 +27,7 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
         /// </summary>
         /// <param name="uow"></param>
         /// <param name="logger"></param>
-        public AutoSaveBehavior(IEfUnitOfWork<EfCoreDbContext> uow,ILogger<AutoSaveBehavior<TRequest, TResponse>> logger)
+        public AutoSaveBehavior(IUnitOfWork<PlutoNetTemplateDbContext> uow,ILogger<AutoSaveBehavior<TRequest, TResponse>> logger)
         {
             _uow = uow;
             _logger = logger;

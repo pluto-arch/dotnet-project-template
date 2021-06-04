@@ -12,16 +12,6 @@
     public static class AppBuilder
     {
         /// <summary>
-		/// 记录http上下文的中间件
-		/// </summary>
-		/// <param name="builder"></param>
-		/// <returns></returns>
-        public static IApplicationBuilder UseHttpContextLog(this IApplicationBuilder builder)
-        {
-            return builder.UseMiddleware<HttpContextLogMiddleware>();
-        }
-
-        /// <summary>
         /// 异常处理中间件
         /// </summary>
         /// <param name="app"></param>
@@ -31,6 +21,19 @@
             app.UseMiddleware<ExceptionMiddlewareHandler>();
             return app;
         }
+
+
+        /// <summary>
+        /// 初始化种子数据
+        /// </summary>
+        /// <param name="app"></param>
+        /// <returns></returns>
+        public static IApplicationBuilder MigrateDbContext(this IApplicationBuilder app)
+        {
+            // todo init seed data
+            return app;
+        }
+
 
         /// <summary>
         /// 多租户

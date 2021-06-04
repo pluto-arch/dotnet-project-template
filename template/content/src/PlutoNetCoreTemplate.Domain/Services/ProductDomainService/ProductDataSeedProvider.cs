@@ -2,18 +2,26 @@
 {
     using System;
     using System.Collections.Generic;
+    using Microsoft.Extensions.DependencyInjection;
     using System.Threading.Tasks;
     using Aggregates.ProductAggregate;
+    using Aggregates.TenantAggregate;
+    using EntityFrameworkCore.Extension.Uows;
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
     using SeedWork;
 
     public class ProductDataSeedProvider:IDataSeedProvider
     {
-        private readonly IProductRepository _productRepository;
+        private readonly ICurrentTenant _currentTenant;
+        private readonly ILogger<ProductDataSeedProvider> _logger;
 
-        public ProductDataSeedProvider(IProductRepository productRepository)
+        public ProductDataSeedProvider(
+            ICurrentTenant currentTenant,
+            ILogger<ProductDataSeedProvider> logger)
         {
-            _productRepository = productRepository;
+            _currentTenant = currentTenant;
+            _logger = logger;
         }
 
 
@@ -21,32 +29,37 @@
 
         public async Task SeedAsync(IServiceProvider serviceProvider)
         {
-            List<Product> list = new ();
-            if (await _productRepository.IgnoreQueryFilters().AnyAsync())
+            string[] tenantIds = new []{"T20210602000001","T20210602000002"};
+            foreach (var tenantId in tenantIds)
             {
-                return;
-            }
-
-            for (int i = 0; i < 20; i++)
-            {
-                list.Add(new Product
+                using (_currentTenant.Change(tenantId,"租户一",out var scope))
+                using (scope)
                 {
-                    Name = $"product_{i}",
-                    Devices = new List<Device>
+                    var productRepository = scope.ServiceProvider.GetService<IProductRepository>();
+                    if (await productRepository.AnyAsync())
                     {
-                        new Device
+                        continue;
+                    }
+                    for (int i = 0; i < 40; i++)
+                    {
+                        var device = new Device
                         {
-                            Name = $"product_{i}_device_{i}",
+                            Name = $"{i}",
                             SerialNo = $"SN20210403000{i}",
-                            Address = new DeviceAddress($"街道{i}","杭州市","浙江省","中国","450000"),
+                            Address = new DeviceAddress($"街道{i}", "杭州市", "浙江省", "中国", "450000"),
                             Coordinate = (GeoCoordinate)"121.2323,34.312",
                             Online = true,
-                        }
-                    },
-                    Remark = $"备注——{i}"
-                });
+                        };
+                        var product = new Product
+                        {
+                            Name = $"{i}",
+                        };
+                        product.AddDevice(device);
+                        await productRepository.InsertAsync(product);
+                    }
+                    await productRepository.Uow.SaveChangesAsync();
+                }
             }
-            await _productRepository.InsertAsync(list, true);
         }
     }
 }

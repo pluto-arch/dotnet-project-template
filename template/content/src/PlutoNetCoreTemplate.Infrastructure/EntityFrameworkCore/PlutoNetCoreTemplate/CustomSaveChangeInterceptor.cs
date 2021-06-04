@@ -21,7 +21,9 @@
             MultiTenancyTracking(eventData.Context);
             SoftDeleteTracking(eventData.Context);
             DispatchDomainEventsAsync(eventData.Context).Wait();
-            return base.SavingChanges(eventData, result);
+            var res = base.SavingChanges(eventData, result);
+            //eventData.Context.ChangeTracker.Clear();
+            return res;
         }
 
         public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
@@ -29,11 +31,10 @@
             MultiTenancyTracking(eventData.Context);
             SoftDeleteTracking(eventData.Context);
             await DispatchDomainEventsAsync(eventData.Context, cancellationToken);
-            return await base.SavingChangesAsync(eventData, result, cancellationToken);
+            var res = await base.SavingChangesAsync(eventData, result, cancellationToken);
+            //eventData.Context.ChangeTracker.Clear();
+            return res;
         }
-
-
-
 
 
         private static void SoftDeleteTracking(DbContext dbContext)

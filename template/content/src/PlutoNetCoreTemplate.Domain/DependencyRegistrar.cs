@@ -6,6 +6,8 @@ using PlutoNetCoreTemplate.Domain.SeedWork;
 
 namespace PlutoNetCoreTemplate.Domain
 {
+    using Services.TenantDomainService;
+
     public static class DependencyRegistrar
     {
         public static IServiceCollection AddDomainLayer(this IServiceCollection services)
@@ -13,6 +15,7 @@ namespace PlutoNetCoreTemplate.Domain
             services.AddSingleton<ICurrentTenantAccessor, CurrentTenantAccessor>();
             services.AddTransient<ICurrentTenant, CurrentTenant>();
             services.AddTransient<ITenantProvider, TenantProvider>();
+            services.AddTransient<TenantManager>();
 
             var dataSeedProviders = AppDomain.CurrentDomain.GetAssemblies().SelectMany(a => a.ExportedTypes).Where(t => t.IsAssignableTo(typeof(IDataSeedProvider)) && t.IsClass);
             dataSeedProviders.ToList().ForEach(t => services.AddTransient(typeof(IDataSeedProvider), t));
@@ -26,8 +29,10 @@ namespace PlutoNetCoreTemplate.Domain
             services.AddSingleton<ICurrentTenantAccessor, CurrentTenantAccessor>();
             services.AddTransient<ICurrentTenant, CurrentTenant>();
             services.AddTransient<ITenantProvider, TenantProvider>();
+            services.AddTransient<TenantManager>();
 
             return services;
         }
+
     }
 }

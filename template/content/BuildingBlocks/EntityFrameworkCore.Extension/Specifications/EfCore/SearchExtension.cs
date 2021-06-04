@@ -28,7 +28,7 @@ namespace EntityFrameworkCore.Extension.Specifications.EfCore
         /// <returns></returns>
         public static IQueryable<T> Search<T>(this IQueryable<T> source, IEnumerable<(Expression<Func<T, string>> selector, string searchTerm)> criterias)
         {
-            Expression? expr = null;
+            Expression expr = null;
             var parameter = Expression.Parameter(typeof(T), "x");
 
             foreach (var (selector, searchTerm) in criterias)

@@ -3,11 +3,18 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
+    using Microsoft.Extensions.DependencyInjection;
+
     public class CurrentTenant : ICurrentTenant
     {
         private readonly ICurrentTenantAccessor _currentTenantAccessor;
+        private readonly IServiceProvider _serviceProvider;
 
-        public CurrentTenant(ICurrentTenantAccessor currentTenantAccessor) => _currentTenantAccessor = currentTenantAccessor;
+        public CurrentTenant(ICurrentTenantAccessor currentTenantAccessor,IServiceProvider serviceProvider)
+        {
+            _currentTenantAccessor = currentTenantAccessor;
+            _serviceProvider = serviceProvider;
+        }
 
         /// <inheritdoc />
         public bool IsAvailable => !string.IsNullOrEmpty(Id)&&!string.IsNullOrWhiteSpace(Id);
@@ -17,12 +24,45 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 
         public string Id => _currentTenantAccessor.CurrentTenantInfo?.Id;
 
-        public IDisposable Change(string id,string name=null)
+
+        /// <summary>
+        /// 切换租户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="scope">新增租户范围</param>
+        /// <returns></returns>
+        [Obsolete("已弃用")]
+        public IDisposable Change(string id,string name="")
         {
             var parentScope = _currentTenantAccessor.CurrentTenantInfo;
             _currentTenantAccessor.CurrentTenantInfo = new TenantInfo(id,name);
-            return new DisposeAction(() => _currentTenantAccessor.CurrentTenantInfo = parentScope);
+            return new DisposeAction(() =>
+            {
+                _currentTenantAccessor.CurrentTenantInfo = parentScope;
+            });
         }
+
+
+        /// <summary>
+        /// 切换租户
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="name"></param>
+        /// <param name="scope">新增租户范围</param>
+        /// <returns></returns>
+        public IDisposable Change(string id,string name,out IServiceScope scope)
+        {
+            name ??= "";
+            var parentScope = _currentTenantAccessor.CurrentTenantInfo;
+            _currentTenantAccessor.CurrentTenantInfo = new TenantInfo(id,name);
+            scope=_serviceProvider.CreateScope();
+            return new DisposeAction(() =>
+            {
+                _currentTenantAccessor.CurrentTenantInfo = parentScope;
+            });
+        }
+
 
 
         public class DisposeAction : IDisposable

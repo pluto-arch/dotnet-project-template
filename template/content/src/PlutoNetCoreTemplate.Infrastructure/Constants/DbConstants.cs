@@ -5,5 +5,7 @@
         public const string DefaultTableSchema = null!;
 
         public const string DefaultConnectionStringName = "Default";
+
+        public const string TenantConnectionStringName = "Tenant";
     }
 }

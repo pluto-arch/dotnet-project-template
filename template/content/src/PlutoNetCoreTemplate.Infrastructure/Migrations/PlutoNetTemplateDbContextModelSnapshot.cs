@@ -130,42 +130,6 @@ namespace PlutoNetCoreTemplate.Infrastructure.Migrations
                     b.ToTable("Products");
                 });
 
-            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate.Tenant", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name");
-
-                    b.ToTable("Tenants");
-                });
-
-            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate.TenantConnectionString", b =>
-                {
-                    b.Property<string>("TenantId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(64)
-                        .HasColumnType("nvarchar(64)");
-
-                    b.Property<string>("Value")
-                        .IsRequired()
-                        .HasMaxLength(1024)
-                        .HasColumnType("nvarchar(1024)");
-
-                    b.HasKey("TenantId", "Name");
-
-                    b.ToTable("TenantConnectionStrings");
-                });
-
             modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.Device", b =>
                 {
                     b.HasOne("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.Product", "Product")
@@ -205,23 +169,9 @@ namespace PlutoNetCoreTemplate.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate.TenantConnectionString", b =>
-                {
-                    b.HasOne("PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate.Tenant", null)
-                        .WithMany("ConnectionStrings")
-                        .HasForeignKey("TenantId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate.Product", b =>
                 {
                     b.Navigation("Devices");
-                });
-
-            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate.Tenant", b =>
-                {
-                    b.Navigation("ConnectionStrings");
                 });
 #pragma warning restore 612, 618
         }

@@ -6,23 +6,24 @@
     using AutoMapper;
     using Domain.Aggregates.TenantAggregate;
     using Domain.SeedWork;
+    using Domain.Services.TenantDomainService;
     using Microsoft.EntityFrameworkCore;
     using Models.TenantModels;
 
     public class TenantAppService:ITenantAppService
     {
-        private readonly IPlutoNetCoreTemplateBaseRepository<Tenant> _tenantRepository;
+        private readonly TenantManager _tenantManager;
         private readonly IMapper _mapper;
 
-        public TenantAppService(IPlutoNetCoreTemplateBaseRepository<Tenant> tenantRepository, IMapper mapper)
+        public TenantAppService(TenantManager tenantManager, IMapper mapper)
         {
-            _tenantRepository = tenantRepository;
+            _tenantManager = tenantManager;
             _mapper = mapper;
         }
 
         public async Task<List<TenantModel>> GetListAsync()
         {
-            var entities = await _tenantRepository.Query.ToListAsync();
+            var entities = await _tenantManager.GetListAsync();
             return _mapper.Map<List<TenantModel>>(entities);
         }
     }

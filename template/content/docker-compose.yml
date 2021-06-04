@@ -1,13 +1,24 @@
 version: '3.4'
 
 services:
-  pluto.netcoretemplate:
-    image: ${DOCKER_REGISTRY-}templateService
+  pnctapi:
+    image: apiservice
     restart: always
-    container_name: templateService
+    container_name: apiservice
     ports:
       - 5000:5000
       - 5001:5001
     build:
       context: .
       dockerfile: src/PlutoNetCoreTemplate/Dockerfile
+
+  pnctjob:
+    image: jobservice
+    restart: always
+    container_name: jobservice
+    ports:
+      - 5000:5000
+      - 5001:5001
+    build:
+      context: .
+      dockerfile: BackgroundJobs/PlutoNetCoreTemplate.Job.Hosting/Dockerfile

@@ -6,6 +6,7 @@
     using Application.Command;
     using Application.Models.ProductModels;
     using Application.Permissions;
+    using Domain.Aggregates.TenantAggregate;
     using Infrastructure.Commons;
     using MediatR;
     using Microsoft.AspNetCore.Authorization;
@@ -19,10 +20,12 @@
     {
 
         private readonly IProductAppService _productAppService;
+        private readonly ICurrentTenant _currentTenant;
 
-        public ProductController(IMediator mediator, ILogger<ProductController> logger, IProductAppService productAppService) : base(mediator, logger)
+        public ProductController(IMediator mediator, ILogger<ProductController> logger, IProductAppService productAppService, ICurrentTenant currentTenant) : base(mediator, logger)
         {
             _productAppService = productAppService;
+            _currentTenant = currentTenant;
         }
 
         /// <summary>

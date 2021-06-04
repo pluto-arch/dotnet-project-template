@@ -4,13 +4,22 @@ using PlutoNetCoreTemplate.Domain.Entities;
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
-    public class TenantConnectionString: BaseEntity
+    public sealed class TenantConnectionString: BaseEntity
     {
-        public virtual string TenantId { get; set; }
+        public TenantConnectionString(){}
 
-        public virtual string Name { get; set; }
 
-        public virtual string Value { get; set; }
+        public TenantConnectionString(string name, string value)
+        {
+            Name = name;
+            Value = value;
+        }
+
+        public string TenantId { get; set; }
+
+        public string Name { get; set; }
+
+        public string Value { get; set; }
 
         public override object[] GetKeys()
         {

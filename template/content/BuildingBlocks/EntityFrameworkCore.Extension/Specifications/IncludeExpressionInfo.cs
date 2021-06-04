@@ -29,7 +29,7 @@ namespace EntityFrameworkCore.Extension.Specifications
         /// <summary>
         /// PreviousPropertyType
         /// </summary>
-        public Type? PreviousPropertyType { get; }
+        public Type PreviousPropertyType { get; }
 
         /// <summary>
         /// IncludeTypeEnum
@@ -39,7 +39,7 @@ namespace EntityFrameworkCore.Extension.Specifications
         private IncludeExpressionInfo(LambdaExpression expression,
                                       Type entityType,
                                       Type propertyType,
-                                      Type? previousPropertyType,
+                                      Type previousPropertyType,
                                       IncludeTypeEnum includeType)
 
         {

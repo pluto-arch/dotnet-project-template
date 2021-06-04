@@ -66,11 +66,11 @@ namespace EntityFrameworkCore.Extension.Specifications
             // Need to check for null if <Nullable> is enabled.
             if (specification.OrderExpressions != null) 
             {
-                if (specification.OrderExpressions.Where(x => x.OrderType is OrderByTypeEnum.OrderBy or OrderByTypeEnum.OrderByDescending).Count() > 1)
+                if (specification.OrderExpressions.Count(x => x.OrderType is OrderByTypeEnum.OrderBy or OrderByTypeEnum.OrderByDescending) > 1)
                 {
                     throw new Exception();
                 }
-                IOrderedQueryable<T>? orderedQuery = null;
+                IOrderedQueryable<T> orderedQuery = null;
                 foreach (var (keySelector, orderType) in specification.OrderExpressions)
                 {
                     switch (orderType)

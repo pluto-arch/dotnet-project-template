@@ -18,7 +18,7 @@ namespace EntityFrameworkCore.Extension.Specifications
         /// <summary>
         /// model selector
         /// </summary>
-        Expression<Func<T, TResult>>? Selector { get; }
+        Expression<Func<T, TResult>> Selector { get; }
     }
 
     /// <summary>
@@ -60,7 +60,7 @@ namespace EntityFrameworkCore.Extension.Specifications
         /// <summary>
         /// 
         /// </summary>
-        string? CacheKey { get; }
+        string CacheKey { get; }
 
         /// <summary>
         /// by the change tracker.

@@ -1,50 +1,41 @@
-﻿
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
-
-using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
-using PlutoNetCoreTemplate.Domain.Entities;
-using PlutoNetCoreTemplate.Infrastructure.Extensions;
-
-namespace PlutoNetCoreTemplate.Infrastructure
+﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
+    using System.Linq;
+    using System.Reflection;
+    using System.Threading;
+    using System.Threading.Tasks;
+    using Domain.Aggregates.TenantAggregate;
+    using Domain.Entities;
+    using EntityTypeConfigurations;
+    using Extensions;
     using MediatR;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Infrastructure;
+    using Microsoft.Extensions.DependencyInjection;
     using Providers;
 
-    public class PlutoNetTemplateDbContext : DbContext
-    {
 
+    /// <summary>
+    /// 租户DB上下文
+    /// </summary>
+    public class TenantDbContext: DbContext
+    {
         private readonly IMediator _mediator;
 
-        private readonly ITenantProvider _tenantProvider;
-
-        public PlutoNetTemplateDbContext(DbContextOptions<PlutoNetTemplateDbContext> options, ITenantProvider tenantProvider)
+        public TenantDbContext(DbContextOptions<TenantDbContext> options)
             : base(options)
         {
-            _tenantProvider = tenantProvider;
             _mediator=this.GetInfrastructure().GetService<IMediator>() ?? NullMediatorProvider.GetNullMediator();
         }
 
-        #region Entitys and configuration 
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            base.OnModelCreating(modelBuilder);
+            modelBuilder.ApplyConfiguration(new TenantEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new TenantConnectionStringEntityTypeConfiguration());
             foreach (var item in modelBuilder.Model.GetEntityTypes())
             {
-                // 多租户
-                if (item.ClrType.IsAssignableTo(typeof(IMultiTenant)))
-                {
-                    modelBuilder.Entity(item.ClrType).AddQueryFilter<IMultiTenant>(e => e.TenantId==_tenantProvider.GetTenantId());
-                }
-
-
                 // 软删除
                 if (item.ClrType.IsAssignableTo(typeof(ISoftDelete)))
                 {
@@ -52,8 +43,6 @@ namespace PlutoNetCoreTemplate.Infrastructure
                 }
             }
         }
-        #endregion
-
 
 
         public override async Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default)

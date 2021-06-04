@@ -9,33 +9,28 @@ namespace PlutoNetCoreTemplate.Domain.Services.TenantDomainService
     using Microsoft.EntityFrameworkCore;
     public class TenantDataSeedProvider : IDataSeedProvider
     {
-        private readonly IPlutoNetCoreTemplateBaseRepository<Tenant> _rep;
+        private readonly ITenantRepository<Tenant> _tenants;
 
-        public TenantDataSeedProvider(IPlutoNetCoreTemplateBaseRepository<Tenant> userRepository)
+        public TenantDataSeedProvider(ITenantRepository<Tenant> tenants)
         {
-            _rep = userRepository;
+            _tenants = tenants;
         }
 
         public int Sorts => 10000000;
 
         public async Task SeedAsync(IServiceProvider serviceProvider)
         {
-            if (await _rep.IgnoreQueryFilters().LongCountAsync() > 0)
+            if (await _tenants.IgnoreQueryFilters().AnyAsync())
             {
                 return;
             }
 
-            var list = new List<Tenant>();
-            for (int i = 0; i < 10; i++)
-            {
-                var t = new Tenant
-                {
-                    Id = Guid.NewGuid().ToString("N"),
-                    Name=$"tenant_{i}",
-                };
-                list.Add(t);
-            }
-            await _rep.InsertAsync(list,true);
+            var t1 = new Tenant {Id = "T20210602000001", Name = "租户一",};
+            t1.AddConnectionStrings("Default","Server=127.0.0.1,1433;Database=Pnct_T20210602000001;User Id=sa;Password=970307Lbx$;Trusted_Connection = False;");
+            var t2 = new Tenant {Id = "T20210602000002", Name = "租户二",};
+            t2.AddConnectionStrings("Default","Server=127.0.0.1,1433;Database=Pnct_T20210602000002;User Id=sa;Password=970307Lbx$;Trusted_Connection = False;");
+            await _tenants.InsertAsync(t1,true);
+            await _tenants.InsertAsync(t2,true);
         }
 
     }

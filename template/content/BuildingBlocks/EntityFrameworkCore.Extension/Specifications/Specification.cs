@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using EntityFrameworkCore.Extension.Enums;
 using EntityFrameworkCore.Extension.Specifications.Builder;
 
-#pragma warning disable CS1591 // 缺少对公共可见类型或成员的 XML 注释
 
 
 namespace EntityFrameworkCore.Extension.Specifications
@@ -21,7 +20,7 @@ namespace EntityFrameworkCore.Extension.Specifications
             Query = new SpecificationBuilder<T, TResult>(this);
         }
 
-        public Expression<Func<T, TResult>>? Selector { get; internal set; }
+        public Expression<Func<T, TResult>> Selector { get; internal set; }
     }
 
     public abstract class Specification<T> : ISpecification<T>
@@ -41,7 +40,7 @@ namespace EntityFrameworkCore.Extension.Specifications
         public IEnumerable<(Expression<Func<T, string>> selector, string searchTerm, int searchGroup)> SearchCriterias { get; } = new List<(Expression<Func<T, string>> Selector, string SearchTerm, int SearchGroup)>();
 
         /// <inheritdoc/>
-        public string? CacheKey { get; internal set; }
+        public string CacheKey { get; internal set; }
 
         /// <inheritdoc/>
         public bool CacheEnabled { get; internal set; }
@@ -51,4 +50,3 @@ namespace EntityFrameworkCore.Extension.Specifications
 
     }
 }
-#pragma warning restore CS1591 // 缺少对公共可见类型或成员的 XML 注释

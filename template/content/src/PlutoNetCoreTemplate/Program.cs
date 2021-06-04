@@ -12,6 +12,8 @@ using Serilog;
 
 namespace PlutoNetCoreTemplate.Api
 {
+    using Domain.Aggregates.TenantAggregate;
+    using Infrastructure.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Logging;
 
@@ -62,6 +64,7 @@ namespace PlutoNetCoreTemplate.Api
                            .Build();
 
             host.MigrateDbContext<PlutoNetTemplateDbContext>();
+            host.MigrateDbContext<TenantDbContext>();
             return host;
         }
 

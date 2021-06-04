@@ -25,7 +25,7 @@
 
 
         /// <inheritdoc />
-        public override void Enqueue(object? obj)
+        public override void Enqueue(object obj)
         {
             if (this.Count>=_length)
             {

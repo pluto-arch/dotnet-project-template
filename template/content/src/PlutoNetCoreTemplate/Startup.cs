@@ -26,6 +26,8 @@ namespace PlutoNetCoreTemplate.Api
     using Application.IntegrationEvent.EventHandler;
     using Domain.Aggregates.TenantAggregate;
     using EventBus.Abstractions;
+    using Extensions.SeedData;
+    using Infrastructure.ConnectionString;
     using Infrastructure.Providers;
     using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.Extensions.Primitives;
@@ -63,6 +65,7 @@ namespace PlutoNetCoreTemplate.Api
                 .AddDomainLayer()
                 .AddInfrastructureLayer(Configuration);
 
+            services.Configure<TenantStoreOptions>(Configuration);
             services.AddTenant();
 #if (Grpc)
             services.AddGrpc();
@@ -93,8 +96,6 @@ namespace PlutoNetCoreTemplate.Api
             {
                 config.EnrichDiagnosticContext = (context, httpContext) =>
                 {
-                    // EventIdProvider 可以自定义生成有意义的
-                    var eventId = httpContext.RequestServices.GetService<EventIdProvider>();
                     var xForwardedFor = new StringValues();
                     if (httpContext.Request.Headers.ContainsKey("X-Forwarded-For"))
                     {
@@ -107,6 +108,7 @@ namespace PlutoNetCoreTemplate.Api
             });
             if (env.IsDevelopment())
             {
+                app.DataSeederAsync().Wait();
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PlutoNetCoreTemplate.API v1"));

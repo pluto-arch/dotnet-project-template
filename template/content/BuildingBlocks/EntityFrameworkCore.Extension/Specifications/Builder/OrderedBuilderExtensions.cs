@@ -20,9 +20,9 @@ namespace EntityFrameworkCore.Extension.Specifications.Builder
         /// <param name="orderedBuilder"></param>
         /// <param name="orderExpression"></param>
         /// <returns></returns>
-        public static IOrderedSpecificationBuilder<T> ThenBy<T>(this IOrderedSpecificationBuilder<T> orderedBuilder, Expression<Func<T, object?>> orderExpression)
+        public static IOrderedSpecificationBuilder<T> ThenBy<T>(this IOrderedSpecificationBuilder<T> orderedBuilder, Expression<Func<T, object>> orderExpression)
         {
-            ((List<(Expression<Func<T, object?>> OrderExpression, OrderByTypeEnum OrderType)>)orderedBuilder.Specification.OrderExpressions).Add((orderExpression, OrderByTypeEnum.ThenBy));
+            ((List<(Expression<Func<T, object>> OrderExpression, OrderByTypeEnum OrderType)>)orderedBuilder.Specification.OrderExpressions).Add((orderExpression, OrderByTypeEnum.ThenBy));
 
             return orderedBuilder;
         }
@@ -34,9 +34,9 @@ namespace EntityFrameworkCore.Extension.Specifications.Builder
         /// <param name="orderedBuilder"></param>
         /// <param name="orderExpression"></param>
         /// <returns></returns>
-        public static IOrderedSpecificationBuilder<T> ThenByDescending<T>(this IOrderedSpecificationBuilder<T> orderedBuilder, Expression<Func<T, object?>> orderExpression)
+        public static IOrderedSpecificationBuilder<T> ThenByDescending<T>(this IOrderedSpecificationBuilder<T> orderedBuilder, Expression<Func<T, object>> orderExpression)
         {
-            ((List<(Expression<Func<T, object?>> OrderExpression, OrderByTypeEnum OrderType)>)orderedBuilder.Specification.OrderExpressions).Add((orderExpression, OrderByTypeEnum.ThenByDescending));
+            ((List<(Expression<Func<T, object>> OrderExpression, OrderByTypeEnum OrderType)>)orderedBuilder.Specification.OrderExpressions).Add((orderExpression, OrderByTypeEnum.ThenByDescending));
 
             return orderedBuilder;
         }

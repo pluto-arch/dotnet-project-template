@@ -9,6 +9,12 @@
     public class Product: BaseAggregateRoot<string>,IMultiTenant,ISoftDelete
     {
 
+        public Product()
+        {
+            Devices = new List<Device>();
+        }
+
+
         /// <summary>
         /// 产品名称
         /// </summary>
@@ -31,5 +37,11 @@
 
         /// <inheritdoc />
         public bool Deleted { get; set; }
+
+
+        public void AddDevice(Device device)
+        {
+            this.Devices.Add(device);
+        }
     }
 }

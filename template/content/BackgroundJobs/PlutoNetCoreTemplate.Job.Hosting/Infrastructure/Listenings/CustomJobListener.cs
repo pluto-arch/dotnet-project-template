@@ -23,7 +23,7 @@
         }
 
         /// <inheritdoc />
-        public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException,
+        public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException,
             CancellationToken cancellationToken = new CancellationToken())
         {
             return Task.CompletedTask;
@@ -58,7 +58,7 @@
         }
 
         /// <inheritdoc />
-        public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException? jobException,
+        public Task JobWasExecuted(IJobExecutionContext context, JobExecutionException jobException,
             CancellationToken cancellationToken = new CancellationToken())
         {
             var job = context.JobDetail.Key;

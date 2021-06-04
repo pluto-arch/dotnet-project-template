@@ -101,16 +101,16 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Api.Extensions.AppBuilder.UseHttpContextLog(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
-            <summary>
-            记录http上下文的中间件
-            </summary>
-            <param name="builder"></param>
-            <returns></returns>
-        </member>
         <member name="M:PlutoNetCoreTemplate.Api.Extensions.AppBuilder.UseExceptionProcess(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
             <summary>
             异常处理中间件
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.AppBuilder.MigrateDbContext(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            初始化种子数据
             </summary>
             <param name="app"></param>
             <returns></returns>
@@ -164,6 +164,20 @@
             <summary>
             扩展日志中间件
             </summary>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.SeedData.DbContextMigrations.MigrateDbContext``1(Microsoft.Extensions.Hosting.IHost)">
+            <summary>
+            迁移数据库
+            </summary>
+            <typeparam name="TContext"></typeparam>
+            <param name="webHost"></param>
+        </member>
+        <member name="M:PlutoNetCoreTemplate.Api.Extensions.SeedData.DbSeedData.DataSeederAsync(Microsoft.AspNetCore.Builder.IApplicationBuilder)">
+            <summary>
+            种子数据初始化
+            </summary>
+            <param name="app"></param>
+            <returns></returns>
         </member>
         <member name="M:PlutoNetCoreTemplate.Api.Extensions.ServiceCollection.AddCustomerControllers(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
             <summary>

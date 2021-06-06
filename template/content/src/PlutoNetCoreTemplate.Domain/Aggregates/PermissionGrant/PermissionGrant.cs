@@ -1,12 +1,15 @@
 ﻿using System;
 
-namespace PlutoNetCoreTemplate.Domain.Aggregates.Permission
+namespace PlutoNetCoreTemplate.Domain.Aggregates.PermissionGrant
 {
     using Entities;
 
     /// <summary>
     /// 对应的权限授予信息
     /// </summary>
+    /// <remarks>
+    /// 每个租户都有各自的授权数据
+    /// </remarks>
     public class PermissionGrant:BaseAggregateRoot<int>,IMultiTenant
     {
 
@@ -25,7 +28,6 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.Permission
 
         /// <summary>
         /// 权限名称
-        /// 例如：  产品表的增加权限：product.create
         /// </summary>
         public string Name { get; set; }
 
@@ -38,9 +40,10 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.Permission
 
 
         /// <summary>
-        /// 主体的标识
+        /// 被授予主体的值
         /// </summary>
         public string ProviderKey { get; set; }
+
 
         public DateTimeOffset CreateTime { get; set; }
 

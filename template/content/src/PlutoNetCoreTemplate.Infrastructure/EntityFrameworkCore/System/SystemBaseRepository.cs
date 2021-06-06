@@ -4,12 +4,12 @@
     using global::EntityFrameworkCore.Extension;
 
     /// <summary>
-    /// 租户基础仓储
+    /// 系统基础仓储
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public class TenantRepository<TEntity> : Repository<TenantDbContext,TEntity>,ITenantRepository<TEntity> where TEntity : class,new()
+    public class SystemBaseRepository<TEntity> : Repository<SystemDbContext,TEntity>,ISystemBaseRepository<TEntity> where TEntity : class,new()
     {
-        public TenantRepository(TenantDbContext dbContext) : base(dbContext)
+        public SystemBaseRepository(SystemDbContext dbContext) : base(dbContext)
         {
         }
     }

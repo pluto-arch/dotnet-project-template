@@ -33,7 +33,6 @@
             foreach (var tenantId in tenantIds)
             {
                 using (_currentTenant.Change(tenantId,"租户一",out var scope))
-                using (scope)
                 {
                     var productRepository = scope.ServiceProvider.GetService<IProductRepository>();
                     if (await productRepository.AnyAsync())

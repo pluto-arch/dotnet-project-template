@@ -12,9 +12,9 @@
     /// </summary>
     public class TenantManager
     {
-        private readonly ITenantRepository<Tenant> _tenants;
+        private readonly ISystemBaseRepository<Tenant> _tenants;
 
-        public TenantManager(ITenantRepository<Tenant> tenants)
+        public TenantManager(ISystemBaseRepository<Tenant> tenants)
         {
             _tenants = tenants;
         }

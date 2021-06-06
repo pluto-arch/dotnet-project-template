@@ -2,6 +2,6 @@
 {
     using EntityFrameworkCore.Extension;
 
-    public interface ITenantRepository<TEntity>:IRepository<TEntity> where TEntity : class,new()
+    public interface ISystemBaseRepository<TEntity>:IRepository<TEntity> where TEntity : class,new()
     {}
 }

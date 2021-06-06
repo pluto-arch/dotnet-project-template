@@ -1,6 +1,6 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
 {
-    using Domain.Aggregates.Permission;
+    using Domain.Aggregates.PermissionGrant;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

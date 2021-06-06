@@ -6,7 +6,7 @@
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
-    using Domain.Aggregates.Permission;
+    using Domain.Aggregates.PermissionGrant;
     using Microsoft.Extensions.Logging;
 
     public class PermissionStore:IPermissionStore

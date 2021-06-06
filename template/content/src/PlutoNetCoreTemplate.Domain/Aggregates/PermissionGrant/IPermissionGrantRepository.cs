@@ -1,4 +1,4 @@
-﻿namespace PlutoNetCoreTemplate.Domain.Aggregates.Permission
+﻿namespace PlutoNetCoreTemplate.Domain.Aggregates.PermissionGrant
 {
     using global::System.Collections.Generic;
     using global::System.Threading;

@@ -6,6 +6,6 @@
 
         public const string DefaultConnectionStringName = "Default";
 
-        public const string TenantConnectionStringName = "Tenant";
+        public const string SystemConnectionStringName = "System";
     }
 }

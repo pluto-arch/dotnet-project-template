@@ -26,57 +26,13 @@
 
         public async Task<Unit> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            using (_currentTenant.Change("T20210602000002","租户一",out var scope))
-            using (scope)
+            var model = new Product
             {
-                var repository = scope.ServiceProvider.GetService<IPlutoNetCoreTemplateBaseRepository<Product>>();
-                var t = _currentTenant.Id;
-                for (int i = 0; i < 30; i++)
-                {
-                    var model = new Product
-                    {
-                        Id = $"{i}",
-                        Name = request.ProductName,
-                        Remark = "备注",
-                        Devices = new List<Device>
-                        {
-                            new Device
-                            {
-                                Name = $"{i}",
-                                SerialNo = $"SN20210403000{i}",
-                                Address = new DeviceAddress($"街道{i}", "杭州市", "浙江省", "中国", "450000"),
-                                Coordinate = (GeoCoordinate)"121.2323,34.312",
-                                Online = true,
-                            }
-                        }
-                    };
-                    await repository?.InsertAsync(model,true,cancellationToken:cancellationToken);
-                }
-            }
-
-            var ten = _currentTenant.Id;
-            for (int i = 0; i < 30; i++)
-            {
-                var model = new Product
-                {
-                    Id = $"{i}",
-                    Name = request.ProductName,
-                    Remark = "备注",
-                    Devices = new List<Device>
-                    {
-                        new Device
-                        {
-                            Name = $"{i}",
-                            SerialNo = $"SN20210403000{i}",
-                            Address = new DeviceAddress($"街道{i}", "杭州市", "浙江省", "中国", "450000"),
-                            Coordinate = (GeoCoordinate)"121.2323,34.312",
-                            Online = true,
-                        }
-                    }
-                };
-                await _productsRepository.InsertAsync(model,true,cancellationToken:cancellationToken);
-            }
-
+                Name = request.ProductName,
+                Remark = "备注哈哈哈",
+            };
+            await _productsRepository.InsertAsync(model,cancellationToken:cancellationToken);
+            await _productsRepository.Uow.SaveChangesAsync(cancellationToken);
             return Unit.Value;
         }
     }

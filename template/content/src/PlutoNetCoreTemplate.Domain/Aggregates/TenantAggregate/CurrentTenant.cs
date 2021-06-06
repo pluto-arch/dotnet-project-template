@@ -30,9 +30,7 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>
-        /// <param name="scope">新增租户范围</param>
         /// <returns></returns>
-        [Obsolete("已弃用")]
         public IDisposable Change(string id,string name="")
         {
             var parentScope = _currentTenantAccessor.CurrentTenantInfo;
@@ -49,17 +47,18 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
         /// </summary>
         /// <param name="id"></param>
         /// <param name="name"></param>
-        /// <param name="scope">新增租户范围</param>
+        /// <param name="scope">新增租户范围,不用手动释放</param>
         /// <returns></returns>
         public IDisposable Change(string id,string name,out IServiceScope scope)
         {
-            name ??= "";
             var parentScope = _currentTenantAccessor.CurrentTenantInfo;
             _currentTenantAccessor.CurrentTenantInfo = new TenantInfo(id,name);
-            scope=_serviceProvider.CreateScope();
+            scope = _serviceProvider.CreateScope();
+            IServiceScope serviceScope = scope;
             return new DisposeAction(() =>
             {
                 _currentTenantAccessor.CurrentTenantInfo = parentScope;
+                serviceScope?.Dispose();
             });
         }
 

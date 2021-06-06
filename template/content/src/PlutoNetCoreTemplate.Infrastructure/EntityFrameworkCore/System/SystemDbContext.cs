@@ -18,11 +18,11 @@
     /// <summary>
     /// 租户DB上下文
     /// </summary>
-    public class TenantDbContext: DbContext
+    public class SystemDbContext: DbContext
     {
         private readonly IMediator _mediator;
 
-        public TenantDbContext(DbContextOptions<TenantDbContext> options)
+        public SystemDbContext(DbContextOptions<SystemDbContext> options)
             : base(options)
         {
             _mediator=this.GetInfrastructure().GetService<IMediator>() ?? NullMediatorProvider.GetNullMediator();
@@ -32,8 +32,10 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.ApplyConfiguration(new TenantEntityTypeConfiguration());
-            modelBuilder.ApplyConfiguration(new TenantConnectionStringEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SystemEntityTypeConfiguration.TenantEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SystemEntityTypeConfiguration.TenantConnectionStringEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SystemEntityTypeConfiguration.PermissionGroupDefinitionEntityTypeConfiguration());
+            modelBuilder.ApplyConfiguration(new SystemEntityTypeConfiguration.PermissionDefinitionEntityTypeConfiguration());
             foreach (var item in modelBuilder.Model.GetEntityTypes())
             {
                 // 软删除

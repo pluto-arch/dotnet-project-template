@@ -38,8 +38,6 @@
                                 errorNumbersToAdd: null);
                         });
 
-                    optionsBuilder.EnableSensitiveDataLogging();
-
                     IMediator mediator = serviceProvider.GetService<IMediator>() ?? new NullMediator();
                     optionsBuilder.AddInterceptors(new CustomSaveChangeInterceptor(mediator));
 
@@ -50,12 +48,12 @@
                 .AddEfUnitOfWork<PlutoNetTemplateDbContext>();
 
 
-            services.AddDbContext<TenantDbContext>((serviceProvider, optionsBuilder) =>
+            services.AddDbContext<SystemDbContext>((serviceProvider, optionsBuilder) =>
                 {
                     optionsBuilder.UseLoggerFactory(LoggerFactory.Create(builder => builder.AddFilter((category, level) =>
                             category == DbLoggerCategory.Database.Command.Name && level == LogLevel.Information)
                         .AddSerilog()));
-                    optionsBuilder.UseSqlServer(configuration.GetConnectionString(DbConstants.TenantConnectionStringName),
+                    optionsBuilder.UseSqlServer(configuration.GetConnectionString(DbConstants.SystemConnectionStringName),
                         sqlServerOptionsAction: sqlOptions =>
                         {
                             sqlOptions.MigrationsAssembly(Assembly.GetEntryAssembly()?.GetName().Name);
@@ -64,12 +62,12 @@
                                 errorNumbersToAdd: null);
                         });
                 })
-                .AddEfUnitOfWork<TenantDbContext>();
+                .AddEfUnitOfWork<SystemDbContext>();
 
 
             services.AddTransient<IRequestManager, RequestManager>();
             services.AddTransient(typeof(IPlutoNetCoreTemplateBaseRepository<>),typeof(PlutoNetCoreTemplateBaseRepository<>));
-            services.AddTransient(typeof(ITenantRepository<>),typeof(TenantRepository<>));
+            services.AddTransient(typeof(ISystemBaseRepository<>),typeof(SystemBaseRepository<>));
             services.AddRepository(Assembly.GetExecutingAssembly());
             return services;
         }

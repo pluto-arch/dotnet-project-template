@@ -13,6 +13,8 @@
   <ItemGroup>
     <Folder Include="Aggregates\ProductAggregate\" />
     <Folder Include="Services\ProductDomainService\" />
+    <Folder Include="Services\PermissionGrant\" />
+    <Folder Include="Services\SystemDomainService\" />
   </ItemGroup>
 
   <ItemGroup>

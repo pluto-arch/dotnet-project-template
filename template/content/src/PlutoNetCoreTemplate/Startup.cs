@@ -106,6 +106,7 @@ namespace PlutoNetCoreTemplate.Api
                     context.Set("x_forwarded_for", xForwardedFor.ToString());
                 };
             });
+
             if (env.IsDevelopment())
             {
                 app.DataSeederAsync().Wait();

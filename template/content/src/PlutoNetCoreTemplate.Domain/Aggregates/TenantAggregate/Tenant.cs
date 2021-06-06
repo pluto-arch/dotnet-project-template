@@ -8,6 +8,8 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
     {
         public string Name { get; set; }
 
+        public DateTime CreateTime { get; set; }
+
         public List<TenantConnectionString> ConnectionStrings { get; protected set; } = new List<TenantConnectionString>();
 
 

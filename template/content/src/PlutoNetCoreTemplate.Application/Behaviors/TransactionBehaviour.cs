@@ -37,7 +37,7 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
             var response = default(TResponse);
             var typeName = request.GetGenericTypeName();
             var type = request.GetType();
-            if (!(type.GetCustomAttribute(typeof(CommandTransactionAttribute), true) is CommandTransactionAttribute tranAttr))
+            if (!(type.GetCustomAttribute(typeof(DisableTransactionAttribute), true) is DisableTransactionAttribute tranAttr))
             {
                 return await next();
             }

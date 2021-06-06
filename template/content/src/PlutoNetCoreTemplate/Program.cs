@@ -64,7 +64,7 @@ namespace PlutoNetCoreTemplate.Api
                            .Build();
 
             host.MigrateDbContext<PlutoNetTemplateDbContext>();
-            host.MigrateDbContext<TenantDbContext>();
+            host.MigrateDbContext<SystemDbContext>();
             return host;
         }
 

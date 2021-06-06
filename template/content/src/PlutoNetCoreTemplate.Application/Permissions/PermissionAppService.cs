@@ -4,7 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Domain.Aggregates.Permission;
+    using Domain.Aggregates.PermissionGrant;
     using EntityFrameworkCore.Extension.Uows;
     using Infrastructure;
     using Models.PermissionModels;

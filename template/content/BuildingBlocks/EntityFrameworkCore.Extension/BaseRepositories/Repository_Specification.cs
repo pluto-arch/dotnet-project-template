@@ -1,20 +1,20 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EntityFrameworkCore.Extension.UnitOfWork.Collections;
+using EntityFrameworkCore.Extension.UnitOfWork.Specifications;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using EntityFrameworkCore.Extension.Collections;
-using EntityFrameworkCore.Extension.Specifications;
 
-namespace EntityFrameworkCore.Extension
+namespace EntityFrameworkCore.Extension.UnitOfWork
 {
     public partial class Repository<TContext, TEntity>
     {
         private readonly ISpecificationEvaluator<TEntity> _specification = new SpecificationEvaluatorBase<TEntity>();
 
         /// <inheritdoc/>
-        public IPagedList<TEntity> GetPageList(ISpecification<TEntity> specification,int pageNo,int pageSize)
+        public IPagedList<TEntity> GetPageList(ISpecification<TEntity> specification, int pageNo, int pageSize)
         {
             return ApplySpecification(specification).ToPagedList(pageNo, pageSize);
         }

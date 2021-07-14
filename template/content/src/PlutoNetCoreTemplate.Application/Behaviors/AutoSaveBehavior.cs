@@ -1,16 +1,19 @@
-﻿using System.Linq;
-using System.Reflection;
-using MediatR;
-using Microsoft.Extensions.Logging;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using MediatR;
+
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+
 using PlutoNetCoreTemplate.Infrastructure;
 using PlutoNetCoreTemplate.Infrastructure.Commons;
 
+using System.Linq;
+using System.Reflection;
+using System.Threading;
+using System.Threading.Tasks;
+
 namespace PlutoNetCoreTemplate.Application.Behaviors
 {
-    using EntityFrameworkCore.Extension.Uows;
+    using EntityFrameworkCore.Extension.UnitOfWork.Uows;
 
     /// <summary>
     /// 
@@ -27,7 +30,7 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
         /// </summary>
         /// <param name="uow"></param>
         /// <param name="logger"></param>
-        public AutoSaveBehavior(IUnitOfWork<PlutoNetTemplateDbContext> uow,ILogger<AutoSaveBehavior<TRequest, TResponse>> logger)
+        public AutoSaveBehavior(IUnitOfWork<PlutoNetTemplateDbContext> uow, ILogger<AutoSaveBehavior<TRequest, TResponse>> logger)
         {
             _uow = uow;
             _logger = logger;
@@ -42,7 +45,7 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
         /// <returns></returns>
         public async Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken, RequestHandlerDelegate<TResponse> next)
         {
-            _logger.LogInformation("执行{@command}：{@Command}",request.GetType().Name, request);
+            _logger.LogInformation("执行{@command}：{@Command}", request.GetType().Name, request);
             TResponse response = default;
             var type = request.GetType();
             if (type.GetCustomAttribute(typeof(DisableAutoSaveChangeAttribute), true) is DisableAutoSaveChangeAttribute attr)
@@ -57,7 +60,7 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
             {
                 await _uow.SaveChangesAsync(cancellationToken);
             }
-            _logger.LogInformation("执行{@command} result: {@Response}",request.GetType().Name, response);
+            _logger.LogInformation("执行{@command} result: {@Response}", request.GetType().Name, response);
             return response;
         }
     }

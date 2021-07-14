@@ -6,7 +6,7 @@
     /// <summary>
     /// 设备实体
     /// </summary>
-    public class Device:BaseEntity<int>,IMultiTenant
+    public class Device : BaseEntity<int>, IMultiTenant
     {
 
         /// <summary>

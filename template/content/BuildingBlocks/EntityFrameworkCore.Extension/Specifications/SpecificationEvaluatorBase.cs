@@ -1,10 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EntityFrameworkCore.Extension.UnitOfWork.Enums;
+using EntityFrameworkCore.Extension.UnitOfWork.Specifications.EfCore;
+
+using Microsoft.EntityFrameworkCore;
+
 using System;
 using System.Linq;
-using EntityFrameworkCore.Extension.Enums;
-using EntityFrameworkCore.Extension.Specifications.EfCore;
 
-namespace EntityFrameworkCore.Extension.Specifications
+namespace EntityFrameworkCore.Extension.UnitOfWork.Specifications
 {
     /// <summary>
     /// 解析
@@ -64,7 +66,7 @@ namespace EntityFrameworkCore.Extension.Specifications
             }
 
             // Need to check for null if <Nullable> is enabled.
-            if (specification.OrderExpressions != null) 
+            if (specification.OrderExpressions != null)
             {
                 if (specification.OrderExpressions.Count(x => x.OrderType is OrderByTypeEnum.OrderBy or OrderByTypeEnum.OrderByDescending) > 1)
                 {

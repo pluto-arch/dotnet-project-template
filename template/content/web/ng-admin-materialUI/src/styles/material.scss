@@ -1,0 +1,28 @@
+// .mat-menu-panel {
+//   border-radius: 0 !important;
+//   -webkit-border-radius: 0 !important;
+//   -moz-border-radius: 0 !important;
+//   -ms-border-radius: 0 !important;
+//   -o-border-radius: 0 !important;
+//   min-height: auto !important;
+// }
+// .mat-button,
+// .mat-icon-button,
+// .mat-stroked-button,
+// .mat-flat-button,
+// .mat-raised-button {
+//   border-radius: 0 !important;
+//   -webkit-border-radius: 0 !important;
+//   -moz-border-radius: 0 !important;
+//   -ms-border-radius: 0 !important;
+//   -o-border-radius: 0 !important;
+// }
+
+.mat-toolbar-multiple-rows {
+  min-height: 40px !important;
+}
+
+.mat-toolbar-row,
+.mat-toolbar-single-row {
+  height: 60px !important;
+}

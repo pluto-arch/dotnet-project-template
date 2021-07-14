@@ -2,13 +2,15 @@
 {
     using Event;
 
+    using System.Threading.Tasks;
+
     public interface IEventBus
     {
         /// <summary>
         /// 发布
         /// </summary>
         /// <param name="event"></param>
-        void Publish(IntegrationEvent @event);
+        Task PublishAsync(IntegrationEvent @event);
 
 
         /// <summary>
@@ -54,14 +56,14 @@
         /// 发出通知给所有订阅者
         /// </summary>
         /// <param name="event"></param>
-        void Notice(IntegrationEvent @event);
+        Task NoticeAsync(IntegrationEvent @event);
 
         /// <summary>
         /// 监听通知
         /// </summary>
         /// <typeparam name="TH"></typeparam>
         /// <param name="eventName"></param>
-        void ListeningDynamic<TH>(string eventName,string queueName) where TH : IDynamicIntegrationEventHandler;
+        void ListeningDynamic<TH>(string eventName, string queueName) where TH : IDynamicIntegrationEventHandler;
 
         /// <summary>
         /// 取消监听通知
@@ -69,7 +71,7 @@
         /// <typeparam name="TH"></typeparam>
         /// <param name="eventName"></param>
         /// <param name="queueName"></param>
-        void UnListeningDynamic<TH>(string eventName,string queueName)
+        void UnListeningDynamic<TH>(string eventName, string queueName)
             where TH : IDynamicIntegrationEventHandler;
     }
 }

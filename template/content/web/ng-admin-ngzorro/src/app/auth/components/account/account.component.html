@@ -1,0 +1,40 @@
+<form #loginForm="ngForm" nz-form [formGroup]="validateForm" class="login-form" (ngSubmit)="submitForm()">
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="accountError">
+      <nz-input-group nzPrefixIcon="user">
+        <input type="text" nz-input required formControlName="userName" placeholder="登录名称" />
+        <ng-template #accountError let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            登录名不能为空
+          </ng-container>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <nz-form-item>
+    <nz-form-control [nzErrorTip]="pwdError">
+      <nz-input-group nzPrefixIcon="lock">
+        <input type="password" nz-input minlength="6" formControlName="password" placeholder="密码" />
+        <ng-template #pwdError let-control>
+          <ng-container *ngIf="control.hasError('required')">
+            密码不能为空
+          </ng-container>
+          <ng-container *ngIf="control.hasError('minlength')">
+            密码最少6位数
+          </ng-container>
+        </ng-template>
+      </nz-input-group>
+    </nz-form-control>
+  </nz-form-item>
+  <div nz-row class="login-form-margin">
+    <div nz-col [nzSpan]="12">
+      <label nz-checkbox formControlName="remember">
+        <span>记住登录</span>
+      </label>
+    </div>
+    <div nz-col [nzSpan]="12">
+      <a class="login-form-forgot" routerLink="/reset-password">忘记密码?</a>
+    </div>
+  </div>
+  <button nz-button nzBlock [nzLoading]="showLoading" [disabled]="validateForm.invalid" class="login-form-button login-form-margin" [nzType]="'primary'">登录</button>
+</form>

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EntityFrameworkCore.Extension
+namespace EntityFrameworkCore.Extension.UnitOfWork
 {
     public partial class Repository<TContext, TEntity>
     {
@@ -79,13 +79,13 @@ namespace EntityFrameworkCore.Extension
 
 
         /// <inheritdoc/>
-        public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate,  CancellationToken cancellationToken = default)
+        public async Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default)
         {
             return await Query.Where(predicate).SingleOrDefaultAsync(cancellationToken);
         }
 
         /// <inheritdoc/>
-        public virtual async Task<List<TEntity>> GetListAsync( CancellationToken cancellationToken = default)
+        public virtual async Task<List<TEntity>> GetListAsync(CancellationToken cancellationToken = default)
         {
             return await DbSet.ToListAsync(cancellationToken);
         }

@@ -1,9 +1,10 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Events.Products
 {
     using Aggregates.ProductAggregate;
+
     using MediatR;
 
-    public class CreateProductDomainEvent: INotification
+    public class CreateProductDomainEvent : INotification
     {
         public Product Product { get; private set; }
 

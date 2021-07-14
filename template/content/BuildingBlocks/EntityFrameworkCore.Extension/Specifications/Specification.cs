@@ -1,15 +1,13 @@
-﻿using System;
+﻿using EntityFrameworkCore.Extension.UnitOfWork.Enums;
+using EntityFrameworkCore.Extension.UnitOfWork.Specifications.Builder;
+
+using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using EntityFrameworkCore.Extension.Enums;
-using EntityFrameworkCore.Extension.Specifications.Builder;
 
 
 
-namespace EntityFrameworkCore.Extension.Specifications
+namespace EntityFrameworkCore.Extension.UnitOfWork.Specifications
 {
     public class Specification<T, TResult> : Specification<T>, ISpecification<T, TResult>
     {

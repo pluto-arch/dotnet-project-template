@@ -5,7 +5,7 @@
 
     public class JobDefined
     {
-        public Dictionary<string,Type> JobDictionary { get; set; }
+        public Dictionary<string, Type> JobDictionary { get; set; }
     }
     public class JobSetting
     {

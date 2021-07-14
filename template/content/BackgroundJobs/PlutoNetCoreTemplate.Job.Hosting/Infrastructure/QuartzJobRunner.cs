@@ -1,21 +1,18 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.Infrastructure
 {
-    using System;
-    using System.Net.Sockets;
-    using System.Threading.Tasks;
-    using EntityFrameworkCore.Extension.Uows;
+    using EntityFrameworkCore.Extension.UnitOfWork.Uows;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Models;
     using PlutoNetCoreTemplate.Infrastructure;
     using Polly;
-    using Polly.Retry;
     using Quartz;
-    using Quartz.Logging;
+    using System;
+    using System.Threading.Tasks;
     using LogContext = Serilog.Context.LogContext;
 
-    public class QuartzJobRunner: IJob
+    public class QuartzJobRunner : IJob
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<QuartzJobRunner> _logger;
@@ -28,11 +25,11 @@
         /// </summary>
         private readonly int _retryAttempt = 0;
 
-        public QuartzJobRunner(IServiceProvider serviceProvider,IConfiguration configuration, ILogger<QuartzJobRunner> logger)
+        public QuartzJobRunner(IServiceProvider serviceProvider, IConfiguration configuration, ILogger<QuartzJobRunner> logger)
         {
             _serviceProvider = serviceProvider;
             _retryCount = configuration.GetValue<int>("JobRetry:RetryCount");
-            _retryAttempt=configuration.GetValue<int>("JobRetry:RetryAttempt");
+            _retryAttempt = configuration.GetValue<int>("JobRetry:RetryAttempt");
             _logger = logger;
         }
 
@@ -52,7 +49,7 @@
                     var policy = Policy.Handle<Exception>()
                         .WaitAndRetryAsync(_retryCount, retryAttempt => TimeSpan.FromSeconds(_retryAttempt), async (ex, time) =>
                             {
-                                _logger.LogWarning("{jobType} has an error : {ex}. retry after {time}s ", jobType.Name,ex.Message, time);
+                                _logger.LogWarning("{jobType} has an error : {ex}. retry after {time}s ", jobType.Name, ex.Message, time);
                                 await jobLogStore.RecordAsync(job, new JobLogModel
                                 {
                                     Time = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}",

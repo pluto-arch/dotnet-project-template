@@ -5,24 +5,32 @@ using Microsoft.Extensions.Hosting;
 
 namespace PlutoNetCoreTemplate.Job.Hosting
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using Application;
+
     using Domain;
+
     using HostedService;
+
     using Infrastructure;
     using Infrastructure.Listenings;
+
     using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.Extensions.Configuration;
+
     using Models;
+
     using PlutoNetCoreTemplate.Infrastructure;
     using PlutoNetCoreTemplate.Infrastructure.ConnectionString;
+
     using Quartz;
     using Quartz.Impl;
     using Quartz.Simpl;
     using Quartz.Spi;
+
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
 
     public class Startup
     {
@@ -53,12 +61,12 @@ namespace PlutoNetCoreTemplate.Job.Hosting
 
             services.AddSingleton<IJobListener, CustomJobListener>();
             services.AddSingleton<ITriggerListener, CustomTriggerListener>();
-            services.AddTransient<IJobInfoStore,InMemoryJobStore>();
-            services.AddTransient<IJobLogStore,InMemoryJobLog>();
+            services.AddTransient<IJobInfoStore, InMemoryJobStore>();
+            services.AddTransient<IJobLogStore, InMemoryJobLog>();
             services.AddTransient<QuartzJobRunner>();
             AddJobs(services);
             services.AddSingleton<ISchedulerFactory, StdSchedulerFactory>();
-            services.AddTransient<IJobStore,RAMJobStore>();
+            services.AddTransient<IJobStore, RAMJobStore>();
             services.AddQuartzServer(options =>
             {
                 options.WaitForJobsToComplete = true;
@@ -77,10 +85,14 @@ namespace PlutoNetCoreTemplate.Job.Hosting
 
             var store = app.ApplicationServices.GetService<IJobInfoStore>();
             var jobs = Configuration.GetSection("JobSettings").Get<List<JobSetting>>();
-            if (jobs!=null)
+            if (jobs != null)
             {
                 foreach (var job in jobs)
                 {
+                    if (!job.IsOpen)
+                    {
+                        continue;
+                    }
                     store?.AddAsync(new JobInfoModel
                     {
                         Id = Guid.NewGuid().ToString("N"),
@@ -94,7 +106,7 @@ namespace PlutoNetCoreTemplate.Job.Hosting
                     });
                 }
             }
-           
+
             app.UseStaticFiles();
             app.UseRouting();
             app.UseEndpoints(endpoints =>
@@ -106,20 +118,20 @@ namespace PlutoNetCoreTemplate.Job.Hosting
 
         private static void AddJobs(IServiceCollection services)
         {
-            var jobDefined = new Dictionary<string,Type>();
+            var jobDefined = new Dictionary<string, Type>();
             var assembly = Assembly.GetExecutingAssembly();
             var baceType = typeof(IBackgroundJob);
-            var implTypes = assembly?.GetTypes().Where(c => c!=baceType&&baceType.IsAssignableFrom(c)).ToList();
+            var implTypes = assembly?.GetTypes().Where(c => c != baceType && baceType.IsAssignableFrom(c)).ToList();
             if (implTypes == null)
             {
                 return;
             }
             foreach (var impltype in implTypes)
             {
-                jobDefined.Add(impltype.Name,impltype);
+                jobDefined.Add(impltype.Name, impltype);
                 services.AddTransient(impltype);
             }
-            services.AddSingleton<JobDefined>(s=>new JobDefined
+            services.AddSingleton<JobDefined>(s => new JobDefined
             {
                 JobDictionary = jobDefined
             });

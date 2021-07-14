@@ -4,8 +4,8 @@
 
     public class PermissionListResponseModel
     {
-        public string DisplayName { get; set; } 
+        public string DisplayName { get; set; }
 
-        public List<PermissionGroupModel> Groups { get; set; } 
+        public List<PermissionGroupModel> Groups { get; set; }
     }
 }

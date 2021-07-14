@@ -1,15 +1,17 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Permissions
 {
+    using Domain.Aggregates.PermissionGrant;
+
+    using Microsoft.Extensions.Logging;
+
     using System;
     using System.Collections.Concurrent;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
-    using Domain.Aggregates.PermissionGrant;
-    using Microsoft.Extensions.Logging;
 
-    public class PermissionStore:IPermissionStore
+    public class PermissionStore : IPermissionStore
     {
         private readonly IPermissionGrantRepository _permissionGrantRepository;
 
@@ -27,7 +29,7 @@
 
         private const string CacheKeyFormat = "pn:{0},pk:{1},n:{2}"; //<object-type>:<id>:<field1>.<field2> Or <object-type>:<id>:<field1>-<field2>
 
-        private readonly ConcurrentDictionary<string,string> permissionCached=new();
+        private readonly ConcurrentDictionary<string, string> permissionCached = new();
 
         /// <inheritdoc />
         public async Task<bool> IsGrantedAsync(string name, string providerName, string providerKey)
@@ -40,7 +42,7 @@
         {
             var cacheKey = string.Format(CacheKeyFormat, providerName, providerKey, name);
             _logger.LogDebug($"PermissionStore.GetCacheItemAsync: {cacheKey}");
-            permissionCached.TryGetValue(cacheKey,out string value);
+            permissionCached.TryGetValue(cacheKey, out string value);
 
             if (value is not null)
             {
@@ -85,7 +87,7 @@
                 throw new ArgumentNullException(nameof(names));
             }
 
-            MultiplePermissionGrantResult result = new ();
+            MultiplePermissionGrantResult result = new();
 
             if (names.Length == 1)
             {
@@ -110,13 +112,13 @@
 
             _logger.LogDebug($"PermissionStore.GetCacheItemAsync: {string.Join(",", cacheKeys)}");
 
-            List<(string key, string value)> getCacheItemTasks = new ();
+            List<(string key, string value)> getCacheItemTasks = new();
 
             foreach (string cacheKey in cacheKeys)
             {
                 if (permissionCached.TryGetValue(cacheKey, out string value))
                 {
-                    getCacheItemTasks.Add((cacheKey,value));
+                    getCacheItemTasks.Add((cacheKey, value));
                 }
             }
 
@@ -140,7 +142,7 @@
 
             _logger.LogDebug($"Getting not cache granted permissions from the repository for this provider name,key: {providerName},{providerKey}");
 
-            var grantedPermissionsHashSet = new HashSet<string>((await 
+            var grantedPermissionsHashSet = new HashSet<string>((await
                 _permissionGrantRepository.GetListAsync(notCacheKeys.Select(k => GetPermissionInfoFormCacheKey(k).Name).ToArray(), providerName, providerKey)).Select(p => p.Name));
 
             _logger.LogDebug($"Setting the cache items. Count: {permissions.Count}");
@@ -155,7 +157,7 @@
 
             foreach ((string key, bool isGranted) in cacheItems)
             {
-                permissionCached.TryAdd(key,isGranted.ToString());
+                permissionCached.TryAdd(key, isGranted.ToString());
             }
             _logger.LogDebug($"Finished setting the cache items. Count: {permissions.Count}");
 

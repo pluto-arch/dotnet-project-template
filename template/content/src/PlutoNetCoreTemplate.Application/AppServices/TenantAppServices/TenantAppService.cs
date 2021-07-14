@@ -1,16 +1,15 @@
 ﻿namespace PlutoNetCoreTemplate.Application.AppServices.TenantAppServices
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using AutoMapper;
-    using Domain.Aggregates.TenantAggregate;
-    using Domain.SeedWork;
+
     using Domain.Services.TenantDomainService;
-    using Microsoft.EntityFrameworkCore;
+
     using Models.TenantModels;
 
-    public class TenantAppService:ITenantAppService
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
+    public class TenantAppService : ITenantAppService
     {
         private readonly TenantManager _tenantManager;
         private readonly IMapper _mapper;

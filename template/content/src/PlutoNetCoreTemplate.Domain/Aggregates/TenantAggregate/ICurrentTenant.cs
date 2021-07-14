@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
@@ -22,7 +18,7 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
         /// <param name="id"></param>
         /// <param name="name"></param>
         /// <returns></returns>
-        IDisposable Change(string id,string name=null);
+        IDisposable Change(string id, string name = null);
 
         /// <summary>
         /// 切换租户
@@ -31,6 +27,6 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
         /// <param name="name"></param>
         /// <param name="scope">新增租户范围</param>
         /// <returns></returns>
-        IDisposable Change(string id,string name,out IServiceScope scope);
+        IDisposable Change(string id, string name, out IServiceScope scope);
     }
 }

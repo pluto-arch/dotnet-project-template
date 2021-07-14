@@ -1,12 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using EntityFrameworkCore.Extension.Enums;
+﻿using EntityFrameworkCore.Extension.UnitOfWork.Enums;
 
-namespace EntityFrameworkCore.Extension.Specifications.Builder
+using System;
+using System.Collections.Generic;
+using System.Linq.Expressions;
+
+namespace EntityFrameworkCore.Extension.UnitOfWork.Specifications.Builder
 {
     /// <summary>
     /// 

@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 
 
-namespace EntityFrameworkCore.Extension.Collections
+namespace EntityFrameworkCore.Extension.UnitOfWork.Collections
 {
     /// <summary>
     /// IEnumerable 扩展 <see cref="IEnumerable{T}"/>
@@ -33,7 +34,7 @@ namespace EntityFrameworkCore.Extension.Collections
         /// <param name="pageSize"></param>
         /// <param name="total"></param>
         /// <returns></returns>
-        public static IPagedList<T> ToPagedList<T>(this IEnumerable<T> source, int pageIndex, int pageSize,int total) => new PagedList<T>(source, pageIndex, pageSize, total);
+        public static IPagedList<T> ToPagedList<T>(this IEnumerable<T> source, int pageIndex, int pageSize, int total) => new PagedList<T>(source, pageIndex, pageSize, total);
 
         /// <summary>
         /// 转分页： <see cref="IPagedList{TResult}"/> 

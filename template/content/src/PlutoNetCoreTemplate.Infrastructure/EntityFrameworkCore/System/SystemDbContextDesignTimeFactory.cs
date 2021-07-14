@@ -3,7 +3,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Design;
 
-    public class SystemDbContextDesignTimeFactory:IDesignTimeDbContextFactory<SystemDbContext>
+    public class SystemDbContextDesignTimeFactory : IDesignTimeDbContextFactory<SystemDbContext>
     {
         public SystemDbContext CreateDbContext(string[] args)
         {

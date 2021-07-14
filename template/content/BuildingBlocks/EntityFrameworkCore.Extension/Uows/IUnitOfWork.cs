@@ -1,18 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Storage;
+
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace EntityFrameworkCore.Extension.Uows
+namespace EntityFrameworkCore.Extension.UnitOfWork.Uows
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <typeparam name="TContext"></typeparam>
-	public interface IUnitOfWork<TContext> : IDisposable where TContext : DbContext
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TContext"></typeparam>
+    public interface IUnitOfWork<TContext> : IDisposable where TContext : DbContext
     {
         /// <summary>
         /// 是否有活动的事务对象

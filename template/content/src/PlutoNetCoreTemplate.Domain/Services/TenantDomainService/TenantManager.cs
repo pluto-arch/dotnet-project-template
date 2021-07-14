@@ -1,10 +1,13 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Services.TenantDomainService
 {
+    using Aggregates.TenantAggregate;
+
+    using Microsoft.EntityFrameworkCore;
+
+    using SeedWork;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Aggregates.TenantAggregate;
-    using Microsoft.EntityFrameworkCore;
-    using SeedWork;
 
 
     /// <summary>
@@ -35,7 +38,7 @@
         /// <returns></returns>
         public async Task<Tenant> GetAsync(string id)
         {
-            return await _tenants.FirstOrDefaultAsync(x=>x.Id==id);
+            return await _tenants.FirstOrDefaultAsync(x => x.Id == id);
         }
     }
 }

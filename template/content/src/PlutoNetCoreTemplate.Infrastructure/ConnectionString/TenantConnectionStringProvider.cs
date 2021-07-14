@@ -1,13 +1,16 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.ConnectionString
 {
-    using System.Linq;
-    using System.Threading.Tasks;
     using Constants;
+
     using Domain.Aggregates.TenantAggregate;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Options;
 
-    public class TenantConnectionStringProvider: DefaultConnectionStringProvider
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    public class TenantConnectionStringProvider : DefaultConnectionStringProvider
     {
         private readonly ICurrentTenant _currentTenant;
 

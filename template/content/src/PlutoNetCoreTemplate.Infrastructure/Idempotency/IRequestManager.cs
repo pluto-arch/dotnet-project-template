@@ -7,6 +7,6 @@ namespace PlutoNetCoreTemplate.Infrastructure.Idempotency
     {
         Task<bool> ExistAsync(Guid id);
 
-        Task CreateRequestForCommandAsync<T>(Guid id,T cmd);
+        Task CreateRequestForCommandAsync<T>(Guid id, T cmd);
     }
 }

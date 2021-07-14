@@ -1,0 +1,17 @@
+@use 'sass:map';
+@use '~@angular/material' as mat;
+
+@mixin nac-item-active($theme) {
+  // Get the color config from the theme.
+  $color-config: mat.get-color-config($theme);
+  // Get the primary color palette from the color-config.
+  $primary-palette: map.get($color-config, 'primary');
+
+  // 列表项激活时的效果
+  .list-item-active {
+    //color: mat-color($foreground);
+    color: mat.get-color-from-palette($primary-palette, 600) !important;
+    //background: mat.get-color-from-palette($primary-palette, 100, 0.3) !important;
+    background: var(--my-gray-3) !important;
+  }
+}

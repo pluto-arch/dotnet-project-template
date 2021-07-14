@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BuildingBlocks\EntityFrameworkCore.Extension\EntityFrameworkCore.Extension.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\EntityFrameworkCore.Extension\EntityFrameworkCore.Extension.UnitOfWork.csproj" />
   </ItemGroup>
 
 </Project>

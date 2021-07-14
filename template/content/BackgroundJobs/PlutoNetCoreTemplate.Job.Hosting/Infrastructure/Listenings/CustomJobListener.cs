@@ -1,10 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.Infrastructure.Listenings
 {
+    using Models;
+
+    using Quartz;
+
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using Models;
-    using Quartz;
 
 
 
@@ -36,7 +38,7 @@
 
 
 
-    public class CustomJobListener:IJobListener
+    public class CustomJobListener : IJobListener
     {
         private readonly IJobLogStore _jobLogStore;
         public CustomJobListener(IJobLogStore jobLogStore)
@@ -63,11 +65,11 @@
         {
             var job = context.JobDetail.Key;
             bool hasException = jobException != null;
-            _jobLogStore.RecordAsync(job,new JobLogModel
+            _jobLogStore.RecordAsync(job, new JobLogModel
             {
                 Time = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}",
                 RunSeconds = context.JobRunTime.Seconds,
-                State = hasException?EnumJobStates.Exception:EnumJobStates.Normal,
+                State = hasException ? EnumJobStates.Exception : EnumJobStates.Normal,
                 Message = jobException?.Message
             });
             return Task.CompletedTask;

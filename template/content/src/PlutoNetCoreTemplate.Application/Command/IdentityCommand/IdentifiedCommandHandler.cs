@@ -1,14 +1,13 @@
-﻿using System;
-using MediatR;
+﻿using MediatR;
 
 using Microsoft.Extensions.Logging;
 
-using System.Threading;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
 using PlutoNetCoreTemplate.Infrastructure.Exceptions;
 using PlutoNetCoreTemplate.Infrastructure.Extensions;
 using PlutoNetCoreTemplate.Infrastructure.Idempotency;
+
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PlutoNetCoreTemplate.Application.Command.IdentityCommand
 {
@@ -26,8 +25,8 @@ namespace PlutoNetCoreTemplate.Application.Command.IdentityCommand
         private readonly ILogger<IdentifiedCommandHandler<T, R>> _logger;
 
         public IdentifiedCommandHandler(
-            ILogger<IdentifiedCommandHandler<T, R>> logger, 
-            IRequestManager requestManager, 
+            ILogger<IdentifiedCommandHandler<T, R>> logger,
+            IRequestManager requestManager,
             IMediator mediator)
         {
             _logger = logger;

@@ -1,12 +1,13 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Permissions
 {
+    using Microsoft.Extensions.DependencyInjection;
+
     using System;
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.Diagnostics.CodeAnalysis;
-    using Microsoft.Extensions.DependencyInjection;
 
-    public class PermissionDefinitionManager:IPermissionDefinitionManager
+    public class PermissionDefinitionManager : IPermissionDefinitionManager
     {
 
         private readonly Lazy<Dictionary<string, PermissionGroupDefinition>> _lazyPermissionGroupDefinitions;

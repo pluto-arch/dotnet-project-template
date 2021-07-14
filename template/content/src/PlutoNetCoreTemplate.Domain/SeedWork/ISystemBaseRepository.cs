@@ -1,7 +1,7 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.SeedWork
 {
-    using EntityFrameworkCore.Extension;
+    using EntityFrameworkCore.Extension.UnitOfWork;
 
-    public interface ISystemBaseRepository<TEntity>:IRepository<TEntity> where TEntity : class,new()
-    {}
+    public interface ISystemBaseRepository<TEntity> : IRepository<TEntity> where TEntity : class, new()
+    { }
 }

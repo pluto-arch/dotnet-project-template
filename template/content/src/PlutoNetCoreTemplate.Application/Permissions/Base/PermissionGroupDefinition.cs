@@ -21,7 +21,7 @@
         public string DisplayName { get; set; }
 
 
-        private readonly List<PermissionDefinition> _permissions = new ();
+        private readonly List<PermissionDefinition> _permissions = new();
 
 
         public IReadOnlyList<PermissionDefinition> Permissions => _permissions.ToImmutableList();

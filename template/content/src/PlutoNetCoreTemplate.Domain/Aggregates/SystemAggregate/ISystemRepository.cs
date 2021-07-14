@@ -5,8 +5,8 @@
     /// <summary>
     /// 权限组
     /// </summary>
-    public interface IPermissionGroupRepository:ISystemBaseRepository<PermissionGroupDefinition>
+    public interface IPermissionGroupRepository : ISystemBaseRepository<PermissionGroupDefinition>
     {
-        
+
     }
 }

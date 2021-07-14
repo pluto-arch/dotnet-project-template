@@ -1,14 +1,15 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.ConnectionString
 {
+    using Microsoft.EntityFrameworkCore.Diagnostics;
+
     using System.Data.Common;
     using System.Threading;
     using System.Threading.Tasks;
-    using Microsoft.EntityFrameworkCore.Diagnostics;
 
     /// <summary>
     /// DbConnection 侦听器
     /// </summary>
-    public class TenantDbConnectionInterceptor: DbConnectionInterceptor
+    public class TenantDbConnectionInterceptor : DbConnectionInterceptor
     {
         private readonly IConnectionStringProvider _connectionStringProvider;
 

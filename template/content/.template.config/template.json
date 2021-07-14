@@ -24,7 +24,7 @@
       "type": "parameter",
       "dataType":"bool",
       "description": "是否启用grpc",
-      "defaultValue": "false",
+      "defaultValue": "false"
     }    
   },
   "sources": [

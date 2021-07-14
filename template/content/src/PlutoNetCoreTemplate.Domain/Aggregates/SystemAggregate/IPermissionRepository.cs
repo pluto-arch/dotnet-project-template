@@ -5,8 +5,8 @@
     /// <summary>
     /// 权限
     /// </summary>
-    public interface IPermissionRepository:ISystemBaseRepository<PermissionDefinition>
+    public interface IPermissionRepository : ISystemBaseRepository<PermissionDefinition>
     {
-        
+
     }
 }

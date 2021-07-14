@@ -1,19 +1,19 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Aggregates.SystemAggregate
 {
+    using Entities;
+
     using System;
     using System.Collections.Generic;
-    using System.Collections.Immutable;
-    using Entities;
 
     /// <summary>
     /// 权限分组定义
     /// </summary>
-    public class PermissionGroupDefinition:BaseEntity<int>
+    public class PermissionGroupDefinition : BaseEntity<int>
     {
 
         public PermissionGroupDefinition()
         {
-            
+
         }
 
         /// <inheritdoc />

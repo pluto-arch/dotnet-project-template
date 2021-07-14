@@ -1,8 +1,9 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.Providers
 {
+    using MediatR;
+
     using System.Threading;
     using System.Threading.Tasks;
-    using MediatR;
 
 
     public class NullMediatorProvider
@@ -11,7 +12,7 @@
     }
 
 
-    public class NullMediator: IMediator
+    public class NullMediator : IMediator
     {
         public Task Publish(object notification, CancellationToken cancellationToken = default)
         {

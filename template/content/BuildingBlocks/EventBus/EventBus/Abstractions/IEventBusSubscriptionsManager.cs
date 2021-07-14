@@ -1,6 +1,7 @@
-﻿using System;
+﻿using EventBus.Event;
+
+using System;
 using System.Collections.Generic;
-using EventBus.Event;
 
 namespace EventBus.Abstractions
 {
@@ -56,6 +57,14 @@ namespace EventBus.Abstractions
         /// <param name="eventName"></param>
         void RemoveDynamicSubscription<TH>(string eventName)
             where TH : IDynamicIntegrationEventHandler;
+
+
+        /// <summary>
+        /// 清除听众
+        /// </summary>
+        /// <typeparam name="TH"></typeparam>
+        /// <param name="eventName"></param>
+        void RemoveDynamicListener<TH>(string eventName) where TH : IDynamicIntegrationEventHandler;
 
         /// <summary>
         /// 事件T是否有订阅

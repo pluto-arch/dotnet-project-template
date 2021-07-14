@@ -1,9 +1,11 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.Infrastructure
 {
+    using Models;
+
+    using Quartz;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Models;
-    using Quartz;
 
     public interface IJobInfoStore
     {
@@ -52,13 +54,13 @@
         /// 移除job
         /// </summary>
         /// <returns></returns>
-        public Task RemoveAsync(string groupName,string jobName);
+        public Task RemoveAsync(string groupName, string jobName);
 
 
         /// <summary>
         /// 暂停
         /// </summary>
         /// <returns></returns>
-        public Task PauseAsync(string groupName,string jobName);
+        public Task PauseAsync(string groupName, string jobName);
     }
 }

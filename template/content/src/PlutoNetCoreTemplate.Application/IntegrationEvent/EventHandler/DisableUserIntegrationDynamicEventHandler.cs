@@ -1,14 +1,15 @@
 ﻿namespace PlutoNetCoreTemplate.Application.IntegrationEvent.EventHandler
 {
-    using System.Threading.Tasks;
+    /*
     using Event;
     using EventBus.Abstractions;
     using Microsoft.Extensions.Logging;
+    using System.Threading.Tasks;
 
     /// <summary>
     /// 动态事件
     /// </summary>
-    public class DisableUserIntegrationDynamicEventHandler:IDynamicIntegrationEventHandler
+    public class DisableUserIntegrationDynamicEventHandler : IDynamicIntegrationEventHandler
     {
         private readonly ILogger<DisableUserIntegrationDynamicEventHandler> _logger;
 
@@ -26,4 +27,5 @@
             }
         }
     }
+    */
 }

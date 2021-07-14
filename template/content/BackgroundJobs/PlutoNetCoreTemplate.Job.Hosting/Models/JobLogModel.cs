@@ -1,7 +1,5 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.Models
 {
-    using Quartz;
-
     public class JobLogModel
     {
         public string Time { get; set; }

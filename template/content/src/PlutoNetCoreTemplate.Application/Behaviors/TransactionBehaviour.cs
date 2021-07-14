@@ -1,9 +1,11 @@
 ﻿using MediatR;
+
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+
 using PlutoNetCoreTemplate.Infrastructure;
-using PlutoNetCoreTemplate.Infrastructure.Extensions;
 using PlutoNetCoreTemplate.Infrastructure.Commons;
+using PlutoNetCoreTemplate.Infrastructure.Extensions;
 
 using System;
 using System.Reflection;
@@ -12,7 +14,7 @@ using System.Threading.Tasks;
 
 namespace PlutoNetCoreTemplate.Application.Behaviors
 {
-    using EntityFrameworkCore.Extension.Uows;
+    using EntityFrameworkCore.Extension.UnitOfWork.Uows;
 
     /// <summary>
     /// 涉及事务的所有操作
@@ -54,7 +56,7 @@ namespace PlutoNetCoreTemplate.Application.Behaviors
                     transactionId = transaction.TransactionId;
                     _logger.LogInformation("Begin transaction {TransactionId} for {CommandName} ({@Command})", transaction.TransactionId, typeName, request);
                     response = await next();
-                    await _unitOfWork.CommitTransactionAsync(transaction,cancellationToken);
+                    await _unitOfWork.CommitTransactionAsync(transaction, cancellationToken);
                     _logger.LogInformation("Finish transaction {TransactionId} for {CommandName}", transaction.TransactionId, typeName);
                 }
                 // TODO 事务执行完毕后 通过 事件总线 发布，从而处理其余业务 

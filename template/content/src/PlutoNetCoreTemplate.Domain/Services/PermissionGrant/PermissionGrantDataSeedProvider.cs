@@ -1,17 +1,19 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Services.PermissionGrant
 {
+    using Aggregates.PermissionGrant;
+    using Aggregates.SystemAggregate;
+    using Aggregates.TenantAggregate;
+
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
+
+    using SeedWork;
+
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Aggregates.PermissionGrant;
-    using Aggregates.ProductAggregate;
-    using Aggregates.SystemAggregate;
-    using Aggregates.TenantAggregate;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
-    using SeedWork;
 
-    public class PermissionGrantDataSeedProvider:IDataSeedProvider
+    public class PermissionGrantDataSeedProvider : IDataSeedProvider
     {
         private readonly IPermissionGrantRepository _repository;
         private readonly ISystemBaseRepository<PermissionGroupDefinition> _permissionGroup;
@@ -32,7 +34,7 @@
         /// <inheritdoc />
         public async Task SeedAsync(IServiceProvider serviceProvider)
         {
-            string[] tenantIds = new []{"T20210602000001","T20210602000002"};
+            string[] tenantIds = new[] { "T20210602000001", "T20210602000002" };
             var permissions = new Dictionary<string, List<string>>
             {
                 {"ProductManager",new List<string>
@@ -81,18 +83,18 @@
                     permission.Permissions = new List<PermissionDefinition>();
                     foreach (var p in item.Value)
                     {
-                        permission.Permissions.Add(new PermissionDefinition(p,p));
+                        permission.Permissions.Add(new PermissionDefinition(p, p));
                     }
                     group.Add(permission);
                 }
-                await _permissionGroup.InsertAsync(group,true);
+                await _permissionGroup.InsertAsync(group, true);
             }
-           
+
 
 
             foreach (var tenantId in tenantIds)
             {
-                using (_currentTenant.Change(tenantId,"租户一",out var scope))
+                using (_currentTenant.Change(tenantId, "租户一", out var scope))
                 {
                     var productRepository = scope.ServiceProvider.GetService<IPermissionGrantRepository>();
                     if (await productRepository.AnyAsync())
@@ -113,8 +115,8 @@
                         }
                     }
                     await productRepository.Uow.SaveChangesAsync();
-                } 
+                }
             }
         }
     }
-}                                     
+}

@@ -1,15 +1,15 @@
-﻿using System;
+﻿using EntityFrameworkCore.Extension.UnitOfWork.Collections;
+using EntityFrameworkCore.Extension.UnitOfWork.Specifications;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
-using EntityFrameworkCore.Extension.Collections;
-using EntityFrameworkCore.Extension.Specifications;
-using Microsoft.EntityFrameworkCore;
 
-namespace EntityFrameworkCore.Extension
+namespace EntityFrameworkCore.Extension.UnitOfWork
 {
     /// <summary>
     /// ef仓储接口
@@ -23,7 +23,7 @@ namespace EntityFrameworkCore.Extension
     /// 泛型ef仓储接口
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public interface IRepository<TEntity> : IRepository, IQueryable<TEntity> where TEntity : class,new()
+    public interface IRepository<TEntity> : IRepository, IQueryable<TEntity> where TEntity : class, new()
     {
 
         /// <summary>
@@ -95,7 +95,7 @@ namespace EntityFrameworkCore.Extension
         /// <param name="predicate"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        Task<TEntity> FindAsync( Expression<Func<TEntity, bool>> predicate,CancellationToken cancellationToken = default);
+        Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate, CancellationToken cancellationToken = default);
 
         /// <summary>
         /// get list

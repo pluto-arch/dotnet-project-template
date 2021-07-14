@@ -19,6 +19,26 @@ namespace PlutoNetCoreTemplate.Infrastructure.Migrations.System
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.DemoTree.Folder", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("ParentId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentId");
+
+                    b.ToTable("Folder");
+                });
+
             modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.SystemAggregate.PermissionDefinition", b =>
                 {
                     b.Property<int>("Id")
@@ -144,6 +164,16 @@ namespace PlutoNetCoreTemplate.Infrastructure.Migrations.System
                     b.ToTable("TenantConnectionStrings");
                 });
 
+            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.DemoTree.Folder", b =>
+                {
+                    b.HasOne("PlutoNetCoreTemplate.Domain.Aggregates.DemoTree.Folder", "Parent")
+                        .WithMany("SubFolders")
+                        .HasForeignKey("ParentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
+                    b.Navigation("Parent");
+                });
+
             modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.SystemAggregate.PermissionDefinition", b =>
                 {
                     b.HasOne("PlutoNetCoreTemplate.Domain.Aggregates.SystemAggregate.PermissionGroupDefinition", "Group")
@@ -160,6 +190,11 @@ namespace PlutoNetCoreTemplate.Infrastructure.Migrations.System
                         .HasForeignKey("TenantId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.DemoTree.Folder", b =>
+                {
+                    b.Navigation("SubFolders");
                 });
 
             modelBuilder.Entity("PlutoNetCoreTemplate.Domain.Aggregates.SystemAggregate.PermissionGroupDefinition", b =>

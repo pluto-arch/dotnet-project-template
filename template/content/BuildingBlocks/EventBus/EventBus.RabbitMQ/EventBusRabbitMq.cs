@@ -1,51 +1,50 @@
-﻿
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
+using Newtonsoft.Json;
+using Polly;
+using System;
+using System.Net.Sockets;
+using System.Text;
+using System.Threading.Tasks;
+using RabbitMQ.Client;
+using RabbitMQ.Client.Exceptions;
+using RabbitMQ.Client.Events;
+using EventBus.Abstractions;
+using EventBus.Event;
+
 namespace EventBus.RabbitMQ
 {
-    using System;
-    using System.Net.Sockets;
-    using System.Text;
-    using System.Threading.Tasks;
-    using Abstractions;
-    using Event;
-    using global::RabbitMQ.Client;
-    using global::RabbitMQ.Client.Events;
-    using global::RabbitMQ.Client.Exceptions;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.Extensions.Logging.Abstractions;
-    using Microsoft.Extensions.DependencyInjection;
-    using Newtonsoft.Json;
-    using Polly;
-
-    public class EventBusRabbitMq:IEventBus
+    public class EventBusRabbitMQ : IEventBus
     {
-        private readonly string _directExchangeName ;
-        private readonly string _fanoutExchangeName ;
+        private readonly string _directExchangeName;
+        private readonly string _fanoutExchangeName;
         private string _directQueueName;
         private readonly int _retryCount;
 
         private readonly IRabbitMqPersistentConnection _persistentConnection;
         private readonly IEventBusSubscriptionsManager _subsManager;
         private readonly IServiceProvider _serviceProvider;
-        private readonly ILogger<EventBusRabbitMq> _logger;
+        private readonly ILogger<EventBusRabbitMQ> _logger;
         private IModel _consumerChannel;
         private IModel _productChannel;
         private IModel _noticeChannel;
-        private IModel _listenChannel;
+        private readonly IModel _listenChannel;
 
 
-        public EventBusRabbitMq( 
+        public EventBusRabbitMQ(
             IServiceProvider serviceProvider,
-            ILogger<EventBusRabbitMq> logger,
+            ILogger<EventBusRabbitMQ> logger,
             string directExchangeName = "",
             string fanoutExchangeName = "",
             string directQueueName = "",
             int retryCount = 5)
         {
             _serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
-            _logger = logger ?? NullLogger<EventBusRabbitMq>.Instance;
+            _logger = logger ?? NullLogger<EventBusRabbitMQ>.Instance;
             _persistentConnection = serviceProvider.GetService<IRabbitMqPersistentConnection>()
                                     ?? throw new ArgumentNullException(nameof(_persistentConnection));
-            _subsManager = serviceProvider.GetService<IEventBusSubscriptionsManager>() 
+            _subsManager = serviceProvider.GetService<IEventBusSubscriptionsManager>()
                            ?? new InMemoryEventBusSubscriptionsManager();
 
             if (directExchangeName == fanoutExchangeName)
@@ -57,26 +56,31 @@ namespace EventBus.RabbitMQ
             _fanoutExchangeName = fanoutExchangeName;
             _directQueueName = directQueueName;
             _retryCount = retryCount;
+
+            // 创建直连模式消费者信道
             _consumerChannel = CreateConsumerChannel();
+            // 创建广播模式消费者信道
             _listenChannel = CreateListingChannel();
+
             _subsManager.OnEventRemoved += SubsManager_OnEventRemoved;
         }
 
-
-        public void Publish(IntegrationEvent @event)
+        public Task PublishAsync(IntegrationEvent @event)
         {
-            if (_productChannel == null||!_productChannel.IsOpen)
+            if (_productChannel == null || !_productChannel.IsOpen)
             {
                 _productChannel = CreateProductorChannel();
             }
+
             Push(@event, _productChannel, _directExchangeName);
+            return Task.CompletedTask;
         }
 
         public void Subscribe<T, TH>()
             where T : IntegrationEvent
             where TH : IIntegrationEventHandler<T>
         {
-            var eventName = _subsManager.GetEventKey<T>(); 
+            var eventName = _subsManager.GetEventKey<T>();
             DoInternalSubscription(eventName);
             _subsManager.AddSubscription<T, TH>();
             StartBasicConsume();
@@ -98,21 +102,35 @@ namespace EventBus.RabbitMQ
             StartBasicConsume();
         }
 
-        public void UnsubscribeDynamic<TH>(string eventName) 
+        public void UnsubscribeDynamic<TH>(string eventName)
             where TH : IDynamicIntegrationEventHandler
         {
             _subsManager.RemoveDynamicSubscription<TH>(eventName);
         }
 
-        public void Notice(IntegrationEvent @event)
+
+        /// <summary>
+        /// 发布通知
+        /// </summary>
+        /// <param name="event"></param>
+        /// <remarks>广播模式，绑定的队列都会收到信息</remarks>
+        public Task NoticeAsync(IntegrationEvent @event)
         {
-            if (_noticeChannel == null||!_noticeChannel.IsOpen)
+            if (_noticeChannel == null || !_noticeChannel.IsOpen)
             {
                 _noticeChannel = CreateProductorChannel();
             }
-            Push(@event, _noticeChannel,_fanoutExchangeName);
+
+            Push(@event, _noticeChannel, _fanoutExchangeName);
+            return Task.CompletedTask;
         }
 
+        /// <summary>
+        /// 配置广播模式队列和对应动态事件
+        /// </summary>
+        /// <typeparam name="TH">对应事件的处理程序</typeparam>
+        /// <param name="eventName">事件民名称</param>
+        /// <param name="queueName">队列名</param>
         public void ListeningDynamic<TH>(string eventName, string queueName) where TH : IDynamicIntegrationEventHandler
         {
             DoInternalListening(eventName, queueName);
@@ -120,13 +138,21 @@ namespace EventBus.RabbitMQ
             StartBasicListeningConsume(queueName);
         }
 
-        public void UnListeningDynamic<TH>(string eventName, string queueName) where TH : IDynamicIntegrationEventHandler
+        /// <summary>
+        /// 取消配置广播模式队列和对应动态事件
+        /// </summary>
+        /// <typeparam name="TH"></typeparam>
+        /// <param name="eventName"></param>
+        /// <param name="queueName"></param>
+        public void UnListeningDynamic<TH>(string eventName, string queueName)
+            where TH : IDynamicIntegrationEventHandler
         {
-            _subsManager.RemoveDynamicSubscription<TH>(eventName);
+            _subsManager.RemoveDynamicListener<TH>(eventName);
             if (!_persistentConnection.IsConnected)
             {
                 _persistentConnection.TryConnect();
             }
+
             using (var channel = _persistentConnection.CreateModel())
             {
                 channel.QueueUnbind(queue: eventName,
@@ -136,43 +162,19 @@ namespace EventBus.RabbitMQ
                 if (_subsManager.IsEmpty)
                 {
                     _listenChannel.Close();
-                    _listenChannel.Dispose();
                 }
+
                 channel.Close();
             }
         }
 
-        #region private
 
-        private void Push(IntegrationEvent @event,IModel channel,string exchangeName)
-        {
-            if (!_persistentConnection.IsConnected)
-            {
-                _persistentConnection.TryConnect();
-            }
-            var policy = Policy.Handle<BrokerUnreachableException>()
-                .Or<SocketException>()
-                .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)), (ex, time) =>
-                {
-                    _logger.LogWarning("send message with {ex}. retry after {time}s ", ex.Message, time);
-                });
+        #region 直接交换模式
 
-            var eventName = @event.GetType().Name;
-            var message = JsonConvert.SerializeObject(@event);
-            var body = Encoding.UTF8.GetBytes(message);
-            policy.Execute(() =>
-            {
-                var properties = channel.CreateBasicProperties();
-                properties.DeliveryMode = 2;
-                channel.BasicPublish(
-                    exchange: exchangeName,
-                    routingKey: eventName,
-                    mandatory: true,
-                    basicProperties: properties,
-                    body: body);
-            });
-        }
-
+        /// <summary>
+        /// 初始化消费绑定
+        /// </summary>
+        /// <param name="eventName"></param>
         private void DoInternalSubscription(string eventName)
         {
             var containsKey = _subsManager.HasSubscriptionsForEvent(eventName);
@@ -180,10 +182,12 @@ namespace EventBus.RabbitMQ
             {
                 return;
             }
+
             if (!_persistentConnection.IsConnected)
             {
                 _persistentConnection.TryConnect();
             }
+
             using (var channel = _persistentConnection.CreateModel())
             {
                 channel.QueueBind(queue: _directQueueName,
@@ -193,85 +197,9 @@ namespace EventBus.RabbitMQ
             }
         }
 
-
-        private void SubsManager_OnEventRemoved(object sender, string eventName)
-        {
-            if (!_persistentConnection.IsConnected)
-            {
-                _persistentConnection.TryConnect();
-            }
-
-            using (var channel = _persistentConnection.CreateModel())
-            {
-                channel.QueueUnbind(queue: _directQueueName,
-                    exchange: _directExchangeName,
-                    routingKey: eventName);
-
-                if (_subsManager.IsEmpty)
-                {
-                    _directQueueName = string.Empty;
-                    _consumerChannel.Close();
-                    _consumerChannel.Dispose();
-                }
-                channel.Close();
-            }
-        }
-
-        private IModel CreateConsumerChannel()
-        {
-            if (!_persistentConnection.IsConnected)
-            {
-                _persistentConnection.TryConnect();
-            }
-            var channel = _persistentConnection.CreateModel();
-            channel.ExchangeDeclare(exchange: _directExchangeName,
-                type: "direct");
-            channel.QueueDeclare(queue: _directQueueName,
-                durable: true,
-                exclusive: false,
-                autoDelete: false,
-                arguments: null);
-
-            channel.CallbackException += (sender, ea) =>
-            {
-                _logger.LogWarning(ea.Exception, $"error with create rabbitmq channel (CreateConsumerChannel): {ea.Exception.Message}");
-                _consumerChannel.Dispose();
-                _consumerChannel = CreateConsumerChannel();
-                StartBasicConsume();
-            };
-            return channel;
-        }
-
-        private IModel CreateListingChannel()
-        {
-            if (!_persistentConnection.IsConnected)
-            {
-                _persistentConnection.TryConnect();
-            }
-            var channel = _persistentConnection.CreateModel();
-            channel.ExchangeDeclare(exchange: _fanoutExchangeName,
-                type: "fanout");
-            return channel;
-        }
-
-        private IModel CreateProductorChannel()
-        {
-            if (!_persistentConnection.IsConnected)
-            {
-                _persistentConnection.TryConnect();
-            }
-            var channel = _persistentConnection.CreateModel();
-            channel.ExchangeDeclare(exchange: _directExchangeName, type: "direct");
-            channel.CallbackException += (sender, ea) =>
-            {
-                _logger.LogWarning(ea.Exception, $"error with create rabbitmq channel with direct exchange (CreateProductorChannel): {ea.Exception.Message}");
-                _productChannel.Close();
-                _productChannel.Dispose();
-                _productChannel = CreateProductorChannel();
-            };
-            return channel;
-        }
-
+        /// <summary>
+        /// 开始消费 - 基础手动应答模式
+        /// </summary>
         private void StartBasicConsume()
         {
             if (_consumerChannel != null)
@@ -289,6 +217,12 @@ namespace EventBus.RabbitMQ
             }
         }
 
+        /// <summary>
+        /// 消费事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
+        /// <returns></returns>
         private async Task Consumer_Received(object sender, BasicDeliverEventArgs eventArgs)
         {
             var eventName = eventArgs.RoutingKey;
@@ -300,59 +234,35 @@ namespace EventBus.RabbitMQ
             }
             catch (Exception ex)
             {
-                _logger.LogError("接收到信息，在处理信息时发生异常 {@ex}", ex);
+                _logger.LogError(ex, "handle event has an error : {@message}", ex.Message);
             }
+
             _consumerChannel.BasicAck(eventArgs.DeliveryTag, multiple: false);
         }
 
-        private async Task ProcessEvent(string eventName, string message)
-        {
-            if (!_subsManager.HasSubscriptionsForEvent(eventName))
-            {
-                _logger.LogWarning("no handler for：{eventName}。body：{message}", eventName,message);
-                return;
-            }
-
-            var subscriptions = _subsManager.GetHandlersForEvent(eventName);
-            foreach (var subscription in subscriptions)
-            {
-                if (!subscription.Enabled)
-                {
-                    _logger.LogWarning($"{subscription.HandlerType.Name} handler has been disabled");
-                    continue;
-                }
-                if (subscription.IsDynamic)
-                {
-                    if (_serviceProvider.GetService(subscription.HandlerType) is not IDynamicIntegrationEventHandler handler) continue;
-                    dynamic eventData = JsonConvert.DeserializeObject<dynamic>(message);
-                    await Task.Yield();
-                    await handler.Handle(eventData);
-                }
-                else
-                {
-                    var handler = _serviceProvider.GetService(subscription.HandlerType);
-                    if (handler == null) continue;
-                    var eventType = _subsManager.GetEventTypeByName(eventName);
-                    var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
-                    var concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
-                    await Task.Yield();
-                    await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] { integrationEvent });
-                }
-            }
-        }
+        #endregion
 
 
+        #region 广播模式
+
+        /// <summary>
+        /// 初始化广播模式绑定
+        /// </summary>
+        /// <param name="eventName"></param>
+        /// <param name="queueName">队列名称，将绑定到fanoutExchange</param>
         private void DoInternalListening(string eventName, string queueName)
         {
             var containsKey = _subsManager.HasSubscriptionsForEvent(eventName);
-            if (containsKey)
+            if (!containsKey)
             {
                 return;
             }
+
             if (!_persistentConnection.IsConnected)
             {
                 _persistentConnection.TryConnect();
             }
+
             using (var channel = _persistentConnection.CreateModel())
             {
                 channel.QueueDeclare(queueName);
@@ -363,9 +273,13 @@ namespace EventBus.RabbitMQ
             }
         }
 
+        /// <summary>
+        /// 开始基本广播模式消费
+        /// </summary>
+        /// <param name="queueName"></param>
         private void StartBasicListeningConsume(string queueName)
         {
-            if (_consumerChannel != null)
+            if (_listenChannel != null && !_listenChannel.IsClosed)
             {
                 var consumer = new AsyncEventingBasicConsumer(_listenChannel);
                 consumer.Received += Notice_Received;
@@ -380,6 +294,12 @@ namespace EventBus.RabbitMQ
             }
         }
 
+        /// <summary>
+        /// 广播模式消息接受事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventArgs"></param>
+        /// <returns></returns>
         private async Task Notice_Received(object sender, BasicDeliverEventArgs eventArgs)
         {
             var eventName = eventArgs.RoutingKey;
@@ -391,13 +311,196 @@ namespace EventBus.RabbitMQ
             }
             catch (Exception ex)
             {
-                _logger.LogError("接收到信息，在处理信息时发生异常 {@ex}", ex);
+                _logger.LogError(ex, "process notice has an error: {@message}", ex.Message);
             }
+
             _listenChannel.BasicAck(eventArgs.DeliveryTag, multiple: false);
         }
 
         #endregion
 
-        
+
+        #region 接受消息后进行处理
+
+        private async Task ProcessEvent(string eventName, string message)
+        {
+            if (!_subsManager.HasSubscriptionsForEvent(eventName))
+            {
+                _logger.LogWarning("no handler for：{eventName}。body：{message}", eventName, message);
+                return;
+            }
+
+            var subscriptions = _subsManager.GetHandlersForEvent(eventName);
+            foreach (var subscription in subscriptions)
+            {
+                if (!subscription.Enabled)
+                {
+                    _logger.LogWarning($"{subscription.HandlerType.Name} handler has been disabled");
+                    continue;
+                }
+
+                if (subscription.IsDynamic)
+                {
+                    if (_serviceProvider.GetService(subscription.HandlerType) is not IDynamicIntegrationEventHandler
+                        handler) continue;
+                    dynamic eventData = JsonConvert.DeserializeObject<dynamic>(message);
+                    await Task.Yield();
+                    await handler.Handle(eventData);
+                }
+                else
+                {
+                    var handler = _serviceProvider.GetService(subscription.HandlerType);
+                    if (handler == null) continue;
+                    var eventType = _subsManager.GetEventTypeByName(eventName);
+                    var integrationEvent = JsonConvert.DeserializeObject(message, eventType);
+                    var concreteType = typeof(IIntegrationEventHandler<>).MakeGenericType(eventType);
+                    await Task.Yield();
+                    await (Task)concreteType.GetMethod("Handle").Invoke(handler, new object[] {integrationEvent});
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region private
+
+        /// <summary>
+        /// 推送消息到队列
+        /// </summary>
+        /// <param name="event"></param>
+        /// <param name="channel"></param>
+        /// <param name="exchangeName"></param>
+        private void Push(IntegrationEvent @event, IModel channel, string exchangeName)
+        {
+            if (!_persistentConnection.IsConnected)
+            {
+                _persistentConnection.TryConnect();
+            }
+
+            var policy = Policy.Handle<BrokerUnreachableException>()
+                .Or<SocketException>()
+                .WaitAndRetry(_retryCount, retryAttempt => TimeSpan.FromSeconds(Math.Pow(2, retryAttempt)),
+                    (ex, time) =>
+                    {
+                        _logger.LogWarning("send message with {ex}. retry after {time}s ", ex.Message, time);
+                    });
+
+            var eventName = @event.GetType().Name;
+            var message = JsonConvert.SerializeObject(@event);
+            var body = Encoding.UTF8.GetBytes(message);
+            policy.Execute(() =>
+            {
+                var properties = channel.CreateBasicProperties();
+                properties.DeliveryMode = 2;
+                channel.BasicPublish(
+                    exchange: exchangeName,
+                    routingKey: eventName,
+                    mandatory: true,
+                    basicProperties: properties,
+                    body: body);
+            });
+        }
+
+        /// <summary>
+        /// 订阅管理者事件移除事件
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="eventName"></param>
+        private void SubsManager_OnEventRemoved(object sender, string eventName)
+        {
+            if (!_persistentConnection.IsConnected)
+            {
+                _persistentConnection.TryConnect();
+            }
+
+            using (var channel = _persistentConnection.CreateModel())
+            {
+                channel.QueueUnbind(queue: _directQueueName,
+                    exchange: _directExchangeName,
+                    routingKey: eventName);
+
+                if (_subsManager.IsEmpty)
+                {
+                    _consumerChannel.Close();
+                }
+
+                channel.Close();
+            }
+        }
+
+        /// <summary>
+        /// 直连模式消费者信道 - 复用
+        /// </summary>
+        /// <returns></returns>
+        private IModel CreateConsumerChannel()
+        {
+            if (!_persistentConnection.IsConnected)
+            {
+                _persistentConnection.TryConnect();
+            }
+
+            var channel = _persistentConnection.CreateModel();
+            channel.ExchangeDeclare(exchange: _directExchangeName,
+                type: ExchangeType.Direct);
+            channel.QueueDeclare(queue: _directQueueName,
+                durable: true,
+                exclusive: false,
+                autoDelete: false,
+                arguments: null);
+
+            channel.CallbackException += (sender, ea) =>
+            {
+                _logger.LogWarning(ea.Exception,
+                    $"error with create rabbitmq channel (CreateConsumerChannel): {ea.Exception.Message}");
+                _consumerChannel.Dispose();
+                _consumerChannel = CreateConsumerChannel();
+                StartBasicConsume();
+            };
+            return channel;
+        }
+
+        /// <summary>
+        /// 广播模式消费者信道  - 复用
+        /// </summary>
+        /// <returns></returns>
+        private IModel CreateListingChannel()
+        {
+            if (!_persistentConnection.IsConnected)
+            {
+                _persistentConnection.TryConnect();
+            }
+
+            var channel = _persistentConnection.CreateModel();
+            channel.ExchangeDeclare(exchange: _fanoutExchangeName,
+                type: ExchangeType.Fanout);
+            return channel;
+        }
+
+        /// <summary>
+        /// 直连模式身生产者信道 - 复用
+        /// </summary>
+        /// <returns></returns>
+        private IModel CreateProductorChannel()
+        {
+            if (!_persistentConnection.IsConnected)
+            {
+                _persistentConnection.TryConnect();
+            }
+
+            var channel = _persistentConnection.CreateModel();
+            channel.ExchangeDeclare(exchange: _directExchangeName, type: ExchangeType.Direct);
+            channel.CallbackException += (sender, ea) =>
+            {
+                _logger.LogWarning(ea.Exception,
+                    $"error with create rabbitmq channel with direct exchange (CreateProductorChannel): {ea.Exception.Message}");
+                _productChannel.Close();
+                _productChannel.Dispose();
+                _productChannel = CreateProductorChannel();
+            };
+            return channel;
+        }
+
+        #endregion
     }
 }

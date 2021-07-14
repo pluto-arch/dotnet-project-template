@@ -4,18 +4,17 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore.Metadata;
 
 
-namespace EntityFrameworkCore.Extension
+namespace EntityFrameworkCore.Extension.UnitOfWork
 {
     /// <summary>
     /// ef core 仓储
     /// </summary>
     /// <typeparam name="TEntity"></typeparam>
-    public partial class Repository<TContext,TEntity> : IRepository<TEntity> 
-        where TEntity : class,new()
-        where TContext:DbContext
+    public partial class Repository<TContext, TEntity> : IRepository<TEntity>
+        where TEntity : class, new()
+        where TContext : DbContext
     {
         private readonly TContext _dbContext;
 

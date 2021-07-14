@@ -1,8 +1,10 @@
-﻿using System;
-using System.Linq;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+
 using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
 using PlutoNetCoreTemplate.Domain.SeedWork;
+
+using System;
+using System.Linq;
 
 namespace PlutoNetCoreTemplate.Domain
 {

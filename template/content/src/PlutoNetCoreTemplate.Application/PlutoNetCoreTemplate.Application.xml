@@ -24,7 +24,7 @@
             <typeparam name="TRequest"></typeparam>
             <typeparam name="TResponse"></typeparam>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior`2.#ctor(EntityFrameworkCore.Extension.Uows.IUnitOfWork{PlutoNetCoreTemplate.Infrastructure.PlutoNetTemplateDbContext},Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior{`0,`1}})">
+        <member name="M:PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior`2.#ctor(EntityFrameworkCore.Extension.UnitOfWork.Uows.IUnitOfWork{PlutoNetCoreTemplate.Infrastructure.PlutoNetTemplateDbContext},Microsoft.Extensions.Logging.ILogger{PlutoNetCoreTemplate.Application.Behaviors.AutoSaveBehavior{`0,`1}})">
             <summary>
             
             </summary>
@@ -77,20 +77,8 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:PlutoNetCoreTemplate.Application.DependencyRegistrar.AddEventBusRabbitMQ(Microsoft.Extensions.DependencyInjection.IServiceCollection)">
-            <summary>
-            添加rabbitmq eventBus 
-            </summary>
-            <param name="services"></param>
-            <returns></returns>
-        </member>
         <member name="M:PlutoNetCoreTemplate.Application.DomainEventHandler.CreateProductDomainEventHandler.Handle(PlutoNetCoreTemplate.Domain.Events.Products.CreateProductDomainEvent,System.Threading.CancellationToken)">
             <inheritdoc />
-        </member>
-        <member name="T:PlutoNetCoreTemplate.Application.IntegrationEvent.EventHandler.DisableUserIntegrationDynamicEventHandler">
-            <summary>
-            动态事件
-            </summary>
         </member>
         <member name="P:PlutoNetCoreTemplate.Application.Models.ProductModels.DeviceModel.Id">
             <summary>

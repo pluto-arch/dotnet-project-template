@@ -1,15 +1,15 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Permissions
 {
+    using Domain.Aggregates.PermissionGrant;
+    using EntityFrameworkCore.Extension.UnitOfWork.Uows;
+    using Infrastructure;
+    using Models.PermissionModels;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Domain.Aggregates.PermissionGrant;
-    using EntityFrameworkCore.Extension.Uows;
-    using Infrastructure;
-    using Models.PermissionModels;
 
-    public class PermissionAppService:IPermissionAppService
+    public class PermissionAppService : IPermissionAppService
     {
         private readonly IPermissionDefinitionManager _permissionDefinitionManager;
 
@@ -18,7 +18,7 @@
         private readonly IUnitOfWork<PlutoNetTemplateDbContext> _uow;
 
 
-        public PermissionAppService(IPermissionDefinitionManager permissionDefinitionManager,IUnitOfWork<PlutoNetTemplateDbContext> uow)
+        public PermissionAppService(IPermissionDefinitionManager permissionDefinitionManager, IUnitOfWork<PlutoNetTemplateDbContext> uow)
         {
             _permissionDefinitionManager = permissionDefinitionManager;
             _uow = uow;
@@ -45,7 +45,7 @@
                         PermissionGrantModel permissionGrantModel = new()
                         {
                             Name = permission.Name,
-                            DisplayName = permission.DisplayName ,
+                            DisplayName = permission.DisplayName,
                             ParentName = permission.Parent?.Name!,
                             AllowedProviders = permission.AllowedProviders
                         };
@@ -91,7 +91,7 @@
 
                 if (requestModel.IsGranted && permissionGrant is null)
                 {
-                    await _permissionGrantRepository.InsertAsync(new PermissionGrant { Name = requestModel.Name, ProviderName = providerName, ProviderKey = providerKey,CreateTime = DateTimeOffset.UtcNow});
+                    await _permissionGrantRepository.InsertAsync(new PermissionGrant { Name = requestModel.Name, ProviderName = providerName, ProviderKey = providerKey, CreateTime = DateTimeOffset.UtcNow });
                 }
 
                 if (!requestModel.IsGranted && permissionGrant is not null)

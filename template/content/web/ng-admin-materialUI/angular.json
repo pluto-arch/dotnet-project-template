@@ -1,0 +1,160 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "cli": {
+    "analytics": "99c73fdf-1e92-4350-af31-506f9397abc1"
+  },
+  "version": 1,
+  "newProjectRoot": "projects",
+  "projects": {
+    "ng-admin-materialUI": {
+      "projectType": "application",
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss",
+          "skipTests": true
+        },
+        "@schematics/angular:class": {
+          "skipTests": true
+        },
+        "@schematics/angular:directive": {
+          "skipTests": true
+        },
+        "@schematics/angular:guard": {
+          "skipTests": true
+        },
+        "@schematics/angular:interceptor": {
+          "skipTests": true
+        },
+        "@schematics/angular:pipe": {
+          "skipTests": true
+        },
+        "@schematics/angular:service": {
+          "skipTests": true
+        },
+        "@schematics/angular:application": {
+          "strict": true
+        }
+      },
+      "root": "",
+      "sourceRoot": "src",
+      "prefix": "app",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/ng-admin-materialUI",
+            "index": "src/index.html",
+            "main": "src/main.ts",
+            "polyfills": "src/polyfills.ts",
+            "tsConfig": "tsconfig.app.json",
+            "inlineStyleLanguage": "scss",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets"
+            ],
+            "styles": [
+              "src/styles.scss",
+              {
+                "input": "src/themes/colorThemes/indigo-pink.scss",
+                "inject": false
+              },
+              {
+                "input": "src/themes/colorThemes/deeppurple-amber.scss",
+                "inject": false
+              },
+              {
+                "input": "src/themes/colorThemes/blue-yellow.scss",
+                "inject": false
+              },
+              {
+                "input": "src/themes/colorThemes/pink-bluegrey.scss",
+                "inject": false
+              },
+              {
+                "input": "src/themes/colorThemes/purple-green.scss",
+                "inject": false
+              },
+
+              {
+                "input": "src/themes/styles-dark.scss",
+                "inject": false
+              },
+              {
+                "input": "src/themes/colorThemes/indigo-pink-dark.scss",
+                "inject": false
+              },
+              {
+                "input": "src/themes/colorThemes/deeppurple-amber-dark.scss",
+                "inject": false
+              },
+              {
+                "input": "src/themes/colorThemes/blue-yellow-dark.scss",
+                "inject": false
+              },
+              {
+                "input": "src/themes/colorThemes/pink-bluegrey-dark.scss",
+                "inject": false
+              },
+              {
+                "input": "src/themes/colorThemes/purple-green-dark.scss",
+                "inject": false
+              }
+            ],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "500kb",
+                  "maximumError": "1mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "2kb",
+                  "maximumError": "4kb"
+                }
+              ],
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "outputHashing": "all"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
+            }
+          },
+          "defaultConfiguration": "production"
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "configurations": {
+            "production": {
+              "browserTarget": "ng-admin-materialUI:build:production"
+            },
+            "development": {
+              "browserTarget": "ng-admin-materialUI:build:development"
+            }
+          },
+          "defaultConfiguration": "development"
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "ng-admin-materialUI:build"
+          }
+        }
+      }
+    }
+  },
+  "defaultProject": "ng-admin-materialUI"
+}

@@ -1,0 +1,14 @@
+<nz-layout class="container"> 
+  <app-header></app-header>
+  <nz-layout class="content-main">
+    <app-sidebar></app-sidebar>
+    <div class="content-area">
+      <nz-layout class="inner-layout">
+        <nz-content class="inner-content">
+          <router-outlet></router-outlet>
+        </nz-content>
+      </nz-layout>
+      <app-footer></app-footer>
+    </div>
+  </nz-layout>
+</nz-layout>

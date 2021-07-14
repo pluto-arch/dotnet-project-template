@@ -1,22 +1,23 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.HostedService
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Infrastructure;
     using Infrastructure.Listenings;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Hosting;
+
     using Quartz;
     using Quartz.Impl.Matchers;
     using Quartz.Spi;
-    using Serilog;
 
-    public class QuartzHostedService: IHostedService
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public class QuartzHostedService : IHostedService
     {
 
         private readonly ISchedulerFactory _schedulerFactory;
@@ -33,7 +34,7 @@
             _serviceProvider = serviceProvider;
             _jobs = configuration.GetSection("JobSettings").Get<List<JobSetting>>();
         }
-        
+
         public IScheduler Scheduler { get; set; }
 
         /// <inheritdoc />
@@ -48,8 +49,8 @@
             var jobDic = _jobDefined.JobDictionary;
             foreach (var jobInfo in _jobs)
             {
-                var type = jobDic.FirstOrDefault(x=>x.Key==jobInfo.Name).Value;
-                if (type==null)
+                var type = jobDic.FirstOrDefault(x => x.Key == jobInfo.Name).Value;
+                if (type == null)
                 {
                     continue;
                 }
@@ -58,7 +59,7 @@
                     continue;
                 }
                 var job = JobBuilder.Create(type)
-                    .WithIdentity(jobInfo.Name,jobInfo.GroupName)
+                    .WithIdentity(jobInfo.Name, jobInfo.GroupName)
                     .WithDescription(jobInfo.Description)
                     .Build();
                 var trigger = TriggerBuilder.Create()
@@ -66,7 +67,7 @@
                     .WithCronSchedule(jobInfo.Cron)
                     .StartNow()
                     .Build();
-                await Scheduler.ScheduleJob(job, trigger,cancellationToken);
+                await Scheduler.ScheduleJob(job, trigger, cancellationToken);
             }
             await Scheduler.Start(cancellationToken);
         }
@@ -74,7 +75,7 @@
         /// <inheritdoc />
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            if (Scheduler!=null)
+            if (Scheduler != null)
             {
                 await Scheduler.Shutdown(cancellationToken);
             }
@@ -82,7 +83,7 @@
     }
 
 
-    public class SingletonJobFactory: IJobFactory
+    public class SingletonJobFactory : IJobFactory
     {
         private readonly IServiceProvider _serviceProvider;
         public SingletonJobFactory(IServiceProvider serviceProvider)
@@ -95,7 +96,7 @@
             return _serviceProvider.GetRequiredService<QuartzJobRunner>();
         }
 
-        public void ReturnJob(IJob job) 
+        public void ReturnJob(IJob job)
             => (job as IDisposable)?.Dispose();
     }
 

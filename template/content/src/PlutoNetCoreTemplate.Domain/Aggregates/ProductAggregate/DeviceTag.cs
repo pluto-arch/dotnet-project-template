@@ -2,7 +2,7 @@
 {
     using Entities;
 
-    public class DeviceTag:BaseEntity<int>
+    public class DeviceTag : BaseEntity<int>
     {
         public string Name { get; set; }
     }

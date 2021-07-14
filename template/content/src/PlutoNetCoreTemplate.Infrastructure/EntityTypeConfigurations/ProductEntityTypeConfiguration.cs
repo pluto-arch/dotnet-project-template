@@ -1,12 +1,14 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
 {
     using Domain.Aggregates.ProductAggregate;
+
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+
     using ValueGenerator;
 
-    public class DeviceEntityTypeConfiguration:IEntityTypeConfiguration<Device>
+    public class DeviceEntityTypeConfiguration : IEntityTypeConfiguration<Device>
     {
         public void Configure(EntityTypeBuilder<Device> builder)
         {

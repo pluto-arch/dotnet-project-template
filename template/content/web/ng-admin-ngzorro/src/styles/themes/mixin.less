@@ -1,0 +1,16 @@
+.themeMixin(@rules) {
+  html {
+    &.default {
+      @import './default.less';
+      @rules();
+    }
+    &.dark {
+      @import './dark.less';
+      @rules();
+    }
+    &.green-blue {
+      @import './green-blue.less';
+      @rules();
+    }
+  }
+}

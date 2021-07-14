@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PlutoNetCoreTemplate.Infrastructure.Commons
+﻿namespace PlutoNetCoreTemplate.Infrastructure.Commons
 {
     /// <summary>
     /// 验证错误

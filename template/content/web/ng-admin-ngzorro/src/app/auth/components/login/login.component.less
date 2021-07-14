@@ -1,0 +1,29 @@
+@import 'mixin';
+
+.themeMixin({
+  :host {
+    .login-container {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      .login-form-container {
+        min-width: 400px;
+        padding: 20px;
+        box-shadow: 0px 0px 3px 0px @primary-color;
+        .title{
+          font-size: 24px;
+          font-weight: bold;
+          text-align: center;
+          margin: 15px 0 35px 0;
+        }
+      }
+      .login-footer{
+        width: inherit;
+        text-align: center;
+        margin: 20px 0 10px 0;
+      }
+    }
+  }
+});

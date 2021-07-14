@@ -1,6 +1,6 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Command
 {
-	public class BaseCommand
-	{
-	}
+    public class BaseCommand
+    {
+    }
 }

@@ -10,7 +10,7 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.PermissionGrant
     /// <remarks>
     /// 每个租户都有各自的授权数据
     /// </remarks>
-    public class PermissionGrant:BaseAggregateRoot<int>,IMultiTenant
+    public class PermissionGrant : BaseAggregateRoot<int>, IMultiTenant
     {
 
         /*

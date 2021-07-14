@@ -2,8 +2,8 @@
 {
     public enum PermissionGrantResult
     {
-        Undefined, 
-        Granted, 
+        Undefined,
+        Granted,
         Prohibited
     }
 }

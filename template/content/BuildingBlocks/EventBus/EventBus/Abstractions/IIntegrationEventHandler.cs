@@ -1,16 +1,17 @@
-﻿using System.Threading.Tasks;
-using EventBus.Event;
+﻿using EventBus.Event;
+
+using System.Threading.Tasks;
 
 namespace EventBus.Abstractions
 {
-    
+
 
 
     /// <summary>
     /// 集成事件处理者
     /// </summary>
     /// <typeparam name="TIntegrationEvent"></typeparam>
-    public interface IIntegrationEventHandler<in TIntegrationEvent> 
+    public interface IIntegrationEventHandler<in TIntegrationEvent>
         : IIntegrationEventHandler where TIntegrationEvent : IntegrationEvent
     {
         /// <summary>

@@ -5,12 +5,13 @@ using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
 
 namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
 {
-    using System.Collections.Generic;
     using Domain.Aggregates.SystemAggregate;
+
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
     using Newtonsoft.Json;
-    using ValueGenerator;
+
+    using System.Collections.Generic;
 
     public static class SystemEntityTypeConfiguration
     {
@@ -55,7 +56,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
             {
                 builder.ToTable("PermissionGroupDefinition");
                 builder.HasKey(e => e.Id);
-                builder.Property(x => x.Id).UseIdentityColumn(1,1);
+                builder.Property(x => x.Id).UseIdentityColumn(1, 1);
                 builder.Property(e => e.Name).IsRequired().HasMaxLength(64);
                 builder.Property(e => e.DisplayName).IsRequired().HasMaxLength(128);
                 builder.Property(e => e.CreateTime).HasDefaultValueSql("GETDATE()");
@@ -77,7 +78,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
             {
                 builder.ToTable("PermissionDefinition");
                 builder.HasKey(e => e.Id);
-                builder.Property(x => x.Id).UseIdentityColumn(1,1);
+                builder.Property(x => x.Id).UseIdentityColumn(1, 1);
                 builder.Property(e => e.Name).IsRequired().HasMaxLength(64);
                 builder.Property(e => e.DisplayName).IsRequired().HasMaxLength(128);
                 builder.Property(e => e.Url).HasMaxLength(128);

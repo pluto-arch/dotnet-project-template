@@ -1,12 +1,13 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate
 {
-    using System.Collections.Generic;
     using Entities;
+
+    using System.Collections.Generic;
 
     /// <summary>
     /// 产品
     /// </summary>
-    public class Product: BaseAggregateRoot<string>,IMultiTenant,ISoftDelete
+    public class Product : BaseAggregateRoot<string>, IMultiTenant, ISoftDelete
     {
 
         public Product()

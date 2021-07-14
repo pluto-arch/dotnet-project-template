@@ -1,5 +1,4 @@
 ﻿using NUnit.Framework;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace PlutoNetCoreTemplate.Test.ApplicationTest
 {
@@ -8,7 +7,7 @@ namespace PlutoNetCoreTemplate.Test.ApplicationTest
         [Test]
         public void GET_Users()
         {
-           
+
         }
     }
 }

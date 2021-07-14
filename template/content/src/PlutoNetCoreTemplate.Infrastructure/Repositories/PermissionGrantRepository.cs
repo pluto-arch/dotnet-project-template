@@ -1,12 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.Repositories
 {
+    using Domain.Aggregates.PermissionGrant;
+    using global::EntityFrameworkCore.Extension.UnitOfWork;
+    using Microsoft.EntityFrameworkCore;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
-    using Domain.Aggregates.PermissionGrant;
-    using global::EntityFrameworkCore.Extension;
-    using Microsoft.EntityFrameworkCore;
 
     public class PermissionGrantRepository : Repository<PlutoNetTemplateDbContext, PermissionGrant>, IPermissionGrantRepository
     {

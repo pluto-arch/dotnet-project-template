@@ -14,7 +14,7 @@
         /// 名称
         /// </summary>
         public string Name { get; }
-        
+
 
         /// <summary>
         /// 显示名称
@@ -26,7 +26,7 @@
         /// </summary>
         public PermissionDefinition Parent { get; private set; }
 
-        
+
         /// <summary>
         /// 允许的提供者，eg. role/dept
         /// </summary>
@@ -48,14 +48,14 @@
         public bool IsEnabled { get; set; }
 
 
-        protected internal PermissionDefinition([NotNull]string name, string displayName = null, bool isEnabled = true)
+        protected internal PermissionDefinition([NotNull] string name, string displayName = null, bool isEnabled = true)
         {
             Name = name;
             DisplayName = displayName;
             IsEnabled = isEnabled;
         }
 
-        public virtual PermissionDefinition AddChild([NotNull]string name, string displayName = null, bool isEnabled = true)
+        public virtual PermissionDefinition AddChild([NotNull] string name, string displayName = null, bool isEnabled = true)
         {
             var child = new PermissionDefinition(name, displayName, isEnabled) { Parent = this };
             _children.Add(child);

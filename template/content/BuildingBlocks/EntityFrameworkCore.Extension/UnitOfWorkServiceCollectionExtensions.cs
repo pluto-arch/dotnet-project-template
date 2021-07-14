@@ -1,12 +1,11 @@
-﻿using System;
-using System.Linq;
-using System.Reflection;
-using EntityFrameworkCore.Extension.Uows;
+﻿using EntityFrameworkCore.Extension.UnitOfWork.Uows;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
+using System.Reflection;
 
 
-namespace EntityFrameworkCore.Extension
+namespace EntityFrameworkCore.Extension.UnitOfWork
 {
     /// <summary>
     /// 
@@ -17,7 +16,7 @@ namespace EntityFrameworkCore.Extension
         /// <summary>
         /// 添加仓储
         /// </summary>
-        public static void AddRepository(this IServiceCollection services, Assembly assembly = null,bool repositoryScoped=false)
+        public static void AddRepository(this IServiceCollection services, Assembly assembly = null, bool repositoryScoped = false)
         {
             assembly ??= Assembly.GetEntryAssembly();
             var implTypes = assembly?.GetTypes().Where(c => !c.IsInterface && c.Name.EndsWith("Repository")).ToList();

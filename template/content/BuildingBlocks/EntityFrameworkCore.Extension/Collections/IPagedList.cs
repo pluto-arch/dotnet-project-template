@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace EntityFrameworkCore.Extension.Collections
+namespace EntityFrameworkCore.Extension.UnitOfWork.Collections
 {
     /// <summary>
     /// PagedList interface

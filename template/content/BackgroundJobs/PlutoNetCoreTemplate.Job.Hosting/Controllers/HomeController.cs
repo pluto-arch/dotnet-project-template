@@ -2,17 +2,18 @@
 
 namespace PlutoNetCoreTemplate.Job.Hosting.Controllers
 {
-    using System;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Infrastructure;
+
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Logging;
+
     using Models;
-    using Polly;
-    using Polly.Retry;
+
     using Quartz;
+
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class HomeController : Controller
     {
@@ -21,7 +22,7 @@ namespace PlutoNetCoreTemplate.Job.Hosting.Controllers
         private readonly IConfiguration _configuration;
         private readonly IJobInfoStore _jobInfoStore;
 
-        public HomeController(ISchedulerFactory jobSchedularFactory, ILogger<HomeController> logger,IConfiguration configuration, IJobInfoStore jobInfoStore)
+        public HomeController(ISchedulerFactory jobSchedularFactory, ILogger<HomeController> logger, IConfiguration configuration, IJobInfoStore jobInfoStore)
         {
             _jobSchedularFactory = jobSchedularFactory;
             _logger = logger;
@@ -32,7 +33,7 @@ namespace PlutoNetCoreTemplate.Job.Hosting.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var scheduler =await _jobSchedularFactory.GetScheduler();
+            var scheduler = await _jobSchedularFactory.GetScheduler();
             var jobs = await scheduler.GetCurrentlyExecutingJobs();
             ViewData["JobCount"] = await _jobInfoStore.CountAsync();
             ViewData["RunningJobCount"] = jobs.Count;

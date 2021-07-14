@@ -1,9 +1,10 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Permissions
 {
+    using Models.PermissionModels;
+
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
-    using Models.PermissionModels;
 
     public interface IPermissionAppService
     {

@@ -4,7 +4,7 @@
     {
         public const string GroupName = "ProductManager";
 
-        
+
         public static class Product
         {
             public const string Default = GroupName + ".Products";
@@ -13,7 +13,7 @@
             public const string Delete = Default + ".Delete";
         }
 
-        
+
         public static class Device
         {
             public const string Default = GroupName + ".Devices";

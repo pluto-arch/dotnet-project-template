@@ -3,7 +3,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Threading.Tasks;
 
-    public class NullPermissionStore:IPermissionStore
+    public class NullPermissionStore : IPermissionStore
     {
         /// <inheritdoc />
         public Task<bool> IsGrantedAsync([NotNull] string name, [MaybeNull] string providerName, [MaybeNull] string providerKey)

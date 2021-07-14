@@ -1,8 +1,7 @@
-﻿using System;
-using System.Text.Json.Serialization;
+﻿using PlutoNetCoreTemplate.Infrastructure.Exceptions;
+
+using System;
 using System.Threading.Tasks;
-using MediatR;
-using PlutoNetCoreTemplate.Infrastructure.Exceptions;
 
 namespace PlutoNetCoreTemplate.Infrastructure.Idempotency
 {
@@ -15,13 +14,13 @@ namespace PlutoNetCoreTemplate.Infrastructure.Idempotency
             return false;
         }
 
-        public async Task CreateRequestForCommandAsync<T>(Guid id,T cmd)
+        public async Task CreateRequestForCommandAsync<T>(Guid id, T cmd)
         {
             await Task.Delay(1);
             var exists = await ExistAsync(id);
             // command 执行过了，抛出异常，否则创建request，然后将request信息保存到redis或者数据库
-            var request = exists ? 
-                              throw new RepeatedCommandException($"请勿重复执行：{id}") : 
+            var request = exists ?
+                              throw new RepeatedCommandException($"请勿重复执行：{id}") :
                               new ClientRequest<T>()
                               {
                                   Id = id,

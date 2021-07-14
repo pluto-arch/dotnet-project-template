@@ -1,0 +1,49 @@
+<div class="themes-switch">
+  <i nz-icon nzType="skin" [nzTheme]="skinTheme" style="font-size: 16px;width: 24px;" (click)="triggleTheme()"></i>
+</div>
+
+<div class="user-notice">
+  
+  <i nz-dropdown nzTrigger="click" [nzDropdownMenu]="messageCenter" [nzPlacement]="'bottomRight'">
+    <nz-badge nzDot="true">
+      <i nz-icon nzType="bell"  nzTheme="outline" style="font-size: 16px;width: 24px;"></i>
+    </nz-badge>
+  </i>
+  <nz-dropdown-menu #messageCenter="nzDropdownMenu">
+    <ul nz-menu>
+      <li nz-menu-item>1st menu item</li>
+      <li nz-menu-item>2nd menu item</li>
+      <li nz-menu-divider></li>
+      <li nz-menu-item nzDisabled>disabled menu item</li>
+      <li nz-submenu nzTitle="sub menu">
+        <ul>
+          <li nz-menu-item>3rd menu item</li>
+          <li nz-menu-item>4th menu item</li>
+        </ul>
+      </li>
+      <li nz-submenu nzDisabled nzTitle="disabled sub menu">
+        <ul>
+          <li nz-menu-item>3rd menu item</li>
+          <li nz-menu-item>4th menu item</li>
+        </ul>
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</div>
+
+<div class="login-user">
+  <a nz-dropdown [nzDropdownMenu]="menu" [nzPlacement]="'bottomRight'">
+    管理员11212121
+    <i nz-icon nzType="down"></i>
+  </a>
+  <nz-dropdown-menu #menu="nzDropdownMenu">
+    <ul nz-menu nzSelectable>
+      <li nz-menu-item>个人中心</li>
+      <li nz-menu-item>个人设置</li>
+      <li nz-menu-divider></li>
+      <li nz-menu-item nzDanger>
+        <i nz-icon nzType="logout" nzTheme="outline"></i>  注销
+      </li>
+    </ul>
+  </nz-dropdown-menu>
+</div>

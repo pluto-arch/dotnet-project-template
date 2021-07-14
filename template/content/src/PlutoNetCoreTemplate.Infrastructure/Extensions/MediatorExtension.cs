@@ -1,9 +1,11 @@
 ﻿
+using MediatR;
+
+using PlutoNetCoreTemplate.Domain.Entities;
+
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using MediatR;
-using PlutoNetCoreTemplate.Domain.Entities;
 
 namespace PlutoNetCoreTemplate.Infrastructure.Extensions
 {

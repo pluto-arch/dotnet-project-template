@@ -1,0 +1,43 @@
+@use '~@angular/material' as mat;
+@import './themes/index.scss';
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+// 全局颜色
+// 灰色 调色盘
+$my-gray: mat.define-palette($mat-gray);
+:root {
+  // 灰色 600 透明度.3  激活项的背景
+  --my-gray-3: #{mat-color($my-gray, 600, 0.3)};
+}
+
+body > * ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+body > * ::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
+body > * ::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  -ms-border-radius: 8px;
+  -o-border-radius: 8px;
+  background-color: #adb0b8;
+}
+
+.ng-bar-placeholder {
+  height: 4px !important;
+}
+
+@import './styles/material.scss';

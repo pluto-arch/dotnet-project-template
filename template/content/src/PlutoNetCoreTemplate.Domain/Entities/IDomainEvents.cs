@@ -1,6 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using MediatR;
 
-using MediatR;
+using System.Collections.Generic;
 
 namespace PlutoNetCoreTemplate.Domain.Entities
 {

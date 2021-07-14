@@ -8,7 +8,7 @@
     /// <summary>
     /// 用户级别的权限值检测提供程序
     /// </summary>
-    public class UserPermissionValueProvider:IPermissionValueProvider
+    public class UserPermissionValueProvider : IPermissionValueProvider
     {
         public string Name => "User";
 

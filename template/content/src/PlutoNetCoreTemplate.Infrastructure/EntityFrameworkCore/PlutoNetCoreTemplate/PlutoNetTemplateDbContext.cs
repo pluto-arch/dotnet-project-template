@@ -1,9 +1,4 @@
 ﻿
-using System.Linq;
-using System.Reflection;
-using System.Threading;
-using System.Threading.Tasks;
-
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +6,10 @@ using Microsoft.Extensions.DependencyInjection;
 using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
 using PlutoNetCoreTemplate.Domain.Entities;
 using PlutoNetCoreTemplate.Infrastructure.Extensions;
+
+using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace PlutoNetCoreTemplate.Infrastructure
 {
@@ -29,11 +28,11 @@ namespace PlutoNetCoreTemplate.Infrastructure
             : base(options)
         {
             _tenantProvider = tenantProvider;
-            _mediator=this.GetInfrastructure().GetService<IMediator>() ?? NullMediatorProvider.GetNullMediator();
+            _mediator = this.GetInfrastructure().GetService<IMediator>() ?? NullMediatorProvider.GetNullMediator();
         }
 
         #region Entitys and configuration 
-        
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new PermissionEntityTypeConfiguration());
@@ -42,12 +41,13 @@ namespace PlutoNetCoreTemplate.Infrastructure
             modelBuilder.ApplyConfiguration(new DeviceEntityTypeConfiguration.ProductEntityTypeConfiguration());
 
 
+
             foreach (var item in modelBuilder.Model.GetEntityTypes())
             {
                 // 多租户
                 if (item.ClrType.IsAssignableTo(typeof(IMultiTenant)))
                 {
-                    modelBuilder.Entity(item.ClrType).AddQueryFilter<IMultiTenant>(e => e.TenantId==_tenantProvider.GetTenantId());
+                    modelBuilder.Entity(item.ClrType).AddQueryFilter<IMultiTenant>(e => e.TenantId == _tenantProvider.GetTenantId());
                 }
 
 

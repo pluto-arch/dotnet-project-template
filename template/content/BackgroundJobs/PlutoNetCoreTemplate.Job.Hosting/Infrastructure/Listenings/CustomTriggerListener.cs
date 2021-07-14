@@ -1,15 +1,15 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.Infrastructure.Listenings
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Quartz;
 
+    using System.Threading;
+    using System.Threading.Tasks;
 
 
 
 
-    public class NullTriggerListener:ITriggerListener
+
+    public class NullTriggerListener : ITriggerListener
     {
         /// <inheritdoc />
         public Task TriggerFired(ITrigger trigger, IJobExecutionContext context,
@@ -46,7 +46,7 @@
 
 
 
-    public class CustomTriggerListener:ITriggerListener
+    public class CustomTriggerListener : ITriggerListener
     {
         /// <summary>
         /// job执行时调用

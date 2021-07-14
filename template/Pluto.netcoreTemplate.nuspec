@@ -2,7 +2,7 @@
 <package xmlns="http://schemas.microsoft.com/packaging/2012/06/nuspec.xsd">
   <metadata>
     <id>PlutoNetCoreTemplate</id>
-    <version>1.4.1</version>
+    <version>1.5.2</version>
     <description>
       asp.net core project template
     </description>
@@ -12,6 +12,6 @@
     </packageTypes>
   </metadata>
   <files>
-    <file src="content\**" target="content" exclude="**.vs\**;**.idea\**;**\**\**\bin\**;**\**\**\obj\**;**\**\**\*.xml" />
+    <file src="content\**" target="content" exclude="**.vs\**;**.vscode\**;**.idea\**;**\**\**\bin\**;**\**\**\obj\**;**\**\**\*.xml;**\**\**\Logs\**;**\**\**\*.csproj.user;**\**\node_modules\**" />
   </files>
 </package>

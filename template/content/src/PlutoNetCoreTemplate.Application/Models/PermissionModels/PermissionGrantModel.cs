@@ -12,6 +12,6 @@
 
         public bool IsGranted { get; set; }
 
-        public List<string> AllowedProviders { get; set; } 
+        public List<string> AllowedProviders { get; set; }
     }
 }

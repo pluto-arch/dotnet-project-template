@@ -2,19 +2,20 @@
 using Microsoft.EntityFrameworkCore.ChangeTracking;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
+
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Transactions;
 
-namespace EntityFrameworkCore.Extension.Uows
+namespace EntityFrameworkCore.Extension.UnitOfWork.Uows
 {
-	/// <summary>
-	/// 
-	/// </summary>
-	/// <typeparam name="TContext"></typeparam>
-	public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TContext"></typeparam>
+    public class UnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext
     {
         private readonly TContext _context;
         private bool disposed = false;
@@ -46,7 +47,7 @@ namespace EntityFrameworkCore.Extension.Uows
             get { return _currentTransaction != null; }
         }
 
-      
+
         /// <inheritdoc />
         public TRepository GetRepository<TRepository>()
         {
@@ -60,7 +61,7 @@ namespace EntityFrameworkCore.Extension.Uows
 
 
         /// <inheritdoc />
-        public IRepository<TEntity> GetBaseRepository<TEntity>() where TEntity : class,new()
+        public IRepository<TEntity> GetBaseRepository<TEntity>() where TEntity : class, new()
         {
             var repository = _context.GetService<IRepository<TEntity>>();
             if (repository == null)

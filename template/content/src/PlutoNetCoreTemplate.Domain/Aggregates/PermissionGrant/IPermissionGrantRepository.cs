@@ -3,9 +3,10 @@
     using global::System.Collections.Generic;
     using global::System.Threading;
     using global::System.Threading.Tasks;
+
     using SeedWork;
 
-    public interface IPermissionGrantRepository:IPlutoNetCoreTemplateBaseRepository<PermissionGrant>
+    public interface IPermissionGrantRepository : IPlutoNetCoreTemplateBaseRepository<PermissionGrant>
     {
         Task<PermissionGrant> FindAsync(string name, string providerName, string providerKey, CancellationToken cancellationToken = default);
 

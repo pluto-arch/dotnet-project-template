@@ -36,17 +36,11 @@
 	</ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BuildingBlocks\EventBus\EventBus.RabbitMQ\EventBus.RabbitMQ.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Domain\PlutoNetCoreTemplate.Domain.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
   </ItemGroup>
 	<ItemGroup Condition="'$(Grpc)'=='true'">
 		<Protobuf Include="..\PlutoNetCoreTemplate.Grpc.Protocol\Protocols\*.proto" GrpcServices="Both" />
-	</ItemGroup>
-	<ItemGroup>
-	  <Reference Include="PlutoData">
-	    <HintPath>..\..\..\..\..\efcore-unitofwork-and-repository\PlutoData-efcore\PlutoData\bin\Debug\net5.0\PlutoData.dll</HintPath>
-	  </Reference>
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="AppServices\ProductAppServices\" />

@@ -1,19 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
 
 
 namespace EventBus
 {
     using Abstractions;
+
     using Event;
 
     /// <summary>
     /// 内存中订阅管理者
     /// </summary>
-    public class InMemoryEventBusSubscriptionsManager: IEventBusSubscriptionsManager
+    public class InMemoryEventBusSubscriptionsManager : IEventBusSubscriptionsManager
     {
 
         private readonly Dictionary<string, List<SubscriptionInfo>> _handlers;
@@ -62,15 +61,31 @@ namespace EventBus
             DoRemoveHandler(eventName, handlerToRemove);
         }
 
+        public void RemoveDynamicListener<TH>(string eventName) where TH : IDynamicIntegrationEventHandler
+        {
+            var handlerToRemove = FindDynamicSubscriptionToRemove<TH>(eventName);
+            if (handlerToRemove == null)
+            {
+                return;
+            }
+
+            var handler = _handlers[eventName].FirstOrDefault(x => x == handlerToRemove);
+            if (handler != null)
+            {
+                handler.Enabled = false;
+            }
+        }
+
+
         public bool HasSubscriptionsForEvent<T>() where T : IntegrationEvent
         {
             var key = GetEventKey<T>();
             return HasSubscriptionsForEvent(key);
         }
 
-        public bool HasSubscriptionsForEvent(string eventName)=> _handlers.ContainsKey(eventName);
+        public bool HasSubscriptionsForEvent(string eventName) => _handlers.ContainsKey(eventName);
 
-        public Type GetEventTypeByName(string eventName)=> _eventTypes.SingleOrDefault(t => t.Name == eventName);
+        public Type GetEventTypeByName(string eventName) => _eventTypes.SingleOrDefault(t => t.Name == eventName);
 
         public IEnumerable<SubscriptionInfo> GetHandlersForEvent<T>() where T : IntegrationEvent
         {
@@ -122,15 +137,15 @@ namespace EventBus
                 return;
             }
 
-            var handler=_handlers[eventName].FirstOrDefault(x => x == subsToRemove);
-            if (handler!=null)
+            var handler = _handlers[eventName].FirstOrDefault(x => x == subsToRemove);
+            if (handler != null)
             {
                 handler.Enabled = false;
                 RaiseOnEventRemoved(eventName);
             }
         }
 
-        private void DoAddSubscription(Type handlerType, string eventName, bool isDynamic=false)
+        private void DoAddSubscription(Type handlerType, string eventName, bool isDynamic = false)
         {
             if (!HasSubscriptionsForEvent(eventName))
             {

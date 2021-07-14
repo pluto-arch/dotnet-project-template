@@ -1,8 +1,9 @@
 ﻿namespace PlutoNetCoreTemplate.Application.AppServices.ProductAppServices
 {
+    using Models.ProductModels;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Models.ProductModels;
 
     public interface IProductAppService
     {

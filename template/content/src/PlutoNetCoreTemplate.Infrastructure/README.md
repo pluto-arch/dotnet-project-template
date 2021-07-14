@@ -2,12 +2,22 @@
 
 ```
 -- PlutoNetTemplateDbContext
-Add-Migration InitialCreate -Context PlutoNetTemplateDbContext -Project PlutoNetCoreTemplate.Infrastructure -StartupProject PlutoNetCoreTemplate.Infrastructure
+Add-Migration InitialCreate -Context PlutoNetTemplateDbContext -Project PlutoNetCoreTemplate.Infrastructure -StartupProject PlutoNetCoreTemplate.Infrastructure -OutputDir Migrations/Bussiness
+
+
+Remove-Migration -Context PlutoNetTemplateDbContext -Project PlutoNetCoreTemplate.Infrastructure -StartupProject PlutoNetCoreTemplate.Infrastructure
+
+
 Update-Database -Context PlutoNetTemplateDbContext -Project PlutoNetCoreTemplate.Infrastructure -StartupProject PlutoNetCoreTemplate.Infrastructure
 
 
 -- SystemDbContext
-Add-Migration InitialCreate -Context SystemDbContext -Project PlutoNetCoreTemplate.Infrastructure -StartupProject PlutoNetCoreTemplate.Infrastructure
+Add-Migration InitialCreate -Context SystemDbContext -Project PlutoNetCoreTemplate.Infrastructure -StartupProject PlutoNetCoreTemplate.Infrastructure -OutputDir Migrations/System
+
+
+Remove-Migration -Context SystemDbContext -Project PlutoNetCoreTemplate.Infrastructure -StartupProject PlutoNetCoreTemplate.Infrastructure
+
+
 Update-Database -Context SystemDbContext -Project PlutoNetCoreTemplate.Infrastructure -StartupProject PlutoNetCoreTemplate.Infrastructure
 
 ```

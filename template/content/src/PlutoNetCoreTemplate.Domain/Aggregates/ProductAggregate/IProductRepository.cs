@@ -2,7 +2,7 @@
 {
     using SeedWork;
 
-    public interface IProductRepository:IPlutoNetCoreTemplateBaseRepository<Product>
+    public interface IProductRepository : IPlutoNetCoreTemplateBaseRepository<Product>
     {
     }
 }

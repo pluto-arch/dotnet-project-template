@@ -1,8 +1,8 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.SeedWork
 {
-    using EntityFrameworkCore.Extension;
+    using EntityFrameworkCore.Extension.UnitOfWork;
 
-    public interface IPlutoNetCoreTemplateBaseRepository<TEntity>: IRepository<TEntity>
-        where TEntity : class,new()
-    {}
+    public interface IPlutoNetCoreTemplateBaseRepository<TEntity> : IRepository<TEntity>
+        where TEntity : class, new()
+    { }
 }

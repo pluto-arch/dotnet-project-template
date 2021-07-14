@@ -8,7 +8,7 @@
     /// <summary>
     /// 角色级别的权限值检测提供程序
     /// </summary>
-    public class RolePermissionValueProvider:IPermissionValueProvider
+    public class RolePermissionValueProvider : IPermissionValueProvider
     {
 
         public const string ProviderName = "Role";

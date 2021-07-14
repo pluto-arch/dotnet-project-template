@@ -1,10 +1,5 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
-    using System.Linq;
-    using System.Reflection;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Domain.Aggregates.TenantAggregate;
     using Domain.Entities;
     using EntityTypeConfigurations;
     using Extensions;
@@ -12,20 +7,23 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.Extensions.DependencyInjection;
+
+    using PlutoNetCoreTemplate.Domain.Aggregates.DemoTree;
+
     using Providers;
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
 
 
-    /// <summary>
-    /// 租户DB上下文
-    /// </summary>
-    public class SystemDbContext: DbContext
+    public class SystemDbContext : DbContext
     {
         private readonly IMediator _mediator;
 
         public SystemDbContext(DbContextOptions<SystemDbContext> options)
             : base(options)
         {
-            _mediator=this.GetInfrastructure().GetService<IMediator>() ?? NullMediatorProvider.GetNullMediator();
+            _mediator = this.GetInfrastructure().GetService<IMediator>() ?? NullMediatorProvider.GetNullMediator();
         }
 
 
@@ -36,6 +34,22 @@
             modelBuilder.ApplyConfiguration(new SystemEntityTypeConfiguration.TenantConnectionStringEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SystemEntityTypeConfiguration.PermissionGroupDefinitionEntityTypeConfiguration());
             modelBuilder.ApplyConfiguration(new SystemEntityTypeConfiguration.PermissionDefinitionEntityTypeConfiguration());
+
+
+
+            modelBuilder.Entity<Folder>(entity =>
+            {
+                entity.HasKey(x => x.Id);
+                entity.Property(x => x.Name);
+                entity.HasOne(x => x.Parent)
+                    .WithMany(x => x.SubFolders)
+                    .HasForeignKey(x => x.ParentId)
+                    .IsRequired(false)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+
+
             foreach (var item in modelBuilder.Model.GetEntityTypes())
             {
                 // 软删除

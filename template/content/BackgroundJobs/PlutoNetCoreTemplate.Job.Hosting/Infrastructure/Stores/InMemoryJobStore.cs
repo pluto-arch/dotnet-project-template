@@ -1,17 +1,17 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.Infrastructure
 {
-    using System;
-    using System.Collections.Concurrent;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Models;
+
     using Quartz;
 
-    public class InMemoryJobStore:IJobInfoStore
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    public class InMemoryJobStore : IJobInfoStore
     {
-        private static List<JobInfoModel> jobs = new ();
+        private static List<JobInfoModel> jobs = new();
 
         /// <inheritdoc />
         public Task<int> CountAsync()
@@ -35,14 +35,14 @@
         /// <inheritdoc />
         public async Task<JobInfoModel> GetAsync(JobKey job)
         {
-            var model = jobs.FirstOrDefault(x=>x.GroupName==job.Group&&x.TaskName==job.Name);
+            var model = jobs.FirstOrDefault(x => x.GroupName == job.Group && x.TaskName == job.Name);
             return await Task.FromResult(model);
         }
 
         /// <inheritdoc />
         public async Task AddAsync(JobInfoModel job)
         {
-            if (jobs.Any(x=>x.GroupName==job.GroupName&&x.TaskName==job.TaskName))
+            if (jobs.Any(x => x.GroupName == job.GroupName && x.TaskName == job.TaskName))
             {
                 throw new InvalidOperationException("任务已存在");
             }
@@ -53,7 +53,7 @@
         /// <inheritdoc />
         public async Task UpdateAsync(JobInfoModel job)
         {
-            if (!jobs.Any(x=>x.GroupName==job.GroupName&&x.TaskName==job.TaskName))
+            if (!jobs.Any(x => x.GroupName == job.GroupName && x.TaskName == job.TaskName))
             {
                 throw new InvalidOperationException("任务不存在");
             }
@@ -64,7 +64,7 @@
         }
 
         /// <inheritdoc />
-        public async Task RemoveAsync(string groupName,string jobName)
+        public async Task RemoveAsync(string groupName, string jobName)
         {
             var old = jobs.FirstOrDefault(x => x.GroupName == groupName && x.TaskName == jobName);
             jobs.Remove(old);
@@ -72,10 +72,10 @@
         }
 
         /// <inheritdoc />
-        public async Task PauseAsync(string groupName,string jobName)
+        public async Task PauseAsync(string groupName, string jobName)
         {
             var old = jobs.FirstOrDefault(x => x.GroupName == groupName && x.TaskName == jobName);
-            if (old==null)
+            if (old == null)
             {
                 throw new InvalidOperationException("任务不存在");
             }

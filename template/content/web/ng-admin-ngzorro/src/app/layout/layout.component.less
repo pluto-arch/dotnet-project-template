@@ -1,0 +1,46 @@
+@import 'mixin';
+
+.themeMixin({
+  :host {
+
+    .container{
+      height: 100%;
+    }
+
+    .content-main{
+      width: 100%;
+      margin-top: 50px;
+      display: flex;
+      flex-direction: row;
+      app-sidebar{
+        display: contents;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .content-area{
+        width: 100%;
+        height: 100%;
+        overflow-x: hidden;
+        overflow-y: auto;
+      }
+
+      .ant-menu{
+        width: auto;
+        overflow-y: auto;
+        overflow-x: hidden;
+        border: 0;
+      }
+      .inner-layout{
+        margin-top: 20px;
+        padding: 0 24px;
+        nz-content {
+          overflow: hidden;
+          min-height: 84.6vh;
+          // background:  mix(@component-background, #fff, 80%);
+        }
+      }
+    }
+  }
+});

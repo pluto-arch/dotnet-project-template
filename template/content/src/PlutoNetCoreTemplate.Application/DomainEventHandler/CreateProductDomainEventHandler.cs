@@ -1,12 +1,15 @@
 ﻿namespace PlutoNetCoreTemplate.Application.DomainEventHandler
 {
-    using System.Threading;
-    using System.Threading.Tasks;
     using Domain.Events.Products;
+
     using MediatR;
+
     using Microsoft.Extensions.Logging;
 
-    public class CreateProductDomainEventHandler:INotificationHandler<CreateProductDomainEvent>
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public class CreateProductDomainEventHandler : INotificationHandler<CreateProductDomainEvent>
     {
         private readonly ILogger<CreateProductDomainEventHandler> _logger;
         public CreateProductDomainEventHandler(ILogger<CreateProductDomainEventHandler> logger)
@@ -19,7 +22,7 @@
         public async Task Handle(CreateProductDomainEvent notification, CancellationToken cancellationToken)
         {
             await Task.Delay(1);
-            _logger.LogInformation("处理：{@event} , 参数：{@param}",nameof(CreateProductDomainEvent),notification);
+            _logger.LogInformation("处理：{@event} , 参数：{@param}", nameof(CreateProductDomainEvent), notification);
         }
     }
 }

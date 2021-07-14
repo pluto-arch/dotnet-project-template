@@ -1,6 +1,5 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.Models
 {
-    using System;
     using Quartz;
 
     public class JobInfoModel

@@ -4,7 +4,7 @@
     {
         public const string GroupName = "TenantManager";
 
-        
+
         public static class Tenant
         {
             public const string Default = GroupName + ".Tenant";

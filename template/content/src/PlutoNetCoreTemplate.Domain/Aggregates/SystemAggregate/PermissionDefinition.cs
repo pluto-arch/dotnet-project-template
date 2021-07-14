@@ -1,24 +1,25 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Aggregates.SystemAggregate
 {
+    using Entities;
+
     using System.Collections.Generic;
     using System.Collections.Immutable;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using Entities;
 
     /// <summary>
     /// 权限定义
     /// </summary>
-    public class PermissionDefinition:BaseEntity<int>
+    public class PermissionDefinition : BaseEntity<int>
     {
 
         public PermissionDefinition()
         {
-            
+
         }
 
-        public PermissionDefinition([NotNull]string name, string displayName = null, bool isEnabled = true)
+        public PermissionDefinition([NotNull] string name, string displayName = null, bool isEnabled = true)
         {
             Name = name;
             DisplayName = displayName;
@@ -30,7 +31,7 @@
         /// 名称
         /// </summary>
         public string Name { get; set; }
-        
+
 
         /// <summary>
         /// 显示名称
@@ -86,7 +87,7 @@
         public IReadOnlyList<PermissionDefinition> Children => _children.ToImmutableList();
 
 
-        public virtual PermissionDefinition AddChild([NotNull]string name, string displayName = null, bool isEnabled = true)
+        public virtual PermissionDefinition AddChild([NotNull] string name, string displayName = null, bool isEnabled = true)
         {
             var child = new PermissionDefinition(name, displayName, isEnabled) { Parent = this };
             _children.Add(child);

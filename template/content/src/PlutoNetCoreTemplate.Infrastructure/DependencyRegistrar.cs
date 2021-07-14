@@ -1,11 +1,9 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure
 {
-    using System;
-    using System.Reflection;
     using ConnectionString;
     using Constants;
     using Domain.SeedWork;
-    using global::EntityFrameworkCore.Extension;
+    using global::EntityFrameworkCore.Extension.UnitOfWork;
     using MediatR;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -15,11 +13,13 @@
     using PlutoNetCoreTemplate.Infrastructure.Idempotency;
     using Providers;
     using Serilog;
+    using System;
+    using System.Reflection;
 
     public static class DependencyRegistrar
     {
         public static IServiceCollection AddInfrastructureLayer(
-            this IServiceCollection services, 
+            this IServiceCollection services,
             IConfiguration configuration)
         {
             services.AddTransient<IConnectionStringProvider, TenantConnectionStringProvider>();
@@ -66,8 +66,8 @@
 
 
             services.AddTransient<IRequestManager, RequestManager>();
-            services.AddTransient(typeof(IPlutoNetCoreTemplateBaseRepository<>),typeof(PlutoNetCoreTemplateBaseRepository<>));
-            services.AddTransient(typeof(ISystemBaseRepository<>),typeof(SystemBaseRepository<>));
+            services.AddTransient(typeof(IPlutoNetCoreTemplateBaseRepository<>), typeof(PlutoNetCoreTemplateBaseRepository<>));
+            services.AddTransient(typeof(ISystemBaseRepository<>), typeof(SystemBaseRepository<>));
             services.AddRepository(Assembly.GetExecutingAssembly());
             return services;
         }

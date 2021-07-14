@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
+﻿using System.Threading;
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
-    public class CurrentTenantAccessor: ICurrentTenantAccessor
+    public class CurrentTenantAccessor : ICurrentTenantAccessor
     {
         private readonly AsyncLocal<TenantInfo> _currentScope = new();
 

@@ -1,6 +1,6 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Permissions
 {
-    public class TenantPermissionDefinitionProvider:IPermissionDefinitionProvider
+    public class TenantPermissionDefinitionProvider : IPermissionDefinitionProvider
     {
         /// <inheritdoc />
         public void Define(PermissionDefinitionContext context)

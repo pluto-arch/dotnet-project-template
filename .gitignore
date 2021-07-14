@@ -351,3 +351,4 @@ MigrationBackup/
 /vue-sample/package-lock.json
 /template/content/.idea
 /template/content/src/PlutoNetCoreTemplate.API/*.xml
+/template/content/.vscode

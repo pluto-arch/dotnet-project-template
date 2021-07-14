@@ -1,10 +1,11 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
 {
     using Domain.Aggregates.PermissionGrant;
+
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-    public class PermissionEntityTypeConfiguration:IEntityTypeConfiguration<PermissionGrant>
+    public class PermissionEntityTypeConfiguration : IEntityTypeConfiguration<PermissionGrant>
     {
         /// <inheritdoc />
         public void Configure(EntityTypeBuilder<PermissionGrant> builder)

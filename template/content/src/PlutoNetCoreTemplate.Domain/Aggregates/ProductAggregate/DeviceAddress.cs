@@ -1,14 +1,15 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate
 {
-    using System.Collections.Generic;
     using Entities;
+
+    using System.Collections.Generic;
 
     /// <summary>
     /// 设备地址值对象
     /// </summary>
-    public class DeviceAddress: ValueObject
+    public class DeviceAddress : ValueObject
     {
-        public string Street { get; private set; } 
+        public string Street { get; private set; }
 
         public string City { get; private set; }
 

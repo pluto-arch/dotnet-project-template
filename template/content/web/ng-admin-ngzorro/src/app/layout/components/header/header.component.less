@@ -1,0 +1,56 @@
+@import 'mixin'; // 同样的，不需要完整的相对路径
+
+.themeMixin({
+  :host {
+    position: fixed;
+    width: 100%;
+    box-shadow: @shadow-1-down;
+    //border:1px solid @border-color-base;
+    z-index: 1000;
+    nz-header{
+      width: 100%;
+      height: 50px;
+      display: flex;
+      flex-direction: row;
+      &.ant-layout-header{
+        padding: 0;
+        width: 100%;
+      }
+      .logo {
+        min-width: 250px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        img{
+          height: 35px;
+          width: 50px;
+        }
+        h1{
+          font-size: 22px;
+          font-weight: bold;
+          padding: 0;
+          margin: 0 0 0 8px;
+        }
+      }
+      .header-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding:0 24px;
+        width: 100%;
+        .user-area{
+          height: 50px;
+          line-height: 50px;
+        }
+      }
+    }
+    
+  }
+});
+
+@media screen and (max-width: 600px) {
+  /*当屏幕尺寸小于600px时，应用下面的CSS样式*/
+  .breadcrumb-area > app-breadcrumb {
+    display: none;
+  }
+}

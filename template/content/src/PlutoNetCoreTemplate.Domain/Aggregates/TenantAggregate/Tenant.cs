@@ -1,10 +1,11 @@
-﻿using System;
+﻿using PlutoNetCoreTemplate.Domain.Entities;
+
+using System;
 using System.Collections.Generic;
-using PlutoNetCoreTemplate.Domain.Entities;
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
-    public class Tenant:BaseEntity<string>
+    public class Tenant : BaseEntity<string>
     {
         public string Name { get; set; }
 
@@ -13,9 +14,9 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
         public List<TenantConnectionString> ConnectionStrings { get; protected set; } = new List<TenantConnectionString>();
 
 
-        public void AddConnectionStrings(string connectionName,string value)
+        public void AddConnectionStrings(string connectionName, string value)
         {
-            ConnectionStrings.Add(new TenantConnectionString(connectionName,value));
+            ConnectionStrings.Add(new TenantConnectionString(connectionName, value));
         }
     }
 }

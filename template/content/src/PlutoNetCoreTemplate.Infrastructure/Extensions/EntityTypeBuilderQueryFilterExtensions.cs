@@ -1,9 +1,10 @@
-﻿using System;
-using System.Linq;
-using System.Linq.Expressions;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Query;
+
+using System;
+using System.Linq;
+using System.Linq.Expressions;
 
 namespace PlutoNetCoreTemplate.Infrastructure.Extensions
 {

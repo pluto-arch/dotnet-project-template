@@ -1,12 +1,11 @@
-﻿using System;
-
+﻿
 using PlutoNetCoreTemplate.Domain.Entities;
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
-    public sealed class TenantConnectionString: BaseEntity
+    public sealed class TenantConnectionString : BaseEntity
     {
-        public TenantConnectionString(){}
+        public TenantConnectionString() { }
 
 
         public TenantConnectionString(string name, string value)

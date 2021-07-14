@@ -1,16 +1,18 @@
 ﻿namespace EventBus.RabbitMQ
 {
-    using System;
-    using System.Net.Sockets;
     using global::RabbitMQ.Client;
     using global::RabbitMQ.Client.Events;
     using global::RabbitMQ.Client.Exceptions;
+
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.Logging.Abstractions;
-    using Polly;
-    using Polly.Retry;
 
-    public class DefaultRabbitMqPersistentConnection:IRabbitMqPersistentConnection
+    using Polly;
+
+    using System;
+    using System.Net.Sockets;
+
+    public class DefaultRabbitMqPersistentConnection : IRabbitMqPersistentConnection
     {
         private readonly IConnectionFactory _connectionFactory;
         IConnection _connection;
@@ -20,14 +22,14 @@
         readonly object sync_root = new();
         private readonly ILogger<DefaultRabbitMqPersistentConnection> _logger;
 
-        public bool IsConnected=>_connection != null && _connection.IsOpen && !_disposed;
+        public bool IsConnected => _connection != null && _connection.IsOpen && !_disposed;
 
 
         public DefaultRabbitMqPersistentConnection(IConnectionFactory connectionFactory, ILogger<DefaultRabbitMqPersistentConnection> logger, int retryCount = 5)
         {
             _connectionFactory = connectionFactory ?? throw new ArgumentNullException(nameof(connectionFactory));
             _retryCount = retryCount;
-            _logger = logger??new NullLogger<DefaultRabbitMqPersistentConnection>();
+            _logger = logger ?? new NullLogger<DefaultRabbitMqPersistentConnection>();
         }
 
 
@@ -42,7 +44,7 @@
                             _logger.LogWarning("connect to mq has an error : {ex}. retry after {time}s ", ex.Message, time);
                         }
                     );
-                    
+
                 policy.Execute(() =>
                 {
                     _connection = _connectionFactory.CreateConnection();

@@ -1,8 +1,10 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.ConnectionString
 {
-    using System.Threading.Tasks;
     using Constants;
+
     using Microsoft.Extensions.Configuration;
+
+    using System.Threading.Tasks;
 
 
     /// <summary>

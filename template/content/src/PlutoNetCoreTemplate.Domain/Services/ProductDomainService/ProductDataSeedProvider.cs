@@ -1,17 +1,18 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Services.ProductDomainService
 {
-    using System;
-    using System.Collections.Generic;
-    using Microsoft.Extensions.DependencyInjection;
-    using System.Threading.Tasks;
     using Aggregates.ProductAggregate;
     using Aggregates.TenantAggregate;
-    using EntityFrameworkCore.Extension.Uows;
+
     using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+
     using SeedWork;
 
-    public class ProductDataSeedProvider:IDataSeedProvider
+    using System;
+    using System.Threading.Tasks;
+
+    public class ProductDataSeedProvider : IDataSeedProvider
     {
         private readonly ICurrentTenant _currentTenant;
         private readonly ILogger<ProductDataSeedProvider> _logger;
@@ -29,10 +30,10 @@
 
         public async Task SeedAsync(IServiceProvider serviceProvider)
         {
-            string[] tenantIds = new []{"T20210602000001","T20210602000002"};
+            string[] tenantIds = new[] { "T20210602000001", "T20210602000002" };
             foreach (var tenantId in tenantIds)
             {
-                using (_currentTenant.Change(tenantId,"租户一",out var scope))
+                using (_currentTenant.Change(tenantId, "租户一", out var scope))
                 {
                     var productRepository = scope.ServiceProvider.GetService<IProductRepository>();
                     if (await productRepository.AnyAsync())

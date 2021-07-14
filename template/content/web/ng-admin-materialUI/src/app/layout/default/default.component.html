@@ -1,0 +1,12 @@
+<app-header class="mat-elevation-z8"></app-header>
+<mat-drawer-container>
+  <mat-drawer mode="side" [opened]="sideBarOpene">
+    <app-side></app-side>
+  </mat-drawer>
+  <mat-drawer-content>
+    <div class="inner-content">
+      <router-outlet></router-outlet>
+    </div>
+    <app-footer></app-footer>
+  </mat-drawer-content>
+</mat-drawer-container>

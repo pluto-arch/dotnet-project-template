@@ -1,16 +1,19 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
     using Domain.Aggregates.TenantAggregate;
     using Domain.Entities;
+
     using MediatR;
+
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Diagnostics;
     using Microsoft.EntityFrameworkCore.Infrastructure;
 
-    public class CustomSaveChangeInterceptor: SaveChangesInterceptor
+    using System.Linq;
+    using System.Threading;
+    using System.Threading.Tasks;
+
+    public class CustomSaveChangeInterceptor : SaveChangesInterceptor
     {
         private readonly IMediator _mediator;
         public CustomSaveChangeInterceptor(IMediator mediator) => _mediator = mediator;
@@ -21,9 +24,7 @@
             MultiTenancyTracking(eventData.Context);
             SoftDeleteTracking(eventData.Context);
             DispatchDomainEventsAsync(eventData.Context).Wait();
-            var res = base.SavingChanges(eventData, result);
-            //eventData.Context.ChangeTracker.Clear();
-            return res;
+            return base.SavingChanges(eventData, result);
         }
 
         public override async ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
@@ -31,9 +32,7 @@
             MultiTenancyTracking(eventData.Context);
             SoftDeleteTracking(eventData.Context);
             await DispatchDomainEventsAsync(eventData.Context, cancellationToken);
-            var res = await base.SavingChangesAsync(eventData, result, cancellationToken);
-            //eventData.Context.ChangeTracker.Clear();
-            return res;
+            return await base.SavingChangesAsync(eventData, result, cancellationToken);
         }
 
 

@@ -38,8 +38,6 @@
         public bool Online { get; set; }
 
 
-
-
         /// <summary>
         /// 产品编号
         /// </summary>
@@ -51,5 +49,6 @@
 
 
         public string TenantId { get; set; }
+
     }
 }

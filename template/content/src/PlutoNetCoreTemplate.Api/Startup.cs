@@ -1,34 +1,30 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
-using Newtonsoft.Json;
 
 using PlutoNetCoreTemplate.Api.Extensions;
 using PlutoNetCoreTemplate.Application;
 using PlutoNetCoreTemplate.Domain;
 using PlutoNetCoreTemplate.Infrastructure;
 
-using Serilog;
-
-using System.IO;
-
 namespace PlutoNetCoreTemplate.Api
 {
-    using Extensions.SeedData;
-
-    using Infrastructure.ConnectionString;
+    using Filters;
 
     using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.Extensions.Primitives;
+    using Microsoft.AspNetCore.HttpOverrides;
     using Microsoft.IdentityModel.Logging;
     using Microsoft.IdentityModel.Tokens;
 
+    using PlutoNetCoreTemplate.Api.SeedData;
+
+    using System;
     using System.Text;
+    using IGeekFan.AspNetCore.Knife4jUI;
+    using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 #if (Grpc)
     using Application.Grpc;
@@ -49,21 +45,50 @@ namespace PlutoNetCoreTemplate.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCustomerControllers()
-                .AddCustomerHealthCheck(Configuration)
-                .AddCustomerSwagger()
-                .AddCustomerCors(DefaultCorsName, Configuration)
-                .AddHttpContextAccessor()
-                .AddApplicationLayer()
+            #region 基础组件服务
+            services.AddControllers(options =>
+                {
+                    options.Filters.Add<UnitOfWorkFilter>();
+                    options.ModelBinderProviders.Insert(0, new SortingBinderProvider());
+                })
+                .AddCustomJsonSerializer()
+                .AddXmlSerializerFormatters()
+                .AddXmlDataContractSerializerFormatters()
+                .ConfigCustomApiBehaviorOptions()
+                .AddDataAnnotationsLocalization();
+
+            // 本地化
+            services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+            // 防火墙
+            services.AddFirewall();
+
+            services.AddCustomHealthCheck(Configuration)
+                .AddCustomSwagger()
+                .AddCustomCors(DefaultCorsName, Configuration)
+                .AddHttpContextAccessor();
+            #endregion
+
+            #region 领域组件
+
+            services.AddApplicationLayer()
                 .AddDomainLayer()
+                .AddTenantComponent(Configuration)
                 .AddInfrastructureLayer(Configuration);
 
-            services.Configure<TenantStoreOptions>(Configuration);
-            services.AddTenant();
+            #endregion
+
+            #region GRPC
+
 #if (Grpc)
             services.AddGrpc();
             services.AddSingleton<GrpcCallerService>();
 #endif
+
+
+            #endregion
+
+            #region 认证授权
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
                 {
@@ -75,47 +100,66 @@ namespace PlutoNetCoreTemplate.Api
                         ValidateIssuerSigningKey = true,
                         ValidIssuer = "pluto",
                         ValidAudience = "12312",
+                        ClockSkew = TimeSpan.FromMinutes(10),
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("715B59F3CDB1CF8BC3E7C8F13794CEA9")),
                     };
                 });
-            services.AddAuthorization()
-                .AddPermission();
+            services.AddCustomAuthorization();
+            #endregion
+
+            #region 缓存
+            services.AddMemoryCache(options =>
+            {
+                options.SizeLimit = 10240;
+            });
+            #endregion
+
+            #region http请求相关配置
+
+            services.Configure<ForwardedHeadersOptions>(options =>
+            {
+                options.ForwardLimit = null;// 限制所处理的标头中的条目数
+                options.ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto; // X-Forwarded-For：保存代理链中关于发起请求的客户端和后续代理的信息。X-Forwarded-Proto：原方案的值 (HTTP/HTTPS)
+                options.KnownNetworks.Clear(); // 从中接受转接头的已知网络的地址范围。 使用无类别域际路由选择 (CIDR) 表示法提供 IP 范围。使用CDN时应清空
+                options.KnownProxies.Clear(); // 从中接受转接头的已知代理的地址。 使用 KnownProxies 指定精确的 IP 地址匹配。使用CDN时应清空
+            });
+            // 路由小写
+            services.AddRouting(options => options.LowercaseUrls = true);
+            #endregion
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             IdentityModelEventSource.ShowPII = true;
-            app.UseSerilogRequestLogging(config =>
-            {
-                config.EnrichDiagnosticContext = (context, httpContext) =>
-                {
-                    var xForwardedFor = new StringValues();
-                    if (httpContext.Request.Headers.ContainsKey("X-Forwarded-For"))
-                    {
-                        xForwardedFor = httpContext.Request.Headers["X-Forwarded-For"];
-                    }
-                    context.Set("request_path", httpContext.Request.Path);
-                    context.Set("request_method", httpContext.Request.Method);
-                    context.Set("x_forwarded_for", xForwardedFor.ToString());
-                };
-            });
+
+
+            app.UseForwardedHeaders()
+                .UseCertificateForwarding();
+            app.UseCustomLocalization();
+            app.UseHttpRequestLogging();
+
 
             if (env.IsDevelopment())
             {
                 app.DataSeederAsync().Wait();
                 app.UseDeveloperExceptionPage();
-                app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PlutoNetCoreTemplate.API v1"));
+                app.UseCustomSwagger();
             }
             if (env.IsProduction())
             {
                 app.UseExceptionProcess();
-                app.UseHsts();
                 app.UseHttpsRedirection();
+                app.UseHsts();
             }
 
             app.UseCors(DefaultCorsName);
             app.UseRouting();
+            app.UseKnife4UI(c =>
+            {
+                c.RoutePrefix = ""; // serve the UI at root
+                c.SwaggerEndpoint("/v1/api-docs", "V1 Docs");
+            });
             app.UseAuthentication();
             app.UseTenant();
             app.UseAuthorization();
@@ -124,16 +168,9 @@ namespace PlutoNetCoreTemplate.Api
 #if (Grpc)
                 endpoints.MapGrpcService<OrderGrpc>();
 #endif
-                endpoints.MapHealthChecks("/health", new HealthCheckOptions
-                {
-                    ResponseWriter = async (c, r) =>
-                    {
-                        c.Response.ContentType = "application/json";
-                        var result = JsonConvert.SerializeObject(r.Entries);
-                        await c.Response.WriteAsync(result);
-                    }
-                });
+                endpoints.MapCustomHealthChecks();
                 endpoints.MapControllers();
+                endpoints.MapSwagger("{documentName}/api-docs");
             });
         }
     }

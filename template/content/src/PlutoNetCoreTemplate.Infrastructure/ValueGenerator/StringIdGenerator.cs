@@ -21,7 +21,7 @@
         private static string RandomNumberString(int length)
         {
             string result = "";
-            Random random = new Random(Guid.NewGuid().GetHashCode());
+            Random random = new(Guid.NewGuid().GetHashCode());
             for (int i = 0; i < length; i++)
             {
                 result += random.Next(10).ToString();

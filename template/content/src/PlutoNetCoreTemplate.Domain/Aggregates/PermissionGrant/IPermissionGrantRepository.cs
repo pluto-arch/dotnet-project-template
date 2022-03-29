@@ -1,12 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Aggregates.PermissionGrant
 {
-    using global::System.Collections.Generic;
-    using global::System.Threading;
-    using global::System.Threading.Tasks;
+    using Repositories;
 
-    using SeedWork;
+    using System.Collections.Generic;
+    using System.Threading;
+    using System.Threading.Tasks;
 
-    public interface IPermissionGrantRepository : IPlutoNetCoreTemplateBaseRepository<PermissionGrant>
+    public interface IPermissionGrantRepository : IRepository<PermissionGrant>
     {
         Task<PermissionGrant> FindAsync(string name, string providerName, string providerKey, CancellationToken cancellationToken = default);
 

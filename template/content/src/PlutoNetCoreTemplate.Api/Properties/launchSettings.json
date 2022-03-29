@@ -3,12 +3,12 @@
   "profiles": {
     "PlutoNetCoreTemplate": {
       "commandName": "Project",
-      "launchBrowser": true,
+      "launchBrowser": false,
       "launchUrl": "swagger",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
-      "applicationUrl": "http://localhost:7000;https://localhost:7001"
+      "applicationUrl": "http://localhost:5000;https://localhost:5001"
     },
     "Docker": {
       "commandName": "Docker",

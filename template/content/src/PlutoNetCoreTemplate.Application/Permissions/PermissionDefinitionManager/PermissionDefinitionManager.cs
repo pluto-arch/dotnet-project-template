@@ -7,6 +7,10 @@
     using System.Collections.Immutable;
     using System.Diagnostics.CodeAnalysis;
 
+
+    /// <summary>
+    /// 权限定义管理器
+    /// </summary>
     public class PermissionDefinitionManager : IPermissionDefinitionManager
     {
 

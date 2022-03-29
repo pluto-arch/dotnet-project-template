@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 
 namespace PlutoNetCoreTemplate.Domain.Services.TenantDomainService
 {
-    using Microsoft.EntityFrameworkCore;
+    using Repositories;
+
+    using System.Linq;
+
     public class TenantDataSeedProvider : IDataSeedProvider
     {
-        private readonly ISystemBaseRepository<Tenant> _tenants;
+        private readonly IRepository<Tenant> _tenants;
 
-        public TenantDataSeedProvider(ISystemBaseRepository<Tenant> tenants)
+        public TenantDataSeedProvider(IRepository<Tenant> tenants)
         {
             _tenants = tenants;
         }
@@ -20,7 +23,7 @@ namespace PlutoNetCoreTemplate.Domain.Services.TenantDomainService
 
         public async Task SeedAsync(IServiceProvider serviceProvider)
         {
-            if (await _tenants.IgnoreQueryFilters().AnyAsync())
+            if (_tenants.Any())
             {
                 return;
             }
@@ -29,8 +32,10 @@ namespace PlutoNetCoreTemplate.Domain.Services.TenantDomainService
             t1.AddConnectionStrings("Default", "Server=127.0.0.1,1433;Database=Pnct_T20210602000001;User Id=sa;Password=970307lBX;Trusted_Connection = False;");
             var t2 = new Tenant { Id = "T20210602000002", Name = "租户二", };
             t2.AddConnectionStrings("Default", "Server=127.0.0.1,1433;Database=Pnct_T20210602000002;User Id=sa;Password=970307lBX;Trusted_Connection = False;");
+            var t3 = new Tenant { Id = "T20210602000003", Name = "租户三", };
             await _tenants.InsertAsync(t1, true);
             await _tenants.InsertAsync(t2, true);
+            await _tenants.InsertAsync(t3, true);
         }
 
     }

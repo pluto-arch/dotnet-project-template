@@ -1,9 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Permissions
 {
     using Domain.Aggregates.PermissionGrant;
-    using EntityFrameworkCore.Extension.UnitOfWork.Uows;
-    using Infrastructure;
+    using Domain.UnitOfWork;
+
+    using Infrastructure.EntityFrameworkCore;
+
     using Models.PermissionModels;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -15,14 +18,13 @@
 
         private readonly IPermissionGrantRepository _permissionGrantRepository;
 
-        private readonly IUnitOfWork<PlutoNetTemplateDbContext> _uow;
+        private readonly IUnitOfWork<DeviceCenterDbContext> _uow;
 
-
-        public PermissionAppService(IPermissionDefinitionManager permissionDefinitionManager, IUnitOfWork<PlutoNetTemplateDbContext> uow)
+        public PermissionAppService(IPermissionDefinitionManager permissionDefinitionManager, IUnitOfWork<DeviceCenterDbContext> uow)
         {
             _permissionDefinitionManager = permissionDefinitionManager;
             _uow = uow;
-            _permissionGrantRepository = _uow.GetRepository<IPermissionGrantRepository>();
+            _permissionGrantRepository = _uow.GetCustomRepository<IPermissionGrantRepository>();
         }
 
         public async Task<PermissionListResponseModel> GetAsync(string providerName, string providerKey)

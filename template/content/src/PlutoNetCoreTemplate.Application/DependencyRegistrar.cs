@@ -1,6 +1,5 @@
 ﻿namespace PlutoNetCoreTemplate.Application
 {
-    using Behaviors;
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
     using Permissions;
@@ -14,15 +13,13 @@
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
-
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(AutoSaveBehavior<,>));
-
-            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(TransactionBehaviour<,>));
 
             services.AddAppServices();
 
             services.AddPermissionDefinitionProvider();
+            services.AddScoped<IPermissionChecker, PermissionChecker>();
             services.AddSingleton<IPermissionDefinitionManager, PermissionDefinitionManager>();
             services.AddTransient<IPermissionStore, PermissionStore>();
             services.AddPermissionValueProvider();

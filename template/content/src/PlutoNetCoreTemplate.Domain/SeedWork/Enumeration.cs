@@ -4,8 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using System.Text;
-    using System.Threading.Tasks;
 
     /// <summary>
     /// 枚举类
@@ -27,13 +25,12 @@
                      .Select(f => f.GetValue(null))
                      .Cast<T>();
 
-        public int CompareTo(object obj)=> Id.CompareTo(((Enumeration)obj).Id);
+        public int CompareTo(object obj) => Id.CompareTo(((Enumeration)obj).Id);
 
 
         public override bool Equals(object obj)
         {
-            var otherValue = obj as Enumeration;
-            if (otherValue == null)
+            if (obj is not Enumeration otherValue)
                 return false;
             var typeMatches = GetType().Equals(obj.GetType());
             var valueMatches = Id.Equals(otherValue.Id);

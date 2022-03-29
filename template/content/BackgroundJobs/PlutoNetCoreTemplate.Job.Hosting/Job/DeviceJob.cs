@@ -1,7 +1,7 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.Job
 {
     using Domain.Aggregates.ProductAggregate;
-    using Domain.SeedWork;
+    using Domain.Repositories;
 
     using Infrastructure;
 
@@ -16,11 +16,11 @@
     public class DeviceJob : IJob, IBackgroundJob
     {
         private readonly ILogger<DeviceJob> _logger;
-        private readonly IPlutoNetCoreTemplateBaseRepository<Device> _devices;
+        private readonly IRepository<Device> _devices;
 
         public DeviceJob(
             ILogger<DeviceJob> logger,
-            IPlutoNetCoreTemplateBaseRepository<Device> devices)
+            IRepository<Device> devices)
         {
             _logger = logger;
             _devices = devices;

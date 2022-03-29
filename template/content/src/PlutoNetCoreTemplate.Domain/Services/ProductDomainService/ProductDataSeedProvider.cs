@@ -3,26 +3,22 @@
     using Aggregates.ProductAggregate;
     using Aggregates.TenantAggregate;
 
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
 
     using SeedWork;
 
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class ProductDataSeedProvider : IDataSeedProvider
     {
         private readonly ICurrentTenant _currentTenant;
-        private readonly ILogger<ProductDataSeedProvider> _logger;
 
-        public ProductDataSeedProvider(
-            ICurrentTenant currentTenant,
-            ILogger<ProductDataSeedProvider> logger)
+        public ProductDataSeedProvider(ICurrentTenant currentTenant)
         {
             _currentTenant = currentTenant;
-            _logger = logger;
         }
 
 
@@ -30,21 +26,32 @@
 
         public async Task SeedAsync(IServiceProvider serviceProvider)
         {
-            string[] tenantIds = new[] { "T20210602000001", "T20210602000002" };
-            foreach (var tenantId in tenantIds)
+            (string id, string name)[] tenantIds = new (string id, string name)[]
+             {
+                 ("T20210602000001","租户一"),
+                 ("T20210602000002","租户二"),
+                 ("T20210602000003","租户三")
+             };
+            var tenantProvider = serviceProvider.GetRequiredService<ITenantProvider>();
+            var repository = serviceProvider.GetRequiredService<IProductRepository>();
+            TenantInfo t = null;
+            foreach (var (id, _) in tenantIds)
             {
-                using (_currentTenant.Change(tenantId, "租户一", out var scope))
+                t = await tenantProvider.InitTenant(id);
+                using (_currentTenant.Change(t))
                 {
-                    var productRepository = scope.ServiceProvider.GetService<IProductRepository>();
-                    if (await productRepository.AnyAsync())
+                    var tenantName = _currentTenant.Name;
+                    if (repository.Any())
                     {
                         continue;
                     }
-                    for (int i = 0; i < 40; i++)
+
+                    var p = new List<Product>();
+                    for (int i = 0; i < 21; i++)
                     {
                         var device = new Device
                         {
-                            Name = $"{i}",
+                            Name = $"{tenantName}的设备{i}",
                             SerialNo = $"SN20210403000{i}",
                             Address = new DeviceAddress($"街道{i}", "杭州市", "浙江省", "中国", "450000"),
                             Coordinate = (GeoCoordinate)"121.2323,34.312",
@@ -52,12 +59,13 @@
                         };
                         var product = new Product
                         {
-                            Name = $"{i}",
+                            Name = $"{tenantName}的产品{i}",
+                            CreationTime = DateTimeOffset.Now
                         };
                         product.AddDevice(device);
-                        await productRepository.InsertAsync(product);
+                        p.Add(product);
                     }
-                    await productRepository.Uow.SaveChangesAsync();
+                    await repository.InsertAsync(p, true);
                 }
             }
         }

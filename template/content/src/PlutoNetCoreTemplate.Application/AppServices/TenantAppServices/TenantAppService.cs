@@ -2,28 +2,62 @@
 {
     using AutoMapper;
 
-    using Domain.Services.TenantDomainService;
+    using Domain.Events.Tenants;
+    using Domain.Repositories;
+
+    using MediatR;
+
+    using Microsoft.EntityFrameworkCore;
 
     using Models.TenantModels;
 
+    using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
+
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public class TenantAppService : ITenantAppService
     {
-        private readonly TenantManager _tenantManager;
+        private readonly IRepository<Tenant> _tenants;
         private readonly IMapper _mapper;
+        private readonly ICurrentTenant _currentTenant;
+        private readonly IMediator _mediator;
+        readonly Random r = new();
 
-        public TenantAppService(TenantManager tenantManager, IMapper mapper)
+        public TenantAppService(IRepository<Tenant> tenants, IMapper mapper, ICurrentTenant currentTenant, IMediator mediator)
         {
-            _tenantManager = tenantManager;
+            _tenants = tenants;
             _mapper = mapper;
+            _currentTenant = currentTenant;
+            _mediator = mediator;
         }
 
-        public async Task<List<TenantModel>> GetListAsync()
+        public async Task<List<TenantDto>> GetListAsync()
         {
-            var entities = await _tenantManager.GetListAsync();
-            return _mapper.Map<List<TenantModel>>(entities);
+            var entities = await _tenants.AsNoTracking().ToListAsync(); ;
+            return _mapper.Map<List<TenantDto>>(entities);
+        }
+
+
+        public async Task<TenantDto> CreateAsync()
+        {
+            var now = DateTime.Now;
+            var id = $@"T{now.Ticks}{r.Next(10000, 99999)}";
+            var name = $@"租户{now.Ticks}";
+            var connStr = $@"Server=127.0.0.1,1433;Database=Pnct_{id};User Id=sa;Password=970307lBX;Trusted_Connection = False;";
+            var entity = new Tenant
+            {
+                Id = id,
+                Name = name,
+            };
+            if (!string.IsNullOrEmpty(connStr))
+            {
+                entity.AddConnectionStrings("Default", connStr);
+            }
+            entity.AddDomainEvent(new CreateTenantDomainEvent(id, !string.IsNullOrEmpty(connStr)));
+            entity = await _tenants.InsertAsync(entity, true);
+            return _mapper.Map<TenantDto>(entity);
         }
     }
 }

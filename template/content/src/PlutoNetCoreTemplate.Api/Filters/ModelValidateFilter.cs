@@ -1,12 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 
-using PlutoNetCoreTemplate.Infrastructure.Commons;
-
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-
 namespace PlutoNetCoreTemplate.Api.Filters
 {
     /// <summary>
@@ -30,13 +24,13 @@ namespace PlutoNetCoreTemplate.Api.Filters
         {
             if (!context.ModelState.IsValid)
             {
-                var result = context.ModelState.Keys
-                                    .SelectMany(key => context.ModelState[key].Errors.Select(x => new ValidationError(key, x.ErrorMessage)))
-                                    .ToList();
-                context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
-                context.Result = new JsonResult(ServiceResponse<List<ValidationError>>.ValidateFailure(result));
+                //var result = context.ModelState.Keys
+                //                    .SelectMany(key => context.ModelState[key].Errors.Select(x => new ValidationError(key, x.ErrorMessage)))
+                //                    .ToList();
+                //context.HttpContext.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+                //context.Result = new JsonResult(ServiceResponse<List<ValidationError>>.ValidateFailure(result));
+                context.Result = new BadRequestObjectResult(context.ModelState);
             }
         }
-
     }
 }

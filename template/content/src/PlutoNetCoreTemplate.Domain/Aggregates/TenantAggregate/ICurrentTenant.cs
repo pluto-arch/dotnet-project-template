@@ -4,6 +4,8 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
     using Microsoft.Extensions.DependencyInjection;
 
+    using System.Collections.Generic;
+
     public interface ICurrentTenant
     {
         bool IsAvailable { get; }
@@ -12,21 +14,22 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 
         string Id { get; }
 
-        /// <summary>
-        /// 切换租户
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        IDisposable Change(string id, string name = null);
+        public Dictionary<string, string> ConnectionStrings { get; }
+
+
 
         /// <summary>
-        /// 切换租户
+        /// 准备租户环境
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="scope">新增租户范围</param>
+        /// <param name="tenant"></param>
         /// <returns></returns>
-        IDisposable Change(string id, string name, out IServiceScope scope);
+        IDisposable Reserve(TenantInfo tenant);
+
+        /// <summary>
+        /// 切换租户环境
+        /// </summary>
+        /// <param name="tenant"></param>
+        /// <returns></returns>
+        IDisposable Change(TenantInfo tenant);
     }
 }

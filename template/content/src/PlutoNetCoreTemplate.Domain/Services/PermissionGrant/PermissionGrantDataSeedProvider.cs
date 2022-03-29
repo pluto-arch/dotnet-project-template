@@ -4,23 +4,29 @@
     using Aggregates.SystemAggregate;
     using Aggregates.TenantAggregate;
 
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
+
+    using Repositories;
 
     using SeedWork;
 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
 
     public class PermissionGrantDataSeedProvider : IDataSeedProvider
     {
         private readonly IPermissionGrantRepository _repository;
-        private readonly ISystemBaseRepository<PermissionGroupDefinition> _permissionGroup;
-        private readonly ISystemBaseRepository<PermissionDefinition> _permission;
+        private readonly IRepository<PermissionGroupDefinition> _permissionGroup;
+        private readonly IRepository<PermissionDefinition> _permission;
         private readonly ICurrentTenant _currentTenant;
 
-        public PermissionGrantDataSeedProvider(IPermissionGrantRepository repository, ICurrentTenant currentTenant, ISystemBaseRepository<PermissionDefinition> permission, ISystemBaseRepository<PermissionGroupDefinition> permissionGroup)
+        public PermissionGrantDataSeedProvider(
+            IPermissionGrantRepository repository,
+            ICurrentTenant currentTenant,
+            IRepository<PermissionDefinition> permission,
+            IRepository<PermissionGroupDefinition> permissionGroup)
         {
             _repository = repository;
             _currentTenant = currentTenant;
@@ -34,7 +40,13 @@
         /// <inheritdoc />
         public async Task SeedAsync(IServiceProvider serviceProvider)
         {
-            string[] tenantIds = new[] { "T20210602000001", "T20210602000002" };
+            (string id, string name)[] tenantIds = new (string id, string name)[]
+            {
+                ("T20210602000001","租户一"),
+                ("T20210602000002","租户二"),
+                ("T20210602000003","租户三")
+            };
+
             var permissions = new Dictionary<string, List<string>>
             {
                 {"ProductManager",new List<string>
@@ -69,7 +81,7 @@
                     "PermissionManager.Permission.Delete",
                 }}
             };
-            if (!(await _permissionGroup.AnyAsync()))
+            if (!_permissionGroup.Any())
             {
                 var group = new List<PermissionGroupDefinition>();
                 foreach (var item in permissions)
@@ -91,13 +103,15 @@
             }
 
 
-
-            foreach (var tenantId in tenantIds)
+            var tenantProvider = serviceProvider.GetRequiredService<ITenantProvider>();
+            var rep=serviceProvider.GetRequiredService<IPermissionGrantRepository>();
+            TenantInfo t = null;
+            foreach (var (id, _) in tenantIds)
             {
-                using (_currentTenant.Change(tenantId, "租户一", out var scope))
+                t = await tenantProvider.InitTenant(id);
+                using (_currentTenant.Change(t))
                 {
-                    var productRepository = scope.ServiceProvider.GetService<IPermissionGrantRepository>();
-                    if (await productRepository.AnyAsync())
+                    if (rep.Any())
                     {
                         continue;
                     }
@@ -106,7 +120,7 @@
                     {
                         foreach (var value in item.Value)
                         {
-                            await productRepository.InsertAsync(new PermissionGrant
+                            await rep.InsertAsync(new PermissionGrant
                             {
                                 Name = value,
                                 ProviderName = "role",
@@ -114,7 +128,7 @@
                             });
                         }
                     }
-                    await productRepository.Uow.SaveChangesAsync();
+                    await rep.Uow.SaveChangesAsync();
                 }
             }
         }

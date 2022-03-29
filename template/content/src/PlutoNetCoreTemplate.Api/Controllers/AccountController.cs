@@ -1,76 +1,98 @@
 ﻿namespace PlutoNetCoreTemplate.Api.Controllers
 {
-    using MediatR;
 
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
     using Microsoft.IdentityModel.Tokens;
 
+    using PlutoNetCoreTemplate.Api.Constants;
+    using PlutoNetCoreTemplate.Infrastructure.Commons;
+
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
     using System.Security.Claims;
     using System.Text;
+    using PlutoNetCoreTemplate.Infrastructure.Providers;
 
 
     [Route("api/account")]
     [ApiController]
     public class AccountController : BaseController<AccountController>
     {
-        public AccountController(IMediator mediator, ILogger<AccountController> logger) : base(mediator, logger)
+        public AccountController(ILazyLoadServiceProvider lazyLoad) : base(lazyLoad)
         {
         }
+
+
+
+        private static readonly List<dynamic> Users = new()
+        {
+            new
+            {
+                Id = 1,
+                Mobile = "18530064433",
+                UserName = "admin3",
+                Password = "admin",
+                Role = "admin",
+                TenantId = "T20210602000003"
+            },
+            new
+            {
+                Id = 2,
+                Mobile = "18530064432",
+                UserName = "admin2",
+                Password = "admin",
+                Role = "admin",
+                TenantId = "T20210602000002"
+            },
+            new
+            {
+                Id = 3,
+                Mobile = "18530064431",
+                UserName = "sa",
+                Password = "admin",
+                Role = "SystemAdmin",
+                TenantId = "T20210602000001"
+            }
+        };
+
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="user">username@tenantid</param>
-        /// <param name="role"></param>
-        /// <param name="userId"></param>
         /// <returns></returns>
-        [HttpGet("getToken")]
+        [HttpPost("getToken")]
         [AllowAnonymous]
-        public IActionResult GetToken([Required] string user, [Required] string role, [Required] string userId)
+        public ServiceResponse<string> GetToken(
+            [Required, FromForm(Name = "userName")] string user,
+            [Required, FromForm(Name = "password")] string pwd)
         {
-            if (user.IndexOf('@') < 0)
+            var u = Users.FirstOrDefault(x => x.UserName == user && x.Password == pwd);
+            if (u == null)
             {
-                return BadRequest(new
-                {
-                    code = 400,
-                    message = "用户名格式不正确，<username>@<tenant_id>",
-                    data = ""
-                });
+                return ServiceResponse<string>.Error("用户不存在");
             }
-            var username = user.Split('@')[0];
-            var tenantId = user.Split('@')[1];
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.NameIdentifier, userId),
-                new Claim(ClaimTypes.Role, role),
-                new Claim("tenant_id", tenantId)
+                new Claim(ClaimTypes.Name, u.UserName),
+                new Claim(ClaimTypes.NameIdentifier, u.Id.ToString()),
+                new Claim(ClaimTypes.Role, u.Role),
+                new Claim(TenantClaimTypes.TenantId, u.TenantId)
             };
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("715B59F3CDB1CF8BC3E7C8F13794CEA9"));
             var token = new JwtSecurityToken(
                 issuer: "pluto",
                 audience: "123",
                 notBefore: DateTime.Now,
-                expires: DateTime.Now.AddMinutes(30),
+                expires: DateTime.Now.AddSeconds(120),
                 claims: claims,
                 signingCredentials: new SigningCredentials(key, SecurityAlgorithms.HmacSha256)
             );
-            return Ok(new { code = 200, message = "登录成功", data = new JwtSecurityTokenHandler().WriteToken(token) });
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Get()
-        {
-            var user = User.Claims.FirstOrDefault(x => x.Type == ClaimTypes.Name)?.Value;
-            var tenant = User.Claims.FirstOrDefault(x => x.Type == "tenant_id")?.Value;
-            return Ok(new { code = 200, message = "", data = $"{user}@{tenant}" });
+            return ServiceResponse<string>.Success(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
     }

@@ -42,8 +42,8 @@
         {
             Scheduler = await _schedulerFactory.GetScheduler(cancellationToken);
             Scheduler.JobFactory = _jobFactory;
-            var jobListener = _serviceProvider.GetService<IJobListener>();
-            var triggerListener = _serviceProvider.GetService<ITriggerListener>();
+            var jobListener = _serviceProvider.GetRequiredService<IJobListener>();
+            var triggerListener = _serviceProvider.GetRequiredService<ITriggerListener>();
             Scheduler.ListenerManager.AddJobListener(jobListener ?? new NullJobListener(), GroupMatcher<JobKey>.AnyGroup());
             //Scheduler.ListenerManager.AddTriggerListener(triggerListener ?? new NullTriggerListener(), GroupMatcher<TriggerKey>.AnyGroup());
             var jobDic = _jobDefined.JobDictionary;

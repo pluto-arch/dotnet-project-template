@@ -43,10 +43,8 @@
 		<Protobuf Include="..\PlutoNetCoreTemplate.Grpc.Protocol\Protocols\*.proto" GrpcServices="Both" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="AppServices\ProductAppServices\" />
 	  <Folder Include="AppServices\TenantAppServices\" />
+	  <Folder Include="Behaviors\" />
 	  <Folder Include="IntegrationEvent\Event\" />
-	  <Folder Include="Models\ProductModels\" />
-	  <Folder Include="Models\TenantModels\" />
 	</ItemGroup>
 </Project>

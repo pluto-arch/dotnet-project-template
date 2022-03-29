@@ -11,7 +11,7 @@
 
     public class InMemoryJobStore : IJobInfoStore
     {
-        private static List<JobInfoModel> jobs = new();
+        private static readonly List<JobInfoModel> jobs = new();
 
         /// <inheritdoc />
         public Task<int> CountAsync()

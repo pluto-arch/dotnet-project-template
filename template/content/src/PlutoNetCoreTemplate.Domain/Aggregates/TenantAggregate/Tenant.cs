@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
-    public class Tenant : BaseEntity<string>
+    public class Tenant : BaseAggregateRoot<string>
     {
         public string Name { get; set; }
 

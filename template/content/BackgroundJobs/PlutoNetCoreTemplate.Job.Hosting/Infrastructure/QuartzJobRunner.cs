@@ -1,15 +1,22 @@
 ﻿namespace PlutoNetCoreTemplate.Job.Hosting.Infrastructure
 {
-    using EntityFrameworkCore.Extension.UnitOfWork.Uows;
+    using Domain.UnitOfWork;
+
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+
     using Models;
-    using PlutoNetCoreTemplate.Infrastructure;
+
+    using PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore;
+
     using Polly;
+
     using Quartz;
+
     using System;
     using System.Threading.Tasks;
+
     using LogContext = Serilog.Context.LogContext;
 
     public class QuartzJobRunner : IJob
@@ -61,14 +68,13 @@
                         );
                     await policy.ExecuteAsync(async () =>
                     {
-                        var job = scope.ServiceProvider.GetRequiredService(jobType) as IJob;
-                        if (job is null)
+                        if (scope.ServiceProvider.GetRequiredService(jobType) is not IJob job)
                         {
                             _logger.LogWarning("no {jobType} found !", jobType.Name);
                         }
                         else
                         {
-                            var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork<PlutoNetTemplateDbContext>>();
+                            var uow = scope.ServiceProvider.GetRequiredService<IUnitOfWork<DeviceCenterDbContext>>();
                             _logger.LogInformation("{jobType} executing...", jobType.Name);
                             await job.Execute(context);
                             await uow.SaveChangesAsync();

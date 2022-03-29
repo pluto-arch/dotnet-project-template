@@ -1,19 +1,22 @@
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
     using Microsoft.Extensions.DependencyInjection;
 
+    using PlutoNetCoreTemplate.Domain.SeedWork;
+
+    using System.Collections.Generic;
+
     public class CurrentTenant : ICurrentTenant
     {
         private readonly ICurrentTenantAccessor _currentTenantAccessor;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public CurrentTenant(ICurrentTenantAccessor currentTenantAccessor, IServiceProvider serviceProvider)
+        public CurrentTenant(ICurrentTenantAccessor currentTenantAccessor,IServiceScopeFactory serviceScopeFactory)
         {
             _currentTenantAccessor = currentTenantAccessor;
-            _serviceProvider = serviceProvider;
+            _serviceScopeFactory = serviceScopeFactory;
         }
 
         /// <inheritdoc />
@@ -24,17 +27,19 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 
         public string Id => _currentTenantAccessor.CurrentTenantInfo?.Id;
 
+        public Dictionary<string, string> ConnectionStrings =>
+            _currentTenantAccessor.CurrentTenantInfo.ConnectionStrings;
+
 
         /// <summary>
-        /// 切换租户
+        /// 准备租户
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
         /// <returns></returns>
-        public IDisposable Change(string id, string name = "")
+        public IDisposable Reserve(TenantInfo tenant)
         {
             var parentScope = _currentTenantAccessor.CurrentTenantInfo;
-            _currentTenantAccessor.CurrentTenantInfo = new TenantInfo(id, name);
+            tenant.BindServiceScope(null);
+            _currentTenantAccessor.CurrentTenantInfo = tenant;
             return new DisposeAction(() =>
             {
                 _currentTenantAccessor.CurrentTenantInfo = parentScope;
@@ -42,39 +47,50 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
         }
 
 
+
         /// <summary>
         /// 切换租户
         /// </summary>
-        /// <param name="id"></param>
-        /// <param name="name"></param>
-        /// <param name="scope">新增租户范围,不用手动释放</param>
         /// <returns></returns>
-        public IDisposable Change(string id, string name, out IServiceScope scope)
+        public IDisposable Change(TenantInfo tenant)
         {
             var parentScope = _currentTenantAccessor.CurrentTenantInfo;
-            _currentTenantAccessor.CurrentTenantInfo = new TenantInfo(id, name);
-            scope = _serviceProvider.CreateScope();
-            IServiceScope serviceScope = scope;
+            var currentScoped = _serviceScopeFactory.CreateScope();
+            tenant.BindServiceScope(currentScoped);
+            _currentTenantAccessor.CurrentTenantInfo = tenant;
             return new DisposeAction(() =>
             {
                 _currentTenantAccessor.CurrentTenantInfo = parentScope;
-                serviceScope?.Dispose();
+                currentScoped?.Dispose();
             });
         }
+    }
 
 
+    /// <summary>
+    /// 无租户，efcore design factory 初始化使用
+    /// </summary>
+    public class NullCurrentTenant : ICurrentTenant
+    {
+        public bool IsAvailable => default;
 
-        public class DisposeAction : IDisposable
+        public string Name => default;
+
+        public string Id => default;
+
+        public Dictionary<string, string> ConnectionStrings => default;
+
+        public IDisposable Reserve(TenantInfo tenant)
         {
-            private readonly Action _action;
-
-            public DisposeAction([NotNull] Action action) => _action = action;
-
-            void IDisposable.Dispose()
-            {
-                _action();
-                GC.SuppressFinalize(this);
-            }
+            return new DisposeAction(() => { });
         }
+
+        public IDisposable Change(TenantInfo tenant)
+        {
+            return new DisposeAction(() => { });
+        }
+
+
+        public static ICurrentTenant DefaultCurrentTenant => new NullCurrentTenant();
     }
 }

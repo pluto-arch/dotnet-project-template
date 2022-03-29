@@ -3,8 +3,6 @@ asp.net core api 项目模板
 
 template 文件夹中 content中内容不能乱移动，默认保持就行，模板其实就是一个简单的项目架子，可以添加自己的东西。
 
-> github 时而推送不上去，新的更新会先放在gitee上。地址：https://gitee.com/zyllbx/dotnet-project-template
-
 
 1. 打包
 请确保电脑中有nuget.exe

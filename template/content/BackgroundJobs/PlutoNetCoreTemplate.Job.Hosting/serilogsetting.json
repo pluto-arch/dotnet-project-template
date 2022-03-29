@@ -1,6 +1,7 @@
 {
 	"Serilog": {
 		"Using": [ "Serilog.Sinks.Console", "Serilog.Sinks.File" ],
+		"Enrich": [ "FromLogContext", "WithMachineName", "WithProcessId", "WithProcessName", "WithThreadId", "WithThreadName" ],
 		"MinimumLevel": {
 			"Default": "Information",
 			"Override": {
@@ -13,7 +14,7 @@
 			{
 				"Name": "Console",
 				"Args": {
-					"outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}"
+					"outputTemplate": "=> {Timestamp:HH:mm:ss} [{Level:u3}] {Message:j} {NewLine} {Properties:j} {NewLine}{Exception}"
 				}
 			},
 			{
@@ -21,7 +22,7 @@
 				"Args": {
 					"path": "Logs/log.txt",
 					"rollingInterval": "Day",
-					"outputTemplate": "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Properties:j}{NewLine}{Exception}"
+					"outputTemplate": "=> {Timestamp:HH:mm:ss} [{Level:u3}] {Message:j} {NewLine} {Properties:j} {NewLine}{Exception}"
 				}
 			}
 		]

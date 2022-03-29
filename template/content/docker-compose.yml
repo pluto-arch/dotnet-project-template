@@ -6,19 +6,18 @@ services:
     restart: always
     container_name: apiservice
     ports:
-      - 5000:5000
-      - 5001:5001
+      - 5000:80
     build:
       context: .
-      dockerfile: src/PlutoNetCoreTemplate/Dockerfile
+      #if()
+      dockerfile: src/PlutoNetCoreTemplate.Api/Dockerfile
 
   pnctjob:
     image: jobservice
     restart: always
     container_name: jobservice
     ports:
-      - 5000:5000
-      - 5001:5001
+      - 5001:80
     build:
       context: .
       dockerfile: BackgroundJobs/PlutoNetCoreTemplate.Job.Hosting/Dockerfile

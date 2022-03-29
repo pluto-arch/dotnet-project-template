@@ -3,6 +3,5 @@ version: '3.4'
 services:
   pnctapi:
     environment:
-      - ASPNETCORE_ENVIRONMENT=Production
-      - ASPNETCORE_URLS=http://+:5000;https://+:5001;
+      - ASPNETCORE_ENVIRONMENT=Development
       - TZ=Asia/shanghai

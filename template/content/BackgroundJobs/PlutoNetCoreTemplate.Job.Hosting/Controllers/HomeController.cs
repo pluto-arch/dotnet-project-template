@@ -2,6 +2,9 @@
 
 namespace PlutoNetCoreTemplate.Job.Hosting.Controllers
 {
+    using Domain.Aggregates.TenantAggregate;
+    using Domain.Repositories;
+
     using Infrastructure;
 
     using Microsoft.AspNetCore.Mvc;
@@ -22,12 +25,15 @@ namespace PlutoNetCoreTemplate.Job.Hosting.Controllers
         private readonly IConfiguration _configuration;
         private readonly IJobInfoStore _jobInfoStore;
 
-        public HomeController(ISchedulerFactory jobSchedularFactory, ILogger<HomeController> logger, IConfiguration configuration, IJobInfoStore jobInfoStore)
+        private readonly IRepository<Tenant> _tenants;
+
+        public HomeController(ISchedulerFactory jobSchedularFactory, ILogger<HomeController> logger, IConfiguration configuration, IJobInfoStore jobInfoStore, IRepository<Tenant> tenants)
         {
             _jobSchedularFactory = jobSchedularFactory;
             _logger = logger;
             _configuration = configuration;
             _jobInfoStore = jobInfoStore;
+            _tenants = tenants;
         }
 
 
@@ -40,6 +46,5 @@ namespace PlutoNetCoreTemplate.Job.Hosting.Controllers
             ViewData["PauseJobCount"] = (await _jobInfoStore.GetListAsync()).Count(x => x.Status == EnumJobStates.Pause);
             return View();
         }
-
     }
 }

@@ -8,17 +8,20 @@
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Aggregates\ProductAggregate\" />
+    <Folder Include="Aggregates\ProjectAggregate\" />
     <Folder Include="Services\ProductDomainService\" />
     <Folder Include="Services\PermissionGrant\" />
     <Folder Include="Services\SystemDomainService\" />
+    <Folder Include="Services\ProjectDomainService\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\BuildingBlocks\EntityFrameworkCore.Extension\EntityFrameworkCore.Extension.UnitOfWork.csproj" />
+    <ProjectReference Include="..\..\BuildingBlocks\Pluto.Specifications\Pluto.Specifications.csproj" />
   </ItemGroup>
 
 </Project>

@@ -17,6 +17,8 @@ namespace PlutoNetCoreTemplate.Test
 {
     using Domain.Aggregates.TenantAggregate;
 
+    using Infrastructure.EntityFrameworkCore;
+
     using PlutoNetCoreTemplate.Domain;
     using PlutoNetCoreTemplate.Infrastructure;
 
@@ -32,6 +34,9 @@ namespace PlutoNetCoreTemplate.Test
                 .SetBasePath(AppContext.BaseDirectory)
                 .AddJsonFile("appsettings.json")
                 .Build();
+            services.AddSingleton<IConfiguration>(s => config);
+
+
 
             services.AddControllers()
                 .AddNewtonsoftJson(options =>
@@ -48,10 +53,11 @@ namespace PlutoNetCoreTemplate.Test
             services.AddLogging(options => { options.AddSerilog(); });
             services.AddApplicationLayer()
                 .AddDomainLayerNoSeed()
+                .AddTenantComponent(config)
                 .AddInfrastructureLayer(config);
             services.AddSingleton<ICurrentTenantAccessor, CurrentTenantAccessor>();
             services.AddTransient<ICurrentTenant, CurrentTenant>();
-            services.AddTransient<ITenantProvider, TenantProvider>();
+            services.AddTransient<ITenantProvider, EFCoreTenantProvider>();
             serviceProvider = services.BuildServiceProvider();
         }
     }

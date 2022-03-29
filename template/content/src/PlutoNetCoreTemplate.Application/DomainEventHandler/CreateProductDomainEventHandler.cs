@@ -21,7 +21,7 @@
         /// <inheritdoc />
         public async Task Handle(CreateProductDomainEvent notification, CancellationToken cancellationToken)
         {
-            await Task.Delay(1);
+            await Task.Delay(110, cancellationToken);
             _logger.LogInformation("处理：{@event} , 参数：{@param}", nameof(CreateProductDomainEvent), notification);
         }
     }

@@ -16,12 +16,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Infrastructure\Swagger\**" />
     <Compile Remove="logs\**" />
     <Compile Remove="Views\**" />
+    <Content Remove="Infrastructure\Swagger\**" />
     <Content Remove="logs\**" />
     <Content Remove="Views\**" />
+    <EmbeddedResource Remove="Infrastructure\Swagger\**" />
     <EmbeddedResource Remove="logs\**" />
     <EmbeddedResource Remove="Views\**" />
+    <None Remove="Infrastructure\Swagger\**" />
     <None Remove="logs\**" />
     <None Remove="Views\**" />
   </ItemGroup>
@@ -36,15 +40,20 @@
     </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="IGeekFan.AspNetCore.Knife4jUI" Version="0.0.11" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.5" />
-    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.12" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+    <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+    <PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+    <PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
     <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.0.7" />
   </ItemGroup>
@@ -55,13 +64,16 @@
     </Content>
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Filters\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\PlutoNetCoreTemplate.Application\PlutoNetCoreTemplate.Application.csproj" />
     <ProjectReference Include="..\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Welcome.en-US.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

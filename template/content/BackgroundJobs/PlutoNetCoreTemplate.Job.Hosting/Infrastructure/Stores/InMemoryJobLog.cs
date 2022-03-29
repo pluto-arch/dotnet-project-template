@@ -12,7 +12,7 @@
     public class InMemoryJobLog : IJobLogStore
     {
         private const int QUEUE_LENGTH = 20;
-        public static Dictionary<string, FixLengthQueue> JobLog = new Dictionary<string, FixLengthQueue>();
+        private static readonly Dictionary<string, FixLengthQueue> JobLog = new();
 
         public Task RecordAsync(JobKey job, JobLogModel model)
         {

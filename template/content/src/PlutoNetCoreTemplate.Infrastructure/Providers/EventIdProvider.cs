@@ -10,8 +10,6 @@
     }
     public class EventIdProvider : IEventIdProvider
     {
-        private static Random r = new Random();
-
         public EventIdProvider()
         {
             this.EventId = new EventId(1, $"pnct_{DateTime.Now.Ticks}");

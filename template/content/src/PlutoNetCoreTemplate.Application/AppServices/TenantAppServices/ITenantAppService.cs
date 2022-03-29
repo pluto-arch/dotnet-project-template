@@ -7,6 +7,8 @@
 
     public interface ITenantAppService
     {
-        Task<List<TenantModel>> GetListAsync();
+        Task<List<TenantDto>> GetListAsync();
+
+        Task<TenantDto> CreateAsync();
     }
 }

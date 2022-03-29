@@ -1,59 +1,62 @@
 <Project Sdk="Microsoft.NET.Sdk.Web">
 
-  <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
-    <UserSecretsId>84ba95fd-a55b-41ac-bbf8-8eadd372959a</UserSecretsId>
-    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
-    <DockerfileContext>..\..</DockerfileContext>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<UserSecretsId>84ba95fd-a55b-41ac-bbf8-8eadd372959a</UserSecretsId>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerfileContext>..\..</DockerfileContext>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Data\**" />
-    <Compile Remove="Extensions\QuartzExts\**" />
-    <Compile Remove="wwwroot\images\**" />
-    <Content Remove="Data\**" />
-    <Content Remove="Extensions\QuartzExts\**" />
-    <Content Remove="wwwroot\images\**" />
-    <EmbeddedResource Remove="Data\**" />
-    <EmbeddedResource Remove="Extensions\QuartzExts\**" />
-    <EmbeddedResource Remove="wwwroot\images\**" />
-    <None Remove="Data\**" />
-    <None Remove="Extensions\QuartzExts\**" />
-    <None Remove="wwwroot\images\**" />
-  </ItemGroup>
+	<ItemGroup>
+		<Compile Remove="Data\**" />
+		<Compile Remove="Extensions\QuartzExts\**" />
+		<Compile Remove="wwwroot\images\**" />
+		<Content Remove="Data\**" />
+		<Content Remove="Extensions\QuartzExts\**" />
+		<Content Remove="wwwroot\images\**" />
+		<EmbeddedResource Remove="Data\**" />
+		<EmbeddedResource Remove="Extensions\QuartzExts\**" />
+		<EmbeddedResource Remove="wwwroot\images\**" />
+		<None Remove="Data\**" />
+		<None Remove="Extensions\QuartzExts\**" />
+		<None Remove="wwwroot\images\**" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
-    <PackageReference Include="Quartz.AspNetCore" Version="3.3.2" />
-    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.3.2" />
-    <PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
-    <PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
-	  <PackageReference Include="Polly" Version="7.2.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.10.13" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+		<PackageReference Include="Quartz.AspNetCore" Version="3.3.2" />
+		<PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.3.2" />
+		<PackageReference Include="Serilog.AspNetCore" Version="3.4.0" />
+		<PackageReference Include="Serilog.Sinks.File" Version="4.1.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+		<PackageReference Include="Serilog.Enrichers.Process" Version="2.0.2" />
+		<PackageReference Include="Serilog.Enrichers.Thread" Version="3.1.0" />
+		<PackageReference Include="Polly" Version="7.2.1" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\..\src\PlutoNetCoreTemplate.Application\PlutoNetCoreTemplate.Application.csproj" />
-    <ProjectReference Include="..\..\src\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\..\src\PlutoNetCoreTemplate.Application\PlutoNetCoreTemplate.Application.csproj" />
+		<ProjectReference Include="..\..\src\PlutoNetCoreTemplate.Infrastructure\PlutoNetCoreTemplate.Infrastructure.csproj" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <Content Update="appsettings.Production.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Update="serilogsetting.json">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
+	<ItemGroup>
+		<Content Update="appsettings.Production.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="serilogsetting.json">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+	</ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\lib\jquery\" />
-  </ItemGroup>
+	<ItemGroup>
+		<Folder Include="wwwroot\lib\jquery\" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <None Include="wwwroot\lib\layui\font\iconfont.svg" />
-    <None Include="wwwroot\lib\layui\font\iconfont.woff2" />
-    <None Include="wwwroot\lib\layui\layui.js" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="wwwroot\lib\layui\font\iconfont.svg" />
+		<None Include="wwwroot\lib\layui\font\iconfont.woff2" />
+		<None Include="wwwroot\lib\layui\layui.js" />
+	</ItemGroup>
 
 </Project>

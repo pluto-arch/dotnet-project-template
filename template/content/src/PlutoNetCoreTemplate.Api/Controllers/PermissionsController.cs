@@ -3,28 +3,27 @@
     using Application.Models.PermissionModels;
     using Application.Permissions;
 
-    using Infrastructure.Commons;
-
-    using MediatR;
-
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;
 
+    using PlutoNetCoreTemplate.Infrastructure.Commons;
+
     using System.Collections.Generic;
     using System.Threading.Tasks;
-
+    using PlutoNetCoreTemplate.Infrastructure.Providers;
 
     [Route("api/[controller]")]
     [ApiController]
     public class PermissionsController : BaseController<PermissionsController>
     {
-        private readonly IPermissionAppService _permissionAppService;
+        private IPermissionAppService PermissionAppService=>LazyGetRequiredService<IPermissionAppService>();
 
 
-        public PermissionsController(IMediator mediator, ILogger<PermissionsController> logger, IPermissionAppService permissionAppService) : base(mediator, logger)
+        public PermissionsController(ILazyLoadServiceProvider lazyLoad) : base(lazyLoad)
         {
-            _permissionAppService = permissionAppService;
         }
+
 
         /// <summary>
         /// 获取权限
@@ -33,21 +32,22 @@
         /// <param name="providerKey">提供者值 eg. admin</param>
         /// <returns></returns>
         [HttpGet]
+        [Authorize(SystemPermissions.Permissions.Get)]
         public async Task<ServiceResponse<PermissionListResponseModel>> GetAsync(string providerName, string providerKey)
         {
-            var res = await _permissionAppService.GetAsync(providerName, providerKey);
+            var res = await PermissionAppService.GetAsync(providerName, providerKey);
             return ServiceResponse<PermissionListResponseModel>.Success(res);
         }
-
 
         /// <summary>
         /// 获取权限
         /// </summary>
         /// <returns></returns>
         [HttpGet("getList")]
+        [Authorize(SystemPermissions.Permissions.Get)]
         public ServiceResponse<List<PermissionGroupDefinition>> GetListAsync()
         {
-            var res = _permissionAppService.GetListAsync();
+            var res = PermissionAppService.GetListAsync();
             return ServiceResponse<List<PermissionGroupDefinition>>.Success(res);
         }
 
@@ -59,12 +59,12 @@
         /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut]
+        [Authorize(SystemPermissions.Permissions.Edit)]
         public async Task<ServiceResponse<bool>> UpdateAsync(string providerName, string providerKey, IEnumerable<PermissionUpdateRequestModel> model)
         {
-            await _permissionAppService.UpdateAsync(providerName, providerKey, model);
+            await PermissionAppService.UpdateAsync(providerName, providerKey, model);
             return ServiceResponse<bool>.Success(true);
         }
-
 
     }
 }

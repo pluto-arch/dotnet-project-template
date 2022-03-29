@@ -20,7 +20,6 @@ namespace PlutoNetCoreTemplate.Job.Hosting
     using Models;
 
     using PlutoNetCoreTemplate.Infrastructure;
-    using PlutoNetCoreTemplate.Infrastructure.ConnectionString;
 
     using Quartz;
     using Quartz.Impl;
@@ -57,8 +56,7 @@ namespace PlutoNetCoreTemplate.Job.Hosting
                 .AddDomainLayer()
                 .AddInfrastructureLayer(Configuration);
 
-            services.Configure<TenantStoreOptions>(Configuration);
-
+            services.AddTenantComponent(Configuration);
             services.AddSingleton<IJobListener, CustomJobListener>();
             services.AddSingleton<ITriggerListener, CustomTriggerListener>();
             services.AddTransient<IJobInfoStore, InMemoryJobStore>();

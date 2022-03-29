@@ -2,6 +2,7 @@
 {
     using Entities;
 
+    using System;
     using System.Collections.Generic;
 
     /// <summary>
@@ -15,18 +16,15 @@
             Devices = new List<Device>();
         }
 
-
         /// <summary>
         /// 产品名称
         /// </summary>
         public string Name { get; set; }
 
-
         /// <summary>
-        /// 设备列表
+        /// 所属项目
         /// </summary>
-        public List<Device> Devices { get; set; }
-
+        public int? ProjectId { get; set; }
 
         /// <summary>
         /// 描述信息
@@ -39,6 +37,15 @@
         /// <inheritdoc />
         public bool Deleted { get; set; }
 
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTimeOffset CreationTime { get; set; }
+
+        /// <summary>
+        /// 设备列表
+        /// </summary>
+        public List<Device> Devices { get; set; }
 
         public void AddDevice(Device device)
         {

@@ -1,8 +1,11 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate
 {
-    using SeedWork;
+    using Repositories;
 
-    public interface IProductRepository : IPlutoNetCoreTemplateBaseRepository<Product>
+    using System.Collections.Generic;
+
+    public interface IProductRepository : IRepository<Product>
     {
+        IAsyncEnumerable<Product> GetListAsync();
     }
 }

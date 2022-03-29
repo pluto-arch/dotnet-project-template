@@ -1,37 +1,39 @@
 ﻿namespace PlutoNetCoreTemplate.Application.AppServices.ProductAppServices
 {
     using AutoMapper;
+
     using Domain.Aggregates.ProductAggregate;
-    using Microsoft.EntityFrameworkCore;
+    using Domain.Repositories;
+
+    using Generics;
+
     using Models.ProductModels;
-    using System.Collections.Generic;
+
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class ProductAppService : IProductAppService
+    public class ProductAppService
+        : EntityKeyCrudAppService<Product, string, ProductGetResponseDto, ProductPagedRequestDto, ProductGetResponseDto, ProductCreateOrUpdateRequestDto, ProductCreateOrUpdateRequestDto>, IProductAppService
     {
-
-        private readonly IProductRepository _productRepository;
-        private readonly IMapper _mapper;
-
-        public ProductAppService(IProductRepository productRepository, IMapper mapper)
+        public ProductAppService(IRepository<Product, string> repository, IMapper mapper) : base(repository, mapper)
         {
-            _productRepository = productRepository;
-            _mapper = mapper;
         }
 
 
-        public async Task<List<ProductModels>> GetListAsync()
+        protected override IQueryable<Product> CreateFilteredQuery(ProductPagedRequestDto requestModel)
         {
-            var entities = await _productRepository.Include(x => x.Devices).ToListAsync();
-            var res = _mapper.Map<List<Product>, List<ProductModels>>(entities);
-            return res;
+            if (requestModel.Keyword is not null && !string.IsNullOrWhiteSpace(requestModel.Keyword))
+            {
+                return Repository.Query.Where(e => e.Name.Contains(requestModel.Keyword));
+            }
+
+            return base.CreateFilteredQuery(requestModel);
         }
 
-        public async Task<ProductModels> GetAsync(string key)
+        public async Task<ProductGetResponseDto> GetByName(string productName)
         {
-            var entity = await _productRepository.Include(x => x.Devices).FirstOrDefaultAsync(x => x.Id == key);
-            return _mapper.Map<Product, ProductModels>(entity);
+            var res = await Repository.GetAsync(p => p.Name == productName);
+            return Mapper.Map<ProductGetResponseDto>(res);
         }
     }
 }

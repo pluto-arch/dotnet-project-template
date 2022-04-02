@@ -4,36 +4,22 @@ namespace PlutoNetCoreTemplate.Job.Hosting.Controllers
 {
     using Domain.Aggregates.TenantAggregate;
     using Domain.Repositories;
-
     using Infrastructure;
-
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Logging;
-
     using Models;
-
     using Quartz;
-
     using System.Linq;
     using System.Threading.Tasks;
 
     public class HomeController : Controller
     {
         private readonly ISchedulerFactory _jobSchedularFactory;
-        private readonly ILogger<HomeController> _logger;
-        private readonly IConfiguration _configuration;
         private readonly IJobInfoStore _jobInfoStore;
 
-        private readonly IRepository<Tenant> _tenants;
-
-        public HomeController(ISchedulerFactory jobSchedularFactory, ILogger<HomeController> logger, IConfiguration configuration, IJobInfoStore jobInfoStore, IRepository<Tenant> tenants)
+        public HomeController(ISchedulerFactory jobSchedularFactory,   IJobInfoStore jobInfoStore)
         {
             _jobSchedularFactory = jobSchedularFactory;
-            _logger = logger;
-            _configuration = configuration;
             _jobInfoStore = jobInfoStore;
-            _tenants = tenants;
         }
 
 

@@ -75,9 +75,10 @@
 
 
 
-        public ValueTask DisposeAsync()
+        public async ValueTask DisposeAsync()
         {
-            return this._currenDbContext.DisposeAsync();
+            await this._currenDbContext.DisposeAsync();
+            GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)

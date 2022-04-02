@@ -15,8 +15,6 @@ namespace PlutoNetCoreTemplate.Test.ApplicationTest
 
     public class ApplicationTest : BaseTest
     {
-        private readonly string[] tenants = new[] {"T20210602000001","T20210602000002","T20210602000003"};
-
 
         [Test]
         public async Task TenantChangeForReadData()

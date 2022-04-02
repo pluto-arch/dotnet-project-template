@@ -7,11 +7,15 @@
 
     public class StringIdGenerator : ValueGenerator<string>
     {
+        private readonly object _lock = new ();
         public override string Next(EntityEntry entry)
         {
-            var stamp = new DateTimeOffset(DateTime.Now).ToUnixTimeMilliseconds();
-            var id = $"{stamp}{RandomNumberString(5)}";
-            return id;
+            lock (_lock)
+            {
+                var stamp = new DateTimeOffset(DateTime.Now).ToUnixTimeMilliseconds();
+                var id = $"{stamp}{RandomNumberString(5)}";
+                return id;
+            }
         }
 
         public override bool GeneratesTemporaryValues => false;

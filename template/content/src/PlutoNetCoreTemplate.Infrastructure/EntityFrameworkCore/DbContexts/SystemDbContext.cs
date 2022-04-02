@@ -1,13 +1,10 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
     using Domain.Aggregates.SystemAggregate;
-
     using Microsoft.EntityFrameworkCore;
-
     using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
     using PlutoNetCoreTemplate.Domain.UnitOfWork;
-
-    using System.Reflection;
+    using EntityTypeConfigurations;
 
 
     public class SystemDbContext : PlutoDbContext<SystemDbContext>, IUowDbContext
@@ -29,7 +26,10 @@
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);// 不能删除，软删除，多租户过滤器
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfiguration(new SystemEntityTypeConfiguration.TenantEntityTypeConfiguration())
+                .ApplyConfiguration(new SystemEntityTypeConfiguration.TenantConnectionStringEntityTypeConfiguration())
+                .ApplyConfiguration(new SystemEntityTypeConfiguration.PermissionGroupDefinitionEntityTypeConfiguration())
+                .ApplyConfiguration(new SystemEntityTypeConfiguration.PermissionDefinitionEntityTypeConfiguration());
         }
         #endregion
     }

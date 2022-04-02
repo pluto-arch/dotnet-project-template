@@ -36,12 +36,12 @@ namespace PlutoNetCoreTemplate.Api
             catch (Exception e)
             {
                 _logger.LogError(e, $"{httpContext.Request.Path} has an error. {e.Message}");
-                await HandlerExceptionAsync(httpContext, e);
+                await HandlerExceptionAsync(httpContext);
             }
         }
 
 
-        private static async Task HandlerExceptionAsync(HttpContext context, Exception e)
+        private static async Task HandlerExceptionAsync(HttpContext context)
         {
             context.Response.ContentType = "application/json;charset=utf-8";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;

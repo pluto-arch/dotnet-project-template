@@ -6,7 +6,7 @@
     public class LazyLoadServiceProvider : ILazyLoadServiceProvider
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly object _serviceProviderLock = new object();
+        private readonly object _serviceProviderLock = new ();
         
         public LazyLoadServiceProvider(IServiceProvider serviceProvider)
         {

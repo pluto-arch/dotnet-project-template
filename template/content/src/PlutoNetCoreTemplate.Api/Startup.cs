@@ -22,9 +22,6 @@ namespace PlutoNetCoreTemplate.Api
 
     using System;
     using System.Text;
-    using IGeekFan.AspNetCore.Knife4jUI;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Mvc.Infrastructure;
 
 #if (Grpc)
     using Application.Grpc;
@@ -155,11 +152,6 @@ namespace PlutoNetCoreTemplate.Api
 
             app.UseCors(DefaultCorsName);
             app.UseRouting();
-            app.UseKnife4UI(c =>
-            {
-                c.RoutePrefix = ""; // serve the UI at root
-                c.SwaggerEndpoint("/v1/api-docs", "V1 Docs");
-            });
             app.UseAuthentication();
             app.UseTenant();
             app.UseAuthorization();
@@ -170,7 +162,6 @@ namespace PlutoNetCoreTemplate.Api
 #endif
                 endpoints.MapCustomHealthChecks();
                 endpoints.MapControllers();
-                endpoints.MapSwagger("{documentName}/api-docs");
             });
         }
     }

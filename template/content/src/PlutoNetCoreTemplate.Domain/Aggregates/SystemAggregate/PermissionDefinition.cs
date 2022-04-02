@@ -13,13 +13,14 @@
     /// </summary>
     public class PermissionDefinition : BaseEntity<int>
     {
-
+        /// <inheritdoc />
         public PermissionDefinition()
         {
-
+            Name = string.Empty;
         }
 
-        public PermissionDefinition([NotNull] string name, string displayName = null, bool isEnabled = true)
+        /// <inheritdoc />
+        public PermissionDefinition([NotNull]string name, string displayName = null, bool isEnabled = true)
         {
             Name = name;
             DisplayName = displayName;
@@ -47,13 +48,13 @@
         /// <summary>
         /// 上级权限
         /// </summary>
-        public int? ParentId { get; set; }
+        public int ParentId { get; set; }
 
 
         /// <summary>
         /// 分组id
         /// </summary>
-        public int? GroupId { get; set; }
+        public int GroupId { get; set; }
         /// <summary>
         /// 分组
         /// </summary>

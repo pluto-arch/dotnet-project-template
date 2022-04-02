@@ -28,7 +28,7 @@ namespace PlutoNetCoreTemplate.Api
             }
             catch (Exception ex)
             {
-                Log.Fatal(ex, "{ApplicationContext} 出现错误:{messsage} !", AppName, ex.Message);
+                Log.Fatal(ex, "{ApplicationContext} 出现错误:{Messsage} !", AppName, ex.Message);
             }
             finally
             {

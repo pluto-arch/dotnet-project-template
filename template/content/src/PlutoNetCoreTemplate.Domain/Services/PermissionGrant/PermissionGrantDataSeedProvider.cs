@@ -17,20 +17,14 @@
 
     public class PermissionGrantDataSeedProvider : IDataSeedProvider
     {
-        private readonly IPermissionGrantRepository _repository;
         private readonly IRepository<PermissionGroupDefinition> _permissionGroup;
-        private readonly IRepository<PermissionDefinition> _permission;
         private readonly ICurrentTenant _currentTenant;
 
         public PermissionGrantDataSeedProvider(
-            IPermissionGrantRepository repository,
             ICurrentTenant currentTenant,
-            IRepository<PermissionDefinition> permission,
             IRepository<PermissionGroupDefinition> permissionGroup)
         {
-            _repository = repository;
             _currentTenant = currentTenant;
-            _permission = permission;
             _permissionGroup = permissionGroup;
         }
 

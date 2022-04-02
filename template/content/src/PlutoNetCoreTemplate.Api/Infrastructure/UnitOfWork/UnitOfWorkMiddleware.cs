@@ -26,8 +26,7 @@ namespace PlutoNetCoreTemplate.Api.Infrastructure.UnitOfWork
             {
                 foreach (var item in uowOptions?.DbContexts)
                 {
-                    var uow = context.RequestServices.GetService(item.Value) as IUnitOfWork;
-                    if (uow is null)
+                    if (context.RequestServices.GetService(item.Value) is not IUnitOfWork uow)
                     {
                         continue;
                     }

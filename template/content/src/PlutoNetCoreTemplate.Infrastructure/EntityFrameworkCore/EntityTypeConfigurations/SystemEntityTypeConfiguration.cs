@@ -9,9 +9,9 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
 
     using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-    using Newtonsoft.Json;
-
     using System.Collections.Generic;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
 
     public static class SystemEntityTypeConfiguration
     {
@@ -84,7 +84,8 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityTypeConfigurations
                 builder.Property(e => e.Url).HasMaxLength(128);
                 builder.Property(e => e.IsEnabled).HasDefaultValue(1);
 
-                var dicConvert = new ValueConverter<List<string>, string>(v => JsonConvert.SerializeObject(v), v => JsonConvert.DeserializeObject<List<string>>(v));
+                var options = new JsonSerializerOptions() {PropertyNameCaseInsensitive = true};
+                var dicConvert = new ValueConverter<List<string>, string>(v => JsonSerializer.Serialize(v, options), v => JsonSerializer.Deserialize<List<string>>(v, options));
                 builder.Property(e => e.AllowedProviders).HasConversion(dicConvert);
                 builder.HasIndex(u => u.Name);
             }

@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿#pragma warning disable IDE0060 // 删除未使用的参数
+
+using Microsoft.Extensions.DependencyInjection;
 
 namespace PlutoNetCoreTemplate.Api
 {

@@ -43,10 +43,10 @@ namespace PlutoNetCoreTemplate.Domain.Entities
             }
 
             //Different tenants may have an entity with same Id.
-            if (entity1 is IMultiTenant && entity2 is IMultiTenant)
+            if (entity1 is IMultiTenant tenant1 && entity2 is IMultiTenant tenant2)
             {
-                var tenant1Id = ((IMultiTenant)entity1).TenantId;
-                var tenant2Id = ((IMultiTenant)entity2).TenantId;
+                var tenant1Id = tenant1.TenantId;
+                var tenant2Id = tenant2.TenantId;
 
                 if (tenant1Id != tenant2Id)
                 {

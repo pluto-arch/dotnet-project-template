@@ -21,16 +21,12 @@
     {
 
         private readonly ISchedulerFactory _jobSchedularFactory;
-        private readonly ILogger<TaskController> _logger;
-        private readonly IConfiguration _configuration;
         private readonly IJobInfoStore _jobInfoStore;
         private readonly IJobLogStore _jobLogStore;
 
-        public TaskController(ISchedulerFactory jobSchedularFactory, ILogger<TaskController> logger, IConfiguration configuration, IJobInfoStore jobInfoStore, IJobLogStore jobLogStore)
+        public TaskController(ISchedulerFactory jobSchedularFactory, IJobInfoStore jobInfoStore, IJobLogStore jobLogStore)
         {
             _jobSchedularFactory = jobSchedularFactory;
-            _logger = logger;
-            _configuration = configuration;
             _jobInfoStore = jobInfoStore;
             _jobLogStore = jobLogStore;
         }

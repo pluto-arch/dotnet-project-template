@@ -21,16 +21,12 @@
     {
         private readonly IRepository<Tenant> _tenants;
         private readonly IMapper _mapper;
-        private readonly ICurrentTenant _currentTenant;
-        private readonly IMediator _mediator;
         readonly Random r = new();
 
-        public TenantAppService(IRepository<Tenant> tenants, IMapper mapper, ICurrentTenant currentTenant, IMediator mediator)
+        public TenantAppService(IRepository<Tenant> tenants, IMapper mapper)
         {
             _tenants = tenants;
             _mapper = mapper;
-            _currentTenant = currentTenant;
-            _mediator = mediator;
         }
 
         public async Task<List<TenantDto>> GetListAsync()

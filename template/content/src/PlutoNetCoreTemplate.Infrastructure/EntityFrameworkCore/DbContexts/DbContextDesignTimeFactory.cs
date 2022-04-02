@@ -19,13 +19,13 @@
 
 
 
-    public class SystemDbContextDesignTimeFactory : IDesignTimeDbContextFactory<SystemDbContext>
+    public class SystemDbContextDesignTimeFactory : IDesignTimeDbContextFactory<SystemMigrationDbContext>
     {
-        public SystemDbContext CreateDbContext(string[] args)
+        public SystemMigrationDbContext CreateDbContext(string[] args)
         {
-            var optionsBuilder = new DbContextOptionsBuilder<SystemDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<SystemMigrationDbContext>();
             optionsBuilder.UseSqlServer(@"Server=127.0.0.1,1433;Database=Pnct_System;User Id=sa;Password=970307lBX;Trusted_Connection = False;");
-            return new SystemDbContext(optionsBuilder.Options);
+            return new SystemMigrationDbContext(optionsBuilder.Options);
         }
     }
 

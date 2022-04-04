@@ -3,6 +3,9 @@
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
     using Permissions;
+using PlutoNetCoreTemplate.Application.Behaviors;
+using PlutoNetCoreTemplate.Infrastructure.Idempotency;
+
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -13,9 +16,9 @@
         public static IServiceCollection AddApplicationLayer(this IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
             services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
-
+            services.AddTransient<IRequestManager, RequestManager>();
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(IdentityCommandBehaviour<,>));
             services.AddAppServices();
 
             services.AddPermissionDefinitionProvider();

@@ -46,8 +46,7 @@
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddTransient<IRequestManager, RequestManager>();
-            services.AddTransient<ILazyLoadServiceProvider,LazyLoadServiceProvider>();
+           services.AddTransient<ILazyLoadServiceProvider,LazyLoadServiceProvider>();
 
             services.AddEntityFrameworkSqlServer();
             services.AddDbContextPool<DeviceCenterDbContext>((serviceProvider, optionsBuilder) =>

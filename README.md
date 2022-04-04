@@ -24,10 +24,4 @@ dotnet new plutoapi -h
 应该能看到名为pluto的模板
 
 
-尝试示例：
-```
-dotnet new plutoapi -n Demo  -d Demo
 
-# 参数：-n 名称（有值会新建一个文件夹输出项目），  -d efcore dbcontext 名称[可选]
-
-```

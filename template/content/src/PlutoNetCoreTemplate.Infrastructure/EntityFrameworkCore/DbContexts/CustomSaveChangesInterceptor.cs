@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
 using PlutoNetCoreTemplate.Domain.Entities;
+using PlutoNetCoreTemplate.Infrastructure.Providers;
 
 using System.Linq;
 using System.Threading;
@@ -15,9 +16,15 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
     public class CustomSaveChangesInterceptor : SaveChangesInterceptor
     {
-        private readonly IMediator _mediator;
+        //private readonly IMediator _mediator;
 
-        public CustomSaveChangesInterceptor(IMediator mediator) => _mediator = mediator;
+        private readonly IDomainEventDispatcher _dispatcher;
+
+
+        public CustomSaveChangesInterceptor(IDomainEventDispatcher dispatcher)
+        {
+            _dispatcher = dispatcher;
+        }
 
 
         public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
@@ -64,7 +71,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
             domainEntities.ToList().ForEach(entity => entity.ClearDomainEvents());
             foreach (var domainEvent in domainEvents)
             {
-                await _mediator.Publish(domainEvent, cancellationToken);
+                await _dispatcher.Dispatch(domainEvent);
             }
         }
     }

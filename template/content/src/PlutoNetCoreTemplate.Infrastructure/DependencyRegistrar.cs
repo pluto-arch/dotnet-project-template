@@ -46,8 +46,8 @@
             this IServiceCollection services,
             IConfiguration configuration)
         {
-           services.AddTransient<ILazyLoadServiceProvider,LazyLoadServiceProvider>();
-
+            services.AddTransient<ILazyLoadServiceProvider,LazyLoadServiceProvider>();
+            services.AddTransient<IDomainEventDispatcher, MediatrDomainEventDispatcher>();
             services.AddEntityFrameworkSqlServer();
             services.AddDbContextPool<DeviceCenterDbContext>((serviceProvider, optionsBuilder) =>
             {
@@ -56,7 +56,7 @@
                     sqlOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
                     sqlOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
                 });
-                IMediator mediator = serviceProvider.GetService<IMediator>() ?? new NullMediator();
+                var mediator = serviceProvider.GetService<IDomainEventDispatcher>();
                 optionsBuilder.AddInterceptors(new CustomSaveChangesInterceptor(mediator));
 
 #if DEBUG
@@ -80,7 +80,7 @@
                     sqlOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
                     sqlOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
                 });
-                IMediator mediator = serviceProvider.GetService<IMediator>() ?? new NullMediator();
+                var mediator = serviceProvider.GetService<IDomainEventDispatcher>();
                 optionsBuilder.AddInterceptors(new CustomSaveChangesInterceptor(mediator));
 
 #if DEBUG

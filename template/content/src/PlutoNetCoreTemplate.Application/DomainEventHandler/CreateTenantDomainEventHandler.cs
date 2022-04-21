@@ -60,16 +60,7 @@
                 await using (var conn = new SqlConnection(cfg.GetConnectionString("InitDb")))
                 using (_currentTenant.Change(new TenantInfo(notification.TenantId,"")))
                 {
-                    await conn.OpenAsync(cancellationToken);
-                    SqlCommand cmd = new($"USE master;CREATE DATABASE {dbName};", conn);
-                    await cmd.ExecuteNonQueryAsync(cancellationToken);
-                    await conn.CloseAsync();
-                    if (_uowOfWork.Context == null)
-                    {
-                        throw new NullReferenceException("can not found any db context for init");
-                    }
-                    await _uowOfWork.Context.Database.EnsureCreatedAsync(cancellationToken);
-
+                    var sql =_uowOfWork.Context.Database.GenerateCreateScript();
                     _logger.LogInformation("初始化租户{tenantId}的数据库成功，开始初始化管理员权限数据",notification.TenantId);
                     // 管理员权限
                     await InitAdminPermission( cancellationToken);

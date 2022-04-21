@@ -1,5 +1,6 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.Providers
 {
+    using System;
     using System.Threading.Tasks;
     using Domain.SeedWork;
     using MediatR;
@@ -8,17 +9,17 @@
 
     public class MediatrDomainEventDispatcher: IDomainEventDispatcher
     {
-        private readonly IServiceScopeFactory _serviceScopeFactory;
+        private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<MediatrDomainEventDispatcher> _log;
-        public MediatrDomainEventDispatcher(IServiceScopeFactory serviceScopeFactory, ILogger<MediatrDomainEventDispatcher> log)
+        public MediatrDomainEventDispatcher(IServiceProvider serviceProvider, ILogger<MediatrDomainEventDispatcher> log)
         {
-            _serviceScopeFactory = serviceScopeFactory;
+            _serviceProvider = serviceProvider;
             _log = log;
         }
 
         public async Task Dispatch(INotification domainEvent)
         {
-            using var scope = _serviceScopeFactory.CreateScope();
+            using var scope = _serviceProvider.CreateScope();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             _log.LogDebug("Dispatching Domain Event as MediatR notification.  EventType: {eventType}", domainEvent.GetType());
             await mediator.Publish(domainEvent);

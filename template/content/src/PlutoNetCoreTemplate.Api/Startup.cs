@@ -45,7 +45,7 @@ namespace PlutoNetCoreTemplate.Api
             #region 基础组件服务
             services.AddControllers(options =>
                 {
-                    options.Filters.Add<UnitOfWorkFilter>();
+                    //options.Filters.Add<UnitOfWorkFilter>();
                     options.ModelBinderProviders.Insert(0, new SortingBinderProvider());
                 })
                 .AddCustomJsonSerializer()
@@ -151,6 +151,7 @@ namespace PlutoNetCoreTemplate.Api
             }
 
             app.UseCors(DefaultCorsName);
+            app.UseUnitOfWork();
             app.UseRouting();
             app.UseAuthentication();
             app.UseTenant();

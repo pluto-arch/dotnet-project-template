@@ -8,7 +8,7 @@
         {
             TenantId = id;
             IsShareDatabase = isShareDatabase;
-            var dd = databaseName;
+            DataBaseName = databaseName;
         }
         public string TenantId { get; set; }
 

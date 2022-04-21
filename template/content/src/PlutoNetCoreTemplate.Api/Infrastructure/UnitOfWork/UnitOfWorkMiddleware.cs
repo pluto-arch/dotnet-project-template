@@ -21,6 +21,7 @@ namespace PlutoNetCoreTemplate.Api.Infrastructure.UnitOfWork
 
         public async Task InvokeAsync(HttpContext context)
         {
+            await _next(context);
             var uowOptions = context.RequestServices.GetService<IOptions<UnitOfWorkCollectionOptions>>()?.Value;
             if (uowOptions is not null && uowOptions?.DbContexts is { Count: > 0 })
             {
@@ -33,8 +34,6 @@ namespace PlutoNetCoreTemplate.Api.Infrastructure.UnitOfWork
                     await uow?.SaveChangesAsync(context.RequestAborted);
                 }
             }
-
-            await _next(context);
         }
     }
 }

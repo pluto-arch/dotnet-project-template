@@ -1,10 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.DependencyInjection;
-
+﻿
 using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
-
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace PlutoNetCoreTemplate.Api
 {

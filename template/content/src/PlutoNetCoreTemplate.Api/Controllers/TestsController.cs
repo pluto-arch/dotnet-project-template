@@ -1,12 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Api.Controllers
 {
+    using Domain.SeedWork;
     using Filters;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Localization;
     using System.ComponentModel.DataAnnotations;
     using System.Reflection;
     using System.Threading.Tasks;
-    using Domain.SeedWork;
 
     [Route("api/[controller]")]
     [ApiController]
@@ -15,7 +15,7 @@
 
         private readonly IStringLocalizer _stringLocalizer; // 字符串本地化
 
-        public TestsController(IStringLocalizerFactory stringLocalizer,ILazyLoadServiceProvider lazyLoad):base(lazyLoad)
+        public TestsController(IStringLocalizerFactory stringLocalizer, ILazyLoadServiceProvider lazyLoad) : base(lazyLoad)
         {
             _stringLocalizer = stringLocalizer.Create("Welcome", Assembly.GetExecutingAssembly().ToString());
         }
@@ -44,7 +44,7 @@
         public async Task<IActionResult> GetAsync([Required] int id)
         {
             await Task.Delay(1);
-            if (id%2==0)
+            if (id % 2 == 0)
             {
                 return Ok(ServiceResponse<string>.Success("123123123"));
             }

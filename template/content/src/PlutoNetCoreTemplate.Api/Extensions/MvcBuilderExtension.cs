@@ -1,14 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-
-namespace PlutoNetCoreTemplate.Api.Extensions
+﻿namespace PlutoNetCoreTemplate.Api.Extensions
 {
-    using Microsoft.AspNetCore.Mvc;
-
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
-
-    using System.Net.Mime;
-
     public static class MvcBuilderExtension
     {
         public static IMvcBuilder AddCustomJsonSerializer(this IMvcBuilder builder)

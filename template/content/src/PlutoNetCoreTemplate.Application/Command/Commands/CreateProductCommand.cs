@@ -1,7 +1,5 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Command
 {
-    using MediatR;
-
     using System.ComponentModel.DataAnnotations;
 
     public class CreateProductCommand : BaseCommand<Unit>

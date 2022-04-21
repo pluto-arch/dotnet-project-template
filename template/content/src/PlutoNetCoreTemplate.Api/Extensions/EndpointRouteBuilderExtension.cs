@@ -1,11 +1,6 @@
 ﻿namespace PlutoNetCoreTemplate.Api.Extensions
 {
-    using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Routing;
-
-    using Newtonsoft.Json;
 
     public static class EndpointRouteBuilderExtension
     {

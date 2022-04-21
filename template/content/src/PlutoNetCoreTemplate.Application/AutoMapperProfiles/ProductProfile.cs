@@ -1,10 +1,7 @@
 ﻿namespace PlutoNetCoreTemplate.Application.AutoMapperProfiles
 {
-    using AutoMapper;
-
     using Domain.Aggregates.ProductAggregate;
-
-    using PlutoNetCoreTemplate.Application.Models.ProductModels;
+    using Models.ProductModels;
 
     public class ProductProfile : Profile
     {

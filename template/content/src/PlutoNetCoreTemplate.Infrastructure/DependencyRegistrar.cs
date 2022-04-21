@@ -1,14 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure
 {
     using ConnectionString;
-
     using Constants;
-
     using Domain.Aggregates.TenantAggregate;
     using Domain.Entities;
     using Domain.Repositories;
+    using Domain.SeedWork;
     using Domain.UnitOfWork;
-
     using EntityFrameworkCore;
     using EntityFrameworkCore.Repositories;
     using Microsoft.EntityFrameworkCore;
@@ -21,7 +19,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
-    using Domain.SeedWork;
 
     public static class DependencyRegistrar
     {
@@ -40,7 +37,7 @@
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddTransient<ILazyLoadServiceProvider,NativeLazyLoadServiceProvider>();
+            services.AddTransient<ILazyLoadServiceProvider, NativeLazyLoadServiceProvider>();
             services.AddTransient<IDomainEventDispatcher, MediatrDomainEventDispatcher>();
             services.AddEntityFrameworkSqlServer();
             services.AddDbContextPool<DeviceCenterDbContext>((serviceProvider, optionsBuilder) =>
@@ -50,7 +47,7 @@
                     sqlOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
                     sqlOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
                 });
-                var mediator = serviceProvider.GetService<IDomainEventDispatcher>()??NullDomainEventDispatcher.Instance;
+                var mediator = serviceProvider.GetService<IDomainEventDispatcher>() ?? NullDomainEventDispatcher.Instance;
                 optionsBuilder.AddInterceptors(new CustomSaveChangesInterceptor(mediator));
 
 #if DEBUG

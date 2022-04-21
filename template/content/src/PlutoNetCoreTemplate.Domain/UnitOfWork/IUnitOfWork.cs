@@ -3,14 +3,13 @@ using System.Threading.Tasks;
 
 namespace PlutoNetCoreTemplate.Domain.UnitOfWork
 {
-    using System;
     using Entities;
-
     using Repositories;
+    using System;
 
 
 
-    public interface IUnitOfWork:IAsyncDisposable,IDisposable
+    public interface IUnitOfWork : IAsyncDisposable, IDisposable
     {
         Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 

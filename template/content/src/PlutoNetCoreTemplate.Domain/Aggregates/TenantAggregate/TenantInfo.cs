@@ -1,7 +1,7 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
-    using System.Collections.Generic;
     using Microsoft.Extensions.DependencyInjection;
+    using System.Collections.Generic;
 
     public class TenantInfo
     {

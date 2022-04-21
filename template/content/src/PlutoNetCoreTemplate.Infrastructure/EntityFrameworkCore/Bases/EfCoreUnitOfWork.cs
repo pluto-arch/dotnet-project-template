@@ -1,5 +1,6 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
+    using Domain.Aggregates.TenantAggregate;
     using Domain.Entities;
     using Domain.Repositories;
     using Domain.UnitOfWork;
@@ -9,7 +10,6 @@
     using System;
     using System.Threading;
     using System.Threading.Tasks;
-    using Domain.Aggregates.TenantAggregate;
 
     public class EFCoreUnitOfWork<TContext> : IUnitOfWork<TContext> where TContext : DbContext, IUowDbContext
     {
@@ -21,7 +21,7 @@
 
         public TContext Context => GetDbContext();
 
-        public EFCoreUnitOfWork(TContext ctx, IServiceProvider serviceProvider,ICurrentTenantAccessor tenantAccessor)
+        public EFCoreUnitOfWork(TContext ctx, IServiceProvider serviceProvider, ICurrentTenantAccessor tenantAccessor)
         {
             _currenDbContext = ctx ?? throw new ArgumentNullException(nameof(ctx));
             _rootContext = ctx;
@@ -32,7 +32,7 @@
 
         private async Task OnScopeChange(IServiceScope scoped)
         {
-            if (scoped==null)
+            if (scoped == null)
             {
                 _currenDbContext = _rootContext;
                 _serviceProvider = _rootServiceProvider;

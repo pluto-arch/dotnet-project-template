@@ -20,7 +20,7 @@
         }
 
         /// <inheritdoc />
-        public PermissionDefinition([NotNull]string name, string displayName = null, bool isEnabled = true)
+        public PermissionDefinition([NotNull] string name, string displayName = null, bool isEnabled = true)
         {
             Name = name;
             DisplayName = displayName;

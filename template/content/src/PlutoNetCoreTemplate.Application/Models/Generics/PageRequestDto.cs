@@ -1,8 +1,6 @@
 ﻿using PlutoNetCoreTemplate.Application.AppServices.Generics;
 using PlutoNetCoreTemplate.Infrastructure.Constants;
 
-using System.Collections.Generic;
-
 namespace PlutoNetCoreTemplate.Application.Models.Generics
 {
     public class PageRequestDto

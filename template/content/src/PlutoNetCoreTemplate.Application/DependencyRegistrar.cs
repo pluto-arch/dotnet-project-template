@@ -1,14 +1,8 @@
 ﻿namespace PlutoNetCoreTemplate.Application
 {
-    using MediatR;
-    using Microsoft.Extensions.DependencyInjection;
+    using Behaviors;
+    using Infrastructure.Idempotency;
     using Permissions;
-using PlutoNetCoreTemplate.Application.Behaviors;
-using PlutoNetCoreTemplate.Infrastructure.Idempotency;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Reflection;
 
     public static class DependencyRegistrar

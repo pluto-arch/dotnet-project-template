@@ -5,10 +5,7 @@
     using Application.Models.Generics;
     using Application.Models.ProductModels;
     using Application.Permissions;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Threading.Tasks;
-    using Domain.SeedWork;
+
 
     [Route("api/[controller]")]
     [ApiController]
@@ -92,6 +89,6 @@
             return ServiceResponse<bool>.Success(true);
         }
 
-        
+
     }
 }

@@ -2,12 +2,6 @@
 {
     using Infrastructure.UnitOfWork;
 
-    using Microsoft.AspNetCore.Builder;
-
-    using Serilog;
-
-    using System.Linq;
-
     public static class AppBuilderExtension
     {
         /// <summary>

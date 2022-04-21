@@ -3,17 +3,12 @@
     using Application.Models.PermissionModels;
     using Application.Permissions;
 
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Domain.SeedWork;
 
     [Route("api/[controller]")]
     [ApiController]
     public class PermissionsController : BaseController<PermissionsController>
     {
-        private IPermissionAppService PermissionAppService=>LazyGetRequiredService<IPermissionAppService>();
+        private IPermissionAppService PermissionAppService => LazyGetRequiredService<IPermissionAppService>();
 
 
         public PermissionsController(ILazyLoadServiceProvider lazyLoad) : base(lazyLoad)

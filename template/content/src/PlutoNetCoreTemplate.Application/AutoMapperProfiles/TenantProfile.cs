@@ -2,8 +2,6 @@
 
 namespace PlutoNetCoreTemplate.Application.AutoMapperProfiles
 {
-    using AutoMapper;
-
     using Domain.Aggregates.TenantAggregate;
 
     public class TenantProfile : Profile

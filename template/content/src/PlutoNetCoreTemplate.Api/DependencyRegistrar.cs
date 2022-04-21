@@ -1,23 +1,20 @@
 ﻿#pragma warning disable IDE0060 // 删除未使用的参数
 
-using Microsoft.Extensions.DependencyInjection;
 
 namespace PlutoNetCoreTemplate.Api
 {
     using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Mvc.Controllers;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.Diagnostics.HealthChecks;
     using Microsoft.OpenApi.Models;
-
     using PlutoNetCoreTemplate.Api.Filters;
     using PlutoNetCoreTemplate.Api.HealthChecks;
     using PlutoNetCoreTemplate.Application.AppServices.Generics;
-
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Reflection;
-    using Microsoft.AspNetCore.Mvc.Controllers;
 
     public static class DependencyRegistrar
     {
@@ -81,7 +78,7 @@ namespace PlutoNetCoreTemplate.Api
                 c.CustomOperationIds(apiDesc =>
                 {
                     var controllerAction = apiDesc.ActionDescriptor as ControllerActionDescriptor;
-                    return  controllerAction?.ControllerName+"-"+controllerAction?.ActionName;
+                    return controllerAction?.ControllerName + "-" + controllerAction?.ActionName;
                 });
 
                 c.SupportNonNullableReferenceTypes();

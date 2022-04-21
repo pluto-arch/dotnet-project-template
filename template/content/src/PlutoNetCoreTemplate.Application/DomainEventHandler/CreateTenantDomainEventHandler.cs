@@ -1,26 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Application.DomainEventHandler
 {
+    using Domain.Repositories;
     using Infrastructure.EntityFrameworkCore;
-
-    using MediatR;
-
     using Microsoft.Data.SqlClient;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-
     using PlutoNetCoreTemplate.Domain.Aggregates.PermissionGrant;
     using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
     using PlutoNetCoreTemplate.Domain.Events.Tenants;
     using PlutoNetCoreTemplate.Domain.UnitOfWork;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Domain.Repositories;
 
     /// <summary>
     /// 创建租户后的事件处理程序
@@ -34,9 +20,9 @@
         private readonly IUnitOfWork<DeviceCenterDbContext> _uowOfWork;
 
         public CreateTenantDomainEventHandler(
-            ILogger<CreateTenantDomainEventHandler> logger, 
-            ICurrentTenant currentTenant, 
-            IConfiguration config,IRepository<PermissionGrant> permissionGrants,
+            ILogger<CreateTenantDomainEventHandler> logger,
+            ICurrentTenant currentTenant,
+            IConfiguration config, IRepository<PermissionGrant> permissionGrants,
             IUnitOfWork<DeviceCenterDbContext> uowOfWork)
         {
             _logger = logger;
@@ -45,20 +31,20 @@
             _permissionGrants = permissionGrants;
             _uowOfWork = uowOfWork;
         }
-        
+
 
         public async Task Handle(CreateTenantDomainEvent notification, CancellationToken cancellationToken)
         {
             try
             {
                 await Task.Delay(10000, cancellationToken);
-                _logger.LogInformation("接受到创建租户领域事件，开始初始化租户 {@notification} 的基础数据",notification);
+                _logger.LogInformation("接受到创建租户领域事件，开始初始化租户 {@notification} 的基础数据", notification);
                 if (!notification.IsShareDatabase)
                 {
                     return;
                 }
                 _logger.LogInformation("开始初始化租户{tenantId}的数据库", notification.TenantId);
-              
+
 
                 var dbName = $"Pnct_{notification.TenantId.Id}";
 
@@ -73,15 +59,15 @@
 
                 var tenInfo = new TenantInfo(notification.TenantId.Id, notification.TenantId.Name)
                 {
-                    ConnectionStrings = notification.TenantId.ConnectionStrings.ToDictionary(k=>k.Name,v=>v.Value)
+                    ConnectionStrings = notification.TenantId.ConnectionStrings.ToDictionary(k => k.Name, v => v.Value)
                 };
                 using (_currentTenant.Change(tenInfo))
                 {
                     await _uowOfWork.Context.Database.EnsureCreatedAsync(cancellationToken);
-                    _logger.LogInformation("初始化租户{tenantId}的数据库成功，开始初始化管理员权限数据",notification.TenantId);
+                    _logger.LogInformation("初始化租户{tenantId}的数据库成功，开始初始化管理员权限数据", notification.TenantId);
                     await InitAdminPermission(cancellationToken);
                     await _uowOfWork.SaveChangesAsync(cancellationToken);
-                    
+
                     // try to change parent scope entity value
                     notification.TenantId.Name += "123123";
                 }

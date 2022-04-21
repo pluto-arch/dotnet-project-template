@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PlutoNetCoreTemplate.Application.Models.ProductModels
+﻿namespace PlutoNetCoreTemplate.Application.Models.ProductModels
 {
     using System.ComponentModel.DataAnnotations;
 

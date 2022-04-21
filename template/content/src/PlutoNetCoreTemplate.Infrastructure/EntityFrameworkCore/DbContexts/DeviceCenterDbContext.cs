@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
@@ -7,8 +6,6 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
     using Domain.Aggregates.ProductAggregate;
     using Domain.Aggregates.ProjectAggregate;
     using Domain.UnitOfWork;
-
-    using System.Reflection;
     using EntityTypeConfigurations;
 
     public class DeviceCenterDbContext : PlutoDbContext<DeviceCenterDbContext>, IUowDbContext

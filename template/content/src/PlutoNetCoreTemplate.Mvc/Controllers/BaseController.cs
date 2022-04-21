@@ -22,13 +22,13 @@
 
         protected ICurrentTenant CurrentTenant => LazyGetRequiredService(ref _currentTenant);
         private ICurrentTenant _currentTenant;
-        
 
-        protected ILogger<T> Logger=> LazyGetRequiredService(ref _logger);
+
+        protected ILogger<T> Logger => LazyGetRequiredService(ref _logger);
         private ILogger<T> _logger;
 
 
-        protected IMediator Mediator=> LazyGetRequiredService(ref _mediator);
+        protected IMediator Mediator => LazyGetRequiredService(ref _mediator);
         private IMediator _mediator;
     }
 }

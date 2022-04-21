@@ -2,13 +2,6 @@
 {
     using Domain.Events.Products;
 
-    using MediatR;
-
-    using Microsoft.Extensions.Logging;
-
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public class CreateProductDomainEventHandler : INotificationHandler<CreateProductDomainEvent>
     {
         private readonly ILogger<CreateProductDomainEventHandler> _logger;

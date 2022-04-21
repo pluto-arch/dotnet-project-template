@@ -1,27 +1,6 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-
-using PlutoNetCoreTemplate.Api.Extensions;
-using PlutoNetCoreTemplate.Application;
-using PlutoNetCoreTemplate.Domain;
-using PlutoNetCoreTemplate.Infrastructure;
-
 namespace PlutoNetCoreTemplate.Api
 {
-    using Filters;
-
-    using Microsoft.AspNetCore.Authentication.JwtBearer;
-    using Microsoft.AspNetCore.HttpOverrides;
-    using Microsoft.IdentityModel.Logging;
-    using Microsoft.IdentityModel.Tokens;
-
     using PlutoNetCoreTemplate.Api.SeedData;
-
-    using System;
-    using System.Text;
 
 #if (Grpc)
     using Application.Grpc;

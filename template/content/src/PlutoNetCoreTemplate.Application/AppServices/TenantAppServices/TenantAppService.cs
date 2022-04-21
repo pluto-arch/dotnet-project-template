@@ -1,21 +1,9 @@
 ﻿namespace PlutoNetCoreTemplate.Application.AppServices.TenantAppServices
 {
-    using AutoMapper;
-
+    using Domain.Aggregates.TenantAggregate;
     using Domain.Events.Tenants;
     using Domain.Repositories;
-
-    using MediatR;
-
-    using Microsoft.EntityFrameworkCore;
-
     using Models.TenantModels;
-
-    using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
 
     public class TenantAppService : ITenantAppService
     {

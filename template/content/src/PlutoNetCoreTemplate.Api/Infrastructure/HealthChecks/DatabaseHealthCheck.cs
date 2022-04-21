@@ -1,10 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Diagnostics.HealthChecks;
 using PlutoNetCoreTemplate.Infrastructure.Constants;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 
 #pragma warning disable CA2208

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace PlutoNetCoreTemplate.Api.Infrastructure.UnitOfWork
+﻿namespace PlutoNetCoreTemplate.Api.Infrastructure.UnitOfWork
 {
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Options;

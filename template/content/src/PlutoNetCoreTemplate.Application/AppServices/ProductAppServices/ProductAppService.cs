@@ -1,16 +1,10 @@
 ﻿namespace PlutoNetCoreTemplate.Application.AppServices.ProductAppServices
 {
-    using AutoMapper;
-
     using Domain.Aggregates.ProductAggregate;
     using Domain.Repositories;
-
     using Generics;
-
     using Models.ProductModels;
 
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class ProductAppService
         : EntityKeyCrudAppService<Product, string, ProductGetResponseDto, ProductPagedRequestDto, ProductGetResponseDto, ProductCreateOrUpdateRequestDto, ProductCreateOrUpdateRequestDto>, IProductAppService

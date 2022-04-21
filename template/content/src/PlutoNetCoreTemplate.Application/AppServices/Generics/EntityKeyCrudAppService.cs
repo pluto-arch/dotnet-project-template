@@ -3,11 +3,7 @@ using PlutoNetCoreTemplate.Domain.Entities;
 
 namespace PlutoNetCoreTemplate.Application.AppServices.Generics
 {
-    using AutoMapper;
-
     using Domain.Repositories;
-
-    using System.Threading.Tasks;
 
 
     /// <summary>

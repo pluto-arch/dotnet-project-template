@@ -1,13 +1,13 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.SeedWork
 {
-    using System.Threading.Tasks;
     using MediatR;
-    using Microsoft.Extensions.DependencyInjection;
+    using System.Threading;
+    using System.Threading.Tasks;
 
 
     public interface IDomainEventDispatcher
     {
-        Task Dispatch(INotification domainEvent);
+        Task Dispatch(INotification domainEvent, CancellationToken cancellationToken = default);
     }
 
 }

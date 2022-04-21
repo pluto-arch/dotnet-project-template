@@ -1,13 +1,14 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.Providers
 {
-    using System;
-    using System.Threading.Tasks;
     using Domain.SeedWork;
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using System;
+    using System.Threading;
+    using System.Threading.Tasks;
 
-    public class MediatrDomainEventDispatcher: IDomainEventDispatcher
+    public class MediatrDomainEventDispatcher : IDomainEventDispatcher
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly ILogger<MediatrDomainEventDispatcher> _log;
@@ -17,12 +18,12 @@
             _log = log;
         }
 
-        public async Task Dispatch(INotification domainEvent)
+        public async Task Dispatch(INotification domainEvent, CancellationToken cancellationToken = default)
         {
             using var scope = _serviceProvider.CreateScope();
             var mediator = scope.ServiceProvider.GetRequiredService<IMediator>();
             _log.LogDebug("Dispatching Domain Event as MediatR notification.  EventType: {eventType}", domainEvent.GetType());
-            await mediator.Publish(domainEvent);
+            await mediator.Publish(domainEvent, cancellationToken);
         }
     }
 }

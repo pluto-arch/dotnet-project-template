@@ -2,9 +2,9 @@
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
+    using Microsoft.Extensions.DependencyInjection;
     using System;
     using System.Threading.Tasks;
-    using Microsoft.Extensions.DependencyInjection;
 
     public class CurrentTenantAccessor : ICurrentTenantAccessor
     {

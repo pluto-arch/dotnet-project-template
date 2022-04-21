@@ -1,21 +1,6 @@
 ﻿namespace PlutoNetCoreTemplate.Api.Controllers
 {
-
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-    using Microsoft.IdentityModel.Tokens;
-
-    using PlutoNetCoreTemplate.Api.Constants;
-    using System;
-    using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-    using System.IdentityModel.Tokens.Jwt;
-    using System.Linq;
-    using System.Security.Claims;
-    using System.Text;
-    using Domain.SeedWork;
-
+    using Constants;
 
     [Route("api/account")]
     [ApiController]

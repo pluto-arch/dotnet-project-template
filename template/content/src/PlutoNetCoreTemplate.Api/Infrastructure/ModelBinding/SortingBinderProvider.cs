@@ -1,9 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-
 using PlutoNetCoreTemplate.Application.AppServices.Generics;
-
-using System;
-using System.Collections.Generic;
 
 namespace PlutoNetCoreTemplate.Api
 {

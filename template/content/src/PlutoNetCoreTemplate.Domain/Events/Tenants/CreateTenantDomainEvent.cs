@@ -5,7 +5,7 @@
 
     public class CreateTenantDomainEvent : INotification
     {
-        public CreateTenantDomainEvent(Tenant tenant,bool isShareDatabase=true)
+        public CreateTenantDomainEvent(Tenant tenant, bool isShareDatabase = true)
         {
             TenantId = tenant;
             IsShareDatabase = isShareDatabase;

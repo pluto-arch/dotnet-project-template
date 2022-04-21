@@ -5,12 +5,6 @@
     using Domain.Events.Products;
     using Domain.Repositories;
 
-    using MediatR;
-
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-
     public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, Unit>
     {
         private readonly IProductRepository _productsRepository;

@@ -1,22 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.Extensions.Logging;
-
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-
-using System;
-using System.Net;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace PlutoNetCoreTemplate.Api
 {
-    using Microsoft.AspNetCore.Mvc;
-
     public class ExceptionMiddlewareHandler
     {
         private readonly RequestDelegate _next;
 
-        private readonly ILogger _logger;
+        private readonly ILogger<ExceptionMiddlewareHandler> _logger;
 
 
         public ExceptionMiddlewareHandler(RequestDelegate next,
@@ -46,7 +36,7 @@ namespace PlutoNetCoreTemplate.Api
             context.Response.ContentType = "application/json;charset=utf-8";
             context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
             var traceId = context.TraceIdentifier;
-            var apiResponse = ServiceResponse<dynamic>.Fatal($"服务异常",new {traceId=traceId});
+            var apiResponse = ServiceResponse<dynamic>.Fatal($"服务异常", new { traceId = traceId });
             var serializeSetting = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,

@@ -2,11 +2,6 @@
 {
     using Application.Permissions;
 
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Authorization.Infrastructure;
-
-    using System.Threading.Tasks;
-
 
     /// <summary>
     /// 细化到操作的处理程序

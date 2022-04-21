@@ -1,18 +1,8 @@
 ﻿namespace PlutoNetCoreTemplate.Application.AppServices.Generics
 {
-    using AutoMapper;
-
     using Domain.Entities;
-
     using Models.Generics;
-
     using PlutoNetCoreTemplate.Domain.Repositories;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
-
 
     /// <summary>
     /// 实体通用crud服务

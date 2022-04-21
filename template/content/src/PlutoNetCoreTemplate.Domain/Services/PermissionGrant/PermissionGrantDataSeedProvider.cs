@@ -98,7 +98,7 @@
 
 
             var tenantProvider = serviceProvider.GetRequiredService<ITenantProvider>();
-            var rep=serviceProvider.GetRequiredService<IPermissionGrantRepository>();
+            var rep = serviceProvider.GetRequiredService<IPermissionGrantRepository>();
             TenantInfo t = null;
             foreach (var (id, _) in tenantIds)
             {

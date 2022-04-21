@@ -2,10 +2,6 @@
 {
     using Domain.Collections;
 
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-
     public class PageResponseDto<T> : PagedList<T>
     {
         /// <summary>

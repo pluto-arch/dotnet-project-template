@@ -2,12 +2,6 @@
 {
     using Domain.SeedWork;
 
-    using Microsoft.AspNetCore.Builder;
-    using Microsoft.Extensions.DependencyInjection;
-
-    using System.Linq;
-    using System.Threading.Tasks;
-
     public static class DbSeedData
     {
         /// <summary>

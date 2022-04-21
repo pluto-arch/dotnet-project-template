@@ -1,7 +1,6 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Permissions
 {
     using System.Diagnostics.CodeAnalysis;
-    using System.Threading.Tasks;
 
     public class NullPermissionStore : IPermissionStore
     {

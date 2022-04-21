@@ -2,7 +2,6 @@
 
 namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
 {
-    using Microsoft.Extensions.DependencyInjection;
 
     using System.Collections.Generic;
 

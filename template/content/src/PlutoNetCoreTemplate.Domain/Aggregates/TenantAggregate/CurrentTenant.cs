@@ -13,7 +13,7 @@ namespace PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate
         private readonly ICurrentTenantAccessor _currentTenantAccessor;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public CurrentTenant(ICurrentTenantAccessor currentTenantAccessor,IServiceScopeFactory serviceScopeFactory)
+        public CurrentTenant(ICurrentTenantAccessor currentTenantAccessor, IServiceScopeFactory serviceScopeFactory)
         {
             _currentTenantAccessor = currentTenantAccessor;
             _serviceScopeFactory = serviceScopeFactory;

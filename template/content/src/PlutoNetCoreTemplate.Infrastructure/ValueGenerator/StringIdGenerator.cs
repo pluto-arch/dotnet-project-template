@@ -7,7 +7,7 @@
 
     public class StringIdGenerator : ValueGenerator<string>
     {
-        private readonly object _lock = new ();
+        private readonly object _lock = new();
         public override string Next(EntityEntry entry)
         {
             lock (_lock)

@@ -1,10 +1,10 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
     using Domain.Aggregates.SystemAggregate;
+    using EntityTypeConfigurations;
     using Microsoft.EntityFrameworkCore;
     using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
     using PlutoNetCoreTemplate.Domain.UnitOfWork;
-    using EntityTypeConfigurations;
 
 
     public class SystemDbContext : PlutoDbContext<SystemDbContext>, IUowDbContext

@@ -1,16 +1,11 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Behaviors
 {
-    using System.Reflection;
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using MediatR;
-    using Microsoft.Extensions.Logging;
     using PlutoNetCoreTemplate.Application.Command;
     using PlutoNetCoreTemplate.Infrastructure.Commons;
     using PlutoNetCoreTemplate.Infrastructure.Exceptions;
     using PlutoNetCoreTemplate.Infrastructure.Extensions;
     using PlutoNetCoreTemplate.Infrastructure.Idempotency;
+    using System.Reflection;
 
     public class IdentityCommandBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : BaseCommand<TResponse>

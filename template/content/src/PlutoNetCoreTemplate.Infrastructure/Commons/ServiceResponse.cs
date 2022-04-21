@@ -10,7 +10,7 @@
         /// 成功 - 空返回值
         /// </summary>
         /// <returns></returns>
-        public static ServiceResponse Success()=>new () { Code = 200, Message = "执行成功" };
+        public static ServiceResponse Success() => new() { Code = 200, Message = "执行成功" };
 
 
         /// <summary>
@@ -18,7 +18,7 @@
         /// </summary>
         /// <param name="message"></param>
         /// <returns></returns>
-        public static ServiceResponse Error(string message)=>new() { Code = -100, Message = message};
+        public static ServiceResponse Error(string message) => new() { Code = -100, Message = message };
 
     }
 
@@ -37,7 +37,7 @@
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static ServiceResponse<T> Success(T data)=> new () { Code = 200, Message = "执行成功", Data = data };
+        public static ServiceResponse<T> Success(T data) => new() { Code = 200, Message = "执行成功", Data = data };
 
         /// <summary>
         /// 业务错误
@@ -45,7 +45,7 @@
         /// <param name="message"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static ServiceResponse<T> Error(string message, T data=default)=>new() { Code = -100, Message = message, Data = data};
+        public static ServiceResponse<T> Error(string message, T data = default) => new() { Code = -100, Message = message, Data = data };
 
         /// <summary>
         /// 程序错误
@@ -53,13 +53,13 @@
         /// <param name="message"></param>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static ServiceResponse<T> Fatal(string message, T data = default) => new() { Code = 500, Message = message,Data = data};
+        public static ServiceResponse<T> Fatal(string message, T data = default) => new() { Code = 500, Message = message, Data = data };
 
         /// <summary>
         /// 数据验证错误
         /// </summary>
         /// <param name="data"></param>
         /// <returns></returns>
-        public static ServiceResponse<T> ValidateFailure(T data = default)=> new() { Code = 400, Message = "无效的请求", Data = data };
+        public static ServiceResponse<T> ValidateFailure(T data = default) => new() { Code = 400, Message = "无效的请求", Data = data };
     }
 }

@@ -2,15 +2,8 @@
 {
     using Domain.Aggregates.PermissionGrant;
     using Domain.UnitOfWork;
-
     using Infrastructure.EntityFrameworkCore;
-
     using Models.PermissionModels;
-
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
 
     public class PermissionAppService : IPermissionAppService
     {

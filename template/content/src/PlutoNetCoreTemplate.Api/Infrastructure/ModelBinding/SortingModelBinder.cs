@@ -2,15 +2,8 @@
 
 using PlutoNetCoreTemplate.Application.AppServices.Generics;
 
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
 namespace PlutoNetCoreTemplate.Api
 {
-    using Newtonsoft.Json;
-
-    using System.Linq;
 
     public class SortingModelBinder : IModelBinder
     {

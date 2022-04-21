@@ -7,7 +7,6 @@
     using Infrastructure;
 
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
     using Quartz;
@@ -25,9 +24,9 @@
         private readonly IRepository<Product> _productsRepo;
 
         public ProductJob(
-            ILogger<ProductJob> logger, 
-            IRepository<Tenant> tenants, 
-            ICurrentTenant currentTenant, 
+            ILogger<ProductJob> logger,
+            IRepository<Tenant> tenants,
+            ICurrentTenant currentTenant,
             ITenantProvider tenantProvider,
             IRepository<Product> productsRepo)
         {

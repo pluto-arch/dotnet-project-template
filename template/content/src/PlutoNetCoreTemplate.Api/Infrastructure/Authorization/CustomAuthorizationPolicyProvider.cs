@@ -2,12 +2,6 @@
 {
     using Application.Permissions;
 
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Authorization.Infrastructure;
-    using Microsoft.Extensions.Options;
-
-    using System;
-    using System.Threading.Tasks;
 
     public class CustomAuthorizationPolicyProvider : DefaultAuthorizationPolicyProvider
     {

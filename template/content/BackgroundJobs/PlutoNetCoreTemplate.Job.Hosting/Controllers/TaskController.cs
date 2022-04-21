@@ -3,8 +3,6 @@
     using Infrastructure;
 
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.Logging;
 
     using Models;
 

@@ -1,9 +1,5 @@
 ﻿namespace PlutoNetCoreTemplate.Application.Command
 {
-    using MediatR;
-
-    using System;
-
     public class BaseCommand<TResponse> : IRequest<TResponse>
     {
         public BaseCommand()

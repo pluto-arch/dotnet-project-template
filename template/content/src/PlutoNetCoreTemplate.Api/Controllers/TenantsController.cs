@@ -3,11 +3,6 @@
     using Application.AppServices.TenantAppServices;
     using Application.Models.TenantModels;
     using Application.Permissions;
-    using Microsoft.AspNetCore.Authorization;
-    using Microsoft.AspNetCore.Mvc;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using Domain.SeedWork;
 
     /// <summary>
     /// 租户
@@ -18,7 +13,7 @@
     public class TenantsController : BaseController<PermissionsController>
     {
         private ITenantAppService TenantAppService => LazyGetRequiredService<ITenantAppService>();
-        
+
         public TenantsController(ILazyLoadServiceProvider lazyLoad) : base(lazyLoad)
         {
         }
@@ -45,6 +40,6 @@
             return ServiceResponse<TenantDto>.Success(res);
         }
 
-       
+
     }
 }

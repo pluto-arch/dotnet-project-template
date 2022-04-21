@@ -1,17 +1,15 @@
-﻿using NUnit.Framework;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
+using NUnit.Framework;
 
 namespace PlutoNetCoreTemplate.Test.ApplicationTest
 {
-    using System;
-    using System.Threading.Tasks;
-    using System.Transactions;
-    using Application.Permissions;
     using Domain.Aggregates.ProductAggregate;
     using Domain.Aggregates.TenantAggregate;
     using Domain.Repositories;
     using Domain.UnitOfWork;
     using Infrastructure.EntityFrameworkCore;
+    using System;
+    using System.Threading.Tasks;
 
     public class ApplicationTest : BaseTest
     {
@@ -39,19 +37,19 @@ namespace PlutoNetCoreTemplate.Test.ApplicationTest
             {
                 var res = await productRep.ToListAsync();
                 Assert.IsNotNull(res);
-                Assert.IsTrue(res.TrueForAll(x=>x.TenantId=="T20210602000001"));
+                Assert.IsTrue(res.TrueForAll(x => x.TenantId == "T20210602000001"));
 
                 t = await tenantProvider.InitTenant("T20210602000002");
                 using (currentTenant.Change(t))
                 {
                     res = await productRep.ToListAsync();
                     Assert.IsNotNull(res);
-                    Assert.IsTrue(res.TrueForAll(x=>x.TenantId=="T20210602000002"));
+                    Assert.IsTrue(res.TrueForAll(x => x.TenantId == "T20210602000002"));
                 }
 
                 res = await productRep.ToListAsync();
                 Assert.IsNotNull(res);
-                Assert.IsTrue(res.TrueForAll(x=>x.TenantId=="T20210602000001"));
+                Assert.IsTrue(res.TrueForAll(x => x.TenantId == "T20210602000001"));
             }
         }
 
@@ -75,7 +73,7 @@ namespace PlutoNetCoreTemplate.Test.ApplicationTest
                 Assert.Fail("no Product repository found");
             }
 
-            var uow=serviceProvider.GetService<IUnitOfWork<DeviceCenterDbContext>>();
+            var uow = serviceProvider.GetService<IUnitOfWork<DeviceCenterDbContext>>();
             if (uow is null)
             {
                 Assert.Fail("no uow found");
@@ -123,7 +121,7 @@ namespace PlutoNetCoreTemplate.Test.ApplicationTest
                 Assert.Fail("no Product repository found");
             }
 
-            var uow=serviceProvider.GetService<IUnitOfWork<DeviceCenterDbContext>>();
+            var uow = serviceProvider.GetService<IUnitOfWork<DeviceCenterDbContext>>();
             if (uow is null)
             {
                 Assert.Fail("no uow found");

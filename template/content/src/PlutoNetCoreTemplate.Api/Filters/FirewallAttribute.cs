@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Filters;
-using Microsoft.Extensions.DependencyInjection;
-
-using System.Linq;
-using System.Text;
+﻿using Microsoft.AspNetCore.Mvc.Filters;
 using System.Text.RegularExpressions;
 using System.Web;
 

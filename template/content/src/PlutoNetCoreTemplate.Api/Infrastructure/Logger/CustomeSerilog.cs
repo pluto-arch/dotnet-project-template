@@ -1,8 +1,4 @@
-﻿using Microsoft.Extensions.Configuration;
-
-using Serilog;
-
-namespace PlutoNetCoreTemplate.Api
+﻿namespace PlutoNetCoreTemplate.Api
 {
     public static class SerilogConfiguration
     {

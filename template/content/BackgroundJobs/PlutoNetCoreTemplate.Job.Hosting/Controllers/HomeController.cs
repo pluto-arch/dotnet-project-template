@@ -2,8 +2,6 @@
 
 namespace PlutoNetCoreTemplate.Job.Hosting.Controllers
 {
-    using Domain.Aggregates.TenantAggregate;
-    using Domain.Repositories;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Models;
@@ -16,7 +14,7 @@ namespace PlutoNetCoreTemplate.Job.Hosting.Controllers
         private readonly ISchedulerFactory _jobSchedularFactory;
         private readonly IJobInfoStore _jobInfoStore;
 
-        public HomeController(ISchedulerFactory jobSchedularFactory,   IJobInfoStore jobInfoStore)
+        public HomeController(ISchedulerFactory jobSchedularFactory, IJobInfoStore jobInfoStore)
         {
             _jobSchedularFactory = jobSchedularFactory;
             _jobInfoStore = jobInfoStore;

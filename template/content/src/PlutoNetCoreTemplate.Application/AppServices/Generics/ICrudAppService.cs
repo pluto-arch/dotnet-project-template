@@ -1,5 +1,4 @@
-﻿using System.Threading.Tasks;
-
+﻿
 namespace PlutoNetCoreTemplate.Application.AppServices.Generics
 {
     using Models.Generics;

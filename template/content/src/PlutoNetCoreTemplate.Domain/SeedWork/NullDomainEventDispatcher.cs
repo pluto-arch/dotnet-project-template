@@ -10,5 +10,7 @@
         {
             return Task.CompletedTask;
         }
+
+        public static IDomainEventDispatcher Instance { get; } = new NullDomainEventDispatcher();
     }
 }

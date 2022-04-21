@@ -50,7 +50,7 @@
                     sqlOptions.MigrationsAssembly(Assembly.GetExecutingAssembly().GetName().Name);
                     sqlOptions.EnableRetryOnFailure(maxRetryCount: 3, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null);
                 });
-                var mediator = serviceProvider.GetService<IDomainEventDispatcher>();
+                var mediator = serviceProvider.GetService<IDomainEventDispatcher>()??NullDomainEventDispatcher.Instance;
                 optionsBuilder.AddInterceptors(new CustomSaveChangesInterceptor(mediator));
 
 #if DEBUG

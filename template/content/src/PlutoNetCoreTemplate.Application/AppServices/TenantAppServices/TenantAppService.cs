@@ -51,7 +51,7 @@
             {
                 entity.AddConnectionStrings("Default", connStr);
             }
-            entity.AddDomainEvent(new CreateTenantDomainEvent(id, !string.IsNullOrEmpty(connStr)));
+            entity.AddDomainEvent(new CreateTenantDomainEvent(entity, !string.IsNullOrEmpty(connStr)));
             entity = await _tenants.InsertAsync(entity);
             return _mapper.Map<TenantDto>(entity);
         }

@@ -1,19 +1,18 @@
 ﻿namespace PlutoNetCoreTemplate.Domain.Events.Tenants
 {
+    using Aggregates.TenantAggregate;
     using MediatR;
 
     public class CreateTenantDomainEvent : INotification
     {
-        public CreateTenantDomainEvent(string id, bool isShareDatabase, string databaseName = null)
+        public CreateTenantDomainEvent(Tenant tenant,bool isShareDatabase=true)
         {
-            TenantId = id;
+            TenantId = tenant;
             IsShareDatabase = isShareDatabase;
-            DataBaseName = databaseName;
         }
-        public string TenantId { get; set; }
+        public Tenant TenantId { get; set; }
 
         public bool IsShareDatabase { get; set; }
 
-        public string DataBaseName { get; set; }
     }
 }

@@ -9,6 +9,7 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
     using Domain.UnitOfWork;
 
     using System.Reflection;
+    using EntityTypeConfigurations;
 
     public class DeviceCenterDbContext : PlutoDbContext<DeviceCenterDbContext>, IUowDbContext
     {
@@ -35,7 +36,11 @@ namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder); // 不能去除，对租户，软删除过滤器
-            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+            modelBuilder.ApplyConfiguration(new PermissionEntityTypeConfiguration())
+                .ApplyConfiguration(new DeviceEntityTypeConfiguration())
+                .ApplyConfiguration(new DeviceEntityTypeConfiguration.DeviceTagEntityTypeConfiguration())
+                .ApplyConfiguration(new DeviceEntityTypeConfiguration.ProductEntityTypeConfiguration())
+                .ApplyConfiguration(new ProjectEntityTypeConfiguration());
         }
         #endregion
     }

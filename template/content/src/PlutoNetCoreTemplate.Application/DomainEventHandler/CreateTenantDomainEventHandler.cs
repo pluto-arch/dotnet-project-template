@@ -17,6 +17,7 @@
 
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading;
     using System.Threading.Tasks;
     using Domain.Repositories;
@@ -35,7 +36,8 @@
         public CreateTenantDomainEventHandler(
             ILogger<CreateTenantDomainEventHandler> logger, 
             ICurrentTenant currentTenant, 
-            IConfiguration config,IRepository<PermissionGrant> permissionGrants,IUnitOfWork<DeviceCenterDbContext> uowOfWork)
+            IConfiguration config,IRepository<PermissionGrant> permissionGrants,
+            IUnitOfWork<DeviceCenterDbContext> uowOfWork)
         {
             _logger = logger;
             _currentTenant = currentTenant;
@@ -56,16 +58,33 @@
                     return;
                 }
                 _logger.LogInformation("开始初始化租户{tenantId}的数据库", notification.TenantId);
-                var dbName = $"Pnct_{notification.TenantId}";
+              
+
+                var dbName = $"Pnct_{notification.TenantId.Id}";
+
+                // TODO ：tenant is already inited, shoud skip this script。this is only for example
                 await using (var conn = new SqlConnection(cfg.GetConnectionString("InitDb")))
-                using (_currentTenant.Change(new TenantInfo(notification.TenantId,"")))
                 {
-                    var sql =_uowOfWork.Context.Database.GenerateCreateScript();
-                    _logger.LogInformation("初始化租户{tenantId}的数据库成功，开始初始化管理员权限数据",notification.TenantId);
-                    // 管理员权限
-                    await InitAdminPermission( cancellationToken);
+                    await conn.OpenAsync(cancellationToken);
+                    SqlCommand cmd = new($"USE master;CREATE DATABASE {dbName};", conn);
+                    await cmd.ExecuteNonQueryAsync(cancellationToken);
+                    await conn.CloseAsync();
                 }
-                await _uowOfWork.SaveChangesAsync(cancellationToken);
+
+                var tenInfo = new TenantInfo(notification.TenantId.Id, notification.TenantId.Name)
+                {
+                    ConnectionStrings = notification.TenantId.ConnectionStrings.ToDictionary(k=>k.Name,v=>v.Value)
+                };
+                using (_currentTenant.Change(tenInfo))
+                {
+                    await _uowOfWork.Context.Database.EnsureCreatedAsync(cancellationToken);
+                    _logger.LogInformation("初始化租户{tenantId}的数据库成功，开始初始化管理员权限数据",notification.TenantId);
+                    await InitAdminPermission(cancellationToken);
+                    await _uowOfWork.SaveChangesAsync(cancellationToken);
+                    
+                    // try to change parent scope entity value
+                    notification.TenantId.Name += "123123";
+                }
                 _logger.LogInformation("初始化租户{tenantId}的数据成功", notification.TenantId);
             }
             catch (Exception e)

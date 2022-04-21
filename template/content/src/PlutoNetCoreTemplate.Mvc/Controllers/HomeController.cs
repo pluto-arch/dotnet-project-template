@@ -1,13 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-
 using PlutoNetCoreTemplate.Mvc.Models;
 
 using System.Diagnostics;
 
 namespace PlutoNetCoreTemplate.Mvc.Controllers
 {
-    using Infrastructure.Providers;
+    using Domain.SeedWork;
 
     public class HomeController : BaseController<HomeController>
     {

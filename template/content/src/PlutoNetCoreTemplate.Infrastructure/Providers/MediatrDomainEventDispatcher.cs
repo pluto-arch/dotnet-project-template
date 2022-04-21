@@ -1,18 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.Providers
 {
     using System.Threading.Tasks;
+    using Domain.SeedWork;
     using MediatR;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
-
-    public interface IDomainEventDispatcher
-    {
-        Task Dispatch(INotification domainEvent);
-    }
-
-
-    public class MediatrDomainEventDispatcher : IDomainEventDispatcher
+    public class MediatrDomainEventDispatcher: IDomainEventDispatcher
     {
         private readonly IServiceScopeFactory _serviceScopeFactory;
         private readonly ILogger<MediatrDomainEventDispatcher> _log;
@@ -30,6 +24,4 @@
             await mediator.Publish(domainEvent);
         }
     }
-
-
 }

@@ -1,7 +1,7 @@
 ﻿namespace PlutoNetCoreTemplate.Mvc.Controllers
 {
     using Domain.Aggregates.TenantAggregate;
-    using Infrastructure.Providers;
+    using Domain.SeedWork;
     using MediatR;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Logging;

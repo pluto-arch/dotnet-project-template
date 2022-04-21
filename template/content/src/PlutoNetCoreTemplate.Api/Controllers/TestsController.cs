@@ -1,19 +1,12 @@
 ﻿namespace PlutoNetCoreTemplate.Api.Controllers
 {
     using Filters;
-
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.Extensions.Localization;
-
-    using PlutoNetCoreTemplate.Infrastructure.Commons;
-
     using System.ComponentModel.DataAnnotations;
     using System.Reflection;
-    using System.Text;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Http;
-    using Microsoft.AspNetCore.Mvc.Formatters;
-    using PlutoNetCoreTemplate.Infrastructure.Providers;
+    using Domain.SeedWork;
 
     [Route("api/[controller]")]
     [ApiController]

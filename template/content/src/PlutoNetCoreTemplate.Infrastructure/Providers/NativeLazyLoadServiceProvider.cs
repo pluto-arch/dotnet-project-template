@@ -1,14 +1,15 @@
 ﻿namespace PlutoNetCoreTemplate.Infrastructure.Providers
 {
     using System;
+    using Domain.SeedWork;
     using Microsoft.Extensions.DependencyInjection;
 
-    public class LazyLoadServiceProvider : ILazyLoadServiceProvider
+    public class NativeLazyLoadServiceProvider : ILazyLoadServiceProvider
     {
         private readonly IServiceProvider _serviceProvider;
         private readonly object _serviceProviderLock = new ();
         
-        public LazyLoadServiceProvider(IServiceProvider serviceProvider)
+        public NativeLazyLoadServiceProvider(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider??throw new ArgumentNullException(nameof(serviceProvider));
         }

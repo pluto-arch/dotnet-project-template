@@ -7,8 +7,6 @@
     using Microsoft.IdentityModel.Tokens;
 
     using PlutoNetCoreTemplate.Api.Constants;
-    using PlutoNetCoreTemplate.Infrastructure.Commons;
-
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -16,7 +14,7 @@
     using System.Linq;
     using System.Security.Claims;
     using System.Text;
-    using PlutoNetCoreTemplate.Infrastructure.Providers;
+    using Domain.SeedWork;
 
 
     [Route("api/account")]

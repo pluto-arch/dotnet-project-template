@@ -3,16 +3,11 @@
     using Application.AppServices.TenantAppServices;
     using Application.Models.TenantModels;
     using Application.Permissions;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-
-    using PlutoNetCoreTemplate.Infrastructure.Commons;
-
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using PlutoNetCoreTemplate.Infrastructure.Providers;
+    using Domain.SeedWork;
 
     /// <summary>
     /// 租户

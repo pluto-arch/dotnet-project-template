@@ -5,19 +5,10 @@
     using Application.Models.Generics;
     using Application.Models.ProductModels;
     using Application.Permissions;
-
-    using MediatR;
-
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Logging;
-
-    using PlutoNetCoreTemplate.Infrastructure.Commons;
-
     using System.Threading.Tasks;
-    using Domain.Aggregates.TenantAggregate;
-    using Domain.Repositories;
-    using PlutoNetCoreTemplate.Infrastructure.Providers;
+    using Domain.SeedWork;
 
     [Route("api/[controller]")]
     [ApiController]

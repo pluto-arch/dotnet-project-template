@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 
 using PlutoNetCoreTemplate.Domain.Aggregates.TenantAggregate;
 using PlutoNetCoreTemplate.Domain.Entities;
-using PlutoNetCoreTemplate.Infrastructure.Providers;
 
 using System.Linq;
 using System.Threading;
@@ -14,6 +13,8 @@ using System.Threading.Tasks;
 
 namespace PlutoNetCoreTemplate.Infrastructure.EntityFrameworkCore
 {
+    using Domain.SeedWork;
+
     public class CustomSaveChangesInterceptor : SaveChangesInterceptor
     {
         //private readonly IMediator _mediator;

@@ -7,9 +7,8 @@ namespace PlutoNetCoreTemplate.Api.Controllers
 {
     using System;
     using Domain.Aggregates.TenantAggregate;
+    using Domain.SeedWork;
     using MediatR;
-    using PlutoNetCoreTemplate.Infrastructure.Commons;
-    using PlutoNetCoreTemplate.Infrastructure.Providers;
 
     /// <summary>
     /// 

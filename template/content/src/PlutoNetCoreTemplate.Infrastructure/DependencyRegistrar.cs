@@ -11,23 +11,17 @@
 
     using EntityFrameworkCore;
     using EntityFrameworkCore.Repositories;
-
-    using Idempotency;
-
-    using MediatR;
-
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.DependencyInjection.Extensions;
-
     using PlutoNetCoreTemplate.Domain.Aggregates.ProductAggregate;
     using PlutoNetCoreTemplate.Infrastructure.Providers;
-
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Reflection;
+    using Domain.SeedWork;
 
     public static class DependencyRegistrar
     {
@@ -46,7 +40,7 @@
             this IServiceCollection services,
             IConfiguration configuration)
         {
-            services.AddTransient<ILazyLoadServiceProvider,LazyLoadServiceProvider>();
+            services.AddTransient<ILazyLoadServiceProvider,NativeLazyLoadServiceProvider>();
             services.AddTransient<IDomainEventDispatcher, MediatrDomainEventDispatcher>();
             services.AddEntityFrameworkSqlServer();
             services.AddDbContextPool<DeviceCenterDbContext>((serviceProvider, optionsBuilder) =>

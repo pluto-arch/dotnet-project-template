@@ -1,7 +1,5 @@
-﻿namespace PlutoNetCoreTemplate.Infrastructure.Providers
+﻿namespace PlutoNetCoreTemplate.Domain.SeedWork
 {
-    using System;
-
     public interface ILazyLoadServiceProvider
     {
         TService LazyGetRequiredService<TService>(ref TService reference);

@@ -19,5 +19,3 @@ dotnet new -i PlutoNetCoreTemplate.1.3.2.nupkg
 ```
 dotnet new plutoapi -h
 ```
-
-

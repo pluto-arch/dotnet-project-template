@@ -1,7 +1,0 @@
-version: '3.4'
-
-services:
-  pnctapi:
-    environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - TZ=Asia/shanghai

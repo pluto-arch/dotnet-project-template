@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@using Microsoft.Extensions.Localization
+@model DncyTemplate.Mvc.Models.Account.LoginModel
+
+@{
+    ViewData["Title"] = "登陆";
+}
+
+
+@section styles{
+    <link rel="stylesheet" href="~/css/views/login.css" asp-append-version="true"/>
+}
+
+<div class="user-login">
+    <div class="layui-container">
+        <div style="display: flex; width: 100%;justify-content: center">
+            <div class="layui-col-sm6 layui-col-md5 layui-col-xs12">
+                <form class="layui-form" method="post">
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="returnUrlHash"/>
+                    <div class="layui-form-item">
+                        <img class="logo" src="~/images/logo.png"/>
+                        <div class="title">Dncy Template</div>
+                        <div class="desc">
+                            一 万 年 太 久，只 争 朝 夕
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="text" asp-for="UsernameOrEmailAddress" placeholder="账户或邮箱: admin" hover class="layui-input" required autofocus maxlength="50"/>
+                        <span asp-validation-for="UsernameOrEmailAddress" class="layui-font-red"></span>
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="password" asp-for="Password" placeholder="密码: 123qwe" hover class="layui-input" required maxlength="10"/>
+                        <span asp-validation-for="Password" class="layui-font-red"></span>
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="checkbox" name="rememberMe" title="记住我" lay-skin="primary" checked>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="pear-btn pear-btn-primary login" lay-submit lay-filter="LAY-user-login-submit">登陆</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="user-login-foot">
+    <a target="_blank" href="https://dotnet.microsoft.com/en-us/" style="color: white">© DncyTemplate @System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription</a>
+    <a target="_blank" href="#" style="color: white">关于我们</a>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        layui.use(['abp', 'form', 'element', 'jquery'], function () {
+            var $ = layui.jquery;
+            var abp = layui.abp;
+            var form = layui.form;
+            var element = layui.element;
+
+            // abp.multiTenancy.setTenantIdCookie(@ViewBag.TenantId);
+            form.render();
+
+            if(window !=top){
+                top.location.href=location.href;
+            }
+
+            // form.on('submit(LAY-user-login-submit)', function (data) {
+            //     data.field.rememberMe = data.field.rememberMe == "on";//默认值是on
+            //     var field = data.field; //获取提交的字段
+            //
+            //     var waitIndex = layer.load(2);
+            //     abp.ajax({
+            //         url: "@Url.Action("Login", "Account")",
+            //         data: JSON.stringify(field),
+            //         abpHandleError: false
+            //     }).success(function (data){
+            //         console.log(data)
+            //         location.hre="/";
+            //     })
+            //     .fail(function (jqXHR) {
+            //         layer.msg(jqXHR.message, { icon: 5 });
+            //     }).always(function () {
+            //         layer.close(waitIndex);
+            //     });
+            //
+            //     return false;
+            // });
+        })
+    </script>
+}

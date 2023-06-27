@@ -1,8 +1,6 @@
-## dotnet-project-template
-asp.net core api 项目模板
+# dotnet 快速开发模板
 
-template 文件夹中 content中内容不能乱移动，默认保持就行，模板其实就是一个简单的项目架子，可以添加自己的东西。
-
+> 支持API，MVC项目，mvc自带简单admin页面
 
 1. 打包
 请确保电脑中有nuget.exe
@@ -21,7 +19,5 @@ dotnet new -i PlutoNetCoreTemplate.1.3.2.nupkg
 ```
 dotnet new plutoapi -h
 ```
-应该能看到名为pluto的模板
-
 
 

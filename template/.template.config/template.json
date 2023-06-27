@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json.schemastore.org/template",
+  "author": "zhangyulong",
+  "classifications": [
+    "WEB",
+    "net6",
+    "DDD",
+    "microservice"
+  ],
+  "identity": "DncyTemplate",
+  "name": "AspNetCore DDD Template",
+  "shortName": "dncy",
+  "preferNameDirectory": true,
+  "sourceName": "DncyTemplate",
+  "tags": {
+    "language": "C#",
+    "type": "project"
+  },
+  "symbols": {
+    "ProjectType": {
+      "type": "parameter",
+      "dataType": "choice",
+      "description": "项目类型(API/MVC)",
+      "isRequired": false,
+      "defaultValue": "API",
+      "choices": [
+        {
+          "choice": "API",
+          "description": "WEB API"
+        },
+        {
+          "choice": "MVC",
+          "description": "MVC"
+        }
+      ]
+    },
+    "Tenant": {
+      "type": "parameter",
+      "dataType": "bool",
+      "description": "是否包含多租户功能",
+      "isRequired": false,
+      "defaultValue": "true"
+    }
+  },
+  "sources": [
+    {
+      "modifiers": [
+        {
+          "condition": "(ProjectType==\"MVC\")",
+          "exclude": [
+            "entry/DncyTemplate.Api/**/*"
+          ]
+        },
+        {
+          "condition": "(ProjectType==\"API\")",
+          "exclude": [
+            "entry/DncyTemplate.Mvc/**/*"
+          ]
+        },
+        {
+          "exclude": [
+            "template.sln"
+          ]
+        },
+        {
+          "condition": "(!Tenant)",
+          "exclude": [
+            "entry/DncyTemplate.Mvc/Infra/Tenancy/**/*",
+            "entry/DncyTemplate.Api/Infra/Tenancy/**/*",
+            "entry/DncyTemplate.Mvc/Controllers/TenantController.cs",
+            "entry/DncyTemplate.Mvc/Views/Tenant/**/*",
+            "src/DncyTemplate.Domain/Aggregates/Tenancy/**/*",
+            "src/DncyTemplate.Domain/Infra/Entity/IMultiTenant.cs",
+            "src/DncyTemplate.Infra/Infra/EntityFrameworkCore/Interceptor/DbConnectionInterceptor.cs"
+          ]
+        }
+      ]
+    }
+  ],
+  "primaryOutputs": [
+    {
+      "path": "entry/DncyTemplate.Api/DncyTemplate.Api.csproj",
+      "condition": "(ProjectType==\"API\")"
+    },
+    {
+      "path": "entry/DncyTemplate.Mvc/DncyTemplate.Mvc.csproj",
+      "condition": "(ProjectType==\"MVC\")"
+    }
+  ],
+  "postActions": [
+    {
+      "description": "添加选定的项目至解决方案",
+      "manualInstructions": [
+        {
+          "text": "请手动添加需要的项目到解决方案"
+        }
+      ],
+      "actionId": "D396686C-DE0E-4DE6-906D-291CD29FC5DE",
+      "continueOnError": true
+    }
+  ]
+}

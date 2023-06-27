@@ -1,0 +1,22 @@
+{
+  "profiles": {
+    "DncyTemplate.Mvc": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "home/index",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "dev"
+      },
+      "applicationUrl": "https://localhost:6001;http://localhost:6000",
+      "dotnetRunMessages": true,
+      "hotReloadEnabled": true
+    },
+    "Docker": {
+      "commandName": "Docker",
+      "launchBrowser": true,
+      "launchUrl": "{Scheme}://{ServiceHost}:{ServicePort}/home",
+      "publishAllPorts": true,
+      "useSSL": true
+    }
+  }
+}

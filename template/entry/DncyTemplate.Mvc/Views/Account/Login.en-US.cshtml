@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Mvc.ModelBinding
+@using Microsoft.Extensions.Localization
+@model DncyTemplate.Mvc.Models.Account.LoginModel
+
+@{
+    ViewData["Title"] = "登陆";
+}
+
+
+@section styles{
+    <link rel="stylesheet" href="~/css/views/login.css" asp-append-version="true" />
+}
+
+<div class="user-login">
+    <div class="layui-container">
+        <div class="layui-row">
+            <div class="layui-col-md7 layui-col-sm6 layui-hide-xs">
+                <img src="~/images/guoqing.jpg" />
+            </div>
+            <div class="layui-col-sm6 layui-col-md5 layui-col-xs12">
+                <form class="layui-form" action="javascript:void(0);">
+                    <input type="hidden" name="returnUrlHash" />
+                    <div class="layui-form-item">
+                        <img class="logo" src="~/images/logo.png" />
+                        <div class="title">AbpTemplate</div>
+                        <div class="desc">
+                            一 万 年 太 久，只 争 朝 夕
+                        </div>
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="text" name="usernameOrEmailAddress" placeholder="account or email: admin" hover class="layui-input" required autofocus maxlength="50" />
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="password" name="password" placeholder="password: 123qwe" hover class="layui-input" required maxlength="8" />
+                    </div>
+                    <div class="layui-form-item">
+                        <input type="checkbox" name="rememberMe" title="remember me" lay-skin="primary" checked>
+                    </div>
+                    <div class="layui-form-item">
+                        <button class="pear-btn pear-btn-primary login" lay-submit lay-filter="LAY-user-login-submit">Login</button>
+                    </div>
+                    <div class="external-login">
+                        <img src="~/images/miniprogram.png" title="小程序登录" alt="小程序登录" class="wx-logo">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="user-login-foot">
+    © <a target="_blank" href="https://gitee.com/pear-admin/pear-admin-abp.git">PearAdminAbp @System.Runtime.InteropServices.RuntimeInformation.FrameworkDescription</a>
+    <a target="_blank" href="http://www.pearadmin.com">About Us</a>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        layui.use(['abp', 'form', 'element', 'jquery'], function () {
+            var $ = layui.jquery;
+            var abp = layui.abp;
+            var form = layui.form;
+            var element = layui.element;
+
+            // abp.multiTenancy.setTenantIdCookie(@ViewBag.TenantId);
+            form.render();
+
+            if(window !=top){
+                top.location.href=location.href;
+            }
+
+            form.on('submit(LAY-user-login-submit)', function (data) {
+                data.field.rememberMe = data.field.rememberMe == "on";//默认值是on
+                var field = data.field; //获取提交的字段
+
+                var waitIndex = layer.load(2);
+                abp.ajax({
+                    url: "@Url.Action("Login", "Account")",
+                    data: JSON.stringify(field),
+                    abpHandleError: false
+                }).fail(function (jqXHR) {
+                    layer.msg(jqXHR.message, { icon: 5 });
+                }).always(function () {
+                    layer.close(waitIndex);
+                });
+
+                return false;
+            });
+        })
+    </script>
+}
+

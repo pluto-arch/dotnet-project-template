@@ -1,0 +1,25 @@
+﻿
+
+
+@section styles{
+    <link href="~/css/views/error.css" rel="stylesheet" />
+}
+
+<div class="content">
+    <img src="~/images/404.svg" alt="">
+    <div class="content-r">
+        <h1>@ViewData["ErrorCode"]</h1>
+        <p>@ViewData["ErrorMessage"]</p>
+        <button class="pear-btn pear-btn-primary" onclick="goBack()">返回首页</button>
+    </div>
+</div>
+
+@section scripts
+{
+    <script>
+     function goBack(){
+         parent.layui.admin.closeCurrentTab()
+     }
+    </script>
+
+}
